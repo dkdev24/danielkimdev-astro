@@ -1,0 +1,9 @@
+#:schema node_modules/wrangler/config-schema.json
+# Cloudflare Pages configuration for the Astro static site.
+# Docs: https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+
+name = "danielkimdev-astro"
+compatibility_date = "2026-06-26"
+
+# Astro's default static build outputs to ./dist
+pages_build_output_dir = "./dist"
