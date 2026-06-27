@@ -12,13 +12,13 @@ Get the project config production-correct and strip the leftover starter-templat
 - Repo currently still contains the default Astro blog starter (placeholder posts, Atkinson fonts, sample components).
 
 ## Tasks
-- [ ] Confirm `astro.config.mjs`: `site: 'https://danielkimdev.com'`, i18n (`en` root / `ko`, `prefixDefaultLocale: false`), sitemap i18n, fonts (DM Sans/Outfit/Poppins/Roboto + Pretendard).
-- [ ] Add `output: 'static'` explicitly to `astro.config.mjs`.
-- [ ] Add `.nvmrc` (Node `22.12.0`) and confirm `package.json` `engines.node` matches.
-- [ ] Update `src/consts.ts`: site title, description, author, social URL placeholders (`TODO(daniel):`), default OG image path.
-- [ ] Create `public/_headers` with light security headers (`X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, basic CSP) + long-cache for `/_astro/*` hashed assets.
-- [ ] Remove starter placeholder posts (`first-post`, `second-post`, `third-post`, `markdown-style-guide`, `using-mdx`) — real seed content lands in Stage 10.
-- [ ] Remove Atkinson `.woff` files in `src/assets/fonts/` (replaced by remote fonts in Stage 04).
+- [x] Confirm `astro.config.mjs`: `site: 'https://danielkimdev.com'`, i18n (`en` root / `ko`, `prefixDefaultLocale: false`), sitemap i18n, fonts (DM Sans/Outfit/Poppins/Roboto + Pretendard).
+- [x] Add `output: 'static'` explicitly to `astro.config.mjs`.
+- [x] Add `.nvmrc` (Node `22.12.0`) and confirm `package.json` `engines.node` matches (`>=22.12.0`, satisfied by the pin).
+- [x] Update `src/consts.ts`: site title, description, author, social URL placeholders (`TODO(daniel):`), default OG image path.
+- [x] Create `public/_headers` with light security headers (`X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, basic CSP) + long-cache for `/_astro/*` hashed assets.
+- [x] Remove starter placeholder posts (`first-post`, `second-post`, `third-post`, `markdown-style-guide`, `using-mdx`) — real seed content lands in Stage 10.
+- [x] Remove Atkinson `.woff` files in `src/assets/fonts/` (replaced by remote fonts in Stage 04). Also cleared the lingering `--font-atkinson` refs in `BaseHead.astro` + `global.css` (grep-clean requirement).
 
 ## Files to create / edit
 - `astro.config.mjs` — add `output: 'static'`.

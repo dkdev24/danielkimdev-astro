@@ -5,7 +5,7 @@
 > session history to [`WORKLOG.md`](WORKLOG.md) instead. **Update this file at the end of every session.**
 
 **Last updated:** 2026-06-27
-**Last session:** Patched `astro.config.mjs` to locked decisions; decomposed P0 into 21 session-sized stage docs under `dev-references/plans/`.
+**Last session:** Completed **Stage 01** (foundation config & repo hygiene): added `output: 'static'`, `.nvmrc` (Node 22.12.0), populated `src/consts.ts`, added `public/_headers`, removed starter posts + Atkinson fonts. Verified with `astro check` (0 errors) and `npm run build` (succeeds locally).
 
 ---
 
@@ -16,10 +16,12 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 
 ## Current state
 
-- **Phase:** Early development (Phase 1, Stage 01 in progress). PRD finalized; build is now broken into executable stages.
+- **Phase:** Early development (Phase 1; **Stage 01 done**, Stage 02 next). PRD finalized; build is broken into executable stages.
 - **Build plan:** P0 decomposed into 21 session-sized (~20–30 min) stage docs in [`dev-references/plans/`](dev-references/plans/) — start at [`plans/00-index.md`](dev-references/plans/00-index.md) (has dependency order, critical path, and a per-stage status column). P1/P2 parked as a backlog there.
-- **`astro.config.mjs` patched** to locked decisions: `site: 'https://danielkimdev.com'`, i18n (`en` root / `ko`, `prefixDefaultLocale: false`), sitemap i18n (hreflang), and the locked font stack (DM Sans/Outfit/Poppins/Roboto via Google + Pretendard via Fontsource). Verified syntax + schema; full `astro build` not run here (sandbox arch mismatch — build locally).
-- Otherwise still the scaffolded Astro template (starter posts/fonts/components not yet removed — that's Stage 01's remaining work).
+- **`astro.config.mjs` finalized:** `site: 'https://danielkimdev.com'`, `output: 'static'`, i18n (`en` root / `ko`, `prefixDefaultLocale: false`), sitemap i18n (hreflang), locked font stack (DM Sans/Outfit/Poppins/Roboto via Google + Pretendard via Fontsource). `astro check` + `npm run build` both pass locally.
+- **Repo hygiene done:** `.nvmrc` = `22.12.0`; `src/consts.ts` populated (title/description/author/socials placeholders/default OG path); `public/_headers` added (security headers + `/_astro/*` immutable cache); starter posts and Atkinson `.woff` files removed; lingering `--font-atkinson` refs cleared from `BaseHead.astro` + `global.css`.
+- Installed `@astrojs/check` + `typescript` as devDependencies (needed to run `astro check`).
+- The scaffold's blog pages (`pages/blog/*`, `rss.xml.js`, `layouts/BlogPost.astro`) and core components (`BaseHead`, `Header`, `Footer`) **remain** — they'll be reworked in later stages. `src/content/blog/` is now empty (Stage 10 seeds real content), so the build logs a harmless "collection blog is empty" warning.
 - `AGENTS.md` (← `CLAUDE.md` symlink) points to the PRD. All architectural open questions resolved (see Decisions).
 - **Recommended dev tool:** Claude Code (local toolchain). Cowork edits files fine but can't run `astro build`/`dev` against this repo's macOS `node_modules`.
 
@@ -44,7 +46,7 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 ## Next steps
 
 1. Open [`dev-references/plans/00-index.md`](dev-references/plans/00-index.md) and work stages in numeric order, one per session.
-2. **Resume point:** finish **Stage 01** remaining items (`output: 'static'`, `.nvmrc`, `consts.ts`, `public/_headers`, remove starter posts/fonts), then proceed to Stage 02 (design tokens).
+2. **Resume point:** **Stage 02 — Design tokens (light)** ([`plans/stage-02-design-tokens-light.md`](dev-references/plans/stage-02-design-tokens-light.md)). Values come from [`dev-references/DESIGN-minimax.md`](dev-references/DESIGN-minimax.md).
 3. Update the status column in `00-index.md` and each stage's task checkboxes as you go; refresh this file + `WORKLOG.md` at each session end.
 
 ## Conventions / gotchas

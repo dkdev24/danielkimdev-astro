@@ -17,7 +17,9 @@
 		0 16px 32px rgba(var(--gray), 33%);
 }
 body {
-	font-family: var(--font-atkinson);
+	/* TODO(stage-04): finalize the font stack. Locked body font is DM Sans (Latin) /
+	   Pretendard (Korean); --font-dm-sans is provided by the astro.config fonts API. */
+	font-family: var(--font-dm-sans), sans-serif;
 	margin: 0;
 	padding: 0;
 	text-align: left;

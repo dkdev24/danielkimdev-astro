@@ -9,6 +9,9 @@ export default defineConfig({
 	// Locked: production domain (Cloudflare Registrar). Drives canonical URLs, sitemap, RSS.
 	site: 'https://danielkimdev.com',
 
+	// Static site (no SSR) — deployed to Cloudflare Pages as prebuilt assets (PRD §10.1).
+	output: 'static',
+
 	// Locked (HANDOFF / PRD §5, §7.1): English (default) at root with NO /en/ prefix;
 	// Korean under /ko/.
 	i18n: {

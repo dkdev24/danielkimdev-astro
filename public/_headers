@@ -1,0 +1,14 @@
+# Cloudflare Pages custom headers (https://developers.cloudflare.com/pages/configuration/headers/)
+# Stage 01 baseline. Revisit the CSP in the perf/deploy stages once the asset
+# origins (fonts, analytics) are final — keep it tight but not build-breaking.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+
+# Astro emits content-hashed assets under /_astro/* — safe to cache forever (immutable).
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

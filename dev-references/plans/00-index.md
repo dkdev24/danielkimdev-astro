@@ -23,7 +23,7 @@
 
 | # | Stage | Phase (PRD §16) | Depends on | Status |
 |---|-------|-----------------|------------|--------|
-| 01 | [Foundation config & repo hygiene](stage-01-foundation-config.md) | 1 Foundation | — | 🟡 In progress |
+| 01 | [Foundation config & repo hygiene](stage-01-foundation-config.md) | 1 Foundation | — | ✅ Done |
 | 02 | [Design tokens — light](stage-02-design-tokens-light.md) | 1 Foundation | 01 | ⬜ Not started |
 | 03 | [Dark mode token set & theme switching](stage-03-dark-mode.md) | 1 Foundation | 02 | ⬜ Not started |
 | 04 | [Typography & font wiring](stage-04-typography-fonts.md) | 1 Foundation | 02 | ⬜ Not started |
@@ -45,7 +45,7 @@
 | 20 | [Performance & Lighthouse pass](stage-20-performance.md) | 4 Polish | 13–18 | ⬜ Not started |
 | 21 | [Deploy to Cloudflare Pages + README](stage-21-deploy.md) | 5 Ship | 19, 20 | ⬜ Not started |
 
-> **Note:** Stage 01 is marked 🟡 because its config portion (`site`, i18n, fonts, sitemap i18n in `astro.config.mjs`) was already done on 2026-06-27. Remaining for Stage 01: `output: 'static'`, `.nvmrc`, `consts.ts`, `public/_headers`, and removing starter posts/fonts.
+> **Note:** Stage 01 completed on 2026-06-27 — config finalized (`output: 'static'` added), `.nvmrc` pinned to Node 22.12.0, `consts.ts` populated, `public/_headers` added, starter posts + Atkinson fonts removed. Verified with `astro check` (0 errors) and `npm run build` (succeeds). Next: Stage 02 (design tokens — light).
 
 **Critical path:** 01 → 02 → 03/04 → 05 → 06 → 07 → 08, then 09 → 10 in parallel with 11 → 12, converging on pages 13–18, finishing with 19/20 → 21.
 
