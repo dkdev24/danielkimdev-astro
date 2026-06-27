@@ -36,12 +36,18 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 - **Analytics (P1):** Cloudflare Web Analytics (cookieless).
 - **Portfolio detail (v1):** inline expandable cards; dedicated `/portfolio/[slug]` pages stay P1.
 - **Social links:** LinkedIn, X (Twitter), GitHub — URLs still TODO.
+- **Positioning (2026-06-27):** **Bridge** angle — engineer/product credibility, with **AI for knowledge work foregrounded** as the current focus. The blog leads on **AI knowledge management, automation, and AI-readiness ("Agent Readiness" / 에이전트 준비도) of technical docs**. Media-tech/OTT/DRM is career credibility kept to **About + Portfolio only**, not the blog.
+- **Taxonomy split (PRD §5):** blog tags = `ai-knowledge-mgmt`, `automation`, `ai-ready-docs`, `ai-llm`, `pkm`, `solopreneur`; portfolio tags = `drm-content-security`, `ott-streaming`, `cloud-saas` (+ crossover). Two separate enums in the schema (Stage 09).
+- **Title / tagline** (in `src/consts.ts` `SITE_TITLE_HOME` / `SITE_TAGLINE`; home hero in `src/data/home.ts`):
+  - EN title: "Daniel Kim — Product & DevRel, working on AI for knowledge work"; EN tagline: "An engineer-turned-product person exploring AI knowledge management, automation, and AI-ready technical docs."
+  - KO title: "Daniel Kim | 제품·DevRel, AI 기반 지식 관리 탐구"; KO tagline: "개발자로 출발한 제품 전문가가 AI 기반 지식 관리와 자동화, 그리고 기술 문서의 에이전트 준비도를 다룹니다." (KO authored natively, no em-dash.)
 
 ## Open / blocked items
 
 - `TODO(daniel)`: social profile URLs (LinkedIn / X / GitHub).
 - `TODO(daniel)`: headshot at `/public/images/daniel.jpg` (About has a graceful fallback — not blocking).
 - `TODO(daniel)`: which PKM pieces seed the first 3–5 posts per locale (can scaffold with placeholder samples).
+- **PRD follow-up from the 2026-06-27 positioning shift:** §5 taxonomy, §6.1 identity strip, and plan Stage 09 are realigned, but the deeper framing still leans media-tech and needs Daniel's pass — **§1 Context**, **§2 Goal 2** ("make expertise discoverable in OTT/streaming, DRM…"), and **§13.4 seed portfolio/positioning**. Decide how much AI-knowledge-work framing replaces media-tech in those.
 
 ## Next steps
 

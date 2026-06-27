@@ -15,7 +15,10 @@ Define the typed content model — blog, portfolio, and timeline collections wit
 - [ ] Rewrite `src/content.config.ts` blog schema (§9.1): `title, description, pubDate, updatedDate?, lang, tags[], draft(default false), translationKey?, heroImage?, ogImage?`.
 - [ ] Add `portfolio` collection (§9.2): `title, role, org?, period, summary, category(enum), tags[], lang, links[]?, thumbnail?, featured(default false), order?`.
 - [ ] Add `timeline` data collection (§9.3): `role, org, start, end, summary, lang`.
-- [ ] Constrain `tags` / `category` to the canonical taxonomy (§5): `ott-streaming, drm-content-security, cloud-saas, ai-llm, solopreneur, pkm`; categories `product | talk-writing | side-ai | career`.
+- [ ] Constrain tags to the **split** taxonomy (§5, positioning locked 2026-06-27) — define two enums:
+  - **Blog post tags:** `ai-knowledge-mgmt`, `automation`, `ai-ready-docs`, `ai-llm`, `pkm`, `solopreneur`.
+  - **Portfolio tags:** `drm-content-security`, `ott-streaming`, `cloud-saas` + the blog tags where an item crosses over.
+  - Keep media-tech tags out of the blog enum so they never surface as blog topics. Portfolio `category` enum stays `product | talk-writing | side-ai | career`.
 - [ ] Create folder structure: `src/content/blog/{en,ko}/`, `src/content/portfolio/{en,ko}/`, `src/content/timeline/`.
 - [ ] Add a reading-time utility (compute at build from body) for use by index/post stages.
 

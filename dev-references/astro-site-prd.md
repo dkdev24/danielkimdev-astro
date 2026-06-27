@@ -12,9 +12,11 @@
 
 ## 1. Context & Background
 
-Daniel is a media/entertainment technology professional (11+ years as a C/C++ and Java developer, now working across Product Owner, Product Management, and Developer Relations) specializing in OTT/streaming, DRM/content security, and cloud/SaaS. He works on DoveRunner / PallyCon content-security products.
+Daniel's current focus — and the focus of this site — is **AI for knowledge work: AI-driven knowledge management, automation, and the AI-readiness ("Agent Readiness") of technical documentation.** He comes to this from a deep technical career: 11+ years as a C/C++ and Java developer, now working across Product Owner, Product Management, and Developer Relations in media/entertainment technology (OTT/streaming, DRM/content security, cloud/SaaS) on DoveRunner / PallyCon products.
 
-This site is the **public-facing layer** of a personal knowledge system (a Karpathy-style "LLM wiki" / digital garden). A private Obsidian PKM vault curates raw material; selected, polished pieces are published here. The site is **not** the PKM vault — it is the front door: a personal brand hub, a credibility surface for the OTT/DRM/DevRel community, and a public digital garden.
+**Positioning (locked 2026-06-27) — career as credibility substrate, not a second topic.** The media-tech career is *why* his AI take is worth reading, not a parallel content track. The throughline: someone who has shipped and explained complex technical products and documentation in a hard domain, now working out how AI changes knowledge work. Media-tech depth makes the AI writing non-generic; the blog leads on AI, and the career provides proof, lived examples (most defensibly, agent-ready technical docs), and credibility. Media-tech surfaces in the blog only when it serves an AI point — otherwise it lives in About/Portfolio.
+
+This site is the **public-facing layer** of a personal knowledge system (a Karpathy-style "LLM wiki" / digital garden). A private Obsidian PKM vault curates raw material; selected, polished pieces are published here. The site is **not** the PKM vault — it is the front door: a personal brand hub, a credibility surface, and a public digital garden.
 
 **Primary goal of the site (chosen):** Personal brand for a long-term solopreneur transition, professional credibility / industry visibility, and knowledge sharing (digital garden) — in that order of weight.
 
@@ -22,8 +24,8 @@ This site is the **public-facing layer** of a personal knowledge system (a Karpa
 
 ## 2. Goals
 
-1. **Establish a credible personal brand** that reads as "senior media-tech operator + builder," giving a foundation for a future solopreneur path. *Measure: a coherent Home + About + Portfolio that a stranger can parse in under 60 seconds.*
-2. **Make expertise discoverable** in OTT/streaming, DRM/content security, and the AI-for-media intersection. *Measure: organic search impressions growing month-over-month for target topic queries within 90 days.*
+1. **Establish a credible personal brand** that reads as "a media-tech product/DevRel veteran applying AI to knowledge work" — one sharp identity, with the career as proof. *Measure: a coherent Home + About + Portfolio that a stranger can parse in under 60 seconds and come away knowing the one thing Daniel is about.*
+2. **Make expertise discoverable** in AI knowledge management, automation, and AI-readiness of technical documentation — with media-tech/DevRel depth as the differentiating angle. *Measure: organic search impressions growing month-over-month for these target topic queries within 90 days.*
 3. **Lower the cost of publishing** so the digital-garden habit sticks — writing a post should be "drop a markdown file in, push." *Measure: time from finished draft to live post < 5 minutes.*
 4. **Bilingual reach (EN + KO)** with full first-class support for both languages, not an afterthought translation. *Measure: every core page reachable and correct under both `/en` and `/ko`.*
 5. **Fast, accessible, professional** on every device. *Measure: Lighthouse ≥ 95 Performance / ≥ 95 Accessibility on Home and a representative post.*
@@ -73,7 +75,12 @@ This site is the **public-facing layer** of a personal knowledge system (a Karpa
 **Global nav (every page):** Home · About · Portfolio · Blog · [language toggle EN | 한국어]
 **Footer:** short tagline, email link, social links — **LinkedIn, X (Twitter), GitHub** (`TODO(daniel): profile URLs`) — RSS, © year, language toggle.
 
-Topic taxonomy (reuse the PKM domains): `ott-streaming`, `drm-content-security`, `cloud-saas`, `ai-llm`, `solopreneur`, `pkm`. Use these as the canonical tag set for portfolio items and posts.
+Topic taxonomy. **Positioning (locked 2026-06-27):** the blog leads on AI for knowledge work; media-tech/DRM is career credibility that lives in **About + Portfolio only**, not the blog focus.
+
+- **Blog — canonical post tags:** `ai-knowledge-mgmt`, `automation`, `ai-ready-docs`, `ai-llm`, `pkm`, `solopreneur`. (`ai-ready-docs` = AI-readiness / "Agent Readiness" of technical documentation.)
+- **Portfolio — career/credibility tags:** `drm-content-security`, `ott-streaming`, `cloud-saas`, plus any blog tag where a portfolio item genuinely crosses over.
+
+Keep the two sets separate in the schema (§9) so media-tech tags don't surface as blog topics.
 
 ---
 
@@ -81,7 +88,7 @@ Topic taxonomy (reuse the PKM domains): `ott-streaming`, `drm-content-security`,
 
 ### 6.1 Home — P0
 - **Hero:** name, one-line positioning statement, 1–2 sentence subhead, primary CTA (View Portfolio) + secondary (Read the Blog). Localized per language.
-- **Identity strip:** current role / focus areas as compact chips (OTT · DRM/Content Security · Cloud/SaaS · AI).
+- **Identity strip:** current focus areas as compact chips — **AI Knowledge Management · Automation · AI-Ready Technical Docs** (KO: AI 지식 관리 · 자동화 · 에이전트 준비도). Sourced from `src/data/home.ts` (`HOME_HERO[locale].focusAreas`). Media-tech background is conveyed in About/Portfolio, not here.
 - **Featured work:** 3 portfolio highlights (cards: title, one-liner, tag, link).
 - **Latest writing:** 3 most recent posts in the *current* locale (fall back gracefully if a locale has few posts — see §7.4).
 - **Short "about" teaser** linking to full About page.
@@ -310,22 +317,28 @@ order: number?
 
 > These are starting drafts from Daniel's profile. Korean versions should be authored natively (use Daniel's writing-style voice), not translated from the English. Mark anything uncertain with `TODO(daniel):`.
 
+> **Throughline for all §13 copy (locked 2026-06-27):** lead with AI for knowledge work; the media-tech/DevRel career is *proof*, not a second topic. Every bio/positioning line should leave the reader knowing one thing — "AI for knowledge work, from someone with real technical-docs/DevRel chops."
+
 ### 13.1 About — English draft
-> I'm Daniel Kim — a media-technology product person who started as an engineer. Over 11+ years building in C/C++ and Java, I moved from writing code to shaping products, working today across Product Ownership, Product Management, and Developer Relations. My home turf is media & entertainment: OTT/streaming, DRM and content security, and the cloud/SaaS platforms that deliver them — most recently with DoveRunner / PallyCon. I care about the seam where deep technical systems meet the people who have to adopt them, and lately about how AI is reshaping both. This site is my digital garden: notes, essays, and work from that intersection — and a record of building toward an independent, solopreneur future.
+> I'm Daniel Kim. I work on AI for knowledge work — how AI reshapes the way we manage knowledge, automate the busywork, and write technical documentation that machines, not just people, can use. I come at this from a deep technical career: 11+ years building in C/C++ and Java, then moving from writing code to shaping products across Product Ownership, Product Management, and Developer Relations in media & entertainment technology — OTT/streaming and DRM/content security, most recently with DoveRunner / PallyCon. That background is the point: years of shipping and explaining complex systems and documentation in a hard domain are exactly what keep my take on AI concrete rather than generic. This site is my digital garden — notes, essays, and experiments from that work, and a record of building toward an independent, solopreneur future.
 
 ### 13.2 About — 한국어 초안 (네이티브 보이스로 다듬기)
-> `TODO(daniel):` 다니엘 문체 스킬로 직접 집필. 핵심 줄기: 11년+ C/C++·Java 개발자 → PO/PM/DevRel, 미디어·OTT·DRM/콘텐츠 보안·클라우드 SaaS 전문성, DoveRunner/PallyCon, AI 흐름과 솔로프리너 지향. (영문 직역 금지.)
+> `TODO(daniel):` 다니엘 문체 스킬로 직접 집필. 핵심 줄기: **메인은 AI 기반 지식 작업**(지식 관리, 자동화, 기술 문서의 에이전트 준비도(Agent Readiness)). **경력은 신뢰의 토대로** 배치: 11년+ C/C++·Java 개발자에서 PO/PM/DevRel로, 미디어·OTT·DRM/콘텐츠 보안 경험(DoveRunner/PallyCon)이 AI 관점을 일반론이 아닌 구체적인 이야기로 만들어 준다는 점. 솔로프리너 지향. (영문 직역 금지, 합쇼체, 한국어 본문에는 em-dash 금지.)
 
 ### 13.3 Positioning one-liners (pick/refine for hero)
-- "Media-tech product, from the engineer's side. OTT, DRM, and the AI shift."
-- "I build and explain content-security and streaming products — and write about the road to going independent."
-- (KO) `TODO(daniel):` 한 줄 포지셔닝 — 미디어/DRM 제품 + AI + 솔로프리너.
+- (EN, locked tagline) "An engineer-turned-product person exploring AI knowledge management, automation, and AI-ready technical docs."
+- (EN, alt) "Media-tech product & DevRel veteran, now working out how AI changes knowledge work."
+- (EN, alt — career-as-proof) "AI for knowledge work — kept concrete by years of shipping technical docs in a hard domain."
+- (KO, locked tagline) "개발자로 출발한 제품 전문가가 AI 기반 지식 관리와 자동화, 그리고 기술 문서의 에이전트 준비도를 다룹니다."
+- (KO, alt) `TODO(daniel):` 미디어/DevRel 경력을 신뢰의 토대로 둔 한 줄: AI 지식 작업 + 솔로프리너.
 
 ### 13.4 Portfolio seed entries (one file each; fill specifics)
+> Portfolio carries the career credibility (media-tech tags live here, per §5). Where an item bridges into the AI focus, add the crossover tag (`ai-ready-docs`, `ai-knowledge-mgmt`, etc.) so it reinforces the throughline.
+- **AI for knowledge work / agent-ready docs (lead item)** · category: side-ai · tags: ai-ready-docs, ai-knowledge-mgmt, ai-llm. Experiments + writing on AI knowledge management, automation, and making technical documentation AI/agent-ready. `TODO(daniel)`: specific projects/results.
+- **Side / AI experiments — this LLM-wiki / digital garden** · category: side-ai · tags: ai-llm, pkm, solopreneur. The Karpathy-style PKM and AI tooling behind this very site.
+- **Talks / writing / DevRel** · category: talk-writing · tags: ott-streaming, ai-ready-docs. Notable talks, articles, and developer docs — foreground the technical-documentation work that bridges to agent-readiness. `TODO(daniel)`.
 - **Product impact — DoveRunner / PallyCon Multi-DRM** · role: Product Owner/PM · category: product · tags: drm-content-security, ott-streaming. Summary + measurable impact `TODO(daniel)`.
 - **Product impact — Forensic / Distributor Watermarking & Anti-Piracy** · category: product · tags: drm-content-security. `TODO(daniel)`.
-- **Talks / writing / DevRel** · category: talk-writing · tags: drm-content-security, ott-streaming. List notable talks, articles, developer docs `TODO(daniel)`.
-- **Side / AI experiments — this LLM-wiki / digital garden** · category: side-ai · tags: ai-llm, pkm, solopreneur. The Karpathy-style PKM and AI tooling experiments behind this very site.
 - **Career timeline** · category: career · tags: cloud-saas. 11+ yrs dev (C/C++, Java) → PO/PM/DevRel; map roles/orgs/dates `TODO(daniel)`.
 
 ---
@@ -345,7 +358,8 @@ order: number?
 - **[daniel]** ~~Social links~~ (resolved: LinkedIn, X, GitHub — profile URLs still `TODO(daniel)`).
 - **[daniel]** ~~Analytics provider~~ (resolved: Cloudflare Web Analytics, see §10.6).
 - **[design]** ~~Portfolio item detail~~ (resolved: inline expandable cards for v1; dedicated pages remain P1).
-- **[daniel]** Which existing PKM "story" pieces seed the first 3–5 posts per locale?
+- **[daniel]** ~~Site/blog focus & how to treat the media-tech career~~ (resolved 2026-06-27: **Bridge** positioning — blog leads on AI for knowledge work; media-tech is credibility substrate in About/Portfolio only, surfacing in the blog only via AI crossover. Taxonomy split in §5; throughline in §1/§2/§13.)
+- **[daniel]** Which existing PKM "story" pieces seed the first 3–5 posts per locale? (Now scoped to the AI pillars: AI knowledge management, automation, agent-ready docs.)
 
 ---
 
