@@ -4,8 +4,8 @@
 > Keep this short and current — it describes the *present* state, not history. Append full
 > session history to [`WORKLOG.md`](WORKLOG.md) instead. **Update this file at the end of every session.**
 
-**Last updated:** 2026-06-26
-**Last session:** Project setup — PRD finalized against open questions; design system source-of-truth wired in.
+**Last updated:** 2026-06-27
+**Last session:** Patched `astro.config.mjs` to locked decisions; decomposed P0 into 21 session-sized stage docs under `dev-references/plans/`.
 
 ---
 
@@ -16,9 +16,12 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 
 ## Current state
 
-- **Phase:** Pre-development. PRD is finalized; no site code written yet (still the scaffolded blog template).
-- Repo is the scaffolded Astro project. `AGENTS.md` (← `CLAUDE.md` symlink) points to the PRD.
-- All architectural open questions resolved (see Decisions). Two non-blocking content/asset items remain.
+- **Phase:** Early development (Phase 1, Stage 01 in progress). PRD finalized; build is now broken into executable stages.
+- **Build plan:** P0 decomposed into 21 session-sized (~20–30 min) stage docs in [`dev-references/plans/`](dev-references/plans/) — start at [`plans/00-index.md`](dev-references/plans/00-index.md) (has dependency order, critical path, and a per-stage status column). P1/P2 parked as a backlog there.
+- **`astro.config.mjs` patched** to locked decisions: `site: 'https://danielkimdev.com'`, i18n (`en` root / `ko`, `prefixDefaultLocale: false`), sitemap i18n (hreflang), and the locked font stack (DM Sans/Outfit/Poppins/Roboto via Google + Pretendard via Fontsource). Verified syntax + schema; full `astro build` not run here (sandbox arch mismatch — build locally).
+- Otherwise still the scaffolded Astro template (starter posts/fonts/components not yet removed — that's Stage 01's remaining work).
+- `AGENTS.md` (← `CLAUDE.md` symlink) points to the PRD. All architectural open questions resolved (see Decisions).
+- **Recommended dev tool:** Claude Code (local toolchain). Cowork edits files fine but can't run `astro build`/`dev` against this repo's macOS `node_modules`.
 
 ## Locked decisions (do not re-litigate without Daniel)
 
@@ -38,15 +41,11 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 - `TODO(daniel)`: headshot at `/public/images/daniel.jpg` (About has a graceful fallback — not blocking).
 - `TODO(daniel)`: which PKM pieces seed the first 3–5 posts per locale (can scaffold with placeholder samples).
 
-## Next steps (suggested build phasing — PRD §16)
+## Next steps
 
-1. **Foundation:** design tokens (light/dark) + layout shell + i18n routing + nav/theme/language toggles.
-2. **Content engine:** content collections (blog + portfolio + timeline schemas), one sample post per locale, RSS/sitemap/SEO base.
-3. **Pages:** Home → About → Portfolio → Blog index → Blog post.
-4. **Polish:** accessibility pass, performance/Lighthouse, OG images, 404.
-5. **Ship:** Cloudflare Pages deploy + README notes; then P1 backlog.
-
-> Awaiting Daniel's go-ahead on whether to start Phase 1 or scaffold the full skeleton first.
+1. Open [`dev-references/plans/00-index.md`](dev-references/plans/00-index.md) and work stages in numeric order, one per session.
+2. **Resume point:** finish **Stage 01** remaining items (`output: 'static'`, `.nvmrc`, `consts.ts`, `public/_headers`, remove starter posts/fonts), then proceed to Stage 02 (design tokens).
+3. Update the status column in `00-index.md` and each stage's task checkboxes as you go; refresh this file + `WORKLOG.md` at each session end.
 
 ## Conventions / gotchas
 

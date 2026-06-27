@@ -6,30 +6,85 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
-	integrations: [mdx(), sitemap()],
+	// Locked: production domain (Cloudflare Registrar). Drives canonical URLs, sitemap, RSS.
+	site: 'https://danielkimdev.com',
+
+	// Locked (HANDOFF / PRD §5, §7.1): English (default) at root with NO /en/ prefix;
+	// Korean under /ko/.
+	i18n: {
+		defaultLocale: 'en',
+		locales: ['en', 'ko'],
+		routing: {
+			prefixDefaultLocale: false,
+		},
+	},
+
+	integrations: [
+		mdx(),
+		// Emit hreflang alternates so EN/KO pages cross-reference each other for SEO.
+		sitemap({
+			i18n: {
+				defaultLocale: 'en',
+				locales: { en: 'en', ko: 'ko' },
+			},
+		}),
+	],
+
+	// Locked font system (PRD §7.6 / DESIGN-minimax.md §3).
+	// Latin/UI: DM Sans (body/UI), Outfit (display), Poppins (mid-tier), Roboto (data).
+	// Korean: Pretendard. Preload the primary body fonts (DM Sans EN, Pretendard KO)
+	// in the layout via the <Font /> component.
 	fonts: [
 		{
-			provider: fontProviders.local(),
-			name: 'Atkinson',
-			cssVariable: '--font-atkinson',
+			provider: fontProviders.google(),
+			name: 'DM Sans',
+			cssVariable: '--font-dm-sans',
+			weights: [400, 500, 700],
+			styles: ['normal', 'italic'],
+			subsets: ['latin'],
 			fallbacks: ['sans-serif'],
-			options: {
-				variants: [
-					{
-						src: ['./src/assets/fonts/atkinson-regular.woff'],
-						weight: 400,
-						style: 'normal',
-						display: 'swap',
-					},
-					{
-						src: ['./src/assets/fonts/atkinson-bold.woff'],
-						weight: 700,
-						style: 'normal',
-						display: 'swap',
-					},
-				],
-			},
+			optimizedFallbacks: true,
+			display: 'swap',
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'Outfit',
+			cssVariable: '--font-outfit',
+			weights: [400, 600, 700],
+			subsets: ['latin'],
+			fallbacks: ['sans-serif'],
+			optimizedFallbacks: true,
+			display: 'swap',
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'Poppins',
+			cssVariable: '--font-poppins',
+			weights: [500, 600],
+			subsets: ['latin'],
+			fallbacks: ['sans-serif'],
+			optimizedFallbacks: true,
+			display: 'swap',
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'Roboto',
+			cssVariable: '--font-roboto',
+			weights: [400, 500],
+			subsets: ['latin'],
+			fallbacks: ['sans-serif'],
+			optimizedFallbacks: true,
+			display: 'swap',
+		},
+		{
+			// Pretendard is served via Fontsource; Noto Sans KR is the system fallback.
+			provider: fontProviders.fontsource(),
+			name: 'Pretendard',
+			cssVariable: '--font-pretendard',
+			weights: [400, 500, 700],
+			subsets: ['latin', 'korean'],
+			fallbacks: ['Noto Sans KR', 'sans-serif'],
+			display: 'swap',
 		},
 	],
 });
