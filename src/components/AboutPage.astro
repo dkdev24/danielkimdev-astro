@@ -10,6 +10,7 @@ import type { Lang } from '../i18n/utils';
 import { useTranslations } from '../i18n/utils';
 import { SITE_AUTHOR, SITE_DESCRIPTION_BY_LOCALE, CONTACT_EMAIL, SOCIAL_LINKS } from '../consts';
 import { ABOUT, ABOUT_SKILLS } from '../data/about';
+import { personJsonLd } from '../utils/seo';
 
 interface Props {
 	lang: Lang;
@@ -31,9 +32,16 @@ const monogram = SITE_AUTHOR.split(' ')
 	.join('')
 	.slice(0, 2)
 	.toUpperCase();
+
+const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), lang);
 ---
 
-<BaseLayout title={`${t('about.title')} — ${SITE_AUTHOR}`} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
+<BaseLayout
+	title={`${t('about.title')} — ${SITE_AUTHOR}`}
+	description={SITE_DESCRIPTION_BY_LOCALE[lang]}
+	lang={lang}
+	jsonLd={jsonLd}
+>
 	<article class="about container">
 		<header class="about__head">
 			<div class="avatar">

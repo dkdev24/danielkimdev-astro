@@ -15,6 +15,7 @@ import { SITE_DESCRIPTION_BY_LOCALE, SITE_TITLE_HOME } from '../consts';
 import { HOME_HERO } from '../data/home';
 import { readingTimeMinutes } from '../utils/readingTime';
 import { getPostPath } from '../utils/blog';
+import { personJsonLd } from '../utils/seo';
 
 interface Props {
 	lang: Lang;
@@ -37,9 +38,16 @@ const latest = (
 const portfolioHref = getLocalizedPath('/portfolio/', lang);
 const blogHref = getLocalizedPath('/blog/', lang);
 const aboutHref = getLocalizedPath('/about/', lang);
+
+const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), lang);
 ---
 
-<BaseLayout title={SITE_TITLE_HOME[lang]} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
+<BaseLayout
+	title={SITE_TITLE_HOME[lang]}
+	description={SITE_DESCRIPTION_BY_LOCALE[lang]}
+	lang={lang}
+	jsonLd={jsonLd}
+>
 	<!-- Hero -->
 	<section class="hero container">
 		<h1 class="hero__name">{hero.name}</h1>

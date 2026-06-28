@@ -11,12 +11,14 @@ Complete the discoverability layer: full head meta, hreflang alternates, JSON-LD
 - Pages (13–17) expose SEO props to BaseHead. Sitemap i18n is already configured in `astro.config.mjs`.
 
 ## Tasks
-- [ ] Finalize `BaseHead.astro`: per-page `<title>`, meta description, canonical, OpenGraph + Twitter card tags.
-- [ ] **hreflang:** emit `en` + `x-default` → unprefixed root URLs, `ko` → `/ko/...`, only on pages with counterparts (§7.5).
-- [ ] **OG image:** ship one branded default OG image now; per-post override via `ogImage` frontmatter. (Auto-generated per-post cards are P1.)
-- [ ] **JSON-LD:** `Person` on Home + About; `BlogPosting` on posts.
-- [ ] **RSS:** `@astrojs/rss` — combined feed at `/rss.xml` plus per-locale `/ko/rss.xml`; link feeds in `<head>` and footer.
-- [ ] Confirm `@astrojs/sitemap` emits per-locale entries with the i18n config.
+- [x] Finalize `BaseHead.astro`: per-page `<title>`, meta description, canonical, OpenGraph + Twitter card tags (+ `og:site_name`, `og:locale`, `og:type` website/article, `article:*`).
+- [x] **hreflang:** emit `en` + `x-default` → unprefixed root URLs, `ko` → `/ko/...`, only on pages with counterparts (§7.5). Mirrored pages auto-derive the pair in BaseLayout; posts emit only when a `translationKey` counterpart exists.
+- [x] **OG image:** ship one branded default OG image now (`public/og-default.png`, 1200×630, sharp-rendered); per-page/post override via `ogImage` frontmatter (precedence: ogImage → hero → default). (Auto-generated per-post cards stay P1.)
+- [x] **JSON-LD:** `Person` on Home + About; `BlogPosting` on posts (`utils/seo.ts`).
+- [x] **RSS:** `@astrojs/rss` — `/rss.xml` (EN) + `/ko/rss.xml` (KO), each single-language; linked in `<head>` (per-locale) and footer (per-locale).
+- [x] Confirm `@astrojs/sitemap` emits per-locale entries with the i18n config (xhtml:link hreflang alternates present).
+
+**Note on the RSS interpretation:** the plan said "combined feed at /rss.xml plus per-locale /ko/rss.xml". Implemented as per-locale single-language feeds (EN at root, KO at /ko/) — cleaner for subscribers and matches the EN-root/KO-/ko/ i18n model — rather than a mixed-language combined feed.
 
 ## Files to create / edit
 - `src/components/BaseHead.astro` — meta + hreflang + JSON-LD.

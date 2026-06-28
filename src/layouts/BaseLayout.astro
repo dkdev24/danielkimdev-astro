@@ -12,26 +12,67 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import type { Lang } from '../i18n/utils';
-import { useTranslations } from '../i18n/utils';
+import { getLocalizedPath, useTranslations } from '../i18n/utils';
 
 interface Props {
 	title: string;
 	description: string;
 	lang: Lang;
-	/** Open Graph / Twitter card image; falls back to BaseHead's default. */
-	ogImage?: ImageMetadata;
+	/** Optimized OG image (e.g. a post hero); falls back to BaseHead's default. */
+	image?: ImageMetadata;
+	/** Explicit OG image path override (e.g. post `ogImage` frontmatter). */
+	ogImage?: string;
+	/** Marks the page as an article (posts) for OpenGraph. */
+	articleMeta?: { publishedTime: string; modifiedTime?: string; tags?: string[] };
+	/**
+	 * hreflang counterparts. Omit on a mirrored page (Home/About/Portfolio/Blog
+	 * index) and the layout auto-derives the EN/KO pair from the current path.
+	 * Pass `false` to suppress (e.g. 404), or an explicit `{ en?, ko? }` for pages
+	 * whose counterpart may not exist (posts).
+	 */
+	alternates?: { en?: string; ko?: string } | false;
+	/** Structured data (JSON-LD) for this page. */
+	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 	/** Keep this page out of search indexes (404, throwaway pages). */
 	noindex?: boolean;
 }
 
-const { title, description, lang, ogImage, noindex = false } = Astro.props;
+const {
+	title,
+	description,
+	lang,
+	image,
+	ogImage,
+	articleMeta,
+	alternates,
+	jsonLd,
+	noindex = false,
+} = Astro.props;
 const t = useTranslations(lang);
+
+// hreflang resolution: explicit object wins; `false` or noindex suppresses;
+// otherwise auto-derive both locales from the current path (mirrored pages).
+const path = Astro.url.pathname;
+const resolvedAlternates =
+	alternates === false || noindex
+		? undefined
+		: (alternates ?? { en: getLocalizedPath(path, 'en'), ko: getLocalizedPath(path, 'ko') });
 ---
 
 <!doctype html>
 <html lang={lang}>
 	<head>
-		<BaseHead title={title} description={description} image={ogImage} noindex={noindex} />
+		<BaseHead
+			title={title}
+			description={description}
+			lang={lang}
+			image={image}
+			ogImage={ogImage}
+			articleMeta={articleMeta}
+			alternates={resolvedAlternates}
+			jsonLd={jsonLd}
+			noindex={noindex}
+		/>
 	</head>
 	<body>
 		<a class="skip-link" href="#main">{t('nav.skipToContent')}</a>

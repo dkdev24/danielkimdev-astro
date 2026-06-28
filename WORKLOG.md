@@ -16,6 +16,27 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 18: SEO, feeds, sitemap, structured data (Phase 3 complete)
+
+**Did:** Built the full discoverability layer; **Phase 3 (Pages) is now done.**
+- **`BaseHead.astro` rebuilt** as the SEO hub: per-page `<title>`/description/canonical, OpenGraph (`og:type` website|article, `og:url`, `og:title/description/image`, `og:site_name`, `og:locale` + `og:locale:alternate` when a counterpart exists, `article:published_time/modified_time/tag`), Twitter summary-large-image, per-locale RSS `<link>`, **hreflang** alternates, and **JSON-LD** `<script is:inline type="application/ld+json">`. OG image precedence: `ogImage` string override → optimized `image` asset → `DEFAULT_OG_IMAGE`.
+- **`BaseLayout.astro`** now threads `image`/`ogImage`/`articleMeta`/`alternates`/`jsonLd` to BaseHead, and **auto-derives the hreflang pair** (`{en, ko}` from the current path via `getLocalizedPath`) for mirrored pages; `alternates={false}` or `noindex` suppresses it. (Renamed the old `ogImage: ImageMetadata` prop to `image`; only BlogPost consumed it.)
+- **JSON-LD** (`utils/seo.ts`): `personJsonLd` (Home + About — name/url/description/sameAs from consts) and `blogPostingJsonLd` (posts — headline/dates/inLanguage/author/image/keywords). Verified each `dist` block parses; Person on Home+About, BlogPosting on posts, none on portfolio/blog-index (correct).
+- **Per-locale RSS** (`utils/rss.ts` `buildFeed(lang)`): `pages/rss.xml.js` (EN) + new `pages/ko/rss.xml.js` (KO), single-language each, drafts excluded, links via `getPostPath`, `<language>` tag set. Head + footer link the current locale's feed (removed the Stage-18 TODO in Footer).
+- **Branded default OG image:** generated `public/og-default.png` (1200×630) by sharp-rasterizing an inline SVG (charcoal→brand-blue gradient, "Daniel Kim" + focus line + domain). `TODO(daniel)` left to swap for final artwork.
+- **Sitemap:** confirmed `@astrojs/sitemap` i18n config emits both locales with `xhtml:link` hreflang alternates (was already configured in Stage 01).
+- Cleanup: removed the now-unused legacy `SITE_DESCRIPTION` scalar from `consts.ts` (only `*_BY_LOCALE` remain).
+
+**Decisions:** hreflang is emitted **only where a counterpart exists** — mirrored pages always qualify (auto-derived), posts qualify only when `translationKey` resolves; a counterpart-less post emits no hreflang (verified empirically). Interpreted the plan's "combined feed at /rss.xml" as a per-locale single-language feed at the root (EN) rather than a mixed-language feed — cleaner and matches the i18n model (noted in the stage doc). Shipped a real branded PNG OG (not SVG) since social crawlers don't reliably render SVG. JSON-LD scripts marked `is:inline` so Astro leaves them untouched.
+
+**Verify:** `astro check` → 0 errors, 0 hints. `astro build` → 12 pages + `/rss.xml` + `/ko/rss.xml` + sitemap. Inspected `dist`: Home/KO-Home/About/posts carry correct canonical + hreflang (en/x-default/ko) + OG (`og:type`, locale + alternate) + JSON-LD; **temp counterpart-less KO post → 0 SEO hreflang link tags, absent from EN index/feed, present in KO** (then removed); both feeds well-formed XML with correct absolute links + language; sitemap lists all 12 URLs across both locales with xhtml alternates. OG PNG rendered + eyeballed (on-brand).
+
+**Files touched:** `src/components/BaseHead.astro` (rewritten), `src/layouts/BaseLayout.astro`, `src/layouts/BlogPost.astro` (image/ogImage/articleMeta/alternates/jsonLd), `src/components/HomePage.astro` + `src/components/AboutPage.astro` (Person JSON-LD), `src/components/Footer.astro` (per-locale RSS), `src/utils/seo.ts` (new), `src/utils/rss.ts` (new), `src/pages/rss.xml.js` (rewritten) + `src/pages/ko/rss.xml.js` (new), `src/consts.ts` (drop SITE_DESCRIPTION, OG comment), `public/og-default.png` (new), `dev-references/plans/00-index.md`, `dev-references/plans/stage-18-seo-feeds.md`, `HANDOFF.md`.
+
+**Next:** Stage 19 — Accessibility pass (WCAG 2.1 AA, `stage-19-accessibility.md`): keyboard nav, focus order, landmarks, contrast, alt text, reduced-motion, axe/Lighthouse a11y audit across both locales + themes. Then 20 (Performance/Lighthouse), 21 (Deploy to Cloudflare Pages — needs Daniel's auth).
+
+---
+
 ## 2026-06-28 — Stage 17: Blog post layout + MDX features (both locales)
 
 **Did:** Refactored the legacy starter `layouts/BlogPost.astro` into the real post layout (rendering through `BaseLayout`) and added localized dynamic routes for both locales.

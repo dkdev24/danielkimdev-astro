@@ -24,20 +24,16 @@ export const SITE_TAGLINE = {
 } as const;
 
 // Default meta description / excerpt fallback, per locale (PRD §10.4, §7.5).
-// Kept alongside the legacy scalar SITE_DESCRIPTION below until Stage 18 rewires SEO.
 export const SITE_DESCRIPTION_BY_LOCALE = {
 	en: "An engineer-turned-product person exploring AI knowledge management, automation, and AI-ready technical documentation — notes, essays, and experiments from Daniel Kim's digital garden.",
 	ko: '개발자로 출발한 제품 전문가가 AI 기반 지식 관리와 자동화, 그리고 기술 문서의 에이전트 준비도(Agent Readiness)를 다루는 디지털 가든입니다.',
 } as const;
 
-// Legacy language-neutral default (EN). Starter files still import this; Stage 18 will
-// switch SEO/feeds to the per-locale exports above.
-export const SITE_DESCRIPTION = SITE_DESCRIPTION_BY_LOCALE.en;
-
 export const SITE_AUTHOR = 'Daniel Kim';
 
-// Default Open Graph / Twitter card image, served from /public. Per-post images
-// override this (PRD §10.4). TODO(daniel): add the real asset at public/og-default.png.
+// Default Open Graph / Twitter card image (1200×630), served from /public. Per-page
+// `ogImage`/hero images override this (PRD §10.4). Stage 18 ships a branded default;
+// TODO(daniel): replace public/og-default.png with final artwork if desired.
 export const DEFAULT_OG_IMAGE = '/og-default.png';
 
 // Public contact email — the site's contact address (PRD §4). Personal Gmail by

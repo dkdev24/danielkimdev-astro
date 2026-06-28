@@ -3,8 +3,8 @@
 // reads dark in BOTH themes (charcoal bg, light-on-dark text), so its colors
 // are pinned to fixed brand tokens, not the theme-flipping semantic vars.
 // Injected into BaseLayout's `footer` slot. Social row is LinkedIn + email only
-// (locked 2026-06-28 — no X/GitHub); RSS points at the root feed (per-locale
-// feeds land in Stage 18).
+// (locked 2026-06-28 — no X/GitHub); RSS links the current locale's feed
+// (/rss.xml EN, /ko/rss.xml KO — Stage 18).
 import { CONTACT_EMAIL, SITE_AUTHOR, SOCIAL_LINKS } from '../consts';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import LanguageToggle from './LanguageToggle.astro';
@@ -39,8 +39,7 @@ const year = new Date().getFullYear();
 					</svg>
 					<span>{t('footer.email')}</span>
 				</a>
-				{/* TODO(stage-18): swap to the per-locale feed once KO feed exists. */}
-				<a href="/rss.xml">
+				<a href={lang === 'en' ? '/rss.xml' : '/ko/rss.xml'}>
 					<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
 						<g fill="currentColor">
 							<circle cx="6.18" cy="17.82" r="2.18"></circle>

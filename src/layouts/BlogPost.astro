@@ -15,10 +15,17 @@ import TOC from '../components/TOC.astro';
 import CodeCopy from '../components/CodeCopy.astro';
 import Tag from '../components/Tag.astro';
 import type { Lang } from '../i18n/utils';
-import { formatDate, formatReadingTime, getLocalizedPath, useTranslations } from '../i18n/utils';
-import { SITE_TITLE } from '../consts';
+import {
+	formatDate,
+	formatReadingTime,
+	getAltLocale,
+	getLocalizedPath,
+	useTranslations,
+} from '../i18n/utils';
+import { DEFAULT_OG_IMAGE, SITE_TITLE } from '../consts';
 import { readingTimeMinutes } from '../utils/readingTime';
 import { getPostPath } from '../utils/blog';
+import { blogPostingJsonLd } from '../utils/seo';
 
 interface Props {
 	post: CollectionEntry<'blog'>;
@@ -34,18 +41,54 @@ interface Props {
 const { post, headings, newer, older, counterpart } = Astro.props;
 const lang = post.data.lang as Lang;
 const t = useTranslations(lang);
-const { title, description, pubDate, updatedDate, tags, heroImage } = post.data;
+const { title, description, pubDate, updatedDate, tags, heroImage, ogImage } = post.data;
 
 const blogHref = getLocalizedPath('/blog/', lang);
 const localeBadge = lang === 'en' ? 'EN' : 'KO';
 const minutes = readingTimeMinutes(post.body, lang);
+
+// SEO (Stage 18). hreflang only when a translationKey counterpart exists.
+const selfPath = getPostPath(post);
+const postAlternates: { en?: string; ko?: string } | false = counterpart
+	? { [lang]: selfPath, [getAltLocale(lang)]: getPostPath(counterpart) }
+	: false;
+
+const articleMeta = {
+	publishedTime: pubDate.toISOString(),
+	modifiedTime: updatedDate?.toISOString(),
+	tags,
+};
+
+const siteUrl = Astro.site ?? new URL('https://danielkimdev.com');
+const pageUrl = new URL(Astro.url.pathname, siteUrl);
+const ogImageAbs = ogImage
+	? new URL(ogImage, siteUrl).href
+	: heroImage
+		? new URL(heroImage.src, Astro.url).href
+		: new URL(DEFAULT_OG_IMAGE, siteUrl).href;
+
+const jsonLd = blogPostingJsonLd({
+	siteUrl,
+	url: pageUrl,
+	title,
+	description,
+	datePublished: pubDate,
+	dateModified: updatedDate,
+	image: ogImageAbs,
+	lang,
+	tags,
+});
 ---
 
 <BaseLayout
 	title={`${title} — ${SITE_TITLE}`}
 	description={description}
 	lang={lang}
-	ogImage={heroImage}
+	image={heroImage}
+	ogImage={ogImage}
+	articleMeta={articleMeta}
+	alternates={postAlternates}
+	jsonLd={jsonLd}
 >
 	<article class="post">
 		<div class="container container--prose">
