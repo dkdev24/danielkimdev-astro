@@ -152,3 +152,31 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
+
+/*
+  Layout container (Stage 06). Pages are full-bleed by default — a section can
+  span the viewport (colored bands, hero backgrounds per DESIGN-minimax §1) and
+  wrap its inner content in `.container` to constrain it to the max measure and
+  add a responsive gutter. `.container.container--prose` narrows to the readable
+  article measure for long-form text.
+*/
+.container {
+	width: 100%;
+	max-width: var(--container-max);
+	margin-inline: auto;
+	padding-inline: var(--space-4);
+}
+.container--prose {
+	max-width: var(--container-prose);
+}
+
+/*
+  Single global focus-visible ring (Stage 06, a11y baseline for the whole shell).
+  Keyboard focus is always visible; mouse focus is not (focus-visible). Per-
+  component focus styles can override but should keep an equivalent indicator.
+*/
+:focus-visible {
+	outline: 2px solid var(--color-focus-ring);
+	outline-offset: 2px;
+	border-radius: var(--radius-xs);
+}

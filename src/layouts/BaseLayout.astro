@@ -1,0 +1,100 @@
+---
+// The canonical page shell every page renders through (Stage 06). Owns the
+// document scaffold — <html lang>, <head> (via BaseHead), no-flash theme, the
+// skip link, and the header/main/footer landmarks — so pages only supply their
+// content (and, later, header/footer chrome).
+//
+// Header and footer are placeholder landmark slots here; Stage 07/08 inject the
+// real Header/Footer. A page can override them via the `header` / `footer`
+// named slots; otherwise empty landmark elements keep the document well-formed.
+import type { ImageMetadata } from 'astro';
+import BaseHead from '../components/BaseHead.astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+	title: string;
+	description: string;
+	lang: Lang;
+	/** Open Graph / Twitter card image; falls back to BaseHead's default. */
+	ogImage?: ImageMetadata;
+	/** Keep this page out of search indexes (404, throwaway pages). */
+	noindex?: boolean;
+}
+
+const { title, description, lang, ogImage, noindex = false } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<BaseHead title={title} description={description} image={ogImage} noindex={noindex} />
+	</head>
+	<body>
+		<a class="skip-link" href="#main">{t('nav.skipToContent')}</a>
+
+		<slot name="header">
+			{/* Placeholder header landmark — real Header lands in Stage 07. */}
+			<header class="site-header" data-placeholder></header>
+		</slot>
+
+		<main id="main" class="site-main">
+			<slot />
+		</main>
+
+		<slot name="footer">
+			{/* Placeholder footer landmark — real Footer lands in Stage 08. */}
+			<footer class="site-footer" data-placeholder></footer>
+		</slot>
+	</body>
+</html>
+
+<style>
+	/*
+	  Skip link — first focusable element on the page (PRD §11 a11y). Hidden off
+	  the top of the viewport until focused, then slides in. Jumps to #main.
+	*/
+	.skip-link {
+		position: fixed;
+		top: 0;
+		left: var(--space-4);
+		z-index: 100;
+		transform: translateY(-120%);
+		padding: var(--space-2) var(--space-4);
+		background: var(--color-bg);
+		color: var(--color-link);
+		border: 1px solid var(--color-border);
+		border-top: none;
+		border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+		font-family: var(--font-ui);
+		font-weight: var(--weight-medium);
+		text-decoration: none;
+		transition: transform var(--motion-fast, 150ms) ease;
+	}
+	.skip-link:focus {
+		transform: translateY(0);
+	}
+
+	/*
+	  The shell's main is a full-width flow region (overrides the legacy prose-
+	  width `main` rule in global.css). Pages constrain their own content with
+	  `.container`, keeping full-bleed sections possible (DESIGN-minimax §1).
+	*/
+	.site-main {
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	/* Body is a column so a sticky footer sits below content on short pages. */
+	body {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+	.site-main {
+		flex: 1 0 auto;
+	}
+</style>

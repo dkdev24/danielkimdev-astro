@@ -16,6 +16,24 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 06: base layout shell & landmarks
+
+**Did:**
+- Created `src/layouts/BaseLayout.astro` — the canonical shell every page renders through. Props: `title`, `description`, `lang: Lang`, `ogImage?`, `noindex?`. Owns the document scaffold: `<html lang={lang}>` (drives the `:lang(ko)` font rules from Stage 04), `<head>` via `BaseHead` (which includes the no-flash `ThemeScript` from Stage 03 before paint), a **skip-to-content** link as the first focusable element (→ `#main`), and the `header` / `main#main` / `footer` landmarks. Header and footer are **placeholder named slots** with empty-landmark fallbacks — Stage 07/08 inject the real chrome.
+- Refactored `BaseHead.astro`: added a `noindex?` prop (emits `<meta name="robots" content="noindex, nofollow">`) and an hreflang/og:locale TODO hook for Stage 18. No behavior change for existing callers.
+- `global.css`: added a `.container` / `.container--prose` layout utility (full-bleed-by-default; sections opt into the max measure + responsive gutter per DESIGN-minimax §1) and a single global `:focus-visible` ring (a11y baseline for the whole shell). `BaseLayout`'s scoped styles override the legacy prose-width `main` rule (full-width flow region) and make `<body>` a flex column so the footer sits at the bottom on short pages.
+- Migrated `index.astro` onto `BaseLayout` as a minimal placeholder (name/tagline/subhead from `consts`/`home.ts`) — the full home build (identity strip, latest writing, CTAs) is Stage 13.
+
+**Decisions:** pages are **full-bleed by default**; content opts into `.container` rather than `main` hard-constraining width (the old scaffold `main { width: 720px }` only suits article pages, reworked in 16/17). Header/footer kept as named slots, not direct component renders, so the shell stays valid before Stages 07/08 exist. One global focus ring lives in `global.css` so every interactive element inherits a visible keyboard indicator.
+
+**Verify:** `astro check` → 0 errors (19 files). `astro build` → succeeds. Inspected `dist/index.html`: `<html lang="en">`, the skip link is the first element in `<body>` (`href="#main"`), `header`/`main#main`/`footer` landmarks present in order, no stray `noindex`. Theme script still in `<head>` before paint (Stage 03). KO `lang="ko"` mechanism proven via the `lang` prop — no `/ko/` routes render it yet (Stage 13+).
+
+**Files touched:** `src/layouts/BaseLayout.astro` (new), `src/components/BaseHead.astro` (noindex + hreflang hook), `src/styles/global.css` (`.container` + focus ring), `src/pages/index.astro` (migrated to shell), `dev-references/plans/00-index.md`, `dev-references/plans/stage-06-base-layout.md`, `HANDOFF.md`.
+
+**Next:** Stage 07 — header: nav + language & theme toggles (`stage-07-header-nav-toggles.md`). Real `<header>` chrome injected into BaseLayout's `header` slot, using the i18n dictionaries (Stage 05) and the theme-toggle contract (Stage 03). Depends on 06.
+
+---
+
 ## 2026-06-28 — Stage 05: i18n utilities & UI dictionaries
 
 **Did:**

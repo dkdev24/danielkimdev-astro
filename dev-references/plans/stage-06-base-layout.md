@@ -11,13 +11,13 @@ Create the single page shell every page uses: correct landmarks, per-locale `<ht
 - Replaces ad-hoc starter layout. Header/footer are placeholders here (built in Stage 07/08) — leave clearly marked slots.
 
 ## Tasks
-- [ ] Create `src/layouts/BaseLayout.astro` accepting props: `title`, `description`, `lang`, `ogImage?`, `noindex?`.
-- [ ] Set `<html lang={lang}>` and the locale class used by `:lang(ko)` font rules.
-- [ ] Include the no-flash `ThemeScript` (Stage 03) in `<head>` before paint.
-- [ ] Render `BaseHead` (meta/title/desc/fonts) — full SEO/OG/hreflang lands in Stage 18; leave hooks.
-- [ ] Add skip-to-content link (first focusable), `<header>` slot, `<main id="main">` with content `<slot/>`, `<footer>` slot.
-- [ ] Apply max content-width container + full-bleed capability per DESIGN-minimax §1.
-- [ ] Wire global styles import (tokens + global.css).
+- [x] Create `src/layouts/BaseLayout.astro` accepting props: `title`, `description`, `lang`, `ogImage?`, `noindex?`.
+- [x] Set `<html lang={lang}>` and the locale class used by `:lang(ko)` font rules.
+- [x] Include the no-flash `ThemeScript` (Stage 03) in `<head>` before paint.
+- [x] Render `BaseHead` (meta/title/desc/fonts) — full SEO/OG/hreflang lands in Stage 18; leave hooks.
+- [x] Add skip-to-content link (first focusable), `<header>` slot, `<main id="main">` with content `<slot/>`, `<footer>` slot.
+- [x] Apply max content-width container + full-bleed capability per DESIGN-minimax §1.
+- [x] Wire global styles import (tokens + global.css).
 
 ## Files to create / edit
 - `src/layouts/BaseLayout.astro` — new.

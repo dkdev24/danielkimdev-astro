@@ -12,15 +12,24 @@ interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
+	/** When true, ask crawlers not to index this page (404, throwaway, etc.). */
+	noindex?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage } = Astro.props;
+const { title, description, image = FallbackImage, noindex = false } = Astro.props;
 ---
 
 <!-- No-flash theme resolver — must run before paint (Stage 03). -->
 <ThemeScript />
+
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!--
+  TODO(stage-18): emit per-locale hreflang alternates (en / ko / x-default) and
+  og:locale here once the page→counterpart mapping exists (PRD §7.5, §10.4).
+-->
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
