@@ -1,9 +1,9 @@
 {
-  "role": "소프트웨어 엔지니어",
-  "org": "TODO(daniel): 소속",
-  "start": "TODO(daniel): 시작 연도",
-  "end": "TODO(daniel): 연도",
-  "summary": "TODO(daniel): 네이티브 보이스 — C/C++·Java로 11년+ 동안 시스템·미디어테크 개발.",
+  "role": "선임 연구원",
+  "org": "INKA Entworks",
+  "start": "2010",
+  "end": "2015",
+  "summary": "모바일과 임베디드 기기 전반에서 멀티 DRM SDK와 콘텐츠 보호 클라이언트를 개발했습니다. 그 전까지 약 10년 동안 C/C++와 Java로 다양한 시스템 소프트웨어를 만들었습니다.",
   "lang": "ko",
   "order": 1
 }

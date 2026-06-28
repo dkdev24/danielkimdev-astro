@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Personal CV used only as a local source for the About page — do not commit
+dev-references/Profile.pdf
