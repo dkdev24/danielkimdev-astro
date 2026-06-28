@@ -8,6 +8,13 @@ The full build brief lives in [`dev-references/astro-site-prd.md`](dev-reference
 
 At the **start** of a session, read [`HANDOFF.md`](HANDOFF.md) — it holds the current state, locked decisions, and next steps. At the **end** of a session, update `HANDOFF.md` to reflect the new present state and append a dated entry to [`WORKLOG.md`](WORKLOG.md) (append-only history, newest on top).
 
+**HANDOFF stays lean — budget ~60 lines / ~1,200 words (one screen).** It is a *snapshot of the present*, not a log. When updating it:
+
+- **Edit in place; replace, don't append.** Never stack `Last session` / `Prior session` / `Earlier this session` narratives — that history goes in `WORKLOG.md` only.
+- **Prune as you add.** Drop anything now done, historical, or superseded; per-stage implementation write-ups belong in `WORKLOG.md`, with HANDOFF linking to it.
+- **Keep the fixed sections** (Status · Project · Current state + Invariants · Locked decisions · Next steps · Open · Conventions) — add facts within them, don't grow new narrative sections.
+- If HANDOFF exceeds the budget, that's the signal to move detail into `WORKLOG.md` before finishing.
+
 ## Development
 
 When starting the dev server, use background mode:
