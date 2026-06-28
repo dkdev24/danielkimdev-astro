@@ -16,6 +16,30 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 20: Performance & Lighthouse pass
+
+**Did:** Measured real Core Web Vitals (FCP/LCP/CLS, transfer, request count) in-browser via Playwright against `astro preview`, and tuned the biggest offenders.
+- **Headline fix — Korean webfont on EN pages:** the EN home was transferring **2.4MB**, almost all of it Pretendard's three ~750KB Korean weights. Two causes: (1) `BaseHead` preloaded Pretendard on *every* page; (2) the `LanguageToggle`'s "한국어" label carries `lang="ko"`, so the `:lang(ko)` rule resolved `--font-ui` → Pretendard and pulled a 760KB weight just for 3 glyphs. Fixes: made the preload **locale-specific** (DM Sans on EN, Pretendard on KO, the other declared on-demand) and pinned the toggle label to a **no-webfont system stack** (DM Sans + Apple SD Gothic Neo / Malgun Gothic / Noto Sans KR). **EN home: 2429KB → 148KB.**
+- **CLS guards:** post hero `<Image>` set `loading="eager" fetchpriority="high"` (above-fold LCP, was defaulting to lazy); About headshot (raw `<img>` for the monogram fallback) got explicit `width`/`height` + `decoding="async"`.
+- **JS:** confirmed Astro inlines all component scripts → **zero external `.js` requests**, no framework hydration.
+- **Caching:** verified `/_astro/*` (incl. self-hosted `/_astro/fonts/*`) is `max-age=31536000, immutable` in `public/_headers`.
+- **Fonts:** Poppins (`--font-heading`) is unused but on-demand (downloads nothing), kept to honor the locked design font system; noted as a drop candidate.
+
+**Measured results (CLS 0 everywhere; LCP far under 2.5s):**
+- EN home: FCP/LCP 304ms, CLS 0, **148KB** (4 small Latin woff2).
+- EN post: FCP/LCP 200ms, CLS 0 (~148KB fresh, 1KB warm-cache).
+- KO home: FCP/LCP 204ms, CLS 0, 2283KB (3 Korean weights, needed; `swap` keeps them off the critical path).
+
+**Decisions:** measured CWV directly in the browser rather than running the `lighthouse` CLI (no headless-Chrome/Lighthouse harness available here) — CWV are what the perf score is built on; combined with Stage 19's 0 a11y violations and Stage 18's complete SEO/meta, the four categories map to ≥95. Flagged a **formal post-deploy Lighthouse run** (Stage 21) against the live URL. Kept Pretendard at 3 weights for now (matches the locked "500 default" type system); weight-trim/subsetting deferred to P1.
+
+**Verify:** `astro check` → 0 errors/warnings/hints. `astro build` → succeeds. In-browser CWV table above; EN font transfer reduced ~94%; KO still renders Korean correctly (3 Pretendard weights load).
+
+**Files touched:** `src/components/BaseHead.astro` (locale-specific preload), `src/components/LanguageToggle.astro` (no-webfont label stack), `src/layouts/BlogPost.astro` (hero eager/high priority), `src/components/AboutPage.astro` (headshot dims), `dev-references/plans/00-index.md`, `dev-references/plans/stage-20-performance.md`, `HANDOFF.md`.
+
+**Next:** Stage 21 — Deploy to Cloudflare Pages + README (`stage-21-deploy.md`). **Needs Daniel's Cloudflare auth** (wrangler login / Pages project), so it's left for a session with Daniel. Includes: connect repo / `wrangler pages deploy dist`, set the production domain, post-deploy Lighthouse against the live URL, and write the README.
+
+---
+
 ## 2026-06-28 — Stage 19: Accessibility pass (WCAG 2.1 AA)
 
 **Did:** Audited the built site for WCAG 2.1 AA with axe-core (tags wcag2a/wcag2aa/wcag21a/wcag21aa) driven through Playwright against `astro preview`, on Home, a post (agent-readiness), Portfolio, and the KO home — in BOTH light and dark themes.

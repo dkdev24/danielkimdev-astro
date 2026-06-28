@@ -42,7 +42,7 @@
 | 17 | [Blog post layout + MDX features](stage-17-blog-post.md) | 3 Pages | 12, 16 | ✅ Done |
 | 18 | [SEO, feeds, sitemap, structured data](stage-18-seo-feeds.md) | 3 Pages | 13, 17 | ✅ Done |
 | 19 | [Accessibility pass (WCAG 2.1 AA)](stage-19-accessibility.md) | 4 Polish | 13–18 | ✅ Done |
-| 20 | [Performance & Lighthouse pass](stage-20-performance.md) | 4 Polish | 13–18 | ⬜ Not started |
+| 20 | [Performance & Lighthouse pass](stage-20-performance.md) | 4 Polish | 13–18 | ✅ Done |
 | 21 | [Deploy to Cloudflare Pages + README](stage-21-deploy.md) | 5 Ship | 19, 20 | ⬜ Not started |
 
 > **Note:** Stage 01 completed on 2026-06-27 — config finalized (`output: 'static'` added), `.nvmrc` pinned to Node 22.12.0, `consts.ts` populated, `public/_headers` added, starter posts + Atkinson fonts removed. Verified with `astro check` (0 errors) and `npm run build` (succeeds).

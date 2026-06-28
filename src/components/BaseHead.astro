@@ -90,14 +90,18 @@ const jsonLdList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 <meta name="generator" content={Astro.generator} />
 
 <!--
-  Fonts (Stage 04). Each <Font> emits the @font-face + defines its --font-*
-  CSS var (consumed by the role vars in tokens.css), so every referenced family
-  must be rendered or its var falls back to Helvetica. Preload only the primary
-  body faces — DM Sans (EN) and Pretendard (KO) — to avoid wasted bytes; the
-  rest load on demand with font-display: swap (set in astro.config.mjs).
+  Fonts (Stage 04, perf-tuned Stage 20). Each <Font> emits the @font-face +
+  defines its --font-* CSS var (consumed by the role vars in tokens.css), so
+  every referenced family must be rendered or its var falls back to Helvetica.
+  Preload is LOCALE-SPECIFIC: Pretendard's Korean weights are ~750KB each (~2.3MB
+  for the 3 weights), so preloading them on EN pages (which render no Korean) was
+  pulling 2.3MB for nothing. We now preload only the locale's primary body face —
+  DM Sans on EN, Pretendard on KO — and merely declare the other (on-demand, so
+  it's fetched only if a glyph actually needs it). The rest load on demand with
+  font-display: swap (set in astro.config.mjs).
 -->
-<Font cssVariable="--font-dm-sans" preload />
-<Font cssVariable="--font-pretendard" preload />
+{lang === 'en' ? <Font cssVariable="--font-dm-sans" preload /> : <Font cssVariable="--font-dm-sans" />}
+{lang === 'ko' ? <Font cssVariable="--font-pretendard" preload /> : <Font cssVariable="--font-pretendard" />}
 <Font cssVariable="--font-outfit" />
 <Font cssVariable="--font-poppins" />
 <Font cssVariable="--font-roboto" />

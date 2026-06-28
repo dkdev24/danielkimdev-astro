@@ -56,7 +56,15 @@ const targetPath = href ?? getLocalizedPath(Astro.url.pathname, alt);
 		border-radius: var(--radius-pill);
 		background: var(--color-surface);
 		color: var(--color-text-secondary);
-		font-family: var(--font-ui);
+		/*
+		  The toggle carries lang="ko" (a11y) on EN pages, which would make the
+		  :lang(ko) rule resolve --font-ui to Pretendard and pull a ~760KB Korean
+		  webfont just to render the "한국어" label. Pin an explicit stack that has
+		  no webfont — Latin via DM Sans, Korean via the system fonts (Apple SD
+		  Gothic Neo / Malgun Gothic / Noto Sans KR). (Stage 20 perf.)
+		*/
+		font-family: var(--font-dm-sans), 'Helvetica Neue', Helvetica, Arial,
+			'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
 		font-size: var(--text-sm);
 		font-weight: var(--weight-medium);
 		text-decoration: none;

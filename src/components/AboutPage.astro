@@ -47,7 +47,7 @@ const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), l
 			<div class="avatar">
 				<span class="avatar__monogram" aria-hidden="true">{monogram}</span>
 				{/* TODO(daniel): add /public/images/daniel.jpg; falls back to the monogram if absent. */}
-				<img class="avatar__img" src="/images/daniel.jpg" alt={SITE_AUTHOR} onerror="this.remove()" />
+				<img class="avatar__img" src="/images/daniel.jpg" alt={SITE_AUTHOR} width="120" height="120" decoding="async" onerror="this.remove()" />
 			</div>
 			<div>
 				<h1>{t('about.title')}</h1>
