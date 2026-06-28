@@ -16,6 +16,22 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 21 complete: DEPLOYED to Cloudflare Pages 🚀
+
+**Did:** Shipped P0 v1. Site is **live at https://danielkimdev.pages.dev**.
+- **Deploy:** built locally (`npm run build`) then direct-uploaded `dist/` via `wrangler pages deploy ./dist --project-name danielkimdev --branch main`. Used the pre-existing `danielkimdev` Pages project on account Knowledgebuilderkim@gmail.com (OAuth, already logged in). 33 files uploaded; `_headers` applied. Production branch is `main`.
+- **`package.json`:** added `"deploy": "astro build && wrangler pages deploy ./dist --project-name danielkimdev --branch main"` for one-command redeploys. Project is direct-upload (no Git integration), so `npm run deploy` is the ship path; non-`main` `--branch` values yield isolated preview URLs.
+- **Verified production:** all routes 200 on `danielkimdev.pages.dev` — `/`, `/ko/`, `/blog/`, `/ko/blog/`, both posts × both locales, `/about/`, `/portfolio/`, `/ko/portfolio/`, `/rss.xml`, `/ko/rss.xml`, `/sitemap-index.xml`, `/sitemap-0.xml`. EN/KO `<title>`s render correctly (incl. Hangul). Sitemap `<loc>`s point at `danielkimdev.com` (the configured `site`) — correct once the domain is attached.
+- **Docs:** updated `HANDOFF.md` (deploy done, redeploy instructions, refreshed Next steps), `stage-21-deploy.md` (tasks checked, status → DEPLOYED).
+
+**Decisions:** Deployed via **direct upload to the existing `danielkimdev` project** rather than wiring Git integration — matches how the project was already set up and keeps the local-build→deploy flow. Custom domain (`danielkimdev.com`) **intentionally deferred** by Daniel; it's in hand and attaches cleanly later with no code changes.
+
+**Files touched:** `package.json` (deploy script), `HANDOFF.md`, `WORKLOG.md`, `dev-references/plans/stage-21-deploy.md`.
+
+**Next:** Daniel to attach `danielkimdev.com` at the apex when ready; run Lighthouse against the live URL and record scores in `stage-21-deploy.md`. Then content `TODO(daniel)` items and the P1 backlog (analytics, blog search/pagination, portfolio detail pages).
+
+---
+
 ## 2026-06-28 — Stage 21 (partial): deploy docs + config (deploy itself pending Daniel's CF auth)
 
 **Did:** Completed every part of Stage 21 that doesn't require Cloudflare authentication.

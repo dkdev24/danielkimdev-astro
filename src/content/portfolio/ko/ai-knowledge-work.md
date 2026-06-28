@@ -2,7 +2,7 @@
 title: AI 기반 지식 작업과 에이전트 준비도
 role: 독립 연구·개발
 period: 2024–현재
-summary: "TODO(daniel): 네이티브 보이스로 다듬기 — AI 지식 관리, 자동화, 그리고 기술 문서의 에이전트 준비도를 다루는 실험과 글."
+summary: "AI 지식 관리와 자동화, 그리고 기술 문서의 에이전트 준비도를 다루는 실험과 글입니다."
 category: side-ai
 tags: [ai-ready-docs, ai-knowledge-mgmt, ai-llm]
 lang: ko

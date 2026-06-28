@@ -43,7 +43,7 @@
 | 18 | [SEO, feeds, sitemap, structured data](stage-18-seo-feeds.md) | 3 Pages | 13, 17 | ✅ Done |
 | 19 | [Accessibility pass (WCAG 2.1 AA)](stage-19-accessibility.md) | 4 Polish | 13–18 | ✅ Done |
 | 20 | [Performance & Lighthouse pass](stage-20-performance.md) | 4 Polish | 13–18 | ✅ Done |
-| 21 | [Deploy to Cloudflare Pages + README](stage-21-deploy.md) | 5 Ship | 19, 20 | 🟡 In progress — docs/config done; deploy needs Daniel's CF auth |
+| 21 | [Deploy to Cloudflare Pages + README](stage-21-deploy.md) | 5 Ship | 19, 20 | ✅ Done — live at danielkimdev.pages.dev (direct upload). Domain attach + prod Lighthouse deferred to Daniel |
 
 > **Note:** Stage 01 completed on 2026-06-27 — config finalized (`output: 'static'` added), `.nvmrc` pinned to Node 22.12.0, `consts.ts` populated, `public/_headers` added, starter posts + Atkinson fonts removed. Verified with `astro check` (0 errors) and `npm run build` (succeeds).
 >
