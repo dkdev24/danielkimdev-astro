@@ -1,0 +1,113 @@
+---
+// Light/dark theme toggle (Stage 07). Honors the Stage 03 no-flash contract:
+// writes localStorage `theme`, sets `data-theme` on <html>, and dispatches a
+// `theme-change` event so any other toggle instance (e.g. the footer's) stays
+// in sync. The initial visual/ARIA state is set client-side from the theme the
+// no-flash script already resolved, so there's no flash and no SSR mismatch.
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<button
+	type="button"
+	class="theme-toggle"
+	aria-pressed="false"
+	aria-label={t('theme.toDark')}
+	data-label-to-dark={t('theme.toDark')}
+	data-label-to-light={t('theme.toLight')}
+>
+	<svg class="icon icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+		<path
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+	</svg>
+	<svg class="icon icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+		<g
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round">
+			<circle cx="12" cy="12" r="4"></circle>
+			<path
+				d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"
+			></path>
+		</g>
+	</svg>
+</button>
+
+<style>
+	.theme-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-pill);
+		background: var(--color-surface);
+		color: var(--color-text-secondary);
+		cursor: pointer;
+		transition: background var(--motion-fast-ease), color var(--motion-fast-ease);
+	}
+	.theme-toggle:hover {
+		background: var(--color-bg-muted);
+		color: var(--color-text);
+	}
+
+	/* Light theme → show the moon (click goes dark). Dark theme → show the sun. */
+	.icon-sun {
+		display: none;
+	}
+	:global(html[data-theme='dark']) .icon-sun {
+		display: block;
+	}
+	:global(html[data-theme='dark']) .icon-moon {
+		display: none;
+	}
+</style>
+
+<script>
+	function currentTheme(): 'light' | 'dark' {
+		return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+	}
+
+	function syncToggles() {
+		const isDark = currentTheme() === 'dark';
+		document.querySelectorAll<HTMLButtonElement>('.theme-toggle').forEach((btn) => {
+			btn.setAttribute('aria-pressed', String(isDark));
+			const label = isDark ? btn.dataset.labelToLight : btn.dataset.labelToDark;
+			if (label) btn.setAttribute('aria-label', label);
+		});
+	}
+
+	function onClick() {
+		const next = currentTheme() === 'dark' ? 'light' : 'dark';
+		try {
+			localStorage.setItem('theme', next);
+		} catch {
+			/* storage blocked — the attribute change below still applies for this session */
+		}
+		document.documentElement.dataset.theme = next;
+		window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: next } }));
+	}
+
+	document
+		.querySelectorAll<HTMLButtonElement>('.theme-toggle')
+		.forEach((btn) => btn.addEventListener('click', onClick));
+	// Keep every toggle in sync whether the change came from here or elsewhere.
+	window.addEventListener('theme-change', syncToggles);
+	syncToggles();
+</script>

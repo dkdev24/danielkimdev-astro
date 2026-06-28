@@ -4,7 +4,8 @@
 		"blog": "블로그",
 		"about": "소개",
 		"portfolio": "포트폴리오",
-		"skipToContent": "본문으로 건너뛰기"
+		"skipToContent": "본문으로 건너뛰기",
+		"primaryLabel": "주 메뉴"
 	},
 	"lang": {
 		"toggleLabel": "언어",

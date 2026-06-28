@@ -4,7 +4,8 @@
 		"blog": "Blog",
 		"about": "About",
 		"portfolio": "Portfolio",
-		"skipToContent": "Skip to content"
+		"skipToContent": "Skip to content",
+		"primaryLabel": "Main navigation"
 	},
 	"lang": {
 		"toggleLabel": "Language",

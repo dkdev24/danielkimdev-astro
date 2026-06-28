@@ -11,12 +11,12 @@ Build the sticky responsive header: pill nav with current-page state, mobile men
 - Theme contract from Stage 03 (`localStorage.theme`, `data-theme` on `<html>`). Lang routing/helpers from Stage 05.
 
 ## Tasks
-- [ ] Create `src/components/Header.astro` (sticky pill nav per DESIGN-minimax §4): Home · About · Portfolio · Blog, labels from i18n dict, links via `getLocalizedPath`.
-- [ ] Current-page indicated (aria-current="page") and styled.
-- [ ] Responsive: collapse to mobile menu < 768px; menu button is keyboard-operable, focus-trapped while open, Esc closes.
-- [ ] Create `src/components/LanguageToggle.astro`: switches to the current page's counterpart locale if it exists, else the locale's equivalent section (never a 404); persists choice; `aria-pressed`/clear label.
-- [ ] Create `src/components/ThemeToggle.astro`: toggles `data-theme` + writes `localStorage.theme`; `aria-pressed`, announces state; respects the Stage 03 no-flash setter.
-- [ ] All interactive targets ≥ 44×44px; visible `focus-visible` styles.
+- [x] Create `src/components/Header.astro` (sticky pill nav per DESIGN-minimax §4): Home · About · Portfolio · Blog, labels from i18n dict, links via `getLocalizedPath`.
+- [x] Current-page indicated (aria-current="page") and styled.
+- [x] Responsive: collapse to mobile menu < 768px; menu button is keyboard-operable, focus-trapped while open, Esc closes.
+- [x] Create `src/components/LanguageToggle.astro`: switches to the current page's counterpart locale if it exists, else the locale's equivalent section (never a 404); persists choice; `aria-pressed`/clear label.
+- [x] Create `src/components/ThemeToggle.astro`: toggles `data-theme` + writes `localStorage.theme`; `aria-pressed`, announces state; respects the Stage 03 no-flash setter.
+- [x] All interactive targets ≥ 44×44px; visible `focus-visible` styles.
 
 ## Files to create / edit
 - `src/components/Header.astro` — replace starter header.

@@ -16,6 +16,26 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 07: header — nav + language & theme toggles
+
+**Did:**
+- Replaced the starter `Header.astro` with the real sticky **pill nav** (DESIGN-minimax §4): brand link → localized home, then Home · About · Portfolio · Blog. Labels come from the i18n dict (`t('nav.*')`); hrefs via `getLocalizedPath`; active item gets `.active` (pill indicator) + `aria-current="page"` (locale-agnostic match after stripping any `/ko` prefix). Below 768px the primary links collapse behind a hamburger; the toggles cluster collapses with it (closed bar = brand + hamburger). Mobile menu JS: open/close, `aria-expanded` + label swap (`common.openMenu`/`closeMenu`), focus moves to the first link on open and returns to the button on close, **Tab is focus-trapped** within the open menu, **Esc closes**, click-outside closes, and a desktop-resize listener drops the open state.
+- `ThemeToggle.astro` (new) — a `<button>` honoring the Stage 03 contract: on click sets `localStorage.theme` + `<html data-theme>` and dispatches `theme-change`. Sun/moon icons swap via CSS keyed on `html[data-theme]`. A script syncs `aria-pressed` + `aria-label` (toLight/toDark) on load, on click, and on any `theme-change` event — so multiple instances (footer toggle in Stage 08) stay consistent. 44×44 target.
+- `LanguageToggle.astro` (new) — a real navigation **link** (works without JS) to the current page's counterpart in the other locale, default = mirrored path via `getLocalizedPath(pathname, altLocale)`; accepts an explicit `href` override for pages lacking a 1:1 translation (PRD §7.3, used by Stage 16/17). Carries `hreflang`/`lang` for correct SR voice; persists the choice to `localStorage.lang` on click. Modeled as a link (not an aria-pressed button) since it navigates.
+- Wired `Header` as the default content of BaseLayout's `header` slot. Added a `nav.primaryLabel` key ("Main navigation" / "주 메뉴") to both dictionaries for the `<nav>` aria-label.
+
+**Decisions:** language toggle is a **link**, not a toggle button — navigation semantics (`hreflang`/`lang`) are more correct than `aria-pressed`, which the plan listed but fits a stateful button, not a navigation control. Toggles collapse with the mobile menu (closed bar stays minimal); revisit if Daniel wants the theme toggle always visible. The theme-toggle script targets *all* `.theme-toggle` instances so the future footer toggle is handled for free.
+
+**Verify:** `astro check` → 0 errors (21 files). `astro build` → succeeds. **Verified live in a real browser via Playwright (preview build):** (1) theme toggle: light→dark sets `data-theme=dark`, `aria-pressed=true`, `localStorage.theme=dark`, label→"Switch to light theme"; second click reverts and persists `light`. (2) Mobile menu @375px: closed bar shows only the hamburger (links/cluster hidden); opening sets `data-open`, reveals links, `aria-expanded=true`, label→"Close menu", and moves focus to the first nav link; Esc closes and resets `aria-expanded`. Inspected `dist/index.html`: localized labels, `aria-current` on Home, lang toggle `href="/ko/"` + `hreflang="ko"`, theme button ARIA + data-labels.
+
+**Known limitation (expected):** the language toggle's target (`/ko/...`) 404s until **Stage 13** builds the KO routes. The toggle logic is correct; only the destination pages don't exist yet.
+
+**Files touched:** `src/components/Header.astro` (rewritten), `src/components/ThemeToggle.astro` + `src/components/LanguageToggle.astro` (new), `src/layouts/BaseLayout.astro` (render Header), `src/i18n/en.json` + `ko.json` (`nav.primaryLabel`), `dev-references/plans/00-index.md`, `dev-references/plans/stage-07-header-nav-toggles.md`, `HANDOFF.md`. (Old `HeaderLink.astro` is now unused — left in place; remove in a later cleanup.)
+
+**Next:** Stage 08 — footer & global chrome wiring (`stage-08-footer-chrome.md`). Footer with social row (LinkedIn + email only — no X/GitHub), language/theme parity, and wiring `SOCIAL_LINKS` in `consts.ts` to the real values. Depends on 07.
+
+---
+
 ## 2026-06-28 — Stage 06: base layout shell & landmarks
 
 **Did:**

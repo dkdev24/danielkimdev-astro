@@ -1,0 +1,34 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - navigation "Home" [ref=e4]:
+      - link "Daniel Kim" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link "Home" [ref=e9] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e10]:
+            - link "About" [ref=e11] [cursor=pointer]:
+              - /url: /about/
+          - listitem [ref=e12]:
+            - link "Portfolio" [ref=e13] [cursor=pointer]:
+              - /url: /portfolio/
+          - listitem [ref=e14]:
+            - link "Blog" [ref=e15] [cursor=pointer]:
+              - /url: /blog/
+        - generic [ref=e16]:
+          - link "Read this page in Korean" [ref=e17] [cursor=pointer]:
+            - /url: /ko/
+            - img [ref=e18]
+            - generic [ref=e22]: 한국어
+          - button "Switch to dark theme" [ref=e23] [cursor=pointer]:
+            - img [ref=e24]
+  - main [ref=e26]:
+    - generic [ref=e27]:
+      - heading "Daniel Kim" [level=1] [ref=e28]
+      - paragraph [ref=e29]: An engineer-turned-product person exploring AI knowledge management, automation, and AI-ready technical docs.
+      - paragraph [ref=e30]: I'm digging into how AI changes the way we capture knowledge, automate the busywork, and write documentation that machines can actually use. This is my digital garden.
+  - contentinfo

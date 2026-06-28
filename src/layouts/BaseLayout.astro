@@ -9,6 +9,7 @@
 // named slots; otherwise empty landmark elements keep the document well-formed.
 import type { ImageMetadata } from 'astro';
 import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
 import type { Lang } from '../i18n/utils';
 import { useTranslations } from '../i18n/utils';
 
@@ -35,8 +36,7 @@ const t = useTranslations(lang);
 		<a class="skip-link" href="#main">{t('nav.skipToContent')}</a>
 
 		<slot name="header">
-			{/* Placeholder header landmark — real Header lands in Stage 07. */}
-			<header class="site-header" data-placeholder></header>
+			<Header />
 		</slot>
 
 		<main id="main" class="site-main">

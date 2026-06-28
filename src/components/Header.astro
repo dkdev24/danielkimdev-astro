@@ -1,85 +1,273 @@
 ---
+// Site header (Stage 07): sticky pill nav (DESIGN-minimax §4) + language and
+// theme toggles. Nav labels come from the i18n dictionary (Stage 05) and links
+// are localized via `getLocalizedPath`, so the same component serves both
+// locales. The primary nav links collapse behind a hamburger below 768px; the
+// toggles stay in the bar. Injected into BaseLayout's `header` slot.
 import { SITE_TITLE } from '../consts';
-import HeaderLink from './HeaderLink.astro';
+import { getLangFromUrl, getLocalizedPath, useTranslations } from '../i18n/utils';
+import LanguageToggle from './LanguageToggle.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Locale-neutral nav model; labels resolved per locale, paths localized below.
+const navItems = [
+	{ key: 'nav.home', path: '/' },
+	{ key: 'nav.about', path: '/about/' },
+	{ key: 'nav.portfolio', path: '/portfolio/' },
+	{ key: 'nav.blog', path: '/blog/' },
+] as const;
+
+// Current path with any /ko prefix stripped, so active state is locale-agnostic.
+const currentPath = Astro.url.pathname.replace(/^\/ko(?=\/|$)/, '') || '/';
+function isActive(path: string): boolean {
+	if (path === '/') return currentPath === '/';
+	return currentPath === path || currentPath.startsWith(path);
+}
 ---
 
-<header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-		</div>
-		<div class="social-links">
-			<a href="https://m.webtoo.ls/@astro" target="_blank">
-				<span class="sr-only">Follow Astro on Mastodon</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M11.19 12.195c2.016-.24 3.77-1.475 3.99-2.603.348-1.778.32-4.339.32-4.339 0-3.47-2.286-4.488-2.286-4.488C12.062.238 10.083.017 8.027 0h-.05C5.92.017 3.942.238 2.79.765c0 0-2.285 1.017-2.285 4.488l-.002.662c-.004.64-.007 1.35.011 2.091.083 3.394.626 6.74 3.78 7.57 1.454.383 2.703.463 3.709.408 1.823-.1 2.847-.647 2.847-.647l-.06-1.317s-1.303.41-2.767.36c-1.45-.05-2.98-.156-3.215-1.928a3.614 3.614 0 0 1-.033-.496s1.424.346 3.228.428c1.103.05 2.137-.064 3.188-.189zm1.613-2.47H11.13v-4.08c0-.859-.364-1.295-1.091-1.295-.804 0-1.207.517-1.207 1.541v2.233H7.168V5.89c0-1.024-.403-1.541-1.207-1.541-.727 0-1.091.436-1.091 1.296v4.079H3.197V5.522c0-.859.22-1.541.66-2.046.456-.505 1.052-.764 1.793-.764.856 0 1.504.328 1.933.983L8 4.39l.417-.695c.429-.655 1.077-.983 1.934-.983.74 0 1.336.259 1.791.764.442.505.661 1.187.661 2.046v4.203z"
-					></path></svg
-				>
-			</a>
-			<a href="https://twitter.com/astrodotbuild" target="_blank">
-				<span class="sr-only">Follow Astro on Twitter</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
-					></path></svg
-				>
-			</a>
-			<a href="https://github.com/withastro/astro" target="_blank">
-				<span class="sr-only">Go to Astro's GitHub repo</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-					></path></svg
-				>
-			</a>
+<header class="site-header">
+	<nav class="site-nav container" aria-label={t('nav.primaryLabel')}>
+		<a class="brand" href={getLocalizedPath('/', lang)}>{SITE_TITLE}</a>
+
+		<button
+			type="button"
+			class="nav-toggle"
+			aria-controls="primary-nav"
+			aria-expanded="false"
+			aria-label={t('common.openMenu')}
+			data-label-open={t('common.openMenu')}
+			data-label-close={t('common.closeMenu')}
+		>
+			<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+				<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+					<path class="bar bar-top" d="M3 6h18"></path>
+					<path class="bar bar-mid" d="M3 12h18"></path>
+					<path class="bar bar-bottom" d="M3 18h18"></path>
+				</g>
+			</svg>
+		</button>
+
+		<div class="nav-cluster">
+			<ul id="primary-nav" class="nav-links">
+				{
+					navItems.map((item) => (
+						<li>
+							<a
+								class:list={['nav-link', { active: isActive(item.path) }]}
+								href={getLocalizedPath(item.path, lang)}
+								aria-current={isActive(item.path) ? 'page' : undefined}
+							>
+								{t(item.key)}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+
+			<div class="nav-actions">
+				<LanguageToggle />
+				<ThemeToggle lang={lang} />
+			</div>
 		</div>
 	</nav>
 </header>
-<style>
-	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+		backdrop-filter: saturate(180%) blur(8px);
+		border-bottom: 1px solid var(--color-border-subtle);
 	}
-	nav {
+	.site-nav {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		gap: var(--space-4);
+		min-height: 64px;
 	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+	.brand {
+		font-family: var(--font-display);
+		font-weight: var(--weight-semibold);
+		font-size: var(--text-lg);
+		color: var(--color-text-heading);
 		text-decoration: none;
+		margin-right: auto;
 	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	.social-links,
-	.social-links a {
+
+	.nav-cluster {
 		display: flex;
+		align-items: center;
+		gap: var(--space-4);
 	}
-	@media (max-width: 720px) {
-		.social-links {
+	.nav-links {
+		display: flex;
+		align-items: center;
+		gap: var(--space-1);
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.nav-link {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		padding: var(--space-2) var(--space-4);
+		border-radius: var(--radius-pill);
+		font-family: var(--font-ui);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		color: var(--color-text-secondary);
+		text-decoration: none;
+		transition: background var(--motion-fast-ease), color var(--motion-fast-ease);
+	}
+	.nav-link:hover {
+		background: var(--color-bg-muted);
+		color: var(--color-text);
+	}
+	/* Pill active indicator (DESIGN-minimax §4). */
+	.nav-link.active {
+		background: var(--color-bg-muted);
+		color: var(--color-text-heading);
+		font-weight: var(--weight-semibold);
+	}
+
+	.nav-actions {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	/* Hamburger — hidden on desktop, shown < 768px. */
+	.nav-toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-pill);
+		background: var(--color-surface);
+		color: var(--color-text);
+		cursor: pointer;
+	}
+
+	@media (max-width: 767px) {
+		.nav-toggle {
+			display: inline-flex;
+			order: 3;
+		}
+		.nav-cluster {
+			order: 4;
+			flex-basis: 100%;
+			flex-direction: column;
+			align-items: stretch;
+			gap: var(--space-2);
+		}
+		/* Collapse the primary links into a stacked panel, toggled open. */
+		.nav-links {
 			display: none;
+			flex-direction: column;
+			align-items: stretch;
+			gap: var(--space-1);
+			padding-bottom: var(--space-2);
+		}
+		.site-nav[data-open] .nav-links {
+			display: flex;
+		}
+		.nav-link {
+			width: 100%;
+		}
+		.nav-actions {
+			justify-content: flex-start;
+			padding-bottom: var(--space-3);
+		}
+		.site-nav {
+			flex-wrap: wrap;
+		}
+		/* Hide the toggles cluster until the menu is opened, to keep the closed
+		   bar minimal (brand + hamburger). */
+		.nav-cluster {
+			display: none;
+		}
+		.site-nav[data-open] .nav-cluster {
+			display: flex;
 		}
 	}
 </style>
+
+<script>
+	const navMaybe = document.querySelector<HTMLElement>('.site-nav');
+	const toggleMaybe = document.querySelector<HTMLButtonElement>('.nav-toggle');
+	const panelMaybe = document.querySelector<HTMLElement>('#primary-nav');
+
+	if (navMaybe && toggleMaybe && panelMaybe) {
+		const nav = navMaybe;
+		const toggle = toggleMaybe;
+		const panel = panelMaybe;
+		const focusables = () =>
+			Array.from(
+				nav.querySelectorAll<HTMLElement>(
+					'a[href], button:not([disabled])',
+				),
+			).filter((el) => el.offsetParent !== null);
+
+		const isOpen = () => nav.hasAttribute('data-open');
+
+		function open() {
+			nav.setAttribute('data-open', '');
+			toggle.setAttribute('aria-expanded', 'true');
+			toggle.setAttribute('aria-label', toggle.dataset.labelClose ?? 'Close menu');
+			const first = panel.querySelector<HTMLElement>('a[href]');
+			first?.focus();
+		}
+		function close(returnFocus = true) {
+			nav.removeAttribute('data-open');
+			toggle.setAttribute('aria-expanded', 'false');
+			toggle.setAttribute('aria-label', toggle.dataset.labelOpen ?? 'Open menu');
+			if (returnFocus) toggle.focus();
+		}
+
+		toggle.addEventListener('click', () => (isOpen() ? close() : open()));
+
+		// Esc closes; Tab is trapped within the open menu.
+		document.addEventListener('keydown', (e) => {
+			if (!isOpen()) return;
+			if (e.key === 'Escape') {
+				e.preventDefault();
+				close();
+				return;
+			}
+			if (e.key === 'Tab') {
+				const items = focusables();
+				if (items.length === 0) return;
+				const firstEl = items[0];
+				const lastEl = items[items.length - 1];
+				const active = document.activeElement as HTMLElement | null;
+				if (e.shiftKey && active === firstEl) {
+					e.preventDefault();
+					lastEl.focus();
+				} else if (!e.shiftKey && active === lastEl) {
+					e.preventDefault();
+					firstEl.focus();
+				}
+			}
+		});
+
+		// Click outside the header closes the menu (no focus steal).
+		document.addEventListener('click', (e) => {
+			if (isOpen() && !nav.contains(e.target as Node)) close(false);
+		});
+
+		// If resized back to desktop, drop the open state so layout is clean.
+		const mq = window.matchMedia('(min-width: 768px)');
+		mq.addEventListener('change', (e) => {
+			if (e.matches && isOpen()) close(false);
+		});
+	}
+</script>
