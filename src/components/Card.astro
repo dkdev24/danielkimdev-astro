@@ -1,0 +1,71 @@
+---
+// Card (Stage 11) — the surface primitive for portfolio items, post previews,
+// and featured tiles (DESIGN-minimax §4/§6). Slot-based; fully tokenized.
+//
+// API
+//   as?         : tag name to render (default 'article')
+//   featured?   : boolean → brand purple-tinted glow (§6) + brand hairline
+//   interactive?: boolean → hover lift (use for clickable cards)
+//   class?      : extra classes; other attrs pass through.
+// Content goes in the default slot.
+//
+// Base: generous rounding (radius-xl, 20px), surface bg, subtle Level-1 shadow.
+// Featured: swaps to the brand-glow shadow so a tile pops on the page.
+// Interactive: lifts on hover/focus-within with an elevated shadow.
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'div'> & {
+	as?: keyof HTMLElementTagNameMap;
+	featured?: boolean;
+	interactive?: boolean;
+	class?: string;
+};
+
+const { as: Tag = 'article', featured = false, interactive = false, class: className, ...rest } =
+	Astro.props;
+
+const classes = [
+	'card',
+	{ 'card--featured': featured, 'card--interactive': interactive },
+	className,
+];
+---
+
+<Tag class:list={classes} {...rest}>
+	<slot />
+</Tag>
+
+<style>
+	.card {
+		display: block;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-xl);
+		box-shadow: var(--shadow-sm);
+		padding: var(--space-6);
+		transition:
+			box-shadow var(--motion-base-ease),
+			transform var(--motion-base-ease),
+			border-color var(--motion-base-ease);
+	}
+
+	/* Featured — brand purple glow (§6) + faint brand hairline. */
+	.card--featured {
+		border-color: color-mix(in srgb, var(--color-brand) 35%, var(--color-border-subtle));
+		box-shadow: var(--shadow-brand-glow);
+	}
+
+	/* Interactive — lifts on hover or when a child is focused. */
+	.card--interactive {
+		cursor: pointer;
+	}
+	.card--interactive:hover,
+	.card--interactive:focus-within {
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-lg);
+	}
+	.card--featured.card--interactive:hover,
+	.card--featured.card--interactive:focus-within {
+		box-shadow: var(--shadow-brand-glow), var(--shadow-lg);
+	}
+</style>

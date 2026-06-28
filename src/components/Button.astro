@@ -1,0 +1,135 @@
+---
+// Button (Stage 11) — the primary action primitive. Fully tokenized; no literals.
+//
+// API
+//   variant : 'primary' | 'secondary' | 'ghost'   (default 'primary')
+//   href?   : string  → renders an <a> (a link-button); otherwise a <button>
+//   type?   : button type when it's a <button> (default 'button')
+//   disabled?: boolean  → real disable for <button>; aria-disabled for <a>
+//   size?   : 'md' | 'sm'   (default 'md'; both keep a ≥44px hit target on 'md')
+//   external?: boolean → adds target=_blank + rel for outbound links
+//   class?  : extra classes; any other attrs pass through to the element.
+// Content goes in the default slot.
+//
+// Variants: primary = brand-filled (theme-safe, stays saturated in dark);
+//   secondary = muted fill + hairline; ghost = transparent, link-colored.
+// States: hover (brightness/fill shift), active (translateY), focus-visible
+//   (global ring from global.css), disabled (dimmed, no pointer events).
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'button'>, 'type'> {
+	variant?: 'primary' | 'secondary' | 'ghost';
+	href?: string;
+	type?: 'button' | 'submit' | 'reset';
+	disabled?: boolean;
+	size?: 'md' | 'sm';
+	external?: boolean;
+	class?: string;
+}
+
+const {
+	variant = 'primary',
+	href,
+	type = 'button',
+	disabled = false,
+	size = 'md',
+	external = false,
+	class: className,
+	...rest
+} = Astro.props;
+
+const classes = ['btn', `btn--${variant}`, `btn--${size}`, className];
+const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+
+{
+	href ? (
+		<a
+			class:list={classes}
+			href={disabled ? undefined : href}
+			aria-disabled={disabled ? 'true' : undefined}
+			{...externalAttrs}
+			{...rest}
+		>
+			<slot />
+		</a>
+	) : (
+		<button class:list={classes} type={type} disabled={disabled} {...rest}>
+			<slot />
+		</button>
+	)
+}
+
+<style>
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-2);
+		font-family: var(--font-ui);
+		font-weight: var(--weight-medium);
+		line-height: 1;
+		text-decoration: none;
+		white-space: nowrap;
+		border: 1px solid transparent;
+		border-radius: var(--radius-sm);
+		cursor: pointer;
+		transition:
+			background var(--motion-fast-ease),
+			border-color var(--motion-fast-ease),
+			color var(--motion-fast-ease),
+			transform var(--motion-fast-ease),
+			filter var(--motion-fast-ease);
+	}
+	.btn--md {
+		min-height: 44px;
+		padding: var(--space-3) var(--space-6);
+		font-size: var(--text-base);
+	}
+	.btn--sm {
+		min-height: 36px;
+		padding: var(--space-2) var(--space-4);
+		font-size: var(--text-sm);
+	}
+	.btn:active {
+		transform: translateY(1px);
+	}
+
+	/* Primary — brand-filled, stays saturated in both themes. */
+	.btn--primary {
+		background: var(--color-brand);
+		color: var(--color-text-on-brand);
+	}
+	.btn--primary:hover {
+		filter: brightness(0.92);
+	}
+
+	/* Secondary — muted fill with a hairline. */
+	.btn--secondary {
+		background: var(--color-bg-muted);
+		color: var(--color-text);
+		border-color: var(--color-border-subtle);
+	}
+	.btn--secondary:hover {
+		background: var(--color-border-subtle);
+	}
+
+	/* Ghost — transparent, link-colored. */
+	.btn--ghost {
+		background: transparent;
+		color: var(--color-link);
+	}
+	.btn--ghost:hover {
+		background: var(--color-bg-muted);
+		color: var(--color-link-hover);
+	}
+
+	/* Disabled — both <button[disabled]> and <a aria-disabled>. */
+	.btn:disabled,
+	.btn[aria-disabled='true'] {
+		opacity: 0.5;
+		pointer-events: none;
+		transform: none;
+		filter: none;
+	}
+</style>

@@ -16,6 +16,28 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 11: core components A (Button, Card, Tag)
+
+**Did:** Built the three highest-reuse UI primitives, each token-only (reads CSS vars, zero literals), documented with a header comment block, and verified in both themes.
+- **`Button.astro`** — `variant` primary/secondary/ghost, `size` md (≥44px target) / sm, renders `<a>` when `href` is set else `<button>` (`type`, `disabled`→ real disable or `aria-disabled`, `external`→ target/rel). Primary is **brand-filled** (not the §4 charcoal) so it stays visible/saturated in dark too; secondary = muted fill + hairline; ghost = transparent link-colored. States: hover (brightness/fill shift), active (1px translate), focus-visible (global ring), disabled (dimmed, no pointer events).
+- **`Card.astro`** — slot-based surface, generous rounding (`radius-xl`), Level-1 shadow. `featured` → brand purple-glow shadow (§6) + faint brand hairline; `interactive` → lift on hover/`focus-within` with elevated shadow; `as` prop sets the element (default `<article>`).
+- **`Tag.astro`** — maps a taxonomy **key → localized label** through new `tags.*` dictionary entries (added to en.json + ko.json for all 9 blog+portfolio tags), falling back to the bare key. Three modes by precedence: `interactive` → `<button aria-pressed>` (filter chip), else `href` → `<a>`, else static `<span>`. Pressed state = brand-tinted fill.
+
+**Decisions:** primary button uses the brand fill rather than DESIGN §4's charcoal-dark CTA — the design doc is light-only, and a charcoal button would vanish on the dark page bg; brand blue is theme-safe and on-brand. Tag labels live in the i18n `tags.*` namespace (not hardcoded in the component) so they localize and stay in one place; the key is cast to `TranslationKey` and the component degrades to the raw key for any unknown tag.
+
+**Verify:** `astro check` → 0 errors. Built a throwaway `zz-gallery` page rendering every variant/state, drove it with Playwright, and **captured full-page screenshots in light AND dark** — all confirmed on-brand and legible: button variants incl. disabled/small, base/interactive/featured cards (featured glow visible in both themes), and display/pressed/link tags. Deleted the gallery page + screenshots after. Focus-visible confirmed via the global ring.
+
+**Files touched:** `src/components/Button.astro`, `src/components/Card.astro`, `src/components/Tag.astro` (all new), `src/i18n/en.json` + `ko.json` (`tags.*` labels), `dev-references/plans/00-index.md`, `dev-references/plans/stage-11-components-core-a.md`, `HANDOFF.md`.
+
+**Component API (for pages to consume):**
+- `Button` — `{ variant?, href?, type?, disabled?, size?, external?, class? }` + slot.
+- `Card` — `{ as?, featured?, interactive?, class? }` + slot.
+- `Tag` — `{ tag, lang, interactive?, pressed?, href?, label?, class? }`.
+
+**Next:** Stage 12 — core components B (Callout, Timeline, Code block, TOC) (`stage-12-components-core-b.md`). Depends on 11.
+
+---
+
 ## 2026-06-28 — Stage 10: seed content (EN/KO posts, portfolio, timeline)
 
 **Did:** Populated all three collections so pages have real content and the "drop a file in" workflow is proven.

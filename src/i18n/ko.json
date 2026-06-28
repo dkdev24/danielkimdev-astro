@@ -78,5 +78,16 @@
 		"close": "닫기",
 		"openMenu": "메뉴 열기",
 		"closeMenu": "메뉴 닫기"
+	},
+	"tags": {
+		"ai-knowledge-mgmt": "AI 지식 관리",
+		"automation": "자동화",
+		"ai-ready-docs": "에이전트 준비 문서",
+		"ai-llm": "AI·LLM",
+		"pkm": "개인 지식 관리",
+		"solopreneur": "솔로프리너",
+		"drm-content-security": "DRM·콘텐츠 보안",
+		"ott-streaming": "OTT·스트리밍",
+		"cloud-saas": "클라우드·SaaS"
 	}
 }

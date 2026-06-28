@@ -1,0 +1,101 @@
+---
+// Tag / chip (Stage 11) — displays a taxonomy tag with its localized label, or
+// acts as a filter toggle. Maps the tag KEY (from the content.config.ts enums)
+// to a label via the i18n `tags.*` dictionary; falls back to the raw key.
+//
+// API
+//   tag         : string  — the taxonomy key (e.g. 'ai-ready-docs')
+//   lang        : Lang    — locale for the label
+//   interactive?: boolean — render a <button> filter toggle (aria-pressed)
+//   pressed?    : boolean — pressed/selected state (interactive only)
+//   href?       : string  — render an <a> (e.g. link to a filtered view)
+//   label?      : string  — explicit label override (skips dictionary lookup)
+//   class?      : extra classes; other attrs pass through.
+//
+// Three render modes, by precedence: interactive → <button>; else href → <a>;
+// else a static <span>. Static chips are not focusable; interactive/link chips
+// inherit the global focus-visible ring.
+import type { HTMLAttributes } from 'astro/types';
+import type { Lang, TranslationKey } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props extends HTMLAttributes<'button'> {
+	tag: string;
+	lang: Lang;
+	interactive?: boolean;
+	pressed?: boolean;
+	href?: string;
+	label?: string;
+	class?: string;
+}
+
+const {
+	tag,
+	lang,
+	interactive = false,
+	pressed = false,
+	href,
+	label,
+	class: className,
+	...rest
+} = Astro.props;
+
+const t = useTranslations(lang);
+const lookupKey = `tags.${tag}`;
+const resolved = t(lookupKey as TranslationKey);
+// t() returns the raw key when a string is missing — fall back to the bare tag.
+const display = label ?? (resolved === lookupKey ? tag : resolved);
+
+const classes = ['tag', { 'tag--interactive': interactive }, className];
+---
+
+{
+	interactive ? (
+		<button class:list={classes} type="button" aria-pressed={pressed} {...rest}>
+			{display}
+		</button>
+	) : href ? (
+		<a class:list={classes} href={href}>
+			{display}
+		</a>
+	) : (
+		<span class:list={classes}>{display}</span>
+	)
+}
+
+<style>
+	.tag {
+		display: inline-flex;
+		align-items: center;
+		padding: var(--space-1) var(--space-3);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-pill);
+		background: var(--color-bg-muted);
+		color: var(--color-text-secondary);
+		font-family: var(--font-ui);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		line-height: 1.6;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+
+	/* Interactive (filter) chips: hover affordance + a clear pressed state. */
+	.tag--interactive {
+		cursor: pointer;
+		transition:
+			background var(--motion-fast-ease),
+			color var(--motion-fast-ease),
+			border-color var(--motion-fast-ease);
+	}
+	a.tag:hover,
+	.tag--interactive:hover {
+		background: var(--color-border-subtle);
+		color: var(--color-text);
+	}
+	.tag--interactive[aria-pressed='true'] {
+		background: var(--color-primary-200);
+		border-color: color-mix(in srgb, var(--color-brand) 45%, transparent);
+		color: var(--color-brand-deep);
+	}
+</style>

@@ -11,11 +11,11 @@ Build the three highest-reuse UI primitives — Button, Card, Tag/Chip — each 
 - Tokens (Stage 02/03) and fonts (Stage 04) exist; components read variables only, no literals.
 
 ## Tasks
-- [ ] `Button.astro`: variants primary / secondary / ghost; states default·hover·active·focus-visible·disabled; renders as `<a>` or `<button>` per props; ≥44px target.
-- [ ] `Card.astro`: base card (generously rounded 20–24px, light shadow) + a `featured` variant with the brand purple-tinted glow (§6); slot-based for portfolio/post/featured reuse.
-- [ ] `Tag.astro` (chip): topic display + selectable/filter state (`aria-pressed` when interactive); maps tag key → localized label.
-- [ ] Document each component's variants/states/a11y in a short comment block at top of file.
-- [ ] Verify all render correctly in light + dark.
+- [x] `Button.astro`: variants primary / secondary / ghost; states default·hover·active·focus-visible·disabled; renders as `<a>` or `<button>` per props; ≥44px target.
+- [x] `Card.astro`: base card (generously rounded 20–24px, light shadow) + a `featured` variant with the brand purple-tinted glow (§6); slot-based for portfolio/post/featured reuse.
+- [x] `Tag.astro` (chip): topic display + selectable/filter state (`aria-pressed` when interactive); maps tag key → localized label.
+- [x] Document each component's variants/states/a11y in a short comment block at top of file.
+- [x] Verify all render correctly in light + dark.
 
 ## Files to create / edit
 - `src/components/Button.astro`, `src/components/Card.astro`, `src/components/Tag.astro` — new.

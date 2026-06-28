@@ -78,5 +78,16 @@
 		"close": "Close",
 		"openMenu": "Open menu",
 		"closeMenu": "Close menu"
+	},
+	"tags": {
+		"ai-knowledge-mgmt": "AI Knowledge Management",
+		"automation": "Automation",
+		"ai-ready-docs": "AI-Ready Docs",
+		"ai-llm": "AI & LLMs",
+		"pkm": "PKM",
+		"solopreneur": "Solopreneur",
+		"drm-content-security": "DRM & Content Security",
+		"ott-streaming": "OTT & Streaming",
+		"cloud-saas": "Cloud & SaaS"
 	}
 }
