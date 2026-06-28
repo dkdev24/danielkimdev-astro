@@ -47,7 +47,10 @@
 		"noPosts": "아직 글이 없습니다. 곧 채워집니다.",
 		"readInOtherLang": "Read in English",
 		"backToBlog": "전체 글 목록으로",
-		"tags": "태그"
+		"tags": "태그",
+		"olderPost": "이전 글",
+		"newerPost": "다음 글",
+		"morePosts": "더 많은 글"
 	},
 	"portfolio": {
 		"title": "포트폴리오",

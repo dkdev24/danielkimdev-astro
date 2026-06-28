@@ -47,7 +47,10 @@
 		"noPosts": "No posts yet — check back soon.",
 		"readInOtherLang": "Read in 한국어",
 		"backToBlog": "Back to all posts",
-		"tags": "Tags"
+		"tags": "Tags",
+		"olderPost": "Older post",
+		"newerPost": "Newer post",
+		"morePosts": "More posts"
 	},
 	"portfolio": {
 		"title": "Portfolio",

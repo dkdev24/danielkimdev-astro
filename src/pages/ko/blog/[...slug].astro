@@ -1,0 +1,16 @@
+---
+// Korean blog post route (/ko/blog/<slug>/). Mirrors the EN route for the KO
+// locale's posts.
+import { render } from 'astro:content';
+import BlogPost from '../../../layouts/BlogPost.astro';
+import { getBlogPaths } from '../../../utils/blog';
+
+export const getStaticPaths = () => getBlogPaths('ko');
+
+const { post, newer, older, counterpart } = Astro.props;
+const { Content, headings } = await render(post);
+---
+
+<BlogPost post={post} headings={headings} newer={newer} older={older} counterpart={counterpart}>
+	<Content />
+</BlogPost>

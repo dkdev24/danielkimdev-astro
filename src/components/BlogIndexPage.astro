@@ -12,6 +12,7 @@ import type { Lang } from '../i18n/utils';
 import { formatDate, formatReadingTime, useTranslations } from '../i18n/utils';
 import { SITE_DESCRIPTION_BY_LOCALE } from '../consts';
 import { readingTimeMinutes } from '../utils/readingTime';
+import { getPostPath } from '../utils/blog';
 
 interface Props {
 	lang: Lang;
@@ -35,9 +36,6 @@ for (const post of posts) {
 	for (const tg of post.data.tags) if (!filterTags.includes(tg)) filterTags.push(tg);
 }
 
-// TODO(stage-17): blog post routes are currently `/blog/<id>/` (the entry id
-// includes the locale folder). Centralized so the scheme can change in one place.
-const postUrl = (id: string) => `/blog/${id}/`;
 ---
 
 <BaseLayout title={`${t('blog.title')} — Daniel Kim`} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
@@ -78,7 +76,7 @@ const postUrl = (id: string) => `/blog/${id}/`;
 									)}
 								</p>
 								<h2 class="blog-item__title">
-									<a href={postUrl(post.id)}>{post.data.title}</a>
+									<a href={getPostPath(post)}>{post.data.title}</a>
 								</h2>
 								<p class="blog-item__excerpt">{post.data.description}</p>
 								{post.data.tags.length > 0 && (

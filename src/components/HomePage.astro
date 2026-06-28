@@ -14,6 +14,7 @@ import { formatDate, formatReadingTime, getLocalizedPath, useTranslations } from
 import { SITE_DESCRIPTION_BY_LOCALE, SITE_TITLE_HOME } from '../consts';
 import { HOME_HERO } from '../data/home';
 import { readingTimeMinutes } from '../utils/readingTime';
+import { getPostPath } from '../utils/blog';
 
 interface Props {
 	lang: Lang;
@@ -36,10 +37,6 @@ const latest = (
 const portfolioHref = getLocalizedPath('/portfolio/', lang);
 const blogHref = getLocalizedPath('/blog/', lang);
 const aboutHref = getLocalizedPath('/about/', lang);
-
-// TODO(stage-16/17): blog routes are currently `/blog/<locale>/<slug>/` (entry id).
-// Centralized here so the canonical/localized scheme can change in one place.
-const postUrl = (id: string) => `/blog/${id}/`;
 ---
 
 <BaseLayout title={SITE_TITLE_HOME[lang]} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
@@ -100,7 +97,7 @@ const postUrl = (id: string) => `/blog/${id}/`;
 								<span>{formatReadingTime(readingTimeMinutes(post.body, lang), lang)}</span>
 							</p>
 							<h3 class="card-title">
-								<a href={postUrl(post.id)}>{post.data.title}</a>
+								<a href={getPostPath(post)}>{post.data.title}</a>
 							</h3>
 							<p class="card-summary">{post.data.description}</p>
 							<div class="card-tags">

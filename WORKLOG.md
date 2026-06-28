@@ -16,6 +16,25 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 17: Blog post layout + MDX features (both locales)
+
+**Did:** Refactored the legacy starter `layouts/BlogPost.astro` into the real post layout (rendering through `BaseLayout`) and added localized dynamic routes for both locales.
+- **Layout:** header (date · reading-time · EN/KO locale badge, title, optional updated-date, static `Tag`s, cross-language link), optimized `<Image>` hero (`widths`/`sizes`), Stage-12 `TOC` in a desktop sidebar / collapsible-mobile column, `prose` body capped at **72ch** (DESIGN-minimax §3 measure), older/newer pagination, back-to-blog link, and the `CodeCopy` enhancer dropped once (upgrades every Shiki block with a language label + copy button).
+- **Routes:** `pages/blog/[...slug].astro` (EN) + new `pages/ko/blog/[...slug].astro` (KO), both delegating to a shared **`getBlogPaths(lang)`** helper in new `utils/blog.ts`. It returns each post's params + `newer`/`older` (in-locale reverse-chron neighbours) + `counterpart` (EN/KO via `translationKey`), applying the same prod draft gating as the index. The route calls `render(post)` and passes `headings` + `Content`.
+- **Routing finalized & centralized:** posts now live at `/blog/<slug>/` (EN) and `/ko/blog/<slug>/` (KO) — `getPostSlug` strips the entry id's locale folder, `getPostPath(entry)` rebuilds the localized path. Replaced the interim `/blog/<id>/` (= `/blog/<locale>/<slug>/`) scheme everywhere; Home + blog index now import `getPostPath`. The old per-page `postUrl` helpers are gone.
+- **Cross-language link:** renders only when a `translationKey` counterpart exists in the other locale (uses the existing `blog.readInOtherLang` dict).
+- Added `blog.olderPost`/`newerPost`/`morePosts` keys to both dicts.
+
+**Decisions:** centralized all blog routing in `utils/blog.ts` (one source for slug↔path) rather than per-page helpers, since Home, index, and the post layout all needed it and were drifting. Chose `/blog/<slug>/` + `/ko/blog/<slug>/` (locale folder stripped) to match the site-wide EN-root / KO-`/ko/` scheme used by about/portfolio, instead of exposing the content folder in the URL. Tags in the post header are static (display-only) — the index filter is client-side with no URL param, so a tag link would be dead. Pagination labeled "Older/Newer post" (unambiguous for a blog) rather than Prev/Next. Per-post SEO is wired through BaseLayout (`ogImage`=heroImage) but full canonical/hreflang/per-post OG stays Stage 18.
+
+**Verify:** `astro check` → 0 errors. `astro build` → succeeds; routes emit `/blog/{agent-readiness,welcome-digital-garden}/` + `/ko/blog/...`. **Seed pair:** cross-language link (`Read in 한국어 →` → `/ko/blog/agent-readiness/`) + prev/next render. **Temp rich post** (headings + code + table + footnote, built then removed) proved: `TOC` renders with links matching auto-generated heading IDs (`#first-section`…), GFM `<table>` + `data-footnotes` footnotes render, code block carries `data-language="js"` for CodeCopy. **Draft gating** carried over from the util (prod drops drafts). The two seed posts have no headings, so their TOC correctly self-omits.
+
+**Files touched:** `src/layouts/BlogPost.astro` (rewritten), `src/utils/blog.ts` (new), `src/pages/blog/[...slug].astro` (rewritten), `src/pages/ko/blog/[...slug].astro` (new), `src/components/BlogIndexPage.astro` + `src/components/HomePage.astro` (use `getPostPath`), `src/i18n/en.json` + `src/i18n/ko.json` (older/newer/morePosts), `dev-references/plans/00-index.md`, `dev-references/plans/stage-17-blog-post.md`, `HANDOFF.md`.
+
+**Next:** Stage 18 — SEO, feeds, sitemap, structured data (`stage-18-seo-feeds.md`): per-post/per-page SEO meta, hreflang alternates (the `BaseHead` TODO hook), JSON-LD, RSS feed(s) per locale, finalize OG. Depends on 13, 17 (done).
+
+---
+
 ## 2026-06-28 — Stage 16: Blog index + filter (both locales)
 
 **Did:** Built the Blog index for both locales as a shared `BlogIndexPage.astro` (fed by `lang`), with thin wrappers `pages/blog/index.astro` (replacing the legacy Bear Blog index) + new `pages/ko/blog/index.astro`.
