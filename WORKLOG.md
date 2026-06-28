@@ -16,6 +16,24 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 15: Portfolio page + filter (both locales)
+
+**Did:** Built Portfolio for both locales as a shared `PortfolioPage.astro` (fed by `lang`), wrappers `pages/portfolio.astro` + new `pages/ko/portfolio.astro`.
+- **Collection-driven grid:** renders every `portfolio` entry for the locale (ordered) as a `Card` — title, `role · org · period` meta, summary, `Tag`s. Responsive `auto-fill` grid (1 → 2 → 3 columns). Adding an entry = one file, no component edits (PRD acceptance).
+- **Tag filter:** a chip row (`All` + each distinct tag in the locale's items, as interactive `Tag` buttons with `data-filter`). A small script toggles `[hidden]` on non-matching cards and syncs `aria-pressed`. **Progressive enhancement:** without JS every card is visible (the chips just don't filter). `:global(.pf-card[hidden])` overrides `.card{display:block}`.
+- **Inline expandable cards:** native `<details>`/`<summary>` ("View details") reveal the entry's rendered body + any `links` (external) + a career→About-timeline cross-link — keyboard-operable, exposes open state, works with no JS. No `/portfolio/[slug]` route (stays P1).
+- Covers all four buckets (product / talk-writing / side-ai / career). **Resolves the Home "View portfolio" CTA + featured-card links** (were 404).
+
+**Decisions:** used native `<details>` for the expandable rather than a custom `aria-expanded` button — it's the most robust PE expandable (no-JS + keyboard + state for free). Filter is single-select (one tag or All); cards hidden via the `[hidden]` attribute (semantic, also hides from AT). `/portfolio/[slug]` deferred to P1 per the locked decision.
+
+**Verify:** `astro check` → 0 errors. `astro build` → succeeds; `dist/portfolio/` + `dist/ko/portfolio/` exist (6 cards, 9 filter chips, 6 details each). **Verified live (Playwright):** clicking the `drm-content-security` chip filtered 6 → 2 visible cards and set its `aria-pressed=true`; "All" reset to 6; details expand. Screenshot confirmed the grid, filter row, and an expanded card.
+
+**Files touched:** `src/components/PortfolioPage.astro` (new), `src/pages/portfolio.astro` + `src/pages/ko/portfolio.astro` (new), `dev-references/plans/00-index.md`, `dev-references/plans/stage-15-portfolio.md`, `HANDOFF.md`.
+
+**Next:** Stage 16 — Blog index + filter (`stage-16-blog-index.md`): localized blog index (current-locale posts, tag filter), reworking the legacy `blog/index.astro`. Depends on 10, 11 (done). Then 17 (blog post layout + routing).
+
+---
+
 ## 2026-06-28 — Stage 14: About page (both locales)
 
 **Did:** Built About for both locales as a shared `AboutPage.astro` (fed by `lang`), with thin wrappers `pages/about.astro` (replacing the old lorem/BlogPost page) + new `pages/ko/about.astro`.

@@ -1,0 +1,188 @@
+---
+// Shared Portfolio page (Stage 15), fed by `lang`. Collection-driven grid with
+// a client-side tag filter (progressive enhancement — full list without JS) and
+// inline expandable cards (native <details>, keyboard-operable, no extra route;
+// `/portfolio/[slug]` stays P1). Adding a portfolio entry = one file, no edits.
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from './Card.astro';
+import Tag from './Tag.astro';
+import type { Lang } from '../i18n/utils';
+import { getLocalizedPath, useTranslations } from '../i18n/utils';
+import { SITE_DESCRIPTION_BY_LOCALE } from '../consts';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const entries = (
+	await getCollection('portfolio', (e) => e.data.lang === lang)
+).sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+// Render each item's body for the expandable detail.
+const items = await Promise.all(
+	entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+
+// Distinct tags across this locale's items, in first-seen order — drives the filter.
+const filterTags: string[] = [];
+for (const { entry } of items) {
+	for (const tg of entry.data.tags) if (!filterTags.includes(tg)) filterTags.push(tg);
+}
+
+const aboutTimeline = `${getLocalizedPath('/about/', lang)}#timeline-h`;
+---
+
+<BaseLayout title={`${t('portfolio.title')} — Daniel Kim`} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
+	<section class="container pf">
+		<header class="pf__head">
+			<h1>{t('portfolio.title')}</h1>
+			<p class="pf__intro">{t('portfolio.intro')}</p>
+		</header>
+
+		<!-- Tag filter (progressive enhancement: no-JS shows the full list below). -->
+		<div class="pf-filters" role="group" aria-label={t('portfolio.filterByTag')}>
+			<Tag tag="all" lang={lang} label={t('portfolio.allTags')} interactive pressed data-filter="all" />
+			{filterTags.map((tg) => <Tag tag={tg} lang={lang} interactive data-filter={tg} />)}
+		</div>
+
+		{
+			items.length > 0 ? (
+				<ul class="pf-grid">
+					{items.map(({ entry, Content }) => (
+						<li class="pf-card" data-tags={entry.data.tags.join(' ')}>
+							<Card as="article" interactive>
+								<h2 class="pf-card__title">{entry.data.title}</h2>
+								<p class="pf-card__meta">
+									{[entry.data.role, entry.data.org, entry.data.period]
+										.filter(Boolean)
+										.join(' · ')}
+								</p>
+								<p class="pf-card__summary">{entry.data.summary}</p>
+								<div class="pf-card__tags">
+									{entry.data.tags.map((tg) => (
+										<Tag tag={tg} lang={lang} />
+									))}
+								</div>
+								<details class="pf-card__details">
+									<summary>{t('portfolio.viewProject')}</summary>
+									<div class="pf-card__body">
+										<Content />
+										{entry.data.links && (
+											<ul class="pf-card__links">
+												{entry.data.links.map((l) => (
+													<li>
+														<a href={l.url} target="_blank" rel="noopener noreferrer">
+															{l.label} ↗
+														</a>
+													</li>
+												))}
+											</ul>
+										)}
+										{entry.data.category === 'career' && (
+											<p>
+												<a href={aboutTimeline}>{t('about.timeline')} →</a>
+											</p>
+										)}
+									</div>
+								</details>
+							</Card>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="pf-empty">{t('portfolio.noItems')}</p>
+			)
+		}
+	</section>
+</BaseLayout>
+
+<style>
+	.pf {
+		padding-block: var(--space-12) var(--space-16);
+	}
+	.pf__head {
+		margin-bottom: var(--space-8);
+	}
+	.pf__intro {
+		font-size: var(--text-lg);
+		color: var(--color-text-secondary);
+		max-width: 60ch;
+	}
+
+	.pf-filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-bottom: var(--space-8);
+	}
+
+	.pf-grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+		gap: var(--space-6);
+	}
+	/* Filtered-out cards (JS sets [hidden]); override .card's display:block. */
+	.pf-card[hidden] {
+		display: none;
+	}
+	.pf-card__title {
+		margin: 0 0 var(--space-1);
+		font-size: var(--text-h4);
+	}
+	.pf-card__meta {
+		margin: 0 0 var(--space-3);
+		font-family: var(--font-data);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+	.pf-card__summary {
+		margin: 0 0 var(--space-4);
+		color: var(--color-text-secondary);
+	}
+	.pf-card__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1_5);
+		margin-bottom: var(--space-4);
+	}
+	.pf-card__details summary {
+		cursor: pointer;
+		font-family: var(--font-ui);
+		font-weight: var(--weight-medium);
+		color: var(--color-link);
+	}
+	.pf-card__body {
+		margin-top: var(--space-3);
+		color: var(--color-text-secondary);
+	}
+	.pf-card__links {
+		margin: var(--space-2) 0 0;
+		padding-left: var(--space-4);
+	}
+</style>
+
+<script>
+	const filters = Array.from(document.querySelectorAll<HTMLElement>('.pf-filters [data-filter]'));
+	const cards = Array.from(document.querySelectorAll<HTMLElement>('.pf-card'));
+
+	function apply(tag: string) {
+		cards.forEach((card) => {
+			const tags = (card.getAttribute('data-tags') ?? '').split(' ');
+			card.hidden = tag !== 'all' && !tags.includes(tag);
+		});
+		filters.forEach((f) =>
+			f.setAttribute('aria-pressed', String(f.getAttribute('data-filter') === tag)),
+		);
+	}
+
+	filters.forEach((f) =>
+		f.addEventListener('click', () => apply(f.getAttribute('data-filter') ?? 'all')),
+	);
+</script>

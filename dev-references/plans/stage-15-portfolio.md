@@ -11,12 +11,12 @@ Build Portfolio for EN and KO: a collection-driven grid with client-side tag fil
 - Portfolio collection seeded (Stage 10); Card/Tag from Stage 11. v1 uses inline expandable cards — dedicated `/portfolio/[slug]` pages stay P1.
 
 ## Tasks
-- [ ] Build `src/pages/portfolio.astro` (EN) and `src/pages/ko/portfolio.astro` (KO).
-- [ ] Render items from the `portfolio` collection filtered to the current locale (title, role, period, summary, tags, links, optional thumbnail).
-- [ ] **Tag/topic filter:** chip row driving client-side filtering; must work without JS as a full list (progressive enhancement).
-- [ ] **Inline expandable card:** click/keyboard to expand details in-place (`aria-expanded`); no separate route in v1.
-- [ ] Cover the four buckets (product / talk-writing / side-ai / career); cross-link career to About timeline.
-- [ ] Grid responsive 1 → 2 → 3 columns by breakpoint.
+- [x] Build `src/pages/portfolio.astro` (EN) and `src/pages/ko/portfolio.astro` (KO).
+- [x] Render items from the `portfolio` collection filtered to the current locale (title, role, period, summary, tags, links, optional thumbnail).
+- [x] **Tag/topic filter:** chip row driving client-side filtering; must work without JS as a full list (progressive enhancement).
+- [x] **Inline expandable card:** click/keyboard to expand details in-place (`aria-expanded`); no separate route in v1.
+- [x] Cover the four buckets (product / talk-writing / side-ai / career); cross-link career to About timeline.
+- [x] Grid responsive 1 → 2 → 3 columns by breakpoint.
 
 ## Files to create / edit
 - `src/pages/portfolio.astro`, `src/pages/ko/portfolio.astro` — new.
