@@ -16,6 +16,26 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 19: Accessibility pass (WCAG 2.1 AA)
+
+**Did:** Audited the built site for WCAG 2.1 AA with axe-core (tags wcag2a/wcag2aa/wcag21a/wcag21aa) driven through Playwright against `astro preview`, on Home, a post (agent-readiness), Portfolio, and the KO home — in BOTH light and dark themes.
+- **Method note:** the plan's `/design:accessibility-review` skill wasn't available in this environment, so axe-core was used as the equivalent automated audit. Initial runs were contaminated by CSS-transition artifacts from toggling `data-theme` via JS mid-run (e.g. dark `#3b82f6` showing up in a "light" measurement); re-ran cleanly with a fresh load per theme + a transition-kill style, which isolated the genuine fails.
+- **Found + fixed 2 real AA contrast fails (both token-level, so the fix propagates everywhere the token is used):**
+  1. Light **muted metadata text** — `--color-text-muted` was `var(--gray-400)` (#8e8e93) = **3.26** on white (card date · reading-time, etc.). Changed to `var(--gray-500)` (#5f5f5f) ≈ **6.4:1**. Hierarchy preserved: body #222 > secondary #45515e > muted #5f5f5f.
+  2. Dark **primary CTA** — `.btn--primary` rendered white on dark brand #3b82f6 = **3.67**. Added a dedicated `--color-btn-primary-bg` token (light = `--color-brand`; dark = `--color-primary-600` #2563eb = **5.17:1**) and pointed `.btn--primary` at it. Brand/links elsewhere unchanged.
+- **Re-verified:** axe → **0 violations** on Home (light+dark), post (light+dark, 20 passing checks), Portfolio (light), KO home (light/dark, html lang=ko).
+- **Confirmed already-compliant (code review + axe):** Header mobile menu (focus-trap, Escape, focus-return, click-outside, aria-expanded/label), theme toggle (aria-pressed + label sync, 44×44), language toggle (aria-label), filter chips + copy button = real buttons, TOC/expandable cards = native `<details>`, skip link + global `:focus-visible` ring, single `h1` per page, labelled landmarks, decorative images `alt=""`, ≥44px targets, and a global `prefers-reduced-motion` kill-switch.
+
+**Decisions:** fixed contrast at the **token** layer (not per-component) so every current and future consumer inherits AA. Picked existing scale steps (gray-500, primary-600) rather than inventing new hex values, keeping the palette coherent. Used axe-core in lieu of the unavailable design skill — documented in the stage doc.
+
+**Verify:** `astro check` → 0 errors/warnings/hints. `astro build` → succeeds. axe-core → 0 AA violations across the pages/themes above. (Manual screen-reader pass + the numeric Lighthouse a11y score are folded into Stage 20's holistic Lighthouse run.)
+
+**Files touched:** `src/styles/tokens.css` (muted → gray-500; new `--color-btn-primary-bg` in light + dark), `src/components/Button.astro` (primary uses the new token), `dev-references/plans/00-index.md`, `dev-references/plans/stage-19-accessibility.md`, `HANDOFF.md`.
+
+**Next:** Stage 20 — Performance & Lighthouse pass (`stage-20-performance.md`): Lighthouse (perf + the a11y/SEO/best-practices scores), Core Web Vitals, image/font/JS budget checks, caching headers (`public/_headers`). Then Stage 21 (Deploy to Cloudflare Pages — needs Daniel's auth).
+
+---
+
 ## 2026-06-28 — Stage 18: SEO, feeds, sitemap, structured data (Phase 3 complete)
 
 **Did:** Built the full discoverability layer; **Phase 3 (Pages) is now done.**

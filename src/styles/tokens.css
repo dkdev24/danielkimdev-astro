@@ -52,8 +52,9 @@
 	--color-text: var(--color-ink); /* primary body text */
 	--color-text-heading: var(--color-ink-strong); /* headings */
 	--color-text-secondary: var(--gray-700); /* secondary text */
-	--color-text-muted: var(--gray-400); /* tertiary / metadata */
+	--color-text-muted: var(--gray-500); /* tertiary / metadata — gray-500 clears AA (4.5:1) on white; gray-400 was 3.26 (Stage 19) */
 	--color-text-on-brand: var(--color-white); /* text atop brand/primary fills */
+	--color-btn-primary-bg: var(--color-brand); /* primary CTA fill (white text clears AA on this in light) */
 	--color-text-on-dark: rgba(255, 255, 255, 0.8); /* §4 links on dark sections */
 
 	/* --- Interactive (links / actions) --- */
@@ -213,6 +214,9 @@
 	/* Brand / interactive — lighten so blue stays legible on near-black.
 	   Links use primary-light, not the darker 600 used in light mode. */
 	--color-brand: #3b82f6; /* primary-500 reads better than deep #1456f0 here */
+	/* CTA fill is a notch darker than --color-brand so white text clears AA:
+	   white on #3b82f6 is only 3.67, on primary-600 #2563eb it's 5.17 (Stage 19). */
+	--color-btn-primary-bg: var(--color-primary-600);
 	--color-link: #60a5fa; /* primary-light */
 	--color-link-hover: #93c5fd;
 	--color-focus-ring: #60a5fa;

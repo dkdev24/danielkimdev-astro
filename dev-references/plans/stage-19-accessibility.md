@@ -11,12 +11,12 @@ Verify and fix accessibility to WCAG 2.1 AA across both themes and locales, on H
 - Run the design plugin's `/design:accessibility-review` on Home + a post as the structured pass (PRD §11 verification step).
 
 ## Tasks
-- [ ] **Contrast:** audit text/UI pairs in light AND dark for AA (4.5:1 text, 3:1 large/UI); fix token values where short.
-- [ ] **Keyboard:** every interactive element (nav, mobile menu, both toggles, filters, TOC, copy button, expandable cards) reachable/operable; logical tab order; visible `focus-visible`; skip link works.
-- [ ] **Semantics:** landmarks correct, single `h1` per page, ordered headings, `lang` per locale, meaningful `alt` (empty alt on decorative).
-- [ ] **Toggles:** language + theme announce state (`aria-pressed`/labels).
-- [ ] **Targets:** interactive ≥ 44×44px on touch.
-- [ ] **Motion:** `prefers-reduced-motion` honored everywhere animations exist.
+- [x] **Contrast:** audited text/UI pairs in light AND dark via axe-core (wcag2a/2aa/21a/21aa). Found + fixed 2 AA fails: light muted meta text `--color-text-muted` (gray-400 #8e8e93 → 3.26, now **gray-500 #5f5f5f ~6.4:1**) and the dark primary CTA (white on brand #3b82f6 → 3.67, now a dedicated `--color-btn-primary-bg` = primary-600 #2563eb, **5.17:1**). Re-verified 0 violations.
+- [x] **Keyboard:** verified by code review — Header mobile menu has full focus-trap + Escape + focus-return + click-outside; both toggles + filter chips are real `<button>`s; TOC + expandable cards use native `<details>`; copy button is a focusable button; skip link present (BaseLayout). Global `:focus-visible` ring in global.css. axe found no missing-name/role issues.
+- [x] **Semantics:** single `h1` per page (verified in dist), landmarks (header/main#main/footer + labelled `nav`), `lang` per locale (html lang=ko on /ko/), decorative images carry empty `alt` (hero/headshot).
+- [x] **Toggles:** theme toggle syncs `aria-pressed` + swaps `aria-label`; language toggle has `aria-label`; nav hamburger toggles `aria-expanded` + label.
+- [x] **Targets:** nav links, both toggles, hamburger, and footer social links are ≥44×44px (min-height/explicit sizes).
+- [x] **Motion:** global `@media (prefers-reduced-motion: reduce)` kill-switch in global.css neutralizes all animation/transition/scroll.
 
 ## Files to create / edit
 - Token/style fixes across `tokens.css` and component files as the audit surfaces issues.
@@ -32,3 +32,5 @@ Verify and fix accessibility to WCAG 2.1 AA across both themes and locales, on H
 
 ## Handoff note
 Record a11y pass complete with the audit result; list any P1 a11y nice-to-haves deferred.
+
+**Result (2026-06-28):** axe-core (wcag2a/2aa/21a/21aa) on Home, a post, Portfolio, and KO home in BOTH themes → **0 violations** after the 2 contrast fixes (20 passing checks on the post). `/design:accessibility-review` skill wasn't available in this environment; axe-core was used as the equivalent automated audit. A holistic Lighthouse run (incl. the a11y score) is folded into Stage 20. **Deferred (P1):** screen-reader manual spot-check (NVDA/VoiceOver) — automated + code review only here; the language toggle on a hypothetical orphan (counterpart-less) post links to a 404 (Stage 07 scope, moot for the all-paired seed content).
