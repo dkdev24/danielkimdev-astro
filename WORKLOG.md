@@ -16,6 +16,28 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 10: seed content (EN/KO posts, portfolio, timeline)
+
+**Did:** Populated all three collections so pages have real content and the "drop a file in" workflow is proven.
+- **Blog:** `blog/en/{agent-readiness,welcome-digital-garden}.md` + `blog/ko/{agent-readiness,welcome-digital-garden}.md` — all `draft: false`, EN↔KO paired by `translationKey` (`agent-readiness`, `welcome`). KO is authored natively (合쇼체 draft, no em-dash), NOT machine-translated, each with a `TODO(daniel)` voice-refine marker per §13's rule.
+- **Portfolio:** 6 EN + 6 KO entries mirrored by `translationKey` — AI-knowledge-work (lead), digital-garden, talks/DevRel, Multi-DRM, watermarking/anti-piracy, career — covering all four categories (`side-ai`/`talk-writing`/`product`/`career`). **3 marked `featured: true` per locale** (ai-knowledge-work, digital-garden, multi-drm) to surface on Home. Media-tech tags live only on portfolio items (per the split taxonomy); crossover items carry `ai-ready-docs`/`ai-knowledge-mgmt` too. KO summaries are `TODO(daniel)` native stubs.
+- **Timeline:** 4 EN + 4 KO JSON entries mapping the arc Software Engineer (C/C++, Java) → Product Owner → Product Manager → Developer Relations (DoveRunner / PallyCon).
+- **About prose:** new `src/data/about.ts` — EN bio (the §13.1 seed draft, 4 paragraphs) + a KO `TODO(daniel)` native stub. Positioning one-liners (§13.3) were already wired in `consts.ts` / `data/home.ts` from earlier stages (EN locked, KO locked tagline) — nothing to add.
+
+**Decisions:** rather than leave KO collections empty, every KO entry exists with valid frontmatter and a clearly-marked `TODO(daniel)` for the native body/summary, so the KO Home/Blog/Portfolio pages (Stages 13/15/16) render instead of 404/empty — while honoring "author KO natively, don't MT." Exact dates, orgs, and metrics are `TODO(daniel)` placeholders (visible in UI by design until Daniel fills them), never fabricated. `heroImage`/`thumbnail` omitted (no assets yet) — schemas make them optional.
+
+**Verify:** `astro check` → 0 errors. `astro build` → succeeds (7 pages). Confirmed: 3 featured portfolio items **per locale**; 2 non-draft posts **per locale**; `translationKey` pairs `agent-readiness`×2 + `welcome`×2 link EN↔KO; **23 files carry flagged `TODO(daniel)`** gaps. The off-taxonomy guard from Stage 09 still holds (media-tech tags rejected from blog).
+
+**Open `TODO(daniel)` content gaps (for Daniel to fill):** (1) KO native copy — About bio, both KO blog posts' voice, all KO portfolio summaries, all KO timeline summaries; (2) portfolio metrics/results — Multi-DRM, watermarking, AI-knowledge-work, talks list; (3) exact dates & orgs — every timeline entry's `start`/`end` + the early-career employer(s), and the `period` on DRM/DevRel portfolio items.
+
+**Files touched:** `src/content/blog/{en,ko}/*.md` (4), `src/content/portfolio/{en,ko}/*.md` (12), `src/content/timeline/*.json` (8), `src/data/about.ts` (new), `dev-references/plans/00-index.md`, `dev-references/plans/stage-10-seed-content.md`, `HANDOFF.md`.
+
+**Note:** the legacy `blog/index.astro` + `blog/[...slug].astro` now render these posts (mixed-locale, un-localized routes) — that's expected; Stage 16/17 rework blog routing/layout.
+
+**Next:** Stage 11 — core components A (Button, Card, Tag) (`stage-11-components-core-a.md`). Depends on 03, 04 (both done); now also has real content/tags to render against.
+
+---
+
 ## 2026-06-28 — Stage 09: content collections & schemas (Phase 2 start)
 
 **Did:**
