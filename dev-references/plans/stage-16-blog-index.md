@@ -11,12 +11,12 @@ Build the Blog index for EN and KO: reverse-chronological list of the current lo
 - Posts seeded (Stage 10); Card/Tag from Stage 11. Search + pagination are P1 — v1 lists all and provides tag filter only.
 
 ## Tasks
-- [ ] Build `src/pages/blog/index.astro` (EN) and `src/pages/ko/blog/index.astro` (KO).
-- [ ] List current-locale posts reverse-chron: title, date (localized), reading time, tags, excerpt (description fallback).
-- [ ] **Tag chips filter** (client-side, progressive enhancement; full list without JS).
-- [ ] **Exclude `draft: true`** from production builds (allow in dev).
-- [ ] Graceful empty/low-count state (no broken layout if a locale has few posts, §7.4).
-- [ ] Link each item to its post route in the same locale.
+- [x] Build `src/pages/blog/index.astro` (EN) and `src/pages/ko/blog/index.astro` (KO) — thin wrappers over a shared `BlogIndexPage.astro`.
+- [x] List current-locale posts reverse-chron: title, date (localized), reading time, tags, excerpt (description fallback).
+- [x] **Tag chips filter** (client-side, progressive enhancement; full list without JS).
+- [x] **Exclude `draft: true`** from production builds (allow in dev) — `import.meta.env.PROD ? !draft : true`.
+- [x] Graceful empty/low-count state (no broken layout if a locale has few posts, §7.4).
+- [x] Link each item to its post route in the same locale.
 
 ## Files to create / edit
 - `src/pages/blog/index.astro`, `src/pages/ko/blog/index.astro` — new.

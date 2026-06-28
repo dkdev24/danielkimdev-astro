@@ -38,7 +38,7 @@
 | 13 | [Home page (both locales)](stage-13-home.md) | 3 Pages | 08, 10, 11 | ✅ Done |
 | 14 | [About page (both locales)](stage-14-about.md) | 3 Pages | 10, 12 | ✅ Done |
 | 15 | [Portfolio page + filter](stage-15-portfolio.md) | 3 Pages | 10, 11 | ✅ Done |
-| 16 | [Blog index + filter](stage-16-blog-index.md) | 3 Pages | 10, 11 | ⬜ Not started |
+| 16 | [Blog index + filter](stage-16-blog-index.md) | 3 Pages | 10, 11 | ✅ Done |
 | 17 | [Blog post layout + MDX features](stage-17-blog-post.md) | 3 Pages | 12, 16 | ⬜ Not started |
 | 18 | [SEO, feeds, sitemap, structured data](stage-18-seo-feeds.md) | 3 Pages | 13, 17 | ⬜ Not started |
 | 19 | [Accessibility pass (WCAG 2.1 AA)](stage-19-accessibility.md) | 4 Polish | 13–18 | ⬜ Not started |

@@ -16,6 +16,25 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 16: Blog index + filter (both locales)
+
+**Did:** Built the Blog index for both locales as a shared `BlogIndexPage.astro` (fed by `lang`), with thin wrappers `pages/blog/index.astro` (replacing the legacy Bear Blog index) + new `pages/ko/blog/index.astro`.
+- **Reverse-chron list:** every current-locale post as a `Card` — localized date · reading-time meta, title (links to post), `description` excerpt, `Tag`s. Responsive `auto-fill` grid. Content-driven (new post file → appears, no edits).
+- **Tag filter:** chip row (`All` + each distinct blog tag in the locale, as interactive `Tag` buttons) reusing the Stage 15 pattern — toggles `[hidden]` on non-matching items + syncs `aria-pressed`. **Progressive enhancement:** no-JS shows the full list; the filter row only renders when the locale has tagged posts.
+- **Draft exclusion:** `getCollection('blog', e => e.data.lang === lang && (import.meta.env.PROD ? !e.data.draft : true))` — drafts visible in `astro dev`, dropped from prod builds. A `draft` badge shows in the meta line when a draft is visible (dev).
+- **Empty state:** `noPosts` message renders when a locale has zero posts (no broken layout).
+- Added `blog.title` + `blog.intro` keys to both `en.json`/`ko.json` (parity compile-enforced).
+
+**Decisions:** kept the same `[hidden]`/`aria-pressed` filter mechanism as Portfolio (Stage 15) for consistency and PE robustness. Used `import.meta.env.PROD` for draft gating (Astro-native, no env var). Post URLs still use the legacy `/blog/<id>/` scheme (the entry id includes the locale folder) — deliberately left for Stage 17 to finalize alongside the post layout. Blog leads on AI-for-knowledge-work tags only (media-tech tags are portfolio-only per the locked taxonomy), so the filter naturally never surfaces DRM/OTT tags.
+
+**Verify:** `astro check` → 0 errors. `astro build` → succeeds; `/blog/` + `/ko/blog/` built. **Draft exclusion proven:** added a temp `draft: true` post, prod build → 0 occurrences in `dist/blog/index.html`; removed the temp file. EN dist lists both EN posts, correctly localized.
+
+**Files touched:** `src/components/BlogIndexPage.astro` (new), `src/pages/blog/index.astro` (rewritten as wrapper), `src/pages/ko/blog/index.astro` (new), `src/i18n/en.json` + `src/i18n/ko.json` (blog.title/intro), `dev-references/plans/00-index.md`, `dev-references/plans/stage-16-blog-index.md`, `HANDOFF.md`.
+
+**Next:** Stage 17 — Blog post layout + MDX features (`stage-17-blog-post.md`): rework the legacy `blog/[...slug].astro` post route + `BlogPost` layout into a localized post page (TOC, callouts, code copy from Stage 12), finalize the post routing scheme (centralized in `postUrl`). Depends on 12, 16 (done).
+
+---
+
 ## 2026-06-28 — Stage 15: Portfolio page + filter (both locales)
 
 **Did:** Built Portfolio for both locales as a shared `PortfolioPage.astro` (fed by `lang`), wrappers `pages/portfolio.astro` + new `pages/ko/portfolio.astro`.

@@ -31,6 +31,8 @@
 		"backToTop": "맨 위로"
 	},
 	"blog": {
+		"title": "블로그",
+		"intro": "지식 노동을 위한 AI, 자동화, 그리고 1인 창업에 대한 기록.",
 		"latestWriting": "최근 글",
 		"allPosts": "전체 글",
 		"readMore": "자세히 읽기",

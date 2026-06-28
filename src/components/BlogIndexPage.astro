@@ -1,0 +1,186 @@
+---
+// Shared Blog index (Stage 16), fed by `lang` — both `/blog/` (EN) and
+// `/ko/blog/` render it. Reverse-chronological list of the current locale's
+// posts (PRD §7.4) with a client-side tag filter (progressive enhancement —
+// full list without JS) and draft exclusion in production. Search + pagination
+// stay P1. Reuses the Stage 15 portfolio filter pattern.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from './Card.astro';
+import Tag from './Tag.astro';
+import type { Lang } from '../i18n/utils';
+import { formatDate, formatReadingTime, useTranslations } from '../i18n/utils';
+import { SITE_DESCRIPTION_BY_LOCALE } from '../consts';
+import { readingTimeMinutes } from '../utils/readingTime';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Current-locale posts, reverse-chron. `import.meta.env.PROD` drops drafts in
+// production builds but keeps them visible during `astro dev`.
+const posts = (
+	await getCollection(
+		'blog',
+		(e) => e.data.lang === lang && (import.meta.env.PROD ? !e.data.draft : true),
+	)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Distinct tags across this locale's posts, in first-seen order — drives the filter.
+const filterTags: string[] = [];
+for (const post of posts) {
+	for (const tg of post.data.tags) if (!filterTags.includes(tg)) filterTags.push(tg);
+}
+
+// TODO(stage-17): blog post routes are currently `/blog/<id>/` (the entry id
+// includes the locale folder). Centralized so the scheme can change in one place.
+const postUrl = (id: string) => `/blog/${id}/`;
+---
+
+<BaseLayout title={`${t('blog.title')} — Daniel Kim`} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
+	<section class="container blog">
+		<header class="blog__head">
+			<h1>{t('blog.title')}</h1>
+			<p class="blog__intro">{t('blog.intro')}</p>
+		</header>
+
+		{
+			filterTags.length > 0 && (
+				<div class="blog-filters" role="group" aria-label={t('blog.filterByTag')}>
+					<Tag tag="all" lang={lang} label={t('blog.allTags')} interactive pressed data-filter="all" />
+					{filterTags.map((tg) => (
+						<Tag tag={tg} lang={lang} interactive data-filter={tg} />
+					))}
+				</div>
+			)
+		}
+
+		{
+			posts.length > 0 ? (
+				<ul class="blog-list">
+					{posts.map((post) => (
+						<li class="blog-item" data-tags={post.data.tags.join(' ')}>
+							<Card as="article" interactive>
+								<p class="blog-item__meta">
+									<time datetime={post.data.pubDate.toISOString()}>
+										{formatDate(post.data.pubDate, lang)}
+									</time>
+									<span aria-hidden="true"> · </span>
+									<span>{formatReadingTime(readingTimeMinutes(post.body, lang), lang)}</span>
+									{post.data.draft && (
+										<>
+											<span aria-hidden="true"> · </span>
+											<span class="blog-item__draft">{t('blog.draft')}</span>
+										</>
+									)}
+								</p>
+								<h2 class="blog-item__title">
+									<a href={postUrl(post.id)}>{post.data.title}</a>
+								</h2>
+								<p class="blog-item__excerpt">{post.data.description}</p>
+								{post.data.tags.length > 0 && (
+									<div class="blog-item__tags">
+										{post.data.tags.map((tg) => (
+											<Tag tag={tg} lang={lang} />
+										))}
+									</div>
+								)}
+							</Card>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="blog-empty">{t('blog.noPosts')}</p>
+			)
+		}
+	</section>
+</BaseLayout>
+
+<style>
+	.blog {
+		padding-block: var(--space-12) var(--space-16);
+	}
+	.blog__head {
+		margin-bottom: var(--space-8);
+	}
+	.blog__intro {
+		font-size: var(--text-lg);
+		color: var(--color-text-secondary);
+		max-width: 60ch;
+	}
+
+	.blog-filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-bottom: var(--space-8);
+	}
+
+	.blog-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+		gap: var(--space-6);
+	}
+	/* Filtered-out items (JS sets [hidden]); override .card's display:block. */
+	.blog-item[hidden] {
+		display: none;
+	}
+	.blog-item__meta {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-data);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+	.blog-item__draft {
+		color: var(--color-text);
+		font-weight: var(--weight-medium);
+	}
+	.blog-item__title {
+		margin: 0 0 var(--space-2);
+		font-size: var(--text-h4);
+	}
+	.blog-item__title a {
+		color: var(--color-text-heading);
+		text-decoration: none;
+	}
+	.blog-item__title a:hover {
+		color: var(--color-link);
+	}
+	.blog-item__excerpt {
+		margin: 0 0 var(--space-4);
+		color: var(--color-text-secondary);
+	}
+	.blog-item__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1_5);
+	}
+	.blog-empty {
+		color: var(--color-text-secondary);
+	}
+</style>
+
+<script>
+	const filters = Array.from(document.querySelectorAll<HTMLElement>('.blog-filters [data-filter]'));
+	const items = Array.from(document.querySelectorAll<HTMLElement>('.blog-item'));
+
+	function apply(tag: string) {
+		items.forEach((item) => {
+			const tags = (item.getAttribute('data-tags') ?? '').split(' ');
+			item.hidden = tag !== 'all' && !tags.includes(tag);
+		});
+		filters.forEach((f) =>
+			f.setAttribute('aria-pressed', String(f.getAttribute('data-filter') === tag)),
+		);
+	}
+
+	filters.forEach((f) =>
+		f.addEventListener('click', () => apply(f.getAttribute('data-filter') ?? 'all')),
+	);
+</script>

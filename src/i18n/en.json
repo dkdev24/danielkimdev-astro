@@ -31,6 +31,8 @@
 		"backToTop": "Back to top"
 	},
 	"blog": {
+		"title": "Blog",
+		"intro": "Notes on AI for knowledge work, automation, and building as a solopreneur.",
 		"latestWriting": "Latest writing",
 		"allPosts": "All posts",
 		"readMore": "Read more",
