@@ -11,10 +11,10 @@ Build the i18n plumbing every component depends on: per-locale UI string diction
 - Astro i18n routing is configured (EN root, KO `/ko/`). This stage adds the app-level helpers on top.
 
 ## Tasks
-- [ ] Create `src/i18n/en.json` and `src/i18n/ko.json` covering all chrome: nav labels, buttons/CTAs, footer, "Read in 한국어"/"Read in English", reading-time phrasing, date labels, theme/lang toggle labels, 404 copy.
-- [ ] Create `src/i18n/utils.ts` with: `getLangFromUrl(url)`, `useTranslations(lang)` → `t(key)`, `getLocalizedPath(path, lang)` (root for `en`, `/ko` prefix for `ko`), `getAltLocale(lang)`.
-- [ ] Add `formatDate(date, lang)` and `formatReadingTime(minutes, lang)` localized helpers.
-- [ ] Add a typed `Lang = 'en' | 'ko'` and ensure dictionaries share one key shape (type-check parity between en/ko).
+- [x] Create `src/i18n/en.json` and `src/i18n/ko.json` covering all chrome: nav labels, buttons/CTAs, footer, "Read in 한국어"/"Read in English", reading-time phrasing, date labels, theme/lang toggle labels, 404 copy.
+- [x] Create `src/i18n/utils.ts` with: `getLangFromUrl(url)`, `useTranslations(lang)` → `t(key)`, `getLocalizedPath(path, lang)` (root for `en`, `/ko` prefix for `ko`), `getAltLocale(lang)`.
+- [x] Add `formatDate(date, lang)` and `formatReadingTime(minutes, lang)` localized helpers.
+- [x] Add a typed `Lang = 'en' | 'ko'` and ensure dictionaries share one key shape (type-check parity between en/ko).
 
 ## Files to create / edit
 - `src/i18n/en.json`, `src/i18n/ko.json` — new.

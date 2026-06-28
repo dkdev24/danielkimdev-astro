@@ -1,0 +1,81 @@
+{
+	"nav": {
+		"home": "홈",
+		"blog": "블로그",
+		"about": "소개",
+		"portfolio": "포트폴리오",
+		"skipToContent": "본문으로 건너뛰기"
+	},
+	"lang": {
+		"toggleLabel": "언어",
+		"switchTo": "English",
+		"switchToAria": "이 페이지를 영어로 보기",
+		"current": "한국어"
+	},
+	"theme": {
+		"toggleLabel": "테마",
+		"toLight": "라이트 테마로 전환",
+		"toDark": "다크 테마로 전환",
+		"light": "라이트",
+		"dark": "다크"
+	},
+	"footer": {
+		"tagline": "제품·DevRel, AI 기반 지식 관리를 다룹니다.",
+		"builtWith": "Astro로 제작하고 Cloudflare에 배포했습니다.",
+		"rights": "All rights reserved.",
+		"social": "다른 채널",
+		"linkedin": "링크드인",
+		"email": "이메일",
+		"rss": "RSS 피드",
+		"backToTop": "맨 위로"
+	},
+	"blog": {
+		"latestWriting": "최근 글",
+		"allPosts": "전체 글",
+		"readMore": "자세히 읽기",
+		"readingTime": "{minutes}분 분량",
+		"readingTimeShort": "{minutes}분",
+		"publishedOn": "발행일",
+		"updatedOn": "수정일",
+		"draft": "초안",
+		"tableOfContents": "목차",
+		"filterByTag": "태그로 필터",
+		"allTags": "전체",
+		"noPosts": "아직 글이 없습니다. 곧 채워집니다.",
+		"readInOtherLang": "Read in English",
+		"backToBlog": "전체 글 목록으로",
+		"tags": "태그"
+	},
+	"portfolio": {
+		"title": "포트폴리오",
+		"intro": "미디어테크, 스트리밍, 클라우드 분야의 주요 작업입니다.",
+		"filterByTag": "분야로 필터",
+		"allTags": "전체",
+		"viewProject": "자세히 보기",
+		"hideDetails": "접기",
+		"noItems": "아직 보여드릴 프로젝트가 없습니다."
+	},
+	"home": {
+		"focusHeading": "지금 다루는 주제",
+		"readTheBlog": "블로그 보기",
+		"aboutMe": "소개 보기",
+		"viewPortfolio": "포트폴리오 보기"
+	},
+	"about": {
+		"title": "소개",
+		"contact": "연락하기",
+		"timeline": "경력 타임라인"
+	},
+	"notFound": {
+		"title": "페이지를 찾을 수 없습니다",
+		"message": "찾으시는 페이지가 없거나 이동되었습니다.",
+		"home": "홈으로 가기"
+	},
+	"common": {
+		"loading": "불러오는 중…",
+		"menu": "메뉴",
+		"close": "닫기",
+		"openMenu": "메뉴 열기",
+		"closeMenu": "메뉴 닫기"
+	}
+}

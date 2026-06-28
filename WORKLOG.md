@@ -16,6 +16,23 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 05: i18n utilities & UI dictionaries
+
+**Did:**
+- Created `src/i18n/en.json` + `src/i18n/ko.json` — per-locale UI string dictionaries covering all chrome, nested by surface: `nav`, `lang` (toggle), `theme` (toggle), `footer`, `blog` (reading-time, "Read in…", TOC, filters, empty states), `portfolio`, `home`, `about`, `notFound` (404), `common`. KO authored natively (not machine-translated). Identical key shape across both.
+- Created `src/i18n/utils.ts` with the helpers every downstream component depends on: `type Lang = 'en'|'ko'`, `defaultLang`, `languages` label map, `getLangFromUrl(url)` (reads `/ko/` prefix), `useTranslations(lang)`→`t(key, params?)` (typed dot-path lookup over the nested dict, EN fallback, then raw-key fallback, with `{token}` interpolation), `getLocalizedPath(path, lang)` (en→root, ko→`/ko` prefix; idempotent; passes through `http`/`mailto`/`tel`/`#`), `getAltLocale(lang)`, `formatDate(date, lang)` (Intl, `en-US`/`ko-KR`), `formatReadingTime(minutes, lang)` (1-min floor, localized phrasing).
+- **Key-parity guard:** `ko satisfies typeof en` makes any missing/extra key in `ko.json` a compile error under `astro check`. A recursive `NestedKeyOf` type narrows `t()`'s argument to keys that actually exist (e.g. `'blog.readingTime'`).
+
+**Decisions:** dictionary keys are nested-by-surface objects looked up by **dot path** (`t('nav.blog')`) — this is the namespace convention all later component stages follow. `t()` interpolates `{token}` placeholders (used by reading-time). en.json is the canonical shape; ko is type-checked against it rather than the reverse.
+
+**Verify:** `astro check` → 0 errors (19 files). Ran a throwaway `_i18n-test.astro` page + a `tsx` runtime check confirming: `getLocalizedPath('/about/','ko')`→`/ko/about/`, `('/about/','en')`→`/about/`, `('/ko/blog/','en')`→`/blog/` (strips prefix), `('/','ko')`→`/ko/`, idempotent on `/ko/about/`; `formatReadingTime(0,'ko')`→`1분 분량` (floor); dates `June 28, 2026` / `2026년 6월 28일`; `getLangFromUrl` reads `/ko/` correctly. Removed the throwaway page after.
+
+**Files touched:** `src/i18n/en.json`, `src/i18n/ko.json`, `src/i18n/utils.ts` (all new), `dev-references/plans/00-index.md`, `dev-references/plans/stage-05-i18n-utilities.md`, `HANDOFF.md`.
+
+**Next:** Stage 06 — base layout shell & landmarks (`stage-06-base-layout.md`): the shared page shell with semantic landmarks, `<html lang>` per locale, skip link, theme/font wiring. Depends on 03, 04, 05.
+
+---
+
 ## 2026-06-28 — Stage 04: typography & font wiring
 
 **Did:**

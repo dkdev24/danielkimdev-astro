@@ -1,0 +1,81 @@
+{
+	"nav": {
+		"home": "Home",
+		"blog": "Blog",
+		"about": "About",
+		"portfolio": "Portfolio",
+		"skipToContent": "Skip to content"
+	},
+	"lang": {
+		"toggleLabel": "Language",
+		"switchTo": "한국어",
+		"switchToAria": "Read this page in Korean",
+		"current": "English"
+	},
+	"theme": {
+		"toggleLabel": "Theme",
+		"toLight": "Switch to light theme",
+		"toDark": "Switch to dark theme",
+		"light": "Light",
+		"dark": "Dark"
+	},
+	"footer": {
+		"tagline": "Product & DevRel, working on AI for knowledge work.",
+		"builtWith": "Built with Astro. Deployed on Cloudflare.",
+		"rights": "All rights reserved.",
+		"social": "Elsewhere",
+		"linkedin": "LinkedIn",
+		"email": "Email",
+		"rss": "RSS feed",
+		"backToTop": "Back to top"
+	},
+	"blog": {
+		"latestWriting": "Latest writing",
+		"allPosts": "All posts",
+		"readMore": "Read more",
+		"readingTime": "{minutes} min read",
+		"readingTimeShort": "{minutes} min",
+		"publishedOn": "Published",
+		"updatedOn": "Updated",
+		"draft": "Draft",
+		"tableOfContents": "On this page",
+		"filterByTag": "Filter by tag",
+		"allTags": "All",
+		"noPosts": "No posts yet — check back soon.",
+		"readInOtherLang": "Read in 한국어",
+		"backToBlog": "Back to all posts",
+		"tags": "Tags"
+	},
+	"portfolio": {
+		"title": "Portfolio",
+		"intro": "Selected work across media-tech, streaming, and cloud.",
+		"filterByTag": "Filter by area",
+		"allTags": "All",
+		"viewProject": "View details",
+		"hideDetails": "Hide details",
+		"noItems": "No projects to show yet."
+	},
+	"home": {
+		"focusHeading": "What I'm working on",
+		"readTheBlog": "Read the blog",
+		"aboutMe": "About me",
+		"viewPortfolio": "View portfolio"
+	},
+	"about": {
+		"title": "About",
+		"contact": "Get in touch",
+		"timeline": "Career timeline"
+	},
+	"notFound": {
+		"title": "Page not found",
+		"message": "The page you're looking for doesn't exist or has moved.",
+		"home": "Go to homepage"
+	},
+	"common": {
+		"loading": "Loading…",
+		"menu": "Menu",
+		"close": "Close",
+		"openMenu": "Open menu",
+		"closeMenu": "Close menu"
+	}
+}
