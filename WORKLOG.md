@@ -16,6 +16,24 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 04: typography & font wiring
+
+**Did:**
+- Wired the configured fonts into every page via Astro's `<Font>` component (`import { Font } from 'astro:assets'`) in `BaseHead.astro`. Each `<Font cssVariable>` emits the family's `@font-face` set **and** defines its `--font-*` var — so all five families must be rendered or their var falls back to Helvetica. Rendered DM Sans + Pretendard with `preload` (the primary EN/KO body faces); Outfit, Poppins, Roboto without preload (load on demand, `font-display: swap` from config).
+- The role→font bindings (`--font-ui/display/heading/data/korean/body` → the `--font-*` vars) were already in `tokens.css` from Stage 02 — confirmed they map per DESIGN-minimax §3 (DM Sans body/UI, Outfit display, Poppins mid-tier, Roboto data).
+- **Korean (`:lang(ko)`):** swap `--font-body/-ui/-display/-heading` to `--font-korean` (Pretendard → Noto Sans KR), since the Latin display faces carry no Hangul. `--font-data` stays Roboto (code/Latin numerals). Added `body:lang(ko)` reading tweaks: `line-height: var(--leading-relaxed)` (1.7), `letter-spacing: -0.01em`, `word-break: keep-all` (no mid-cluster breaks). Scoped to `body` so heading line-heights are untouched.
+- Replaced the `TODO(stage-04)` font marker in `BaseHead`; confirmed no Atkinson references remain anywhere in `src/`.
+
+**Decisions:** preload only the two primary body faces (DM Sans EN / Pretendard KO) to limit preload bytes; secondary display faces load on demand. Korean body leading set to 1.7 (reuses `--leading-relaxed`).
+
+**Verify:** `astro check` → 0 errors. `astro build` → succeeds. Inspected `dist/index.html` + built CSS: all five `--font-*` vars defined and resolving to real (hashed) faces; `optimizedFallbacks` emitted capsize-metric fallback faces (`DM Sans-… fallback: Arial`) → no CLS on swap; **preload links limited to DM Sans + Pretendard only** (confirmed via `filterPreloads(false) → null`, so the non-preload families emit none); `:lang(ko){--font-*:var(--font-korean)}` and `body:lang(ko){…keep-all}` both present (body prefix preserved through minify). EN computed fonts trace correctly (body→DM Sans, h1→Outfit). **KO computed-style not eyeballed** — no `/ko/` routes exist yet (Stage 13+); the CSS mechanism is verified in the bundle. Live browser check still blocked by the Chrome-extension localhost permission issue.
+
+**Files touched:** `src/components/BaseHead.astro` (Font import + tags), `src/styles/tokens.css` (`:lang(ko)` overrides + KO body tuning), `dev-references/plans/00-index.md`, `dev-references/plans/stage-04-typography-fonts.md`, `HANDOFF.md`.
+
+**Next:** Stage 05 — i18n utilities & UI dictionaries (`stage-05-i18n-utilities.md`): helpers for locale detection / path building and the EN/KO UI string dictionaries. (Depends only on 01; unblocks the layout shell in Stage 06.)
+
+---
+
 ## 2026-06-28 — Stage 03: dark token set & no-flash theme switching
 
 **Did:**

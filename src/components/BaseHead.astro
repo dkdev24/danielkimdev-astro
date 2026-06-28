@@ -5,6 +5,7 @@ import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { SITE_TITLE } from '../consts';
+import { Font } from 'astro:assets';
 import ThemeScript from './ThemeScript.astro';
 
 interface Props {
@@ -35,7 +36,18 @@ const { title, description, image = FallbackImage } = Astro.props;
 />
 <meta name="generator" content={Astro.generator} />
 
-<!-- TODO(stage-04): preload primary fonts (DM Sans / Pretendard) via <Font /> here. -->
+<!--
+  Fonts (Stage 04). Each <Font> emits the @font-face + defines its --font-*
+  CSS var (consumed by the role vars in tokens.css), so every referenced family
+  must be rendered or its var falls back to Helvetica. Preload only the primary
+  body faces — DM Sans (EN) and Pretendard (KO) — to avoid wasted bytes; the
+  rest load on demand with font-display: swap (set in astro.config.mjs).
+-->
+<Font cssVariable="--font-dm-sans" preload />
+<Font cssVariable="--font-pretendard" preload />
+<Font cssVariable="--font-outfit" />
+<Font cssVariable="--font-poppins" />
+<Font cssVariable="--font-roboto" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

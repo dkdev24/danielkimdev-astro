@@ -26,7 +26,7 @@
 | 01 | [Foundation config & repo hygiene](stage-01-foundation-config.md) | 1 Foundation | — | ✅ Done |
 | 02 | [Design tokens — light](stage-02-design-tokens-light.md) | 1 Foundation | 01 | ✅ Done |
 | 03 | [Dark mode token set & theme switching](stage-03-dark-mode.md) | 1 Foundation | 02 | ✅ Done |
-| 04 | [Typography & font wiring](stage-04-typography-fonts.md) | 1 Foundation | 02 | ⬜ Not started |
+| 04 | [Typography & font wiring](stage-04-typography-fonts.md) | 1 Foundation | 02 | ✅ Done |
 | 05 | [i18n utilities & UI dictionaries](stage-05-i18n-utilities.md) | 1 Foundation | 01 | ⬜ Not started |
 | 06 | [Base layout shell & landmarks](stage-06-base-layout.md) | 1 Foundation | 03, 04, 05 | ⬜ Not started |
 | 07 | [Header: nav + language & theme toggles](stage-07-header-nav-toggles.md) | 1 Foundation | 06 | ⬜ Not started |
@@ -49,7 +49,9 @@
 >
 > **Note:** Stage 02 completed on 2026-06-28 — light design-token layer landed in `src/styles/tokens.css` (color/spacing/radius/shadow/type/motion, every value traced to `DESIGN-minimax.md`); `global.css` now `@import`s it and base resets read tokens only. Legacy Bear Blog vars kept as a deprecated block for un-reworked scaffold (remove in Stages 07/08/16/17). Verified `astro check` (0 errors) + `astro build` (succeeds).
 >
-> **Note:** Stage 03 completed on 2026-06-28 — dark token set added as a `[data-theme="dark"]` override in `tokens.css` (near-black surfaces, inverted text ramp, lighter brand/link blue, blue-shifted glow, deepened shadows; `color-scheme` per theme). No-flash resolver `src/components/ThemeScript.astro` (is:inline, reads `localStorage.theme` → falls back to `prefers-color-scheme`) wired into `BaseHead` head. Toggle contract documented for Stage 07 (key `theme`, attr `data-theme`, `theme-change` event). All dark text/bg pairs ≥AA (lowest 5.15:1). Verified `astro check` + `astro build`; inline script + dark selector confirmed in `dist`. Next: Stage 04 (typography & font wiring).
+> **Note:** Stage 03 completed on 2026-06-28 — dark token set added as a `[data-theme="dark"]` override in `tokens.css` (near-black surfaces, inverted text ramp, lighter brand/link blue, blue-shifted glow, deepened shadows; `color-scheme` per theme). No-flash resolver `src/components/ThemeScript.astro` (is:inline, reads `localStorage.theme` → falls back to `prefers-color-scheme`) wired into `BaseHead` head. Toggle contract documented for Stage 07 (key `theme`, attr `data-theme`, `theme-change` event). All dark text/bg pairs ≥AA (lowest 5.15:1). Verified `astro check` + `astro build`; inline script + dark selector confirmed in `dist`.
+>
+> **Note:** Stage 04 completed on 2026-06-28 — fonts wired via Astro's `<Font>` (from `astro:assets`) in `BaseHead`: DM Sans + Pretendard `preload`ed, Outfit/Poppins/Roboto on demand. Each `<Font>` defines its `--font-*` var (consumed by the role vars bound in `tokens.css` back in Stage 02). Korean handled via `:lang(ko)` swapping body/heading roles to Pretendard, plus `body:lang(ko)` reading tweaks (1.7 leading, −0.01em tracking, `word-break: keep-all`). `optimizedFallbacks` emits capsize-metric fallback faces → no CLS. Verified in `dist`: 5 `--font-*` vars resolve to real faces, preloads limited to the two primary faces, `:lang(ko)` rules present. Next: Stage 05 (i18n utilities & UI dictionaries).
 
 **Critical path:** 01 → 02 → 03/04 → 05 → 06 → 07 → 08, then 09 → 10 in parallel with 11 → 12, converging on pages 13–18, finishing with 19/20 → 21.
 
