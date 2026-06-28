@@ -91,7 +91,7 @@ const jsonLd = blogPostingJsonLd({
 	jsonLd={jsonLd}
 >
 	<article class="post">
-		<div class="container container--prose">
+		<div class="container">
 			<header class="post__header">
 				<p class="post__meta">
 					<time datetime={pubDate.toISOString()}>{formatDate(pubDate, lang)}</time>
@@ -192,6 +192,7 @@ const jsonLd = blogPostingJsonLd({
 	}
 	.post__header {
 		margin-bottom: var(--space-8);
+		max-width: 72ch;
 	}
 	.post__meta {
 		margin: 0 0 var(--space-3);
@@ -231,6 +232,7 @@ const jsonLd = blogPostingJsonLd({
 
 	.post__hero {
 		margin: 0 0 var(--space-8);
+		max-width: 72ch;
 	}
 	.post__hero :global(img) {
 		width: 100%;
@@ -249,7 +251,8 @@ const jsonLd = blogPostingJsonLd({
 	}
 	@media (min-width: 1024px) {
 		.post__layout {
-			grid-template-columns: 1fr 14rem;
+			grid-template-columns: minmax(0, 1fr) 14rem;
+			align-items: start;
 		}
 		.post__toc {
 			order: 2;

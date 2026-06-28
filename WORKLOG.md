@@ -16,6 +16,31 @@ Entry template:
 
 ---
 
+## 2026-06-29 — Blog layout fix + portfolio consolidation + post elaboration
+
+**Did:** Post-launch content/UX pass. All bilingual, `astro check` clean throughout.
+- **Blog post width fix** (`BlogPost.astro`): post body was wrapped in `.container container--prose` (720px) with the TOC sidebar carved out of *that*, squeezing the article to ~460px on desktop. Switched the wrapper to the full `.container` (1200px), capped header/hero at `72ch`, and made the TOC layout `grid-template-columns: minmax(0, 1fr) 14rem` + `align-items: start`. Body now reads at ~72ch with the TOC in a real right sidebar — uses the screen like the portfolio page. (Blog *index* already used the wide container.)
+- **Portfolio consolidation + real content** (from `dev-references/Profile.pdf`, Medium, docs site):
+  - **Merged** `multi-drm` + `watermarking-anti-piracy` → new **`content-security`** (EN+KO, featured, order 4→5). Deleted the four old files; no external refs.
+  - **New `whatifclassics`** entry (EN+KO, `side-ai`, tags automation/ai-llm/solopreneur, not featured): generative-AI pipelines side project, links to site + `/blog`. period `2025–2026` (inferred — flagged for Daniel).
+  - Filled real **periods** from the profile: content-security `2015–2025`, career `2000–present`, talks `2020–present`. Cleared the stale `TODO(daniel): dates` markers (one was rendering literally on the card).
+  - **`ai-knowledge-work`**: added the Claude + Jira MCP onboarding example + Medium link.
+  - **`talks-writing-devrel`**: retitled (dropped "Talks" — no talks material), real body (Medium blog + DoveRunner docs on Astro+Starlight), links to both.
+  - New order: ai-knowledge-work · digital-garden · whatifclassics · talks · content-security · career.
+- **Blog posts rewritten** (used the `daniel-writing-style` skill; KO authored natively, 합쇼체, zero em-dashes, EN em-dash-disciplined, slop pass run):
+  - **welcome-digital-garden**: elaborated from 3 paragraphs to a full intro; retitled **"Why This Digital Garden Exists" / "이 디지털 가든을 가꾸는 이유"**; adds the bridge (25-yr arc) + agent-readiness thread + 3-thread list.
+  - **agent-readiness**: completely rewritten by **combining the two source drafts** in `content-materials/` (Part 1 "what is" + Part 2 "two-layer framework"). Stripped all company specifics (DoveRunner/PallyCon, product lines, docs URL, series scaffolding). Per Daniel: **genericized the DRM worked example** (now vendor-neutral "mode A / mode B") and the **company name in bios** (→ "a content-security company"). Personal soft close, no product CTA.
+
+**Decisions:**
+- Portfolio **keeps** the employer name (DoveRunner/PallyCon) — career credibility belongs there. Blog posts do **not** name the employer or DRM vendors (Daniel's call, this session).
+- whatifclassics **not featured** (hobby project, off-domain) — Home stays focused on the AI-knowledge-work positioning.
+
+**Files touched:** `src/layouts/BlogPost.astro`; `src/content/portfolio/{en,ko}/` (content-security ✚, whatifclassics ✚, ai-knowledge-work, career, talks-writing-devrel; multi-drm ✖, watermarking-anti-piracy ✖); `src/content/blog/{en,ko}/{welcome-digital-garden,agent-readiness}.md`; `content-materials/` (Daniel-supplied source drafts, untracked).
+
+**Next:** Remaining content = `digital-garden` "link the tooling write-up" TODO (waits on a future post) + optional new post seeds. Confirm whatifclassics period `2025–2026`. PRD framing follow-up (§1/§2/§13.4) still open. Then redeploy (`npm run deploy`).
+
+---
+
 ## 2026-06-28 — Stage 21 complete: DEPLOYED to Cloudflare Pages 🚀
 
 **Did:** Shipped P0 v1. Site is **live at https://danielkimdev.pages.dev**.
