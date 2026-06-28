@@ -16,6 +16,27 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 13: Home page (both locales) — Phase 3 begins
+
+**Did:** Built the Home page for both locales as a shared `HomePage.astro` fed by `lang`, with thin route wrappers `pages/index.astro` (en) + new `pages/ko/index.astro` (ko).
+- **Hero:** name + tagline + subhead (from `HOME_HERO`/`consts`), primary CTA "View portfolio" + secondary "Read the blog" (localized via `home.*`), and an identity strip of focus-area chips (`HOME_HERO[lang].focusAreas` — the AI-knowledge-work chips per the locked positioning, not the old OTT/DRM ones).
+- **Featured work:** the 3 `featured: true` portfolio entries for the current locale (ordered by `order`), as brand-glow `Card`s with title, summary, and `Tag`s.
+- **Latest writing:** the 3 newest non-draft posts for the current locale, as `Card`s with `formatDate` · `formatReadingTime(readingTimeMinutes(body))`, description, and `Tag`s; graceful `blog.noPosts` empty state (no empty cards, PRD §7.4).
+- **About teaser** card linking to `/about/`. All from collections, nothing hardcoded.
+- **Creating `/ko/` resolves the language toggle** — the header/footer toggle's `/ko/` target is now a real page.
+
+**Fixed a global bug found here:** there was **no `box-sizing: border-box`** anywhere, so `.container` (`width:100%` + `padding-inline`) overflowed the viewport — 32px of horizontal scroll at 375px. Added the universal border-box reset to `global.css`; overflow gone (scrollWidth == clientWidth at 375). This benefits every page, not just Home.
+
+**Decisions:** identity chips are plain styled `<li>`s (not `Tag`, since focus-areas aren't taxonomy tags). Post URLs centralized in a `postUrl(id)` helper returning the current `/blog/<id>/` legacy scheme, with a `TODO(stage-16/17)` to switch to the canonical localized route in one place. Featured cards + the hero "View portfolio" CTA point at `/portfolio/` (resolves once Stage 15 lands).
+
+**Verify:** `astro check` → 0 errors. `astro build` → succeeds; `dist/ko/index.html` exists. **Verified live (Playwright):** EN `/` and KO `/ko/` render locale-correct copy and the current locale's posts (EN→`/blog/en/*`, KO→`/blog/ko/*`); screenshots in light + dark; KO at **375px** reads well with the collapsed hamburger and **no horizontal overflow** after the box-sizing fix.
+
+**Files touched:** `src/components/HomePage.astro` (new), `src/pages/index.astro` (rewritten to wrapper), `src/pages/ko/index.astro` (new), `src/styles/global.css` (box-sizing reset), `dev-references/plans/00-index.md`, `dev-references/plans/stage-13-home.md`, `HANDOFF.md`.
+
+**Next:** Stage 14 — About page (both locales) (`stage-14-about.md`): render `src/data/about.ts` bio + the `timeline` collection via `TimelineItem`, contact links. Depends on 10, 12 (done). (15 Portfolio, 16 Blog index also open.)
+
+---
+
 ## 2026-06-28 — Stage 12: core components B (Callout, Timeline, Code, TOC)
 
 **Did:** Built the content-rendering primitives for About + blog posts, all token-only and verified in both themes.

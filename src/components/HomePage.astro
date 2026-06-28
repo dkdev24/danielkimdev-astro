@@ -1,0 +1,227 @@
+---
+// Shared Home page (Stage 13), fed by `lang` — both `/` (EN) and `/ko/` render
+// it. Pulls featured portfolio + latest posts from the collections (current
+// locale only, PRD §7.4), so content is never hardcoded. Sections: hero →
+// identity strip → featured work → latest writing → about teaser. Chrome
+// (header/footer) comes from BaseLayout.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from './Button.astro';
+import Card from './Card.astro';
+import Tag from './Tag.astro';
+import type { Lang } from '../i18n/utils';
+import { formatDate, formatReadingTime, getLocalizedPath, useTranslations } from '../i18n/utils';
+import { SITE_DESCRIPTION_BY_LOCALE, SITE_TITLE_HOME } from '../consts';
+import { HOME_HERO } from '../data/home';
+import { readingTimeMinutes } from '../utils/readingTime';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const hero = HOME_HERO[lang];
+
+// Featured portfolio for this locale, ordered.
+const featured = (
+	await getCollection('portfolio', (e) => e.data.lang === lang && e.data.featured)
+).sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)).slice(0, 3);
+
+// Latest non-draft posts for this locale.
+const latest = (
+	await getCollection('blog', (e) => e.data.lang === lang && !e.data.draft)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 3);
+
+const portfolioHref = getLocalizedPath('/portfolio/', lang);
+const blogHref = getLocalizedPath('/blog/', lang);
+const aboutHref = getLocalizedPath('/about/', lang);
+
+// TODO(stage-16/17): blog routes are currently `/blog/<locale>/<slug>/` (entry id).
+// Centralized here so the canonical/localized scheme can change in one place.
+const postUrl = (id: string) => `/blog/${id}/`;
+---
+
+<BaseLayout title={SITE_TITLE_HOME[lang]} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
+	<!-- Hero -->
+	<section class="hero container">
+		<h1 class="hero__name">{hero.name}</h1>
+		<p class="hero__tagline">{hero.tagline}</p>
+		<p class="hero__subhead">{hero.subhead}</p>
+		<div class="hero__cta">
+			<Button variant="primary" href={portfolioHref}>{t('home.viewPortfolio')}</Button>
+			<Button variant="secondary" href={blogHref}>{t('home.readTheBlog')}</Button>
+		</div>
+		<ul class="identity" aria-label={t('home.focusHeading')}>
+			{hero.focusAreas.map((area) => <li class="chip">{area}</li>)}
+		</ul>
+	</section>
+
+	<!-- Featured work -->
+	{
+		featured.length > 0 && (
+			<section class="section container">
+				<h2 class="section__title">{t('home.focusHeading')}</h2>
+				<div class="grid">
+					{featured.map((item) => (
+						<Card featured interactive>
+							<h3 class="card-title">
+								<a href={portfolioHref}>{item.data.title}</a>
+							</h3>
+							<p class="card-summary">{item.data.summary}</p>
+							<div class="card-tags">
+								{item.data.tags.slice(0, 3).map((tg) => (
+									<Tag tag={tg} lang={lang} />
+								))}
+							</div>
+						</Card>
+					))}
+				</div>
+				<p class="section__more">
+					<a href={portfolioHref}>{t('home.viewPortfolio')} →</a>
+				</p>
+			</section>
+		)
+	}
+
+	<!-- Latest writing -->
+	<section class="section container">
+		<h2 class="section__title">{t('blog.latestWriting')}</h2>
+		{
+			latest.length > 0 ? (
+				<div class="grid">
+					{latest.map((post) => (
+						<Card interactive>
+							<p class="card-meta">
+								<time datetime={post.data.pubDate.toISOString()}>
+									{formatDate(post.data.pubDate, lang)}
+								</time>
+								<span aria-hidden="true"> · </span>
+								<span>{formatReadingTime(readingTimeMinutes(post.body, lang), lang)}</span>
+							</p>
+							<h3 class="card-title">
+								<a href={postUrl(post.id)}>{post.data.title}</a>
+							</h3>
+							<p class="card-summary">{post.data.description}</p>
+							<div class="card-tags">
+								{post.data.tags.slice(0, 3).map((tg) => (
+									<Tag tag={tg} lang={lang} />
+								))}
+							</div>
+						</Card>
+					))}
+				</div>
+			) : (
+				<p class="empty">{t('blog.noPosts')}</p>
+			)
+		}
+		<p class="section__more">
+			<a href={blogHref}>{t('blog.allPosts')} →</a>
+		</p>
+	</section>
+
+	<!-- About teaser -->
+	<section class="section container">
+		<Card>
+			<h2 class="section__title">{t('about.title')}</h2>
+			<p class="card-summary">{hero.subhead}</p>
+			<Button variant="ghost" href={aboutHref}>{t('home.aboutMe')} →</Button>
+		</Card>
+	</section>
+</BaseLayout>
+
+<style>
+	.hero {
+		padding-block: var(--space-20) var(--space-12);
+	}
+	.hero__name {
+		font-size: var(--text-display, var(--text-h1));
+		margin-bottom: var(--space-3);
+	}
+	.hero__tagline {
+		font-family: var(--font-display);
+		font-size: var(--text-h3);
+		color: var(--color-text);
+		max-width: 40ch;
+		margin-bottom: var(--space-3);
+	}
+	.hero__subhead {
+		font-size: var(--text-lg);
+		color: var(--color-text-secondary);
+		max-width: 60ch;
+		margin-bottom: var(--space-6);
+	}
+	.hero__cta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		margin-bottom: var(--space-8);
+	}
+	.identity {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.chip {
+		padding: var(--space-1) var(--space-3);
+		border-radius: var(--radius-pill);
+		background: var(--color-bg-subtle);
+		border: 1px solid var(--color-border-subtle);
+		font-family: var(--font-ui);
+		font-size: var(--text-sm);
+		color: var(--color-text-secondary);
+	}
+
+	.section {
+		padding-block: var(--space-10);
+	}
+	.section__title {
+		margin-bottom: var(--space-6);
+	}
+	.section__more {
+		margin-top: var(--space-6);
+	}
+	.section__more a {
+		font-family: var(--font-ui);
+		font-weight: var(--weight-medium);
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+		gap: var(--space-6);
+	}
+
+	.card-meta {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-data);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+	.card-title {
+		margin: 0 0 var(--space-2);
+		font-size: var(--text-h4);
+	}
+	.card-title a {
+		color: var(--color-text-heading);
+		text-decoration: none;
+	}
+	.card-title a:hover {
+		color: var(--color-link);
+	}
+	.card-summary {
+		margin: 0 0 var(--space-4);
+		color: var(--color-text-secondary);
+	}
+	.card-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1_5);
+	}
+	.empty {
+		color: var(--color-text-secondary);
+	}
+</style>

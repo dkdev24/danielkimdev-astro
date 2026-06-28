@@ -1,19 +1,6 @@
 ---
-// English home (root). Minimal placeholder on the new BaseLayout shell —
-// the full hero / latest-writing / identity-strip build lands in Stage 13.
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_DESCRIPTION_BY_LOCALE, SITE_TITLE_HOME } from '../consts';
-import { HOME_HERO } from '../data/home';
-
-const lang = 'en' as const;
-const hero = HOME_HERO[lang];
+// English home (root). Thin wrapper over the shared HomePage (Stage 13).
+import HomePage from '../components/HomePage.astro';
 ---
 
-<BaseLayout title={SITE_TITLE_HOME[lang]} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
-	<section class="container">
-		<h1>{hero.name}</h1>
-		<p>{hero.tagline}</p>
-		<p>{hero.subhead}</p>
-		{/* TODO(stage-13): identity strip, latest writing, CTAs. */}
-	</section>
-</BaseLayout>
+<HomePage lang="en" />

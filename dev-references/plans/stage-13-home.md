@@ -11,13 +11,13 @@ Build the Home page for EN (root) and KO (`/ko/`): hero, identity strip, feature
 - Uses Card/Button/Tag (Stage 11), chrome (Stage 08), seed content (Stage 10), i18n helpers (Stage 05).
 
 ## Tasks
-- [ ] Build `src/pages/index.astro` (EN) and `src/pages/ko/index.astro` (KO) on `BaseLayout`, or a shared `HomePage` component fed by locale.
-- [ ] **Hero:** name, one-line positioning (from §13.3 / data), subhead, primary CTA "View Portfolio" + secondary "Read the Blog" — localized.
-- [ ] **Identity strip:** focus-area chips (OTT · DRM/Content Security · Cloud/SaaS · AI).
-- [ ] **Featured work:** 3 `featured: true` portfolio cards (title, one-liner, tag, link).
-- [ ] **Latest writing:** 3 most recent posts in the current locale; graceful fill if < 3 (no empty cards, §7.4).
-- [ ] **About teaser** linking to full About; **Footer CTA** (email, LinkedIn).
-- [ ] Above-the-fold hero readable on 375px wide; fully static, no layout shift.
+- [x] Build `src/pages/index.astro` (EN) and `src/pages/ko/index.astro` (KO) on `BaseLayout`, or a shared `HomePage` component fed by locale.
+- [x] **Hero:** name, one-line positioning (from §13.3 / data), subhead, primary CTA "View Portfolio" + secondary "Read the Blog" — localized.
+- [x] **Identity strip:** focus-area chips (OTT · DRM/Content Security · Cloud/SaaS · AI).
+- [x] **Featured work:** 3 `featured: true` portfolio cards (title, one-liner, tag, link).
+- [x] **Latest writing:** 3 most recent posts in the current locale; graceful fill if < 3 (no empty cards, §7.4).
+- [x] **About teaser** linking to full About; **Footer CTA** (email, LinkedIn).
+- [x] Above-the-fold hero readable on 375px wide; fully static, no layout shift.
 
 ## Files to create / edit
 - `src/pages/index.astro`, `src/pages/ko/index.astro` — new.
