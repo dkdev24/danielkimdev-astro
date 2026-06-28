@@ -16,6 +16,24 @@ Entry template:
 
 ---
 
+## 2026-06-29 — Custom domain connected (apex + www redirect) + Playwright scaffold
+
+**Did:**
+- **Connected `danielkimdev.com`** to the `danielkimdev` Pages project (zone is in the same Cloudflare account, `Knowledgebuilderkim@gmail.com`):
+  - Registered apex `danielkimdev.com` as a Pages custom domain (Pages API) and created a proxied apex `CNAME danielkimdev.com → danielkimdev.pages.dev` (CNAME flattening). Zone DNS was previously empty. Apex serves the site over HTTPS (Google-CA cert), verified 200 + correct `<title>`.
+  - **www → apex redirect:** proxied `CNAME www → danielkimdev.com`, plus a Single Redirect (dynamic-redirect ruleset) 301ing `http.host eq "www.danielkimdev.com"` to `concat("https://danielkimdev.com", http.request.uri.path)`, preserve-query-string on. Verified path + query preserved, ends at 200.
+  - **Auth note:** the wrangler OAuth token is `zone (read)` only — it can write DNS + Pages but **not** rulesets/page-rules. Daniel created the redirect rule in the dashboard, but it had a stray leading space in the hostname value (`eq " www.danielkimdev.com"`) so it never matched (www returned 522). Fixed via a scoped API token Daniel placed in `.env` (`cloudflare-api-token`) — fetched the entrypoint ruleset, stripped the space, PUT it back. **`.env` is gitignored; token is a live credential — rotate/revoke when done.**
+- **Playwright test scaffold** (Playwright MCP was removed to save tokens; see `dev-references/web-browswer-test.md`): added `playwright.config.ts` (chromium, `baseURL` :4321, `line` reporter, auto-start/reuse `astro dev`), `tests/e2e/smoke.spec.ts` (EN/KO home + blog index — status + visible h1 + KO `lang`), `test:e2e`/`test:e2e:ui` scripts, gitignore entries. `npm run test:e2e` → 3 passed. Added a **"Testing & browser debugging"** rule section to `AGENTS.md`: no agentic browser driving — write specs, run locally, read only spec code + filtered logs.
+
+**Decisions:**
+- Apex is canonical (matches `site:` in `astro.config`); www **301-redirects** to apex (not served as a second domain) — preserves path + query.
+
+**Files touched:** `playwright.config.ts` ✚, `tests/e2e/smoke.spec.ts` ✚, `package.json` (test scripts + `@playwright/test`), `.gitignore` (playwright + already had `.env`), `AGENTS.md` (Testing section). Cloudflare-side changes (DNS, Pages domain, redirect ruleset) are infra, not in-repo.
+
+**Next:** Sitemap/canonical `<loc>`s already point at `danielkimdev.com` — now correct in production. Redeploy still pending (local content ahead of prod). Optionally trim the harmless leading space in the redirect's target_url expression.
+
+---
+
 ## 2026-06-29 — Blog layout fix + portfolio consolidation + post elaboration
 
 **Did:** Post-launch content/UX pass. All bilingual, `astro check` clean throughout.

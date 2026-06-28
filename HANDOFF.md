@@ -5,7 +5,7 @@
 > **Budget: ~60 lines / one screen. Edit in place, replace don't append, prune as you add** (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
 **Last updated:** 2026-06-29
-**Status:** **LIVE** at https://danielkimdev.pages.dev (last deploy 2026-06-28; content below is newer — **needs redeploy**). All of P0 (Stages 01–21) is shipped. Remaining = custom domain (deferred), post-deploy Lighthouse, a couple of content items, and the P1 backlog — none block launch.
+**Status:** **LIVE** at https://danielkimdev.com (custom domain connected 2026-06-29; apex + www→apex 301; `.pages.dev` still works). Last deploy 2026-06-28; content below is newer — **needs redeploy**. All of P0 (Stages 01–21) shipped. Remaining = post-deploy Lighthouse, a couple of content items, and the P1 backlog — none block launch.
 
 ## Project in one line
 
@@ -26,7 +26,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Locked decisions (do not re-litigate without Daniel)
 
-- **Domain:** `danielkimdev.com` (Cloudflare Registrar); `site` already set in `astro.config`. Attach at apex when ready.
+- **Domain (connected 2026-06-29):** `danielkimdev.com` live on the `danielkimdev` Pages project — proxied apex CNAME → `danielkimdev.pages.dev`; `www` 301-redirects to apex (dynamic-redirect ruleset, path+query preserved). Zone is in the same CF account. Wrangler OAuth token can't write rules (zone read-only); rule edits need a scoped API token (`.env` → `cloudflare-api-token`, gitignored — rotate when done).
 - **Deploy:** Cloudflare Pages, `wrangler` CLI, static `dist/`.
 - **i18n routing:** `defaultLocale: "en"`, `prefixDefaultLocale: false` — EN at root, KO under `/ko/`.
 - **Design:** [`DESIGN-minimax.md`](dev-references/DESIGN-minimax.md) is the visual source of truth; keep tokens centralized/swappable. Dark mode required, both themes WCAG AA.
@@ -38,11 +38,10 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (P0 shipped — launch + backlog, priority order)
 
-1. **Attach custom domain** — `danielkimdev.com` at apex in the Pages dashboard. Deferred by Daniel. Canonical/sitemap already point there.
-2. **Post-deploy Lighthouse** — run on the live URL, record in [`plans/stage-21-deploy.md`](dev-references/plans/stage-21-deploy.md). (Local CWV strong: EN home 148KB, CLS 0, LCP ~300ms.)
-3. **Redeploy** — local content is ahead of production (portfolio + both blog posts rewritten 2026-06-29). Run `npm run deploy` to ship.
-4. **Content** — mostly done. Remaining: `portfolio/{en,ko}/digital-garden.md` "link the tooling write-up" TODO (waits on a future post); confirm whatifclassics `period: 2025–2026`; optional new post seeds. *(Headshot, KO copy, timeline, and all portfolio dates/links are now filled.)*
-5. **P1 backlog** ([`plans/00-index.md`](dev-references/plans/00-index.md)): Cloudflare Web Analytics (cookieless), blog search + pagination, `/portfolio/[slug]` detail pages.
+1. **Post-deploy Lighthouse** — run on the live URL (`danielkimdev.com`), record in [`plans/stage-21-deploy.md`](dev-references/plans/stage-21-deploy.md). (Local CWV strong: EN home 148KB, CLS 0, LCP ~300ms.)
+2. **Redeploy** — local content is ahead of production (portfolio + both blog posts rewritten 2026-06-29). Run `npm run deploy` to ship.
+3. **Content** — mostly done. Remaining: `portfolio/{en,ko}/digital-garden.md` "link the tooling write-up" TODO (waits on a future post); confirm whatifclassics `period: 2025–2026`; optional new post seeds. *(Headshot, KO copy, timeline, and all portfolio dates/links are now filled.)*
+4. **P1 backlog** ([`plans/00-index.md`](dev-references/plans/00-index.md)): Cloudflare Web Analytics (cookieless), blog search + pagination, `/portfolio/[slug]` detail pages.
 
 ## Open / needs Daniel
 
@@ -51,6 +50,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 ## Conventions / gotchas
 
 - Dev server: `astro dev --background` (manage with `astro dev stop|status|logs`).
+- **UI testing:** Playwright MCP removed (token cost). Write specs in `tests/e2e/*.spec.ts`, run `npm run test:e2e` (auto-starts/reuses dev server); read only spec code + filtered logs. Rationale + rule in `AGENTS.md` → Testing.
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md`.
 - Leave `TODO(daniel):` rather than inventing facts when a decision is ambiguous.
 - `content-materials/` holds Daniel-supplied source drafts (e.g. company-blog versions to rewrite); untracked, not shipped — mine for content, don't use as-is.
