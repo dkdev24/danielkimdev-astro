@@ -11,12 +11,12 @@ Build About for EN and KO: narrative bio, data-driven career timeline, grouped s
 - Timeline data + bio seeded in Stage 10; TimelineItem component from Stage 12. KO prose is native (`TODO(daniel):` where pending), not translated.
 
 ## Tasks
-- [ ] Build `src/pages/about.astro` (EN) and `src/pages/ko/about.astro` (KO) on `BaseLayout`.
-- [ ] Narrative bio from §13.1 (EN) / §13.2 (KO native, `TODO(daniel):` if not yet written).
-- [ ] **Career timeline:** render dynamically from the `timeline` collection via `TimelineItem` (no hardcoded markup).
-- [ ] **Skills / focus areas** grouped: Product, Domain, Technical, AI.
-- [ ] **Headshot slot:** `/public/images/daniel.jpg` with graceful fallback (initials/monogram) if absent — `TODO(daniel):` to add image.
-- [ ] **Contact row:** email + socials (localized labels, `TODO(daniel):` URLs).
+- [x] Build `src/pages/about.astro` (EN) and `src/pages/ko/about.astro` (KO) on `BaseLayout`.
+- [x] Narrative bio from §13.1 (EN) / §13.2 (KO native, `TODO(daniel):` if not yet written).
+- [x] **Career timeline:** render dynamically from the `timeline` collection via `TimelineItem` (no hardcoded markup).
+- [x] **Skills / focus areas** grouped: Product, Domain, Technical, AI.
+- [x] **Headshot slot:** `/public/images/daniel.jpg` with graceful fallback (initials/monogram) if absent — `TODO(daniel):` to add image.
+- [x] **Contact row:** email + socials (localized labels, `TODO(daniel):` URLs).
 
 ## Files to create / edit
 - `src/pages/about.astro`, `src/pages/ko/about.astro` — new.

@@ -65,7 +65,8 @@
 	"about": {
 		"title": "About",
 		"contact": "Get in touch",
-		"timeline": "Career timeline"
+		"timeline": "Career timeline",
+		"skillsTitle": "Skills & focus"
 	},
 	"notFound": {
 		"title": "Page not found",

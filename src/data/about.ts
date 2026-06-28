@@ -27,3 +27,21 @@ export const ABOUT = {
 		],
 	},
 } as const;
+
+// Grouped skills / focus areas for the About page (PRD §6.2). Items are drawn
+// from Daniel's actual background (bio §13.1) — not invented. Group labels are
+// localized; technical proper nouns stay as-is.
+export const ABOUT_SKILLS = {
+	en: [
+		{ group: 'Product', items: ['Product Ownership', 'Product Management', 'Developer Relations', 'Roadmapping'] },
+		{ group: 'Domain', items: ['OTT / Streaming', 'DRM / Content Security', 'Anti-Piracy', 'Watermarking'] },
+		{ group: 'Technical', items: ['C / C++', 'Java', 'Cloud / SaaS', 'Technical Documentation'] },
+		{ group: 'AI', items: ['AI Knowledge Management', 'LLM Tooling', 'Agent-Ready Docs', 'Automation'] },
+	],
+	ko: [
+		{ group: '제품', items: ['프로덕트 오너십', '프로덕트 매니지먼트', '개발자 관계 (DevRel)', '로드맵 수립'] },
+		{ group: '도메인', items: ['OTT·스트리밍', 'DRM·콘텐츠 보안', '안티파이러시', '워터마킹'] },
+		{ group: '기술', items: ['C / C++', 'Java', '클라우드 / SaaS', '기술 문서'] },
+		{ group: 'AI', items: ['AI 지식 관리', 'LLM 도구', '에이전트 준비 문서', '자동화'] },
+	],
+} as const;

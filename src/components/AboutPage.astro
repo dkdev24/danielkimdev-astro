@@ -1,0 +1,191 @@
+---
+// Shared About page (Stage 14), fed by `lang`. Narrative bio (from data/about.ts),
+// a data-driven career timeline (the `timeline` collection via TimelineItem),
+// grouped skills, a headshot with a monogram fallback, and a contact row.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from './Button.astro';
+import TimelineItem from './TimelineItem.astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { SITE_AUTHOR, SITE_DESCRIPTION_BY_LOCALE, CONTACT_EMAIL, SOCIAL_LINKS } from '../consts';
+import { ABOUT, ABOUT_SKILLS } from '../data/about';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const bio = ABOUT[lang].bio;
+const skills = ABOUT_SKILLS[lang];
+
+// Career timeline for this locale, ordered.
+const timeline = (
+	await getCollection('timeline', (e) => e.data.lang === lang)
+).sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+// Monogram fallback from the author's initials.
+const monogram = SITE_AUTHOR.split(' ')
+	.map((w) => w[0])
+	.join('')
+	.slice(0, 2)
+	.toUpperCase();
+---
+
+<BaseLayout title={`${t('about.title')} — ${SITE_AUTHOR}`} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
+	<article class="about container">
+		<header class="about__head">
+			<div class="avatar">
+				<span class="avatar__monogram" aria-hidden="true">{monogram}</span>
+				{/* TODO(daniel): add /public/images/daniel.jpg; falls back to the monogram if absent. */}
+				<img class="avatar__img" src="/images/daniel.jpg" alt={SITE_AUTHOR} onerror="this.remove()" />
+			</div>
+			<div>
+				<h1>{t('about.title')}</h1>
+				<div class="about__bio">
+					{bio.map((para) => <p>{para}</p>)}
+				</div>
+			</div>
+		</header>
+
+		<!-- Skills / focus -->
+		<section class="about__section" aria-labelledby="skills-h">
+			<h2 id="skills-h">{t('about.skillsTitle')}</h2>
+			<div class="skills">
+				{
+					skills.map((g) => (
+						<div class="skills__group">
+							<h3 class="skills__group-title">{g.group}</h3>
+							<ul class="skills__list">
+								{g.items.map((item) => (
+									<li class="skills__item">{item}</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<!-- Career timeline -->
+		{
+			timeline.length > 0 && (
+				<section class="about__section" aria-labelledby="timeline-h">
+					<h2 id="timeline-h">{t('about.timeline')}</h2>
+					<ol class="timeline">
+						{timeline.map((entry) => (
+							<TimelineItem
+								title={entry.data.role}
+								org={entry.data.org}
+								period={`${entry.data.start} – ${entry.data.end}`}
+							>
+								<p>{entry.data.summary}</p>
+							</TimelineItem>
+						))}
+					</ol>
+				</section>
+			)
+		}
+
+		<!-- Contact -->
+		<section class="about__section" aria-labelledby="contact-h">
+			<h2 id="contact-h">{t('about.contact')}</h2>
+			<div class="about__contact">
+				<Button variant="primary" href={`mailto:${CONTACT_EMAIL}`}>{t('footer.email')}</Button>
+				<Button variant="secondary" href={SOCIAL_LINKS.linkedin} external>{t('footer.linkedin')}</Button>
+			</div>
+		</section>
+	</article>
+</BaseLayout>
+
+<style>
+	.about {
+		padding-block: var(--space-12) var(--space-16);
+		max-width: var(--container-prose);
+	}
+	.about__head {
+		display: flex;
+		gap: var(--space-8);
+		align-items: flex-start;
+		margin-bottom: var(--space-12);
+	}
+	@media (max-width: 600px) {
+		.about__head {
+			flex-direction: column;
+			gap: var(--space-6);
+		}
+	}
+	.avatar {
+		position: relative;
+		flex: none;
+		width: 120px;
+		height: 120px;
+		border-radius: var(--radius-pill);
+		overflow: hidden;
+		background: var(--color-bg-muted);
+	}
+	.avatar__monogram {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-display);
+		font-size: var(--text-h2);
+		font-weight: var(--weight-semibold);
+		color: var(--color-text-secondary);
+	}
+	.avatar__img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.about__bio p {
+		color: var(--color-text-secondary);
+		margin-bottom: var(--space-4);
+	}
+	.about__bio p:first-child {
+		font-size: var(--text-lg);
+		color: var(--color-text);
+	}
+
+	.about__section {
+		margin-top: var(--space-12);
+	}
+	.about__section h2 {
+		margin-bottom: var(--space-6);
+	}
+
+	.skills {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+		gap: var(--space-6);
+	}
+	.skills__group-title {
+		font-size: var(--text-base);
+		color: var(--color-text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		margin-bottom: var(--space-2);
+	}
+	.skills__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+	}
+	.skills__item {
+		color: var(--color-text-secondary);
+	}
+
+	.about__contact {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+	}
+</style>

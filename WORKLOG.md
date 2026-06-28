@@ -16,6 +16,27 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 14: About page (both locales)
+
+**Did:** Built About for both locales as a shared `AboutPage.astro` (fed by `lang`), with thin wrappers `pages/about.astro` (replacing the old lorem/BlogPost page) + new `pages/ko/about.astro`.
+- **Headshot + monogram fallback:** `<img src="/images/daniel.jpg" onerror="this.remove()">` over a "DK" monogram circle — when the image is absent (it is, `TODO(daniel)`), the img removes itself and the monogram shows. Works with and without the file, no JS framework.
+- **Bio:** paragraphs from `src/data/about.ts` (EN seed; KO stub `TODO(daniel)`), lead paragraph emphasized.
+- **Skills / focus:** grouped Product / Domain / Technical / AI from a new `ABOUT_SKILLS` export (localized group labels, items drawn from Daniel's real background). New `about.skillsTitle` dict key.
+- **Career timeline:** rendered **dynamically** from the `timeline` collection (current locale, ordered) via `TimelineItem` inside `<ol class="timeline">` — adding a timeline entry needs zero markup changes. `period` = `${start} – ${end}` (shows the `TODO(daniel)` date placeholders until filled).
+- **Contact row:** email (`mailto:`) + LinkedIn `Button`s with localized labels.
+
+**Decisions:** monogram fallback via inline `onerror` (simplest robust no-image path). Skill items kept as proper nouns / mostly shared across locales (technical terms); only group labels localized. The bio and timeline copy are seed/`TODO(daniel)` — not fabricated.
+
+**Verify:** `astro check` → 0 errors. `astro build` → succeeds; `dist/about/` + `dist/ko/about/` exist. **Verified live (Playwright):** EN about renders the monogram (img auto-removed since the headshot 404s — the only console error, expected), **4 timeline items** + **4 skill groups**; the KO route shows the KO skills heading (기술과 관심사). Screenshot confirmed the avatar + vertical-rail timeline + contact layout.
+
+**Files touched:** `src/components/AboutPage.astro` (new), `src/pages/about.astro` (rewritten wrapper), `src/pages/ko/about.astro` (new), `src/data/about.ts` (`ABOUT_SKILLS`), `src/i18n/en.json` + `ko.json` (`about.skillsTitle`), `dev-references/plans/00-index.md`, `dev-references/plans/stage-14-about.md`, `HANDOFF.md`.
+
+**Still open `TODO(daniel)`:** KO bio native copy; timeline exact dates/orgs; the `/public/images/daniel.jpg` headshot.
+
+**Next:** Stage 15 — Portfolio page + filter (`stage-15-portfolio.md`). Renders the portfolio collection with a tag/category filter; **resolves the Home "View portfolio" links**. Depends on 10, 11 (done).
+
+---
+
 ## 2026-06-28 — Stage 13: Home page (both locales) — Phase 3 begins
 
 **Did:** Built the Home page for both locales as a shared `HomePage.astro` fed by `lang`, with thin route wrappers `pages/index.astro` (en) + new `pages/ko/index.astro` (ko).
