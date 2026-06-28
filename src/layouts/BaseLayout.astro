@@ -10,6 +10,7 @@
 import type { ImageMetadata } from 'astro';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import type { Lang } from '../i18n/utils';
 import { useTranslations } from '../i18n/utils';
 
@@ -44,8 +45,7 @@ const t = useTranslations(lang);
 		</main>
 
 		<slot name="footer">
-			{/* Placeholder footer landmark — real Footer lands in Stage 08. */}
-			<footer class="site-footer" data-placeholder></footer>
+			<Footer />
 		</slot>
 	</body>
 </html>

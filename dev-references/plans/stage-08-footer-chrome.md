@@ -12,11 +12,11 @@ Build the footer and wire header + footer into `BaseLayout` so the global chrome
 - Social URLs are still `TODO(daniel):` (LinkedIn, X, GitHub).
 
 ## Tasks
-- [ ] Create `src/components/Footer.astro`: short tagline (i18n), email link, social links (LinkedIn/X/GitHub — `TODO(daniel):` URLs from `consts.ts`), RSS link, © + current year, secondary language toggle.
-- [ ] Style as the MiniMax dark footer (§2) regardless of active theme.
-- [ ] Wire `Header` and `Footer` into `BaseLayout` slots; remove placeholder markup.
-- [ ] Ensure footer links use localized paths and i18n labels.
-- [ ] Add `<link rel="alternate" type="application/rss+xml">` head hook (feed built in Stage 18) — or leave a clearly-marked TODO if feeds aren't ready.
+- [x] Create `src/components/Footer.astro`: short tagline (i18n), email link, social links (LinkedIn/X/GitHub — `TODO(daniel):` URLs from `consts.ts`), RSS link, © + current year, secondary language toggle.
+- [x] Style as the MiniMax dark footer (§2) regardless of active theme.
+- [x] Wire `Header` and `Footer` into `BaseLayout` slots; remove placeholder markup.
+- [x] Ensure footer links use localized paths and i18n labels.
+- [x] Add `<link rel="alternate" type="application/rss+xml">` head hook (feed built in Stage 18) — or leave a clearly-marked TODO if feeds aren't ready.
 
 ## Files to create / edit
 - `src/components/Footer.astro` — replace starter footer.

@@ -40,9 +40,14 @@ export const SITE_AUTHOR = 'Daniel Kim';
 // override this (PRD §10.4). TODO(daniel): add the real asset at public/og-default.png.
 export const DEFAULT_OG_IMAGE = '/og-default.png';
 
-// Social profiles (PRD §4 footer). TODO(daniel): fill in real profile URLs.
+// Public contact email — the site's contact address (PRD §4). Personal Gmail by
+// design (this is a personal blog/portfolio); the company-domain work email is
+// intentionally NOT used here.
+export const CONTACT_EMAIL = 'danielkimdev24@gmail.com';
+
+// Social profiles (PRD §4 footer). Locked 2026-06-28: LinkedIn + email only —
+// no X (Twitter) or GitHub accounts to show yet, so those are omitted entirely
+// (don't scaffold placeholders). Revisit only if Daniel creates them.
 export const SOCIAL_LINKS = {
-	linkedin: 'TODO(daniel): LinkedIn profile URL',
-	twitter: 'TODO(daniel): X (Twitter) profile URL',
-	github: 'TODO(daniel): GitHub profile URL',
+	linkedin: 'https://www.linkedin.com/in/junhoster/',
 } as const;

@@ -1,0 +1,61 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - navigation "Main navigation" [ref=e4]:
+      - link "Daniel Kim" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link "Home" [ref=e9] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e10]:
+            - link "About" [ref=e11] [cursor=pointer]:
+              - /url: /about/
+          - listitem [ref=e12]:
+            - link "Portfolio" [ref=e13] [cursor=pointer]:
+              - /url: /portfolio/
+          - listitem [ref=e14]:
+            - link "Blog" [ref=e15] [cursor=pointer]:
+              - /url: /blog/
+        - generic [ref=e16]:
+          - link "Read this page in Korean" [ref=e17] [cursor=pointer]:
+            - /url: /ko/
+            - img [ref=e18]
+            - generic [ref=e22]: 한국어
+          - button "Switch to dark theme" [ref=e23] [cursor=pointer]:
+            - img [ref=e24]
+  - main [ref=e26]:
+    - generic [ref=e27]:
+      - heading "Daniel Kim" [level=1] [ref=e28]
+      - paragraph [ref=e29]: An engineer-turned-product person exploring AI knowledge management, automation, and AI-ready technical docs.
+      - paragraph [ref=e30]: I'm digging into how AI changes the way we capture knowledge, automate the busywork, and write documentation that machines can actually use. This is my digital garden.
+  - contentinfo [ref=e31]:
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - paragraph [ref=e34]: Product & DevRel, working on AI for knowledge work.
+        - navigation "Elsewhere" [ref=e35]:
+          - link "LinkedIn" [ref=e36] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/junhoster/
+            - img [ref=e37]
+            - generic [ref=e39]: LinkedIn
+          - link "Email" [ref=e40] [cursor=pointer]:
+            - /url: mailto:danielkimdev24@gmail.com
+            - img [ref=e41]
+            - generic [ref=e45]: Email
+          - link "RSS feed" [ref=e46] [cursor=pointer]:
+            - /url: /rss.xml
+            - img [ref=e47]
+            - generic [ref=e51]: RSS feed
+      - generic [ref=e52]:
+        - paragraph [ref=e53]:
+          - generic [ref=e54]: © 2026 Daniel Kim. All rights reserved.
+          - generic [ref=e55]: Built with Astro. Deployed on Cloudflare.
+        - generic [ref=e56]:
+          - link "Read this page in Korean" [ref=e57] [cursor=pointer]:
+            - /url: /ko/
+            - img [ref=e58]
+            - generic [ref=e62]: 한국어
+          - button "Switch to dark theme" [ref=e63] [cursor=pointer]:
+            - img [ref=e64]

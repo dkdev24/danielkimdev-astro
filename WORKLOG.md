@@ -16,6 +16,23 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 08: footer & global chrome wiring (Phase 1 complete)
+
+**Did:**
+- Rewrote `Footer.astro` as the MiniMax **dark footer** (DESIGN-minimax §2) — pinned to fixed brand tokens (`--color-charcoal` bg, `--color-text-on-dark` text) so it reads dark in **both** themes, not just light. Contents: i18n tagline, a social `<nav>` (LinkedIn + email `mailto:` + RSS, each with an inline icon + visible label), a built-with line, a dynamic `© {year} Daniel Kim`, and a secondary **LanguageToggle + ThemeToggle** for header/footer parity.
+- Wired the real contact details into `consts.ts`: added `CONTACT_EMAIL = 'danielkimdev24@gmail.com'` and set `SOCIAL_LINKS.linkedin` to the real profile URL. **Dropped the `twitter` / `github` placeholder keys entirely** — per the locked 2026-06-28 decision there are no X/GitHub accounts yet, so they're omitted rather than scaffolded.
+- Wired both `Header` and `Footer` into `BaseLayout`'s `header` / `footer` slots (the Stage 06 placeholder landmark markup is gone). RSS link points at the root `/rss.xml` for now with a `TODO(stage-18)` for per-locale feeds.
+
+**Decisions:** social presence is **LinkedIn + email + RSS only** (locked) — no invented X/GitHub URLs, overriding the older stage-doc note that said to leave `TODO(daniel):` placeholders (the real values are now known). Footer toggles reuse the Stage 07 components as-is; because those scripts query *all* matching instances, the second (footer) instance needed zero extra JS — confirmed both footer toggles are live.
+
+**Verify:** `astro check` → 0 errors (21 files). `astro build` → succeeds. **Verified live in a real browser (Playwright):** the footer background is `rgb(24,30,37)` (charcoal) in **both** light and dark themes (toggled theme, bg unchanged → stays dark); social labels render LinkedIn / Email / RSS feed; the footer carries exactly 2 toggles (lang + theme) for parity. `dist/index.html` confirms `href` = real LinkedIn URL + `mailto:danielkimdev24@gmail.com` + `/rss.xml`, copyright line present, and **no GitHub** anywhere (the only "twitter" strings are the legitimate `twitter:*` OG card meta in BaseHead, not a social link).
+
+**Files touched:** `src/components/Footer.astro` (rewritten), `src/consts.ts` (`CONTACT_EMAIL` + real LinkedIn, dropped X/GitHub), `src/layouts/BaseLayout.astro` (slot in Footer), `dev-references/plans/00-index.md`, `dev-references/plans/stage-08-footer-chrome.md`, `HANDOFF.md`.
+
+**Phase 1 (Foundation) is complete** — config, tokens, dark mode, fonts, i18n, layout shell, header, footer all done. **Next: Stage 09 — content collections & schemas** (`stage-09-content-collections.md`), the start of Phase 2 (Content engine). Define the blog + portfolio + timeline collections and their Zod schemas, including the two tag enums (blog vs portfolio per PRD §5) and the `translationKey` linkage for i18n.
+
+---
+
 ## 2026-06-28 — Stage 07: header — nav + language & theme toggles
 
 **Did:**
