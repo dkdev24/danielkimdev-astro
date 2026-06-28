@@ -16,6 +16,24 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 21 (partial): deploy docs + config (deploy itself pending Daniel's CF auth)
+
+**Did:** Completed every part of Stage 21 that doesn't require Cloudflare authentication.
+- **Verified deploy config:** `output: 'static'`, clean `npm run build` → `dist/`, Node pinned (`.nvmrc` 22.12.0 + `engines.node >=22.12.0`), `wrangler.toml` (`pages_build_output_dir = "./dist"`), and `public/_headers` (security headers + `/_astro/*` immutable cache) all present and correct from earlier stages.
+- **`README.md`:** replaced the leftover Astro "Starter Kit: Blog" boilerplate with a real project README — overview, stack, dev commands, project structure, the EN-root/KO-`/ko/` i18n model, the Cloudflare Pages deploy note (git-integration preset "Astro" + the `wrangler pages deploy` fallback), and links to AUTHORING/HANDOFF/PRD.
+- **`AUTHORING.md` (new):** how to add a blog post / portfolio item / timeline entry — accurate frontmatter templates pulled from `content.config.ts`, the full `BLOG_TAGS` / `PORTFOLIO_TAGS` / `PORTFOLIO_CATEGORIES` enums, the folder-by-locale + `lang` + `translationKey` pairing convention, draft behavior, the "add a UI string to both dicts" rule, and the publish/commit→auto-deploy flow.
+- Confirmed build-time success metrics: all P0 pages build in both locales, `astro check` 0 errors (Zod guarantees no missing frontmatter).
+
+**Decisions:** did **not** run the actual deploy — it's outward-facing/production and requires Daniel's `wrangler login` / Cloudflare dashboard auth, so it's intentionally left to him (with step-by-step instructions in the stage doc + HANDOFF). Marked Stage 21 🟡 in the index rather than ✅: docs/config done, deploy + prod-verification + live-URL Lighthouse outstanding.
+
+**Verify:** `npm run build` clean; `npx astro check` 0 errors. README + AUTHORING render (Markdown).
+
+**Files touched:** `README.md` (rewritten), `AUTHORING.md` (new), `dev-references/plans/00-index.md`, `dev-references/plans/stage-21-deploy.md`, `HANDOFF.md`.
+
+**Next (Daniel, needs CF auth):** deploy to Cloudflare Pages (repo connect, preset Astro — or `wrangler pages deploy ./dist`), attach `danielkimdev.com` at the apex, verify production URLs + toggles + feeds + hreflang, run Lighthouse on the live URL and record scores in `stage-21-deploy.md`. Then v1 is shipped → start the P1 backlog in `00-index.md`.
+
+---
+
 ## 2026-06-28 — Stage 20: Performance & Lighthouse pass
 
 **Did:** Measured real Core Web Vitals (FCP/LCP/CLS, transfer, request count) in-browser via Playwright against `astro preview`, and tuned the biggest offenders.

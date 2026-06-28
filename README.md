@@ -1,63 +1,74 @@
-# Astro Starter Kit: Blog
+# danielkimdev.com
+
+Daniel Kim's personal site & blog — a bilingual (EN/KO) Astro static site and
+public digital garden for AI-for-knowledge-work, automation, and media-tech /
+OTT / DRM topics.
+
+- **Live:** https://danielkimdev.com
+- **Stack:** [Astro](https://astro.build) (static output) · TypeScript · content
+  collections (Markdown/MDX + Zod) · self-hosted fonts via `astro:assets` ·
+  Shiki code highlighting · deployed to **Cloudflare Pages**.
+- **Full brief:** [`dev-references/astro-site-prd.md`](dev-references/astro-site-prd.md)
+  (goals, IA, i18n model, design system, schemas). Design tokens:
+  [`dev-references/DESIGN-minimax.md`](dev-references/DESIGN-minimax.md).
+
+## Develop
+
+Requires Node `>=22.12.0` (see [`.nvmrc`](.nvmrc)).
 
 ```sh
-npm create astro@latest -- --template blog
+npm install
+npm run dev        # local dev server at http://localhost:4321
+npm run build      # static build → ./dist
+npm run preview    # serve the production build locally
+npx astro check    # type-check + content schema validation
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Project structure
 
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+```
+src/
+  components/   UI + page components (Header, Footer, Card, Tag, TOC, …;
+                shared page bodies HomePage/AboutPage/PortfolioPage/BlogIndexPage)
+  layouts/      BaseLayout (canonical shell), BlogPost (post layout)
+  pages/        routes — EN at root, KO under /ko/ (+ rss.xml, ko/rss.xml)
+  content/      blog/{en,ko}, portfolio/{en,ko}, timeline/ (content collections)
+  data/         non-collection content (home hero, about bio/skills)
+  i18n/         dictionaries (en.json/ko.json) + utils (t(), localized paths)
+  styles/       tokens.css (design tokens, light + dark) + global.css
+  utils/        blog routing, reading time, SEO/JSON-LD, RSS
+public/         static assets (_headers, favicon, og-default.png, /images)
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Internationalization
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+English is the default locale served at the **root** (no `/en/` prefix); Korean
+is served under **`/ko/`**. Every page exists in both locales. UI strings live in
+`src/i18n/{en,ko}.json` (key parity is compile-enforced); content strings live in
+the collections / `src/data`. See the PRD §7 for the full model.
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## Deploy (Cloudflare Pages)
 
-Any static assets, like images, can be placed in the `public/` directory.
+The site is a static build deployed to **Cloudflare Pages** at the apex domain
+`danielkimdev.com` (Cloudflare Registrar), no base path.
 
-## 🧞 Commands
+- **Git integration (recommended):** connect the repo in the Cloudflare dashboard,
+  framework preset **Astro** — build command `npm run build`, output dir `dist`.
+  Pushes to the default branch deploy automatically.
+- **Direct (manual):** `npm run build && npx wrangler pages deploy ./dist`
+  (requires `wrangler login`).
 
-All commands are run from the root of the project, from a terminal:
+Config lives in [`wrangler.toml`](wrangler.toml) (`pages_build_output_dir = "./dist"`).
+Security headers + long-cache for hashed assets are in
+[`public/_headers`](public/_headers).
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Authoring
 
-## 👀 Want to learn more?
+See **[`AUTHORING.md`](AUTHORING.md)** for how to add a blog post, portfolio item,
+or timeline entry (frontmatter templates + the EN/KO translation-pairing convention).
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Session continuity
 
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+[`HANDOFF.md`](HANDOFF.md) holds the current state and next steps;
+[`WORKLOG.md`](WORKLOG.md) is the append-only history. The build was executed in
+the staged plan under [`dev-references/plans/`](dev-references/plans/).
