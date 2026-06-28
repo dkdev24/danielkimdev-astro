@@ -11,14 +11,14 @@ Stand up the centralized, swappable token layer as CSS custom properties — the
 - Daniel may redesign later, so tokens must be centralized and easy to swap — no hardcoded values in components downstream.
 
 ## Tasks
-- [ ] Create `src/styles/tokens.css` with `:root { … }` custom properties.
-- [ ] **Color:** neutrals (ink `#222222`, bg `#ffffff`, gray ramp), brand blue (`#1456f0` brand / `#3b82f6` primary-500 / `#2563eb` hover), decorative pink (`#ea5ec1`, logo-only — comment "never text/buttons"), semantic success/warning/error/info — all from DESIGN-minimax §2.
-- [ ] **Spacing:** 8px-based step scale (DESIGN-minimax §5) as `--space-*`.
-- [ ] **Radius:** 8px UI → 20–24px cards → 9999px pills as `--radius-*` (§5).
-- [ ] **Shadows/elevation:** light shadows (≤0.16 opacity) + brand purple-tinted glow for featured cards (§6) as `--shadow-*`.
-- [ ] **Typography:** font-family role variables mapped to the `--font-*` CSS vars from `astro.config.mjs`; size/weight/line-height scale (§3), universal `1.5` line-height, weight `500` default emphasis.
-- [ ] **Motion:** `--motion-fast: 150ms`, `--motion-base: 250ms` with ease; document `prefers-reduced-motion` usage for later.
-- [ ] Import `tokens.css` from `src/styles/global.css` (ahead of resets).
+- [x] Create `src/styles/tokens.css` with `:root { … }` custom properties.
+- [x] **Color:** neutrals (ink `#222222`, bg `#ffffff`, gray ramp), brand blue (`#1456f0` brand / `#3b82f6` primary-500 / `#2563eb` hover), decorative pink (`#ea5ec1`, logo-only — comment "never text/buttons"), semantic success/warning/error/info — all from DESIGN-minimax §2.
+- [x] **Spacing:** 8px-based step scale (DESIGN-minimax §5) as `--space-*`.
+- [x] **Radius:** 8px UI → 20–24px cards → 9999px pills as `--radius-*` (§5).
+- [x] **Shadows/elevation:** light shadows (≤0.16 opacity) + brand purple-tinted glow for featured cards (§6) as `--shadow-*`.
+- [x] **Typography:** font-family role variables mapped to the `--font-*` CSS vars from `astro.config.mjs`; size/weight/line-height scale (§3), universal `1.5` line-height, weight `500` default emphasis.
+- [x] **Motion:** `--motion-fast: 150ms`, `--motion-base: 250ms` with ease; document `prefers-reduced-motion` usage for later.
+- [x] Import `tokens.css` from `src/styles/global.css` (ahead of resets).
 
 ## Files to create / edit
 - `src/styles/tokens.css` — new (the token source of truth).

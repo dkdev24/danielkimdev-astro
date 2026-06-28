@@ -1,0 +1,171 @@
+/*
+  Design tokens — the single source of truth for the visual system.
+  Every component reads from these CSS custom properties; no raw color / space
+  literals downstream (Daniel may re-skin later, so keep everything swappable).
+
+  Values trace to dev-references/DESIGN-minimax.md — section refs noted per group.
+  LIGHT THEME ONLY (Stage 02). The dark token set lands in Stage 03 via a
+  [data-theme="dark"] override of these same variable names.
+*/
+
+:root {
+	/* ============================================================
+	   COLOR — DESIGN-minimax §2
+	   ============================================================ */
+
+	/* --- Brand --- */
+	--color-brand: #1456f0; /* §2 Brand Blue (--brand-6), primary brand identity */
+	--color-brand-deep: #17437d; /* §2 Brand Deep (--brand-3), deep-blue emphasis */
+	--color-sky: #3daeff; /* §2 Sky Blue, lighter brand accent */
+	--color-pink: #ea5ec1; /* §2 Brand Pink — DECORATIVE / LOGO ONLY. Never text or buttons (§7 Don't). */
+
+	/* --- Blue scale (primary action ramp) §2 --- */
+	--color-primary-200: #bfdbfe; /* light blue backgrounds */
+	--color-primary-light: #60a5fa; /* active states, highlights */
+	--color-primary-500: #3b82f6; /* standard blue actions */
+	--color-primary-600: #2563eb; /* hover */
+	--color-primary-700: #1d4ed8; /* pressed / active */
+
+	/* --- Neutral / gray ramp §2 (named swatches; ramp interpolated for fills/borders) --- */
+	--color-ink: #222222; /* §2 Near Black (--col-text00), primary text */
+	--color-ink-strong: #18181b; /* §2 Dark, headings & button text */
+	--color-charcoal: #181e25; /* §2 Charcoal, dark surfaces / footer bg */
+	--gray-900: #181e25;
+	--gray-800: #222222;
+	--gray-700: #45515e; /* §2 Dark Gray (--col-text04), secondary text */
+	--gray-500: #5f5f5f; /* §2 Light Gray (--brand-2), helper text */
+	--gray-400: #8e8e93; /* §2 Mid Gray, tertiary / muted labels */
+	--gray-300: #e5e7eb; /* §2 Border Gray, component borders */
+	--gray-200: #f2f3f5; /* §2 Border Light, subtle section dividers */
+	--gray-100: #f0f0f0; /* §2 Light Gray, secondary button backgrounds */
+	--gray-050: #f7f8fa; /* interpolated — faint surface tint */
+	--color-white: #ffffff; /* §2 Pure White (--col-bg13) */
+
+	/* --- Semantic surface & text roles (light) --- */
+	--color-bg: var(--color-white); /* §2 white is structural background (§7 Do) */
+	--color-bg-subtle: var(--gray-050); /* faint raised/inset panels */
+	--color-bg-muted: var(--gray-100); /* secondary button / chip fills */
+	--color-surface: var(--color-white); /* card surface */
+	--color-border: var(--gray-300); /* default component border */
+	--color-border-subtle: var(--gray-200); /* hairline dividers */
+
+	--color-text: var(--color-ink); /* primary body text */
+	--color-text-heading: var(--color-ink-strong); /* headings */
+	--color-text-secondary: var(--gray-700); /* secondary text */
+	--color-text-muted: var(--gray-400); /* tertiary / metadata */
+	--color-text-on-brand: var(--color-white); /* text atop brand/primary fills */
+	--color-text-on-dark: rgba(255, 255, 255, 0.8); /* §4 links on dark sections */
+
+	/* --- Interactive (links / actions) --- */
+	--color-link: var(--color-primary-600);
+	--color-link-hover: var(--color-primary-700);
+	--color-focus-ring: var(--color-primary-500);
+
+	/* --- Glass overlay §2 --- */
+	--color-glass-white: hsla(0, 0%, 100%, 0.4); /* §2 frosted glass overlay (--fill-bg-white) */
+
+	/* --- Semantic status --- */
+	/* §2 gives Success bg only (#e8ffea); warning/error/info derived to match the
+	   light, low-saturation palette. TODO(daniel): confirm non-success status hues. */
+	--color-success: #1f9d55;
+	--color-success-bg: #e8ffea; /* §2 Success Background (--success-bg) */
+	--color-warning: #b7791f;
+	--color-warning-bg: #fffbeb;
+	--color-error: #e02424;
+	--color-error-bg: #fdecec;
+	--color-info: var(--color-primary-600);
+	--color-info-bg: var(--color-primary-200);
+
+	/* ============================================================
+	   SPACING — DESIGN-minimax §5 (8px base; named to the source scale)
+	   ============================================================ */
+	--space-px: 1px;
+	--space-0_5: 2px;
+	--space-1: 4px;
+	--space-1_5: 6px;
+	--space-2: 8px; /* base unit */
+	--space-2_5: 10px;
+	--space-3: 11px; /* MiniMax button vertical padding */
+	--space-3_5: 14px;
+	--space-4: 16px;
+	--space-6: 24px;
+	--space-8: 32px;
+	--space-10: 40px;
+	--space-12: 50px;
+	--space-16: 64px; /* §5 section rhythm */
+	--space-20: 80px; /* §5 large section gaps */
+
+	/* ============================================================
+	   RADIUS — DESIGN-minimax §5 (Border Radius Scale)
+	   ============================================================ */
+	--radius-xs: 4px; /* small tags, micro badges */
+	--radius-sm: 8px; /* buttons, small cards (standard UI) */
+	--radius-md: 12px; /* medium cards / panels */
+	--radius-lg: 16px; /* large product cards */
+	--radius-xl: 20px; /* generous product cards */
+	--radius-2xl: 24px; /* hero cards, major containers */
+	--radius-pill: 9999px; /* pill buttons & nav tabs */
+
+	/* ============================================================
+	   ELEVATION / SHADOWS — DESIGN-minimax §6 (≤0.16 opacity; keep it airy)
+	   ============================================================ */
+	--shadow-sm: rgba(0, 0, 0, 0.08) 0px 4px 6px; /* Level 1 Subtle — standard cards */
+	--shadow-ambient: rgba(0, 0, 0, 0.08) 0px 0px 22.576px; /* Level 2 Ambient — soft glow */
+	--shadow-brand-glow: rgba(44, 30, 116, 0.16) 0px 0px 15px; /* Level 3 Brand Glow — featured cards */
+	--shadow-brand-glow-offset: rgba(44, 30, 116, 0.11) 6.5px 2px 17.5px; /* §6 directional brand glow */
+	--shadow-lg: rgba(36, 36, 36, 0.08) 0px 12px 16px -4px; /* Level 4 Elevated — lifted / hover */
+
+	/* ============================================================
+	   TYPOGRAPHY — DESIGN-minimax §3
+	   Font-family roles map to the --font-* CSS vars from astro.config.mjs.
+	   ============================================================ */
+	--font-ui: var(--font-dm-sans), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* DM Sans — UI workhorse */
+	--font-display: var(--font-outfit), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Outfit — display headings */
+	--font-heading: var(--font-poppins), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Poppins — mid-tier headings */
+	--font-data: var(--font-roboto), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Roboto — data/technical */
+	--font-korean: var(--font-pretendard), 'Noto Sans KR', sans-serif; /* Pretendard — Korean */
+	--font-body: var(--font-ui); /* default body alias */
+
+	/* --- Size scale §3 (rem; compact MiniMax hierarchy) --- */
+	--text-display: 5rem; /* 80px — display hero */
+	--text-h1: 2.5rem; /* ~40px — page H1 (interpolated between 80 → 32) */
+	--text-h2: 2rem; /* 32px — section heading */
+	--text-h3: 1.75rem; /* 28px — card title */
+	--text-h4: 1.5rem; /* 24px — sub-heading */
+	--text-lg: 1.25rem; /* 20px — body large / emphasized */
+	--text-md: 1.125rem; /* 18px — feature label */
+	--text-base: 1rem; /* 16px — standard body */
+	--text-sm: 0.875rem; /* 14px — nav / links */
+	--text-xs: 0.8125rem; /* 13px — buttons / captions */
+	--text-2xs: 0.75rem; /* 12px — tags / small labels */
+	--text-3xs: 0.625rem; /* 10px — micro annotations */
+
+	/* --- Weights §3 (500 = default emphasis; 700 reserved for strong body) --- */
+	--weight-regular: 400;
+	--weight-medium: 500; /* default emphasis (§3, §7 Do) */
+	--weight-semibold: 600; /* section titles */
+	--weight-bold: 700; /* strong emphasis only */
+
+	/* --- Line heights §3 (universal 1.5; exceptions noted) --- */
+	--leading-tight: 1.1; /* display hero */
+	--leading-snug: 1.2;
+	--leading-normal: 1.5; /* universal reading rhythm */
+	--leading-relaxed: 1.7; /* captions / metadata */
+
+	/* ============================================================
+	   MOTION — DESIGN-minimax (light, restrained interactions)
+	   Honor prefers-reduced-motion at the component level, e.g.:
+	     @media (prefers-reduced-motion: reduce) { * { transition-duration: 0.01ms; } }
+	   ============================================================ */
+	--motion-fast: 150ms;
+	--motion-base: 250ms;
+	--ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+	--motion-fast-ease: var(--motion-fast) var(--ease-standard);
+	--motion-base-ease: var(--motion-base) var(--ease-standard);
+
+	/* ============================================================
+	   LAYOUT — DESIGN-minimax §5 (contained, centered content)
+	   ============================================================ */
+	--container-max: 1200px;
+	--container-prose: 720px; /* readable measure for article body */
+}

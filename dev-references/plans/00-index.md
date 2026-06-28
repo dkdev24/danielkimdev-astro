@@ -24,7 +24,7 @@
 | # | Stage | Phase (PRD §16) | Depends on | Status |
 |---|-------|-----------------|------------|--------|
 | 01 | [Foundation config & repo hygiene](stage-01-foundation-config.md) | 1 Foundation | — | ✅ Done |
-| 02 | [Design tokens — light](stage-02-design-tokens-light.md) | 1 Foundation | 01 | ⬜ Not started |
+| 02 | [Design tokens — light](stage-02-design-tokens-light.md) | 1 Foundation | 01 | ✅ Done |
 | 03 | [Dark mode token set & theme switching](stage-03-dark-mode.md) | 1 Foundation | 02 | ⬜ Not started |
 | 04 | [Typography & font wiring](stage-04-typography-fonts.md) | 1 Foundation | 02 | ⬜ Not started |
 | 05 | [i18n utilities & UI dictionaries](stage-05-i18n-utilities.md) | 1 Foundation | 01 | ⬜ Not started |
@@ -45,7 +45,9 @@
 | 20 | [Performance & Lighthouse pass](stage-20-performance.md) | 4 Polish | 13–18 | ⬜ Not started |
 | 21 | [Deploy to Cloudflare Pages + README](stage-21-deploy.md) | 5 Ship | 19, 20 | ⬜ Not started |
 
-> **Note:** Stage 01 completed on 2026-06-27 — config finalized (`output: 'static'` added), `.nvmrc` pinned to Node 22.12.0, `consts.ts` populated, `public/_headers` added, starter posts + Atkinson fonts removed. Verified with `astro check` (0 errors) and `npm run build` (succeeds). Next: Stage 02 (design tokens — light).
+> **Note:** Stage 01 completed on 2026-06-27 — config finalized (`output: 'static'` added), `.nvmrc` pinned to Node 22.12.0, `consts.ts` populated, `public/_headers` added, starter posts + Atkinson fonts removed. Verified with `astro check` (0 errors) and `npm run build` (succeeds).
+>
+> **Note:** Stage 02 completed on 2026-06-28 — light design-token layer landed in `src/styles/tokens.css` (color/spacing/radius/shadow/type/motion, every value traced to `DESIGN-minimax.md`); `global.css` now `@import`s it and base resets read tokens only. Legacy Bear Blog vars kept as a deprecated block for un-reworked scaffold (remove in Stages 07/08/16/17). Verified `astro check` (0 errors) + `astro build` (succeeds). Next: Stage 03 (dark mode token set & theme switching).
 
 **Critical path:** 01 → 02 → 03/04 → 05 → 06 → 07 → 08, then 09 → 10 in parallel with 11 → 12, converging on pages 13–18, finishing with 19/20 → 21.
 

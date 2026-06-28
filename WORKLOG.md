@@ -16,6 +16,30 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 02: design token layer (light theme)
+
+**Did:**
+- Created `src/styles/tokens.css` — the centralized, swappable token source of truth (light theme only; dark set is Stage 03). Every value traces to a `DESIGN-minimax.md` section via inline comments:
+  - **Color** (§2): brand (`#1456f0`), brand-deep, sky, decorative pink (`#ea5ec1`, commented logo/decorative-only — never text/buttons per §7), the blue primary ramp (200→700), a neutral gray ramp (named swatches from §2 + interpolated fills), and semantic surface/text role aliases (`--color-bg`, `--color-text`, `--color-border`, etc.). Status colors: success bg `#e8ffea` from §2; warning/error/info derived with a `TODO(daniel)` to confirm hues.
+  - **Spacing** (§5): 8px-based scale named to the source steps (`--space-px` … `--space-20`).
+  - **Radius** (§5): `--radius-xs`(4) → `-sm`(8) → `-md/lg/xl/2xl` → `--radius-pill`(9999px).
+  - **Shadows** (§6): `--shadow-sm`, `-ambient`, `-brand-glow` (purple-tinted `rgba(44,30,116,0.16)`), `-brand-glow-offset`, `-lg` — all ≤0.16 opacity.
+  - **Typography** (§3): font-role vars mapped to the `--font-*` vars from `astro.config.mjs` (`--font-ui/display/heading/data/korean/body`), a compact size scale (`--text-3xs`…`--text-display`/5rem), weights (500 default emphasis), and line-heights (universal 1.5; 1.1 tight, 1.7 relaxed).
+  - **Motion**: `--motion-fast` 150ms / `--motion-base` 250ms + standard ease, with a documented `prefers-reduced-motion` note. Plus layout `--container-max`/`--container-prose`.
+- Wired `src/styles/global.css`: `@import './tokens.css';` ahead of all resets; migrated every base element rule (body/headings/links/code/blockquote/etc.) off the hardcoded Bear Blog literals onto the new tokens. Kept the legacy `:root` (`--accent`/`--black`/`--gray*`/`--box-shadow`) as a clearly-flagged **deprecated** block — still consumed by un-reworked scaffold (Header/Footer/BlogPost/blog-index), to be deleted in Stages 07/08/16/17.
+
+**Decisions:** none new — all values sourced from locked `DESIGN-minimax.md`. Status (warning/error/info) hues are placeholders pending Daniel.
+
+**Gotcha logged:** a `*/` accidentally embedded mid-text in a CSS comment (`--gray*/--box-shadow`) silently closed the comment early and broke the lightningcss minify pass during `astro build` (cryptic "Expected identifier in class selector"). Fixed by rewording. Watch for literal `*/` sequences inside CSS comments.
+
+**Verify:** `astro check` → 0 errors/warnings/hints. `astro build` → succeeds (only the pre-existing harmless "blog collection empty" warning). Token values confirmed in served output via a temporary `token-test.astro` swatch/type page (since deleted) — brand `#1456f0`, pill `9999px`, brand-glow `rgba(44,30,116,0.16)`, display `5rem` all resolved. Browser screenshot of the swatch page was blocked by a Chrome-extension localhost permission issue; non-blocking, verified via served HTML/CSS instead.
+
+**Files touched:** `src/styles/tokens.css` (new), `src/styles/global.css`, `dev-references/plans/00-index.md` (Stage 02 → Done), `HANDOFF.md`.
+
+**Next:** Stage 03 — dark mode token set & theme switching (`stage-03-dark-mode.md`): derive a dark token set overriding the same variable names under `[data-theme="dark"]`, both themes WCAG AA.
+
+---
+
 ## 2026-06-27 — Positioning pivot to AI-for-knowledge-work; title/tagline set
 
 **Did:**

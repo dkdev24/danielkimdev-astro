@@ -4,8 +4,8 @@
 > Keep this short and current — it describes the *present* state, not history. Append full
 > session history to [`WORKLOG.md`](WORKLOG.md) instead. **Update this file at the end of every session.**
 
-**Last updated:** 2026-06-27
-**Last session:** Completed **Stage 01** (foundation config & repo hygiene): added `output: 'static'`, `.nvmrc` (Node 22.12.0), populated `src/consts.ts`, added `public/_headers`, removed starter posts + Atkinson fonts. Verified with `astro check` (0 errors) and `npm run build` (succeeds locally).
+**Last updated:** 2026-06-28
+**Last session:** Completed **Stage 02** (design tokens — light): added `src/styles/tokens.css` (color/spacing/radius/shadow/type/motion, every value traced to `DESIGN-minimax.md`); `global.css` now `@import`s tokens ahead of resets and base elements read tokens only. Legacy Bear Blog vars kept as a deprecated block for un-reworked scaffold. Verified `astro check` (0 errors) + `astro build` (succeeds). **Stage 03 (dark mode) next.**
 
 ---
 
@@ -16,7 +16,8 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 
 ## Current state
 
-- **Phase:** Early development (Phase 1; **Stage 01 done**, Stage 02 next). PRD finalized; build is broken into executable stages.
+- **Phase:** Early development (Phase 1; **Stages 01–02 done**, Stage 03 next). PRD finalized; build is broken into executable stages.
+- **Design tokens (Stage 02):** light-theme token layer lives in `src/styles/tokens.css` and is the single source of truth — color, spacing (8px scale), radius, shadows (≤0.16 opacity, brand purple glow), typography (font-role vars → `--font-*`, compact size scale, 1.5 leading, 500 default weight), motion. `global.css` `@import`s it ahead of resets; base element styles reference tokens only. Legacy Bear Blog `:root` vars (`--accent`/`--black`/`--gray*`/`--box-shadow`) remain as a **deprecated** block still used by un-reworked scaffold (Header/Footer/BlogPost/blog-index) — delete in Stages 07/08/16/17. Dark token set pending **Stage 03**. Status hues (warning/error/info) are placeholders pending Daniel.
 - **Build plan:** P0 decomposed into 21 session-sized (~20–30 min) stage docs in [`dev-references/plans/`](dev-references/plans/) — start at [`plans/00-index.md`](dev-references/plans/00-index.md) (has dependency order, critical path, and a per-stage status column). P1/P2 parked as a backlog there.
 - **`astro.config.mjs` finalized:** `site: 'https://danielkimdev.com'`, `output: 'static'`, i18n (`en` root / `ko`, `prefixDefaultLocale: false`), sitemap i18n (hreflang), locked font stack (DM Sans/Outfit/Poppins/Roboto via Google + Pretendard via Fontsource). `astro check` + `npm run build` both pass locally.
 - **Repo hygiene done:** `.nvmrc` = `22.12.0`; `src/consts.ts` populated (title/description/author/socials placeholders/default OG path); `public/_headers` added (security headers + `/_astro/*` immutable cache); starter posts and Atkinson `.woff` files removed; lingering `--font-atkinson` refs cleared from `BaseHead.astro` + `global.css`.
@@ -35,7 +36,11 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 - **Fonts:** DM Sans (UI/body), Outfit (display), Poppins (mid-tier), Roboto (data) for Latin; Pretendard for Korean.
 - **Analytics (P1):** Cloudflare Web Analytics (cookieless).
 - **Portfolio detail (v1):** inline expandable cards; dedicated `/portfolio/[slug]` pages stay P1.
-- **Social links:** LinkedIn, X (Twitter), GitHub — URLs still TODO.
+- **Contact / social (provided 2026-06-28, confirmed):**
+  - LinkedIn: `https://www.linkedin.com/in/junhoster/` — use in Footer/social row **and** as the career link in About.
+  - Public email: `danielkimdev24@gmail.com` — the site contact address. Personal Gmail by design (this is a personal blog/portfolio); do **not** use the company-domain work email here.
+  - **No X (Twitter) or GitHub** accounts to show yet — omit those icons/links entirely (don't scaffold placeholders). Revisit only if Daniel creates them later.
+  - Wire into `src/consts.ts` socials when building Footer (Stage 08) / About (Stage 14) / Home (Stage 13) — LinkedIn + email only for now.
 - **Positioning (2026-06-27):** **Bridge** angle — engineer/product credibility, with **AI for knowledge work foregrounded** as the current focus. The blog leads on **AI knowledge management, automation, and AI-readiness ("Agent Readiness" / 에이전트 준비도) of technical docs**. Media-tech/OTT/DRM is career credibility kept to **About + Portfolio only**, not the blog.
 - **Taxonomy split (PRD §5):** blog tags = `ai-knowledge-mgmt`, `automation`, `ai-ready-docs`, `ai-llm`, `pkm`, `solopreneur`; portfolio tags = `drm-content-security`, `ott-streaming`, `cloud-saas` (+ crossover). Two separate enums in the schema (Stage 09).
 - **Title / tagline** (in `src/consts.ts` `SITE_TITLE_HOME` / `SITE_TAGLINE`; home hero in `src/data/home.ts`):
@@ -44,7 +49,7 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 
 ## Open / blocked items
 
-- `TODO(daniel)`: social profile URLs (LinkedIn / X / GitHub).
+- Contact/social resolved (see Locked decisions → Contact / social): LinkedIn + personal Gmail only; no X/GitHub. Nothing outstanding here.
 - `TODO(daniel)`: headshot at `/public/images/daniel.jpg` (About has a graceful fallback — not blocking).
 - `TODO(daniel)`: which PKM pieces seed the first 3–5 posts per locale (can scaffold with placeholder samples).
 - **PRD follow-up from the 2026-06-27 positioning shift:** §5 taxonomy, §6.1 identity strip, and plan Stage 09 are realigned, but the deeper framing still leans media-tech and needs Daniel's pass — **§1 Context**, **§2 Goal 2** ("make expertise discoverable in OTT/streaming, DRM…"), and **§13.4 seed portfolio/positioning**. Decide how much AI-knowledge-work framing replaces media-tech in those.
@@ -52,7 +57,7 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 ## Next steps
 
 1. Open [`dev-references/plans/00-index.md`](dev-references/plans/00-index.md) and work stages in numeric order, one per session.
-2. **Resume point:** **Stage 02 — Design tokens (light)** ([`plans/stage-02-design-tokens-light.md`](dev-references/plans/stage-02-design-tokens-light.md)). Values come from [`dev-references/DESIGN-minimax.md`](dev-references/DESIGN-minimax.md).
+2. **Resume point:** **Stage 03 — Dark mode token set & theme switching** ([`plans/stage-03-dark-mode.md`](dev-references/plans/stage-03-dark-mode.md)). Derive a dark set overriding the same `tokens.css` variable names (e.g. under `[data-theme="dark"]`); both themes WCAG AA.
 3. Update the status column in `00-index.md` and each stage's task checkboxes as you go; refresh this file + `WORKLOG.md` at each session end.
 
 ## Conventions / gotchas
