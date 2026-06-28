@@ -180,3 +180,73 @@ hr {
 	outline-offset: 2px;
 	border-radius: var(--radius-xs);
 }
+
+/*
+  Shiki dual-theme (Stage 12). Astro emits both palettes as CSS vars on each
+  token; the light theme renders by default and we swap to the dark palette
+  under our own [data-theme="dark"] selector (not prefers-color-scheme, so it
+  follows the manual theme toggle).
+*/
+html[data-theme='dark'] .astro-code,
+html[data-theme='dark'] .astro-code span {
+	color: var(--shiki-dark) !important;
+	background-color: var(--shiki-dark-bg) !important;
+	font-style: var(--shiki-dark-font-style) !important;
+	font-weight: var(--shiki-dark-font-weight) !important;
+	text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/*
+  Code-block enhancer chrome (Stage 12). The wrapper + language label + copy
+  button are injected at runtime by CodeCopy.astro, so they're styled globally
+  (scoped component styles can't reach runtime-created nodes).
+*/
+.code-block {
+	position: relative;
+}
+.code-block__lang {
+	position: absolute;
+	top: var(--space-2);
+	left: var(--space-3);
+	font-family: var(--font-data);
+	font-size: var(--text-xs, 0.75rem);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--color-text-muted);
+	pointer-events: none;
+}
+.code-block__copy {
+	position: absolute;
+	top: var(--space-2);
+	right: var(--space-2);
+	padding: var(--space-1) var(--space-2_5);
+	border: 1px solid var(--color-border-subtle);
+	border-radius: var(--radius-xs);
+	background: var(--color-surface);
+	color: var(--color-text-secondary);
+	font-family: var(--font-ui);
+	font-size: var(--text-sm);
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity var(--motion-fast-ease), background var(--motion-fast-ease);
+}
+.code-block:hover .code-block__copy,
+.code-block__copy:focus-visible {
+	opacity: 1;
+}
+.code-block__copy:hover {
+	background: var(--color-bg-muted);
+	color: var(--color-text);
+}
+
+/* Respect reduced-motion globally — kill non-essential animation/transition. */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

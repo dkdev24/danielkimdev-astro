@@ -16,6 +16,27 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 12: core components B (Callout, Timeline, Code, TOC)
+
+**Did:** Built the content-rendering primitives for About + blog posts, all token-only and verified in both themes.
+- **`Callout.astro`** — variants note/tip/warning/important mapped to the semantic status tokens (`--color-{info,success,warning,error}` + `-bg`). Icon + title + body slot. Contrast kept AA by using the accent only for the left rail + icon, the heading color for the title, and primary text for the body (so it never relies on accent-on-tint legibility).
+- **`TimelineItem.astro`** — one career entry: `title` (role), `org?`, `period?` + body slot. Vertical rail via `::before` with a brand dot marker; the rail auto-stops after the last item. Render inside `<ol class="timeline">` (About, Stage 14).
+- **`TOC.astro`** — auto-built from Astro's `headings` (filtered h2–h3). Ships as a `<nav>` → `<details open>` → nested list that works with **no JS**; a script adds IntersectionObserver scroll-spy that toggles `.is-active`. Sticky ≥1024px.
+- **`CodeCopy.astro`** — a runtime enhancer (drop once into the post layout, Stage 17): wraps every Shiki `<pre.astro-code>`, adds a language label (from `data-language`) and a keyboard-operable **copy button** that announces success via an `aria-live` region (async Clipboard API). Its injected nodes are styled in `global.css` (scoped styles can't reach runtime-created elements).
+- **Config / global:** added `markdown.shikiConfig` with **dual themes** (`github-light` / `github-dark`, `wrap: true`) + a transformer that stamps each `<pre>` with `data-language`; added the `[data-theme="dark"] .astro-code` var-swap, the `.code-block*` chrome styles, and a global `@media (prefers-reduced-motion: reduce)` kill-switch to `global.css`. Added a `code.*` namespace (copy/copied/aria) to both dictionaries.
+
+**Decisions:** Shiki dark theme is swapped under our own `[data-theme="dark"]` selector (not `prefers-color-scheme`) so code follows the manual toggle. Dropped an `execCommand` copy fallback — the modern Clipboard API covers every secure context (the site is HTTPS), and the fallback tripped a deprecation hint. TOC defaults to h2–h3 and degrades to a plain list without JS (PE).
+
+**Verify:** `astro check` → 0 errors / 0 hints. `astro build` → succeeds. **Verified live (Playwright, throwaway MDX + Astro pages):** all 4 callout variants render AA-legible in **light and dark** (screenshots); the code block highlights and swaps light↔dark with a "JS" label; the copy button has the right text/`aria-label`/lang label and is keyboard-reachable (Clipboard rejects silently under headless — works in a real browser); TOC scroll-spy highlights the in-view section (scrolled to #two → its link got `is-active`), renders as a `nav` landmark with `details` open; 3 timeline items render. Threw the test pages + screenshots away after.
+
+**Files touched:** `src/components/{Callout,TimelineItem,TOC,CodeCopy}.astro` (new), `astro.config.mjs` (shikiConfig), `src/styles/global.css` (shiki dark swap, `.code-block*`, reduced-motion), `src/i18n/en.json` + `ko.json` (`code.*`), `dev-references/plans/00-index.md`, `dev-references/plans/stage-12-components-core-b.md`, `HANDOFF.md`.
+
+**Component API:** `Callout {variant?, title?}` + slot · `TimelineItem {title, org?, period?}` + slot · `TOC {headings, lang, minDepth?, maxDepth?}` · `CodeCopy {lang}` (drop once per post). Shiki theme: github-light / github-dark.
+
+**Next:** Phase 3 (Pages). **Stage 13 — Home (both locales)** (`stage-13-home.md`) is the natural next step; 14/15/16/17 also unblocked now that components + content exist.
+
+---
+
 ## 2026-06-28 — Stage 11: core components A (Button, Card, Tag)
 
 **Did:** Built the three highest-reuse UI primitives, each token-only (reads CSS vars, zero literals), documented with a header comment block, and verified in both themes.

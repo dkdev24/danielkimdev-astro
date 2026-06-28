@@ -11,11 +11,11 @@ Build the content-rich components used by About and blog posts: Callout/Admoniti
 - Code block and TOC are consumed by the blog post layout (Stage 17); Timeline item by About (Stage 14).
 
 ## Tasks
-- [ ] `Callout.astro`: variants note / tip / warning / important using semantic tokens; icon + title + body slot; AA contrast in both themes.
-- [ ] `TimelineItem.astro`: date, title, body; renders from timeline collection; vertical-rail styling per DESIGN-minimax.
-- [ ] `CodeBlock` handling: syntax highlighting (Astro/Shiki built-in), a **copy button** (small island), and a language label; keyboard-operable copy with state announcement.
-- [ ] `TOC.astro`: auto-built from post headings; sticky on desktop, collapsible on mobile; current-section highlight (progressive enhancement — works without JS as a plain list).
-- [ ] All four: focus-visible + keyboard behavior; respect `prefers-reduced-motion`.
+- [x] `Callout.astro`: variants note / tip / warning / important using semantic tokens; icon + title + body slot; AA contrast in both themes.
+- [x] `TimelineItem.astro`: date, title, body; renders from timeline collection; vertical-rail styling per DESIGN-minimax.
+- [x] `CodeBlock` handling: syntax highlighting (Astro/Shiki built-in), a **copy button** (small island), and a language label; keyboard-operable copy with state announcement.
+- [x] `TOC.astro`: auto-built from post headings; sticky on desktop, collapsible on mobile; current-section highlight (progressive enhancement — works without JS as a plain list).
+- [x] All four: focus-visible + keyboard behavior; respect `prefers-reduced-motion`.
 
 ## Files to create / edit
 - `src/components/Callout.astro`, `src/components/TimelineItem.astro`, `src/components/TOC.astro` — new.

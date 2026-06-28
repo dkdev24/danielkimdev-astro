@@ -22,6 +22,26 @@ export default defineConfig({
 		},
 	},
 
+	// Markdown / MDX code highlighting (Stage 12). Dual Shiki themes: github-light
+	// for light mode, github-dark swapped in via CSS under [data-theme="dark"]
+	// (see global.css). `wrap` avoids horizontal scroll on long lines. The
+	// transformer stamps each <pre> with `data-language` so the CodeCopy enhancer
+	// can show a language label.
+	markdown: {
+		shikiConfig: {
+			themes: { light: 'github-light', dark: 'github-dark' },
+			wrap: true,
+			transformers: [
+				{
+					name: 'data-language',
+					pre(node) {
+						if (this.options.lang) node.properties['data-language'] = this.options.lang;
+					},
+				},
+			],
+		},
+	},
+
 	integrations: [
 		mdx(),
 		// Emit hreflang alternates so EN/KO pages cross-reference each other for SEO.

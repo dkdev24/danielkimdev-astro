@@ -1,0 +1,96 @@
+---
+// Callout / admonition (Stage 12) — for MDX post bodies. Four variants mapped to
+// the semantic status tokens, so both themes get AA contrast for free.
+//
+// API
+//   variant?: 'note' | 'tip' | 'warning' | 'important'  (default 'note')
+//   title?  : heading text; defaults to the variant's label.
+// Body goes in the default slot.
+//
+// Contrast: the tinted *-bg holds the panel; the accent (*-color) is used only
+// for the left rail + icon, while the title uses the heading color and body uses
+// primary text — both always AA on the tint, in light and dark.
+type Variant = 'note' | 'tip' | 'warning' | 'important';
+
+interface Props {
+	variant?: Variant;
+	title?: string;
+}
+
+const { variant = 'note', title } = Astro.props;
+const defaultTitles: Record<Variant, string> = {
+	note: 'Note',
+	tip: 'Tip',
+	warning: 'Warning',
+	important: 'Important',
+};
+const heading = title ?? defaultTitles[variant];
+---
+
+<aside class="callout" data-variant={variant} role="note">
+	<span class="callout__icon" aria-hidden="true">
+		{
+			variant === 'tip' ? (
+				<svg viewBox="0 0 24 24" width="20" height="20"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18h6m-5 3h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
+			) : variant === 'warning' ? (
+				<svg viewBox="0 0 24 24" width="20" height="20"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4m0 4h.01"/></svg>
+			) : variant === 'important' ? (
+				<svg viewBox="0 0 24 24" width="20" height="20"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></g></svg>
+			) : (
+				<svg viewBox="0 0 24 24" width="20" height="20"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></g></svg>
+			)
+		}
+	</span>
+	<div class="callout__body">
+		<p class="callout__title">{heading}</p>
+		<div class="callout__content"><slot /></div>
+	</div>
+</aside>
+
+<style>
+	.callout {
+		display: flex;
+		gap: var(--space-3);
+		padding: var(--space-4) var(--space-4);
+		margin-block: var(--space-6);
+		border-radius: var(--radius-md);
+		border-left: var(--space-1) solid var(--callout-accent);
+		background: var(--callout-bg);
+	}
+	.callout[data-variant='note'] {
+		--callout-accent: var(--color-info);
+		--callout-bg: var(--color-info-bg);
+	}
+	.callout[data-variant='tip'] {
+		--callout-accent: var(--color-success);
+		--callout-bg: var(--color-success-bg);
+	}
+	.callout[data-variant='warning'] {
+		--callout-accent: var(--color-warning);
+		--callout-bg: var(--color-warning-bg);
+	}
+	.callout[data-variant='important'] {
+		--callout-accent: var(--color-error);
+		--callout-bg: var(--color-error-bg);
+	}
+
+	.callout__icon {
+		flex: none;
+		color: var(--callout-accent);
+		line-height: 0;
+		margin-top: 2px;
+	}
+	.callout__title {
+		margin: 0 0 var(--space-1);
+		font-family: var(--font-ui);
+		font-weight: var(--weight-semibold);
+		color: var(--color-text-heading);
+	}
+	.callout__content {
+		color: var(--color-text);
+	}
+	/* Tighten paragraph rhythm inside callouts. */
+	.callout__content :global(:last-child) {
+		margin-bottom: 0;
+	}
+</style>

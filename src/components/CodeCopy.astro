@@ -1,0 +1,74 @@
+---
+// Code-block enhancer (Stage 12) — drop once into a post layout (Stage 17). It
+// wraps every Shiki `<pre class="astro-code">`, adds a language label (from the
+// `data-language` set by the config transformer) and a keyboard-operable copy
+// button that announces success via an aria-live region.
+//
+// The injected elements are created at runtime, so their styles live in
+// global.css (`.code-block*`), not in a scoped block here.
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const labels = {
+	copy: t('code.copy'),
+	copied: t('code.copied'),
+	aria: t('code.copyAria'),
+};
+---
+
+<script is:inline define:vars={{ labels }}>
+	(function () {
+		document.querySelectorAll('pre.astro-code').forEach(function (pre) {
+			if (pre.dataset.copyReady) return;
+			pre.dataset.copyReady = '1';
+
+			var wrapper = document.createElement('div');
+			wrapper.className = 'code-block';
+			pre.parentNode.insertBefore(wrapper, pre);
+			wrapper.appendChild(pre);
+
+			var langName = pre.getAttribute('data-language');
+			if (langName) {
+				var tag = document.createElement('span');
+				tag.className = 'code-block__lang';
+				tag.textContent = langName;
+				wrapper.appendChild(tag);
+			}
+
+			var btn = document.createElement('button');
+			btn.type = 'button';
+			btn.className = 'code-block__copy';
+			btn.textContent = labels.copy;
+			btn.setAttribute('aria-label', labels.aria);
+			wrapper.appendChild(btn);
+
+			var live = document.createElement('span');
+			live.className = 'sr-only';
+			live.setAttribute('aria-live', 'polite');
+			wrapper.appendChild(live);
+
+			function announce() {
+				btn.textContent = labels.copied;
+				live.textContent = labels.copied;
+				setTimeout(function () {
+					btn.textContent = labels.copy;
+					live.textContent = '';
+				}, 2000);
+			}
+
+			btn.addEventListener('click', function () {
+				var code = pre.querySelector('code');
+				var text = code ? code.innerText : pre.innerText;
+				// Async Clipboard API — available in every secure context (the site
+				// ships over HTTPS). Failures (e.g. denied permission) are ignored.
+				navigator.clipboard.writeText(text).then(announce).catch(function () {});
+			});
+		});
+	})();
+</script>

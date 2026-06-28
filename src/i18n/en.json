@@ -79,6 +79,11 @@
 		"openMenu": "Open menu",
 		"closeMenu": "Close menu"
 	},
+	"code": {
+		"copy": "Copy",
+		"copied": "Copied",
+		"copyAria": "Copy code to clipboard"
+	},
 	"tags": {
 		"ai-knowledge-mgmt": "AI Knowledge Management",
 		"automation": "Automation",

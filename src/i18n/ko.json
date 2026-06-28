@@ -79,6 +79,11 @@
 		"openMenu": "메뉴 열기",
 		"closeMenu": "메뉴 닫기"
 	},
+	"code": {
+		"copy": "복사",
+		"copied": "복사됨",
+		"copyAria": "코드를 클립보드에 복사"
+	},
 	"tags": {
 		"ai-knowledge-mgmt": "AI 지식 관리",
 		"automation": "자동화",
