@@ -1,0 +1,36 @@
+---
+/**
+ * ThemeScript — no-flash theme resolver. Stage 03.
+ *
+ * Render this as early as possible inside <head> (before stylesheets paint).
+ * It runs synchronously (is:inline, not deferred) and sets `data-theme` on
+ * <html> from localStorage, falling back to the OS `prefers-color-scheme`, so
+ * the correct palette is applied before first paint — no white flash.
+ *
+ * Toggle contract (the visible toggle UI lands in Stage 07):
+ *   • storage key → localStorage `theme` = 'light' | 'dark'
+ *   • attribute   → <html data-theme="light|dark">  (read by tokens.css)
+ *   • on toggle   → set BOTH, then dispatch
+ *       window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme } }))
+ *
+ * The dark token values live in src/styles/tokens.css under [data-theme="dark"].
+ */
+---
+
+<script is:inline>
+	(function () {
+		try {
+			var stored = localStorage.getItem('theme');
+			var theme =
+				stored === 'light' || stored === 'dark'
+					? stored
+					: window.matchMedia('(prefers-color-scheme: dark)').matches
+						? 'dark'
+						: 'light';
+			document.documentElement.dataset.theme = theme;
+		} catch (e) {
+			// localStorage blocked (private mode / SSR mismatch) → safe default.
+			document.documentElement.dataset.theme = 'light';
+		}
+	})();
+</script>

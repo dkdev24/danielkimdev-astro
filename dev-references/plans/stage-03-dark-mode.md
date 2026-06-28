@@ -11,11 +11,11 @@ Derive a dark token set from the same MiniMax palette and add the theme-switchin
 - Near-black surfaces in the `#181e25` / `#18181b` family, inverted text ramp, accent kept legible. Both themes must meet WCAG AA (§11).
 
 ## Tasks
-- [ ] In `tokens.css`, add a dark override block — `[data-theme="dark"] { … }` re-binding the same variable names to dark values.
-- [ ] Map: surfaces → near-black family; text ramp inverted; brand blue adjusted so it stays AA on dark; shadows softened/replaced with subtle borders where shadows read poorly on dark.
-- [ ] Decide resolution order: `data-theme` attribute on `<html>` wins; fall back to `prefers-color-scheme`.
-- [ ] Add a **no-flash inline script** (runs in `<head>` before paint) that sets `data-theme` from `localStorage` (`theme`) or system pref. (The visible toggle UI is built in Stage 07; this stage provides the mechanism + the setter contract `localStorage.theme = 'light'|'dark'`.)
-- [ ] Document the toggle contract (storage key, attribute, event) as a comment for Stage 07.
+- [x] In `tokens.css`, add a dark override block — `[data-theme="dark"] { … }` re-binding the same variable names to dark values.
+- [x] Map: surfaces → near-black family; text ramp inverted; brand blue adjusted so it stays AA on dark; shadows softened/replaced with subtle borders where shadows read poorly on dark.
+- [x] Decide resolution order: `data-theme` attribute on `<html>` wins; fall back to `prefers-color-scheme`.
+- [x] Add a **no-flash inline script** (runs in `<head>` before paint) that sets `data-theme` from `localStorage` (`theme`) or system pref. (The visible toggle UI is built in Stage 07; this stage provides the mechanism + the setter contract `localStorage.theme = 'light'|'dark'`.)
+- [x] Document the toggle contract (storage key, attribute, event) as a comment for Stage 07.
 
 ## Files to create / edit
 - `src/styles/tokens.css` — add `[data-theme="dark"]` block.

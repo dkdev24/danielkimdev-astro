@@ -16,6 +16,28 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 03: dark token set & no-flash theme switching
+
+**Did:**
+- Added a **dark theme** as a `[data-theme="dark"] { … }` override block in `src/styles/tokens.css` — re-binds the same semantic variable names so every token-consuming component restyles with zero per-component dark CSS. Derived from the MiniMax light palette (DESIGN-minimax is light-only per its §8 note):
+  - Surfaces → near-black `#181e25`/`#18181b` family, layered by depth (`--color-bg` `#15181d` → `--color-surface` `#1c2129` → `--color-bg-muted` `#232a33`); borders `#2e353f`/`#262c34`.
+  - Text ramp inverted (`#e6e8eb` body → `#f4f5f7` heading → `#aab2bd` secondary → `#828b96` muted); `--color-text-on-brand` left white.
+  - Brand/links lightened for legibility on near-black (`--color-brand` → primary-500 `#3b82f6`; links → primary-light `#60a5fa`, hover `#93c5fd`). Status colors → brighter fg + desaturated dark-tint bg. Glass overlay flipped to dark translucent.
+  - Shadows deepened (black 0.45–0.55) since soft shadows read poorly on dark; brand glow shifted blue (`rgba(96,165,250,…)`) since purple barely registers. `color-scheme: light|dark` set per theme for native UI.
+- Created `src/components/ThemeScript.astro` — an **`is:inline` no-flash resolver** that runs in `<head>` before paint: reads `localStorage.theme` (`'light'|'dark'`), else falls back to `prefers-color-scheme`, and writes `data-theme` on `<html>`. Wired it as the first thing in `BaseHead`'s head so all pages get it. No-JS clients degrade to the light `:root` defaults.
+- **Resolution order:** explicit `data-theme` attribute wins; the script resolves system pref into the attribute before paint, so CSS only needs the explicit-dark selector (no duplicated `@media` block).
+- Documented the **toggle contract** for Stage 07 (in both `tokens.css` and `ThemeScript.astro`): storage key `theme`, attribute `data-theme` on `<html>`, and on toggle dispatch `new CustomEvent('theme-change', { detail: { theme } })` on `window`.
+
+**Decisions:** dark palette values are **derived** here (not in DESIGN-minimax) — recorded so they're swappable if Daniel redesigns. No-JS → light is the accepted degradation (avoids a duplicated `prefers-color-scheme` token block).
+
+**Verify:** `astro check` → 0 errors. `astro build` → succeeds (only the pre-existing harmless "blog collection empty" warning). Confirmed in `dist`: the inline theme script is emitted inline (not externalized/deferred) in built HTML, and `[data-theme=dark]{…}` + `color-scheme` are in the built CSS. WCAG AA spot-check (computed): all dark text/bg pairs pass — body 14.5:1, secondary 8.3:1, muted 5.15:1, link-on-surface 6.4:1, status colors 6.4–10.2:1. Browser-devtools eyeballing of the live toggle was **not** done — the Chrome extension can't load `localhost` (site-permission block, same as Stage 02); relied on build-artifact + contrast verification instead.
+
+**Files touched:** `src/styles/tokens.css` (dark block), `src/components/ThemeScript.astro` (new), `src/components/BaseHead.astro` (import + render ThemeScript), `dev-references/plans/00-index.md` (Stage 03 → Done), `dev-references/plans/stage-03-dark-mode.md` (boxes), `HANDOFF.md`.
+
+**Next:** Stage 04 — typography & font wiring (`stage-04-typography-fonts.md`): preload primary fonts (DM Sans / Pretendard) via `<Font />` in BaseHead (there's a `TODO(stage-04)` marker there), apply the role fonts, and wire Korean glyph switching for `/ko/`.
+
+---
+
 ## 2026-06-28 — Stage 02: design token layer (light theme)
 
 **Did:**

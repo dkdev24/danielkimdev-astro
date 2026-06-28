@@ -168,4 +168,73 @@
 	   ============================================================ */
 	--container-max: 1200px;
 	--container-prose: 720px; /* readable measure for article body */
+
+	/* Hint native UI (form controls, scrollbars) to the light theme. */
+	color-scheme: light;
+}
+
+/* ============================================================
+   DARK THEME — Stage 03. Derived from the MiniMax palette (DESIGN-minimax
+   specifies light only; §8 source-of-truth note). Re-binds the SAME semantic
+   variable names so every component that reads tokens restyles automatically,
+   with no per-component dark CSS.
+
+   Resolution order (see src/components/ThemeScript.astro):
+     1. An explicit `data-theme="light"|"dark"` on <html> always wins.
+     2. With no attribute, the inline no-flash script falls back to
+        `prefers-color-scheme` and writes the result to the attribute before
+        first paint — so only the explicit-dark selector needs CSS here.
+   No-JS clients degrade to the light :root defaults (acceptable).
+
+   Toggle contract for Stage 07 (visible UI):
+     • storage key   → localStorage `theme` = 'light' | 'dark'
+     • attribute     → <html data-theme="light|dark">
+     • on toggle     → set BOTH, then dispatch `new CustomEvent('theme-change',
+                       { detail: { theme } })` on `window` for any listeners.
+   ============================================================ */
+[data-theme='dark'] {
+	color-scheme: dark;
+
+	/* Surfaces — near-black #181e25 / #18181b family (§2), layered by depth */
+	--color-bg: #15181d; /* page bg, a touch below charcoal so surfaces lift */
+	--color-bg-subtle: #1b1f26;
+	--color-bg-muted: #232a33; /* inline code / chip fills */
+	--color-surface: #1c2129; /* cards sit above page bg */
+	--color-border: #2e353f;
+	--color-border-subtle: #262c34;
+
+	/* Text — inverted ramp, kept ≥AA on the dark surfaces above */
+	--color-text: #e6e8eb; /* primary body */
+	--color-text-heading: #f4f5f7;
+	--color-text-secondary: #aab2bd;
+	--color-text-muted: #828b96;
+	/* --color-text-on-brand stays #ffffff — brand fills remain saturated */
+
+	/* Brand / interactive — lighten so blue stays legible on near-black.
+	   Links use primary-light, not the darker 600 used in light mode. */
+	--color-brand: #3b82f6; /* primary-500 reads better than deep #1456f0 here */
+	--color-link: #60a5fa; /* primary-light */
+	--color-link-hover: #93c5fd;
+	--color-focus-ring: #60a5fa;
+
+	/* Glass overlay flips to a dark translucent */
+	--color-glass-white: hsla(220, 16%, 8%, 0.5);
+
+	/* Status — desaturated dark tints for bg, brighter fg for legibility */
+	--color-success: #4ade80;
+	--color-success-bg: #0f2a1a;
+	--color-warning: #fbbf24;
+	--color-warning-bg: #2c2410;
+	--color-error: #f87171;
+	--color-error-bg: #2c1517;
+	--color-info: #60a5fa;
+	--color-info-bg: #14233a;
+
+	/* Elevation — black shadows read poorly on dark; deepen them and lean on
+	   borders for separation. Brand glow shifts blue (purple barely registers). */
+	--shadow-sm: rgba(0, 0, 0, 0.45) 0px 4px 6px;
+	--shadow-ambient: rgba(0, 0, 0, 0.4) 0px 0px 22.576px;
+	--shadow-brand-glow: rgba(96, 165, 250, 0.22) 0px 0px 15px;
+	--shadow-brand-glow-offset: rgba(96, 165, 250, 0.16) 6.5px 2px 17.5px;
+	--shadow-lg: rgba(0, 0, 0, 0.55) 0px 12px 16px -4px;
 }

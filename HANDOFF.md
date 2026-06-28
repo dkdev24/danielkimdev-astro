@@ -5,7 +5,7 @@
 > session history to [`WORKLOG.md`](WORKLOG.md) instead. **Update this file at the end of every session.**
 
 **Last updated:** 2026-06-28
-**Last session:** Completed **Stage 02** (design tokens — light): added `src/styles/tokens.css` (color/spacing/radius/shadow/type/motion, every value traced to `DESIGN-minimax.md`); `global.css` now `@import`s tokens ahead of resets and base elements read tokens only. Legacy Bear Blog vars kept as a deprecated block for un-reworked scaffold. Verified `astro check` (0 errors) + `astro build` (succeeds). **Stage 03 (dark mode) next.**
+**Last session:** Completed **Stage 03** (dark mode + theme switching): added a `[data-theme="dark"]` override block in `tokens.css` (near-black surfaces, inverted text ramp, lightened brand/link blue, blue-shifted glow, deepened shadows, per-theme `color-scheme`) and a no-flash `ThemeScript.astro` (is:inline, `localStorage.theme` → `prefers-color-scheme`) wired into `BaseHead`. All dark text/bg pairs ≥AA. Verified `astro check` + `astro build`. **Stage 04 (typography & font wiring) next.**
 
 ---
 
@@ -16,8 +16,9 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 
 ## Current state
 
-- **Phase:** Early development (Phase 1; **Stages 01–02 done**, Stage 03 next). PRD finalized; build is broken into executable stages.
-- **Design tokens (Stage 02):** light-theme token layer lives in `src/styles/tokens.css` and is the single source of truth — color, spacing (8px scale), radius, shadows (≤0.16 opacity, brand purple glow), typography (font-role vars → `--font-*`, compact size scale, 1.5 leading, 500 default weight), motion. `global.css` `@import`s it ahead of resets; base element styles reference tokens only. Legacy Bear Blog `:root` vars (`--accent`/`--black`/`--gray*`/`--box-shadow`) remain as a **deprecated** block still used by un-reworked scaffold (Header/Footer/BlogPost/blog-index) — delete in Stages 07/08/16/17. Dark token set pending **Stage 03**. Status hues (warning/error/info) are placeholders pending Daniel.
+- **Phase:** Early development (Phase 1; **Stages 01–03 done**, Stage 04 next). PRD finalized; build is broken into executable stages.
+- **Design tokens (Stage 02):** light-theme token layer lives in `src/styles/tokens.css` and is the single source of truth — color, spacing (8px scale), radius, shadows (≤0.16 opacity, brand purple glow), typography (font-role vars → `--font-*`, compact size scale, 1.5 leading, 500 default weight), motion. `global.css` `@import`s it ahead of resets; base element styles reference tokens only. Legacy Bear Blog `:root` vars (`--accent`/`--black`/`--gray*`/`--box-shadow`) remain as a **deprecated** block still used by un-reworked scaffold (Header/Footer/BlogPost/blog-index) — delete in Stages 07/08/16/17. Status hues (warning/error/info) are placeholders pending Daniel.
+- **Dark mode (Stage 03):** dark values live as a `[data-theme="dark"]` override of the same semantic var names in `tokens.css` (derived from the light palette — DESIGN-minimax is light-only — so they're swappable on redesign). Theme is resolved by `src/components/ThemeScript.astro` (`is:inline`, in `BaseHead` head, before paint): `localStorage.theme` (`'light'|'dark'`) wins, else `prefers-color-scheme`, written to `<html data-theme>`. No-JS degrades to light. **Toggle contract for Stage 07:** set `localStorage.theme` + `data-theme` attr, then dispatch `CustomEvent('theme-change', { detail: { theme } })` on `window`. All dark text/bg pairs verified ≥AA. **The visible toggle UI is still TODO — Stage 07.**
 - **Build plan:** P0 decomposed into 21 session-sized (~20–30 min) stage docs in [`dev-references/plans/`](dev-references/plans/) — start at [`plans/00-index.md`](dev-references/plans/00-index.md) (has dependency order, critical path, and a per-stage status column). P1/P2 parked as a backlog there.
 - **`astro.config.mjs` finalized:** `site: 'https://danielkimdev.com'`, `output: 'static'`, i18n (`en` root / `ko`, `prefixDefaultLocale: false`), sitemap i18n (hreflang), locked font stack (DM Sans/Outfit/Poppins/Roboto via Google + Pretendard via Fontsource). `astro check` + `npm run build` both pass locally.
 - **Repo hygiene done:** `.nvmrc` = `22.12.0`; `src/consts.ts` populated (title/description/author/socials placeholders/default OG path); `public/_headers` added (security headers + `/_astro/*` immutable cache); starter posts and Atkinson `.woff` files removed; lingering `--font-atkinson` refs cleared from `BaseHead.astro` + `global.css`.
@@ -57,7 +58,7 @@ Full build brief: [`dev-references/astro-site-prd.md`](dev-references/astro-site
 ## Next steps
 
 1. Open [`dev-references/plans/00-index.md`](dev-references/plans/00-index.md) and work stages in numeric order, one per session.
-2. **Resume point:** **Stage 03 — Dark mode token set & theme switching** ([`plans/stage-03-dark-mode.md`](dev-references/plans/stage-03-dark-mode.md)). Derive a dark set overriding the same `tokens.css` variable names (e.g. under `[data-theme="dark"]`); both themes WCAG AA.
+2. **Resume point:** **Stage 04 — Typography & font wiring** ([`plans/stage-04-typography-fonts.md`](dev-references/plans/stage-04-typography-fonts.md)). Preload primary fonts (DM Sans / Pretendard) via `<Font />` in `BaseHead` (there's a `TODO(stage-04)` marker there), apply the role fonts, and wire Korean glyph switching for `/ko/`.
 3. Update the status column in `00-index.md` and each stage's task checkboxes as you go; refresh this file + `WORKLOG.md` at each session end.
 
 ## Conventions / gotchas

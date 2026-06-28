@@ -25,7 +25,7 @@
 |---|-------|-----------------|------------|--------|
 | 01 | [Foundation config & repo hygiene](stage-01-foundation-config.md) | 1 Foundation | — | ✅ Done |
 | 02 | [Design tokens — light](stage-02-design-tokens-light.md) | 1 Foundation | 01 | ✅ Done |
-| 03 | [Dark mode token set & theme switching](stage-03-dark-mode.md) | 1 Foundation | 02 | ⬜ Not started |
+| 03 | [Dark mode token set & theme switching](stage-03-dark-mode.md) | 1 Foundation | 02 | ✅ Done |
 | 04 | [Typography & font wiring](stage-04-typography-fonts.md) | 1 Foundation | 02 | ⬜ Not started |
 | 05 | [i18n utilities & UI dictionaries](stage-05-i18n-utilities.md) | 1 Foundation | 01 | ⬜ Not started |
 | 06 | [Base layout shell & landmarks](stage-06-base-layout.md) | 1 Foundation | 03, 04, 05 | ⬜ Not started |
@@ -47,7 +47,9 @@
 
 > **Note:** Stage 01 completed on 2026-06-27 — config finalized (`output: 'static'` added), `.nvmrc` pinned to Node 22.12.0, `consts.ts` populated, `public/_headers` added, starter posts + Atkinson fonts removed. Verified with `astro check` (0 errors) and `npm run build` (succeeds).
 >
-> **Note:** Stage 02 completed on 2026-06-28 — light design-token layer landed in `src/styles/tokens.css` (color/spacing/radius/shadow/type/motion, every value traced to `DESIGN-minimax.md`); `global.css` now `@import`s it and base resets read tokens only. Legacy Bear Blog vars kept as a deprecated block for un-reworked scaffold (remove in Stages 07/08/16/17). Verified `astro check` (0 errors) + `astro build` (succeeds). Next: Stage 03 (dark mode token set & theme switching).
+> **Note:** Stage 02 completed on 2026-06-28 — light design-token layer landed in `src/styles/tokens.css` (color/spacing/radius/shadow/type/motion, every value traced to `DESIGN-minimax.md`); `global.css` now `@import`s it and base resets read tokens only. Legacy Bear Blog vars kept as a deprecated block for un-reworked scaffold (remove in Stages 07/08/16/17). Verified `astro check` (0 errors) + `astro build` (succeeds).
+>
+> **Note:** Stage 03 completed on 2026-06-28 — dark token set added as a `[data-theme="dark"]` override in `tokens.css` (near-black surfaces, inverted text ramp, lighter brand/link blue, blue-shifted glow, deepened shadows; `color-scheme` per theme). No-flash resolver `src/components/ThemeScript.astro` (is:inline, reads `localStorage.theme` → falls back to `prefers-color-scheme`) wired into `BaseHead` head. Toggle contract documented for Stage 07 (key `theme`, attr `data-theme`, `theme-change` event). All dark text/bg pairs ≥AA (lowest 5.15:1). Verified `astro check` + `astro build`; inline script + dark selector confirmed in `dist`. Next: Stage 04 (typography & font wiring).
 
 **Critical path:** 01 → 02 → 03/04 → 05 → 06 → 07 → 08, then 09 → 10 in parallel with 11 → 12, converging on pages 13–18, finishing with 19/20 → 21.
 
