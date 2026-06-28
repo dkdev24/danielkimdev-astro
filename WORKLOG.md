@@ -16,6 +16,24 @@ Entry template:
 
 ---
 
+## 2026-06-28 — Stage 09: content collections & schemas (Phase 2 start)
+
+**Did:**
+- Replaced the minimal scaffold blog schema in `src/content.config.ts` with the full typed content model (PRD §9.1–9.3): **blog** + **portfolio** collections (md/mdx via `glob`), and a **timeline** data collection (json/yaml). Blog fields: `title, description, pubDate, updatedDate?, lang, tags[], draft(=false), translationKey?, heroImage?(image()), ogImage?(string)`. Portfolio: `title, role, org?, period, summary, category(enum), tags[], lang, links[]?(label+url), thumbnail?(image()), featured(=false), order?`. Timeline: `role, org, start, end, summary, lang, order?`.
+- **Two separate, exported tag enums** enforcing the locked taxonomy split: `BLOG_TAGS` = `ai-knowledge-mgmt`/`automation`/`ai-ready-docs`/`ai-llm`/`pkm`/`solopreneur` (AI-for-knowledge-work only); `PORTFOLIO_TAGS` = `drm-content-security`/`ott-streaming`/`cloud-saas` **plus** the blog tags (for crossover items). Media-tech tags are deliberately absent from the blog enum, so they can never surface as a blog topic. Also exported `PORTFOLIO_CATEGORIES` (`product|talk-writing|side-ai|career`) and `Lang`/`BlogTag`/`PortfolioTag`/`PortfolioCategory` types for downstream components (Stage 11 Tag, 15/16 filters).
+- Created the folder structure `src/content/{blog,portfolio}/{en,ko}/` + `src/content/timeline/` with `.gitkeep`s (real content seeds in Stage 10).
+- Added `src/utils/readingTime.ts` — `readingTimeMinutes(body, lang)` returns whole minutes (EN: words/200; KO: non-space chars/500, since Korean isn't space-delimited; floor 1). Pairs with the i18n `formatReadingTime` for localized phrasing.
+
+**Decisions:** **locale strategy = folder-by-locale + explicit `lang` field** (redundant on purpose: folders organize authoring, the field makes locale filtering explicit and move-proof — PRD §9.1 left the choice open). `heroImage` uses `image()` (optimized in-page asset) but `ogImage` is a plain string path (social crawlers need a URL, not an optimized asset; resolved to absolute in head at Stage 18). `links[].url` validated with a `.refine(/^https?:\/\//)` instead of the now-deprecated `z.string().url()` to keep `astro check` hint-free. Taxonomy enums + types live in `content.config.ts` and are imported elsewhere (single source of truth).
+
+**Verify:** `astro check` → 0 errors / 0 hints. `astro build` → succeeds. **Schema enforcement proven:** dropped a throwaway blog post tagged `ott-streaming` (a portfolio-only tag) → build failed with `InvalidContentEntryDataError … tags.0: Invalid option: expected one of "ai-knowledge-mgmt"|…`; a sibling valid post passed. Reading-time util spot-checked via tsx (400 EN words → 2 min, 1000 KO chars → 2 min, empty → 1). Test files removed after.
+
+**Files touched:** `src/content.config.ts` (full rewrite), `src/utils/readingTime.ts` (new), `src/content/{blog,portfolio}/{en,ko}/.gitkeep` + `src/content/timeline/.gitkeep` (new), `src/pages/about.astro` (pass `lang`/`tags`/`draft` to the legacy BlogPost layout so it type-checks under the stricter schema), `dev-references/plans/00-index.md`, `dev-references/plans/stage-09-content-collections.md`, `HANDOFF.md`.
+
+**Next:** Stage 10 — seed content (`stage-10-seed-content.md`): author real (or placeholder) EN/KO blog posts, portfolio items, and timeline entries into the new folders. `TODO(daniel)` open: which PKM pieces seed the first 3–5 posts per locale. Depends on 09.
+
+---
+
 ## 2026-06-28 — Stage 08: footer & global chrome wiring (Phase 1 complete)
 
 **Did:**
