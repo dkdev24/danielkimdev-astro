@@ -69,7 +69,15 @@
 		"hideDetails": "접기",
 		"noItems": "아직 보여드릴 프로젝트가 없습니다.",
 		"taggedTitle": "‘{tag}’ 태그가 달린 작업",
-		"browseAllTags": "전체 작업 보기"
+		"browseAllTags": "전체 작업 보기",
+		"backTo": "포트폴리오로 돌아가기",
+		"viewInOtherLang": "View in English",
+		"categories": {
+			"product": "제품",
+			"talk-writing": "발표·집필",
+			"side-ai": "AI 사이드 프로젝트",
+			"career": "커리어"
+		}
 	},
 	"home": {
 		"focusHeading": "지금 다루는 주제",

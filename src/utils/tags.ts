@@ -15,6 +15,7 @@ import {
 } from '../i18n/utils';
 import { readingTimeMinutes } from './readingTime';
 import { getPostPath } from './blog';
+import { getPortfolioPath } from './portfolio';
 
 /** A pre-formatted card for the archive list (collection-agnostic). */
 export interface ArchiveEntry {
@@ -83,7 +84,7 @@ export async function getPortfolioTagPaths(lang: Lang) {
 				.filter((i) => i.data.tags.includes(tag))
 				.map<ArchiveEntry>((i) => ({
 					title: i.data.title,
-					// No /portfolio/[slug] detail route yet (Stage 27) — card is self-contained.
+					href: getPortfolioPath(i),
 					summary: i.data.summary,
 					meta: [i.data.role, i.data.org, i.data.period].filter(Boolean).join(' · '),
 					tags: i.data.tags,

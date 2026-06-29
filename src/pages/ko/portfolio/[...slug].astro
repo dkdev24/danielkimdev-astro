@@ -1,0 +1,16 @@
+---
+// Korean portfolio detail route (/ko/portfolio/<slug>/). Mirrors the EN route;
+// getPortfolioPaths('ko') supplies the KO entries + their EN counterparts.
+import { render } from 'astro:content';
+import PortfolioItem from '../../../layouts/PortfolioItem.astro';
+import { getPortfolioPaths } from '../../../utils/portfolio';
+
+export const getStaticPaths = () => getPortfolioPaths('ko');
+
+const { item, counterpart } = Astro.props;
+const { Content } = await render(item);
+---
+
+<PortfolioItem item={item} counterpart={counterpart}>
+	<Content />
+</PortfolioItem>

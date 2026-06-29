@@ -69,7 +69,15 @@
 		"hideDetails": "Hide details",
 		"noItems": "No projects to show yet.",
 		"taggedTitle": "Work tagged “{tag}”",
-		"browseAllTags": "Browse all work"
+		"browseAllTags": "Browse all work",
+		"backTo": "Back to portfolio",
+		"viewInOtherLang": "View in 한국어",
+		"categories": {
+			"product": "Product",
+			"talk-writing": "Talks & Writing",
+			"side-ai": "AI side project",
+			"career": "Career"
+		}
 	},
 	"home": {
 		"focusHeading": "What I'm working on",

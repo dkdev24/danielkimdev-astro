@@ -50,7 +50,10 @@ test('KO portfolio tag archive renders localized heading', async ({ page }) => {
 	await page.goto('/ko/portfolio/tags/drm-content-security/');
 	await expect(page.locator('.archive__head h1')).toContainText('태그가 달린 작업');
 	await expect(page.locator(item).first()).toBeVisible();
-	// Portfolio has no detail route yet — titles are plain text, not links.
-	await expect(page.locator('.archive-item__title a')).toHaveCount(0);
+	// Portfolio detail pages exist since Stage 27 — titles link to /ko/portfolio/<slug>/.
+	await expect(page.locator('.archive-item__title a').first()).toHaveAttribute(
+		'href',
+		/^\/ko\/portfolio\/[^/]+\/$/,
+	);
 	await expect(page.locator('.archive__back a')).toHaveAttribute('href', '/ko/portfolio/');
 });

@@ -1,0 +1,16 @@
+---
+// English portfolio detail route (/portfolio/<slug>/). Paths + counterpart are
+// built by getPortfolioPaths('en'); the layout renders the chrome around Content.
+import { render } from 'astro:content';
+import PortfolioItem from '../../layouts/PortfolioItem.astro';
+import { getPortfolioPaths } from '../../utils/portfolio';
+
+export const getStaticPaths = () => getPortfolioPaths('en');
+
+const { item, counterpart } = Astro.props;
+const { Content } = await render(item);
+---
+
+<PortfolioItem item={item} counterpart={counterpart}>
+	<Content />
+</PortfolioItem>

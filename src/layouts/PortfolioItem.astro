@@ -1,0 +1,203 @@
+---
+// Portfolio detail layout (Stage 27) — renders a single portfolio entry through
+// the canonical BaseLayout shell, mirroring BlogPost.astro. Owns the item chrome:
+// header (category badge · period · locale, title, role · org, tags, cross-language
+// link), an optional thumbnail, the prose body, an external-links list, an optional
+// "career → About timeline" link, and a back link. Unlike a blog post this is not
+// an article — no prev/next chronology, no BlogPosting JSON-LD.
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from './BaseLayout.astro';
+import Tag from '../components/Tag.astro';
+import type { Lang, TranslationKey } from '../i18n/utils';
+import { getAltLocale, getLocalizedPath, useTranslations } from '../i18n/utils';
+import { SITE_TITLE } from '../consts';
+import { getPortfolioPath } from '../utils/portfolio';
+import { getTagPath } from '../utils/tags';
+
+interface Props {
+	item: CollectionEntry<'portfolio'>;
+	/** EN/KO counterpart (same slug, other locale), if one exists. */
+	counterpart?: CollectionEntry<'portfolio'>;
+}
+
+const { item, counterpart } = Astro.props;
+const lang = item.data.lang as Lang;
+const t = useTranslations(lang);
+const { title, role, org, period, summary, category, tags, links, thumbnail } = item.data;
+
+const portfolioHref = getLocalizedPath('/portfolio/', lang);
+const aboutTimeline = `${getLocalizedPath('/about/', lang)}#timeline-h`;
+const localeBadge = lang === 'en' ? 'EN' : 'KO';
+const categoryLabel = t(`portfolio.categories.${category}` as TranslationKey);
+
+// hreflang only when a same-slug counterpart exists (it always does here, but
+// stay robust to a future single-locale entry).
+const selfPath = getPortfolioPath(item);
+const alternates: { en?: string; ko?: string } | false = counterpart
+	? { [lang]: selfPath, [getAltLocale(lang)]: getPortfolioPath(counterpart) }
+	: false;
+---
+
+<BaseLayout
+	title={`${title} — ${SITE_TITLE}`}
+	description={summary}
+	lang={lang}
+	image={thumbnail}
+	alternates={alternates}
+>
+	<article class="pfd">
+		<div class="container">
+			<header class="pfd__header">
+				<p class="pfd__meta">
+					<span class="pfd__category">{categoryLabel}</span>
+					<span aria-hidden="true"> · </span>
+					<span>{period}</span>
+					<span aria-hidden="true"> · </span>
+					<span class="pfd__locale" aria-label={t('lang.current')}>{localeBadge}</span>
+				</p>
+				<h1 class="pfd__title">{title}</h1>
+				<p class="pfd__role">{[role, org].filter(Boolean).join(' · ')}</p>
+				{
+					tags.length > 0 && (
+						<div class="pfd__tags">
+							{tags.map((tg) => (
+								<Tag tag={tg} lang={lang} href={getTagPath('portfolio', tg, lang)} />
+							))}
+						</div>
+					)
+				}
+				{
+					counterpart && (
+						<p class="pfd__xlang">
+							<a href={getPortfolioPath(counterpart)}>{t('portfolio.viewInOtherLang')} →</a>
+						</p>
+					)
+				}
+			</header>
+
+			{
+				thumbnail && (
+					<figure class="pfd__thumb">
+						<Image
+							src={thumbnail}
+							alt=""
+							widths={[480, 800, 1200]}
+							sizes="(max-width: 760px) 100vw, 720px"
+							loading="eager"
+						/>
+					</figure>
+				)
+			}
+
+			<div class="prose pfd__body">
+				<p class="pfd__summary">{summary}</p>
+				<slot />
+				{
+					links && links.length > 0 && (
+						<ul class="pfd__links">
+							{links.map((l) => (
+								<li>
+									<a href={l.url} target="_blank" rel="noopener noreferrer">
+										{l.label} ↗
+									</a>
+								</li>
+							))}
+						</ul>
+					)
+				}
+				{
+					category === 'career' && (
+						<p class="pfd__timeline">
+							<a href={aboutTimeline}>{t('about.timeline')} →</a>
+						</p>
+					)
+				}
+			</div>
+
+			<p class="pfd__back">
+				<a href={portfolioHref}>← {t('portfolio.backTo')}</a>
+			</p>
+		</div>
+	</article>
+</BaseLayout>
+
+<style>
+	.pfd {
+		padding-block: var(--space-12) var(--space-16);
+	}
+	.pfd__header {
+		margin-bottom: var(--space-8);
+		max-width: 72ch;
+	}
+	.pfd__meta {
+		margin: 0 0 var(--space-3);
+		font-family: var(--font-data);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+	.pfd__category {
+		font-weight: var(--weight-medium);
+		color: var(--color-text-secondary);
+	}
+	.pfd__locale {
+		display: inline-block;
+		padding: 0 var(--space-1_5);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-xs);
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.04em;
+	}
+	.pfd__title {
+		font-size: var(--text-h1);
+		margin: 0 0 var(--space-2);
+	}
+	.pfd__role {
+		margin: 0 0 var(--space-3);
+		color: var(--color-text-secondary);
+	}
+	.pfd__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1_5);
+		margin-bottom: var(--space-3);
+	}
+	.pfd__xlang {
+		margin: 0;
+		font-family: var(--font-ui);
+		font-weight: var(--weight-medium);
+	}
+
+	.pfd__thumb {
+		margin: 0 0 var(--space-8);
+		max-width: 72ch;
+	}
+	.pfd__thumb :global(img) {
+		width: 100%;
+		height: auto;
+		border-radius: var(--radius-md);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.pfd__body {
+		max-width: 72ch;
+	}
+	.pfd__summary {
+		font-size: var(--text-lg);
+		color: var(--color-text-secondary);
+	}
+	.pfd__links {
+		margin: var(--space-4) 0 0;
+		padding-left: var(--space-4);
+	}
+	.pfd__timeline {
+		font-family: var(--font-ui);
+		font-weight: var(--weight-medium);
+	}
+
+	.pfd__back {
+		margin-top: var(--space-8);
+		font-family: var(--font-ui);
+		font-weight: var(--weight-medium);
+	}
+</style>

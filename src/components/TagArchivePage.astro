@@ -1,8 +1,9 @@
 ---
 // Shared tag/topic archive (Stage 26) — one static page per taxonomy tag, per
 // collection, per locale. Fed by `utils/tags.ts` builders so this stays a dumb
-// renderer. Blog entries link to the post; portfolio entries are self-contained
-// (no detail route until Stage 27). Tag chips link across the archive set.
+// renderer. Both blog and portfolio entries link to their detail page (portfolio
+// since Stage 27); a card with no `href` falls back to plain text. Tag chips link
+// across the archive set.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from './Card.astro';
 import Tag from './Tag.astro';

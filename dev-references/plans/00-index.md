@@ -1,6 +1,6 @@
 # Build Plan — Index (P0, session-sized stages)
 
-> Decomposition of [`../astro-site-prd.md`](../astro-site-prd.md) into stages each scoped to **one ~20–30 min continuous-work session**. Scope here is **P0 only** (ship v1). P1/P2 are listed as a backlog at the bottom, not yet broken into sessions.
+> Decomposition of [`../astro-site-prd.md`](../astro-site-prd.md) into stages each scoped to **one ~20–30 min continuous-work session**. **P0 (01–21)** ships v1; **P1 (22–29)** is fast-follow; **P2 (30–36)** is later/architectural insurance. All three priority bands are now decomposed into the tables below.
 
 ## How to use this
 
@@ -86,12 +86,27 @@
 | 22 | [Cloudflare Web Analytics (cookieless)](stage-22-web-analytics.md) | Measurement | 21 | ✅ Done |
 | 23 | [404 page (bilingual)](stage-23-not-found.md) | Polish | 06 | ✅ Done |
 | 24 | [Blog pagination / load-more](stage-24-blog-pagination.md) | Blog scale | 16 | ✅ Done |
-| 25 | Blog client-side search | Blog scale | 16, 24 | ✅ Done |
-| 26 | Tag/topic archive pages (blog + portfolio) | Taxonomy | 15, 16 | ✅ Done |
-| 27 | Portfolio detail pages (`/portfolio/[slug]`) | Pages | 15 | ⬜ Not started |
-| 28 | Auto-generated per-post OG images | SEO | 17, 18 | ⬜ Not started |
-| 29 | Authoring docs + content-lint CI | DX | 09, 10 | ⬜ Not started |
+| 25 | [Blog client-side search](stage-25-blog-search.md) | Blog scale | 16, 24 | ✅ Done |
+| 26 | [Tag/topic archive pages (blog + portfolio)](stage-26-tag-archives.md) | Taxonomy | 15, 16 | ✅ Done |
+| 27 | [Portfolio detail pages (`/portfolio/[slug]`)](stage-27-portfolio-detail.md) | Pages | 15 | ✅ Done |
+| 28 | [Auto-generated per-post OG images](stage-28-og-images.md) | SEO | 17, 18 | ⬜ Not started |
+| 29 | [Authoring docs + content-lint CI](stage-29-authoring-docs-ci.md) | DX | 09, 10 | ⬜ Not started |
 
-## Not yet decomposed (P2 backlog — PRD §12)
+## P2 Stages (later / architectural insurance — PRD §12)
 
-- **P2:** newsletter capture, post series/collections, related posts, reading progress, webmentions/external discussion links, optional hybrid/SSR, light PKM→site hand-off automation.
+> Decomposed 2026-06-29 from PRD §12. Ordered static-value-first → external-decision →
+> conditional/architectural. None block anything; pick them up à la carte. **Per-stage docs are
+> written when a stage is picked up** (as with P1) — these rows are the scope contract until then.
+> Several need a Daniel decision first (flagged) — leave `TODO(daniel):` rather than inventing.
+
+| # | Stage | Scope (one line) | Phase | Depends on | Status |
+|---|-------|------------------|-------|------------|--------|
+| 30 | Related posts | Per-post "related" block by shared tags (static, builds on the tag infra). | Blog | 17, 26 | ⬜ Not started |
+| 31 | Reading progress indicator | Scroll-progress bar on post pages; respects `prefers-reduced-motion`. Small. | Polish | 17 | ⬜ Not started |
+| 32 | Post series / collections | Group multi-part posts (frontmatter `series` + ordered nav); schema + index surfacing. | Content model | 09, 16 | ⬜ Not started |
+| 33 | Webmentions / external discussion links | "Discuss on LinkedIn" links per post; optional webmention.io display. **TODO(daniel): provider/scope.** | Community | 17 | ⬜ Not started |
+| 34 | Newsletter capture | Email signup → external provider (static-friendly POST), no accounts/auth. **TODO(daniel): provider.** | Growth | 08 | ⬜ Not started |
+| 35 | PKM → site hand-off automation | Light script to *assist* (not auto-publish) drafting a post from PKM notes into the content schema. | DX | 09, 29 | ⬜ Not started |
+| 36 | Optional hybrid/SSR migration | **Conditional** — only if a future dynamic feature needs it; keep static `dist/` until then. Architectural insurance. | Architecture | 10 | ⬜ Not started |
+
+**Beyond 36:** nothing planned — the PRD scope (P0+P1+P2) is fully decomposed at this point.
