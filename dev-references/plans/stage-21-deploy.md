@@ -58,4 +58,6 @@ The only thing docking **Best Practices (93)** is `errors-in-console` + `inspect
 
 **Fix:** loosen `script-src` to permit the inline bootstrap + the CF beacon origin, and allow the beacon's report endpoint in `connect-src`, e.g.:
 `script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com;`
-(Or replace `'unsafe-inline'` with the per-script sha256 hashes for a tighter policy — but Astro's inline bootstrap hash can change across builds, so for a no-auth static site `'unsafe-inline'` is the pragmatic call.) Redeploy, then re-run to confirm BP → 100 and the beacon loads.
+(Or replace `'unsafe-inline'` with the per-script sha256 hashes for a tighter policy — but Astro's inline bootstrap hash can change across builds, so for a no-auth static site `'unsafe-inline'` is the pragmatic call.)
+
+**✅ Resolved (2026-06-29, commit `130e575`):** applied the `'unsafe-inline'` + CF-origin fix to `public/_headers` and redeployed. Re-ran Lighthouse on `/`: **Best Practices 100**, zero console errors, and `static.cloudflareinsights.com/beacon.min.js` now loads — analytics collecting, inline theme script running. (Perf reads vary 88–100 run-to-run on the local runner; LCP/CLS unchanged since only the CSP header changed.)
