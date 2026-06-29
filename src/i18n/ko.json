@@ -52,7 +52,13 @@
 		"newerPost": "다음 글",
 		"morePosts": "더 많은 글",
 		"loadMore": "글 더 보기",
-		"showingCount": "총 {total}개 중 {shown}개 표시"
+		"showingCount": "총 {total}개 중 {shown}개 표시",
+		"searchLabel": "글 검색",
+		"searchPlaceholder": "제목·요약·태그로 검색",
+		"searchClear": "검색 지우기",
+		"noResults": "검색 결과가 없습니다.",
+		"taggedTitle": "‘{tag}’ 태그가 달린 글",
+		"browseAllTags": "전체 글 보기"
 	},
 	"portfolio": {
 		"title": "포트폴리오",
@@ -61,7 +67,9 @@
 		"allTags": "전체",
 		"viewProject": "자세히 보기",
 		"hideDetails": "접기",
-		"noItems": "아직 보여드릴 프로젝트가 없습니다."
+		"noItems": "아직 보여드릴 프로젝트가 없습니다.",
+		"taggedTitle": "‘{tag}’ 태그가 달린 작업",
+		"browseAllTags": "전체 작업 보기"
 	},
 	"home": {
 		"focusHeading": "지금 다루는 주제",

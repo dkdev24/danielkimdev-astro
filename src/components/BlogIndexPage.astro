@@ -14,6 +14,7 @@ import { formatDate, formatReadingTime, useTranslations } from '../i18n/utils';
 import { SITE_DESCRIPTION_BY_LOCALE } from '../consts';
 import { readingTimeMinutes } from '../utils/readingTime';
 import { getPostPath } from '../utils/blog';
+import { getTagPath } from '../utils/tags';
 
 interface Props {
 	lang: Lang;
@@ -47,6 +48,32 @@ for (const post of posts) {
 		</header>
 
 		{
+			posts.length > 0 && (
+				/* JS-only: a non-functional input without JS is worse than none, so
+				   it ships hidden and the controller reveals it (progressive
+				   enhancement — the full list always renders server-side). */
+				<div class="blog-search" hidden>
+					<label class="blog-search__label" for="blog-search-input">
+						{t('blog.searchLabel')}
+					</label>
+					<div class="blog-search__field">
+						<input
+							type="search"
+							id="blog-search-input"
+							class="blog-search__input"
+							placeholder={t('blog.searchPlaceholder')}
+							autocomplete="off"
+							enterkeyhint="search"
+						/>
+						<button type="button" class="blog-search__clear" hidden aria-label={t('blog.searchClear')}>
+							&times;
+						</button>
+					</div>
+				</div>
+			)
+		}
+
+		{
 			filterTags.length > 0 && (
 				<div class="blog-filters" role="group" aria-label={t('blog.filterByTag')}>
 					<Tag tag="all" lang={lang} label={t('blog.allTags')} interactive pressed data-filter="all" />
@@ -61,7 +88,18 @@ for (const post of posts) {
 			posts.length > 0 ? (
 				<ul class="blog-list">
 					{posts.map((post) => (
-						<li class="blog-item" data-tags={post.data.tags.join(' ')}>
+						<li
+							class="blog-item"
+							data-tags={post.data.tags.join(' ')}
+							data-search={[
+								post.data.title,
+								post.data.description,
+								...post.data.tags,
+								...post.data.tags.map((tg) => t(`tags.${tg}`)),
+							]
+								.join(' ')
+								.toLowerCase()}
+						>
 							<Card as="article" interactive>
 								<p class="blog-item__meta">
 									<time datetime={post.data.pubDate.toISOString()}>
@@ -83,7 +121,7 @@ for (const post of posts) {
 								{post.data.tags.length > 0 && (
 									<div class="blog-item__tags">
 										{post.data.tags.map((tg) => (
-											<Tag tag={tg} lang={lang} />
+											<Tag tag={tg} lang={lang} href={getTagPath('blog', tg, lang)} />
 										))}
 									</div>
 								)}
@@ -93,6 +131,16 @@ for (const post of posts) {
 				</ul>
 			) : (
 				<p class="blog-empty">{t('blog.noPosts')}</p>
+			)
+		}
+
+		{
+			/* Shown by the controller only when a live search matches nothing
+			   (distinct from `blog-empty`, which is the zero-posts state). */
+			posts.length > 0 && (
+				<p class="blog-noresults" role="status" hidden>
+					{t('blog.noResults')}
+				</p>
 			)
 		}
 
@@ -120,6 +168,72 @@ for (const post of posts) {
 		font-size: var(--text-lg);
 		color: var(--color-text-secondary);
 		max-width: 60ch;
+	}
+
+	/* Search box — JS-only (hidden until the controller reveals it). */
+	.blog-search {
+		margin-bottom: var(--space-5);
+		max-width: 28rem;
+	}
+	.blog-search[hidden] {
+		display: none;
+	}
+	.blog-search__label {
+		display: block;
+		margin-bottom: var(--space-1_5);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		color: var(--color-text-secondary);
+	}
+	.blog-search__field {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+	.blog-search__input {
+		width: 100%;
+		padding: var(--space-2_5) var(--space-10) var(--space-2_5) var(--space-3_5);
+		font: inherit;
+		font-size: var(--text-base);
+		color: var(--color-text);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-pill);
+		transition: border-color var(--motion-fast, 150ms) ease;
+	}
+	.blog-search__input::placeholder {
+		color: var(--color-text-muted);
+	}
+	.blog-search__input:hover {
+		border-color: var(--color-text-muted);
+	}
+	/* Strip the native WebKit search "×" so only our themed clear button shows. */
+	.blog-search__input::-webkit-search-cancel-button {
+		-webkit-appearance: none;
+		appearance: none;
+	}
+	.blog-search__clear {
+		position: absolute;
+		right: var(--space-2);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.75rem;
+		height: 1.75rem;
+		font-size: var(--text-lg);
+		line-height: 1;
+		color: var(--color-text-muted);
+		background: none;
+		border: none;
+		border-radius: var(--radius-pill);
+		cursor: pointer;
+	}
+	.blog-search__clear[hidden] {
+		display: none;
+	}
+	.blog-search__clear:hover {
+		color: var(--color-text);
+		background: var(--color-bg-muted);
 	}
 
 	.blog-filters {
@@ -174,6 +288,13 @@ for (const post of posts) {
 	.blog-empty {
 		color: var(--color-text-secondary);
 	}
+	.blog-noresults {
+		margin-top: var(--space-6);
+		color: var(--color-text-secondary);
+	}
+	.blog-noresults[hidden] {
+		display: none;
+	}
 
 	/* Load-more controls — JS-only (hidden without JS so the full list shows). */
 	.blog-more {
@@ -197,39 +318,53 @@ for (const post of posts) {
 </style>
 
 <script>
-	// Unified controller for the blog index: the tag filter and the "load more"
-	// pager share one render pass so they compose. Visibility of each item is a
-	// function of (a) whether it matches the active tag and (b) whether it falls
-	// within the current visible window. Without JS none of this runs, so every
-	// item stays visible and the load-more block stays hidden (progressive
+	// Unified controller for the blog index: the search box, tag filter, and the
+	// "load more" pager share one render pass so they compose. An item is visible
+	// when it matches BOTH the active tag AND the search query, and falls within
+	// the current visible window. Without JS none of this runs, so every item
+	// stays visible and the search/load-more chrome stays hidden (progressive
 	// enhancement — matches the draft/no-JS behavior elsewhere).
 	const filters = Array.from(document.querySelectorAll<HTMLElement>('.blog-filters [data-filter]'));
 	const items = Array.from(document.querySelectorAll<HTMLElement>('.blog-item'));
 	const more = document.querySelector<HTMLElement>('.blog-more');
 	const status = document.querySelector<HTMLElement>('.blog-more__status');
 	const loadMoreBtn = document.querySelector<HTMLElement>('#blog-load-more');
+	const search = document.querySelector<HTMLElement>('.blog-search');
+	const searchInput = document.querySelector<HTMLInputElement>('.blog-search__input');
+	const clearBtn = document.querySelector<HTMLButtonElement>('.blog-search__clear');
+	const noResults = document.querySelector<HTMLElement>('.blog-noresults');
 
 	const PAGE_SIZE = Number(loadMoreBtn?.dataset.pageSize) || 6;
 	const showingTemplate = more?.dataset.showingTemplate ?? '';
 
 	let activeTag = 'all';
+	let query = '';
 	let visible = PAGE_SIZE;
 
-	function matches(item: HTMLElement) {
+	function matchesTag(item: HTMLElement) {
 		if (activeTag === 'all') return true;
 		return (item.getAttribute('data-tags') ?? '').split(' ').includes(activeTag);
+	}
+
+	function matchesQuery(item: HTMLElement) {
+		if (!query) return true;
+		return (item.getAttribute('data-search') ?? '').includes(query);
 	}
 
 	function render() {
 		let matched = 0;
 		items.forEach((item) => {
-			if (matches(item)) {
+			if (matchesTag(item) && matchesQuery(item)) {
 				item.hidden = matched >= visible; // within the visible window?
 				matched += 1;
 			} else {
 				item.hidden = true;
 			}
 		});
+
+		// No-results message: only while actively searching (an empty query with
+		// zero matches can't happen — every post matches an empty query).
+		if (noResults) noResults.hidden = !(query !== '' && matched === 0);
 
 		if (more) {
 			// Only surface the controls when there's more than one page to show
@@ -260,6 +395,29 @@ for (const post of posts) {
 
 	loadMoreBtn?.addEventListener('click', () => {
 		visible += PAGE_SIZE;
+		render();
+	});
+
+	// Reveal the search box (it ships hidden so a no-JS visitor never sees a dead
+	// input) and wire live filtering. Match is case-insensitive substring against
+	// the precomputed data-search text (title + summary + tag keys/labels).
+	if (search && searchInput) {
+		search.hidden = false;
+		searchInput.addEventListener('input', () => {
+			query = searchInput.value.trim().toLowerCase();
+			visible = PAGE_SIZE; // reset the pager whenever the query changes
+			if (clearBtn) clearBtn.hidden = query === '';
+			render();
+		});
+	}
+
+	clearBtn?.addEventListener('click', () => {
+		if (!searchInput) return;
+		searchInput.value = '';
+		query = '';
+		visible = PAGE_SIZE;
+		clearBtn.hidden = true;
+		searchInput.focus();
 		render();
 	});
 

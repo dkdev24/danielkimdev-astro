@@ -52,7 +52,13 @@
 		"newerPost": "Newer post",
 		"morePosts": "More posts",
 		"loadMore": "Load more posts",
-		"showingCount": "Showing {shown} of {total} posts"
+		"showingCount": "Showing {shown} of {total} posts",
+		"searchLabel": "Search posts",
+		"searchPlaceholder": "Search by title, summary, or tag",
+		"searchClear": "Clear search",
+		"noResults": "No posts match your search.",
+		"taggedTitle": "Posts tagged “{tag}”",
+		"browseAllTags": "Browse all posts"
 	},
 	"portfolio": {
 		"title": "Portfolio",
@@ -61,7 +67,9 @@
 		"allTags": "All",
 		"viewProject": "View details",
 		"hideDetails": "Hide details",
-		"noItems": "No projects to show yet."
+		"noItems": "No projects to show yet.",
+		"taggedTitle": "Work tagged “{tag}”",
+		"browseAllTags": "Browse all work"
 	},
 	"home": {
 		"focusHeading": "What I'm working on",

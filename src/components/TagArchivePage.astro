@@ -1,0 +1,133 @@
+---
+// Shared tag/topic archive (Stage 26) — one static page per taxonomy tag, per
+// collection, per locale. Fed by `utils/tags.ts` builders so this stays a dumb
+// renderer. Blog entries link to the post; portfolio entries are self-contained
+// (no detail route until Stage 27). Tag chips link across the archive set.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from './Card.astro';
+import Tag from './Tag.astro';
+import type { Lang } from '../i18n/utils';
+import { getLocalizedPath, useTranslations } from '../i18n/utils';
+import { getTagPath, type ArchiveEntry } from '../utils/tags';
+
+interface Props {
+	lang: Lang;
+	kind: 'blog' | 'portfolio';
+	tag: string;
+	tagLabel: string;
+	entries: ArchiveEntry[];
+}
+
+const { lang, kind, tag, tagLabel, entries } = Astro.props;
+const t = useTranslations(lang);
+
+const heading = t(`${kind}.taggedTitle`).replace('{tag}', tagLabel);
+const backHref = getLocalizedPath(kind === 'blog' ? '/blog/' : '/portfolio/', lang);
+const backLabel = t(`${kind}.browseAllTags`);
+---
+
+<BaseLayout title={`${heading} — Daniel Kim`} description={heading} lang={lang} noindex={entries.length === 0}>
+	<section class="container archive">
+		<nav class="archive__back">
+			<a href={backHref}>&larr; {backLabel}</a>
+		</nav>
+		<header class="archive__head">
+			<h1>{heading}</h1>
+		</header>
+
+		<ul class="archive-list">
+			{
+				entries.map((entry) => (
+					<li class="archive-item">
+						<Card as="article" interactive={Boolean(entry.href)}>
+							<p class="archive-item__meta">
+								{entry.datetime ? (
+									<time datetime={entry.datetime}>{entry.meta}</time>
+								) : (
+									<span>{entry.meta}</span>
+								)}
+							</p>
+							<h2 class="archive-item__title">
+								{entry.href ? <a href={entry.href}>{entry.title}</a> : entry.title}
+							</h2>
+							<p class="archive-item__summary">{entry.summary}</p>
+							{entry.tags.length > 0 && (
+								<div class="archive-item__tags">
+									{entry.tags.map((tg) => (
+										<Tag
+											tag={tg}
+											lang={lang}
+											href={getTagPath(kind, tg, lang)}
+											aria-current={tg === tag ? 'page' : undefined}
+										/>
+									))}
+								</div>
+							)}
+						</Card>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</BaseLayout>
+
+<style>
+	.archive {
+		padding-block: var(--space-12) var(--space-16);
+	}
+	.archive__back {
+		margin-bottom: var(--space-4);
+		font-size: var(--text-sm);
+	}
+	.archive__back a {
+		color: var(--color-text-secondary);
+		text-decoration: none;
+	}
+	.archive__back a:hover {
+		color: var(--color-link);
+	}
+	.archive__head {
+		margin-bottom: var(--space-8);
+	}
+
+	.archive-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+		gap: var(--space-6);
+	}
+	.archive-item__meta {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-data);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+	.archive-item__title {
+		margin: 0 0 var(--space-2);
+		font-size: var(--text-h4);
+	}
+	.archive-item__title a {
+		color: var(--color-text-heading);
+		text-decoration: none;
+	}
+	.archive-item__title a:hover {
+		color: var(--color-link);
+	}
+	.archive-item__summary {
+		margin: 0 0 var(--space-4);
+		color: var(--color-text-secondary);
+	}
+	.archive-item__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1_5);
+	}
+	/* The chip for the tag whose archive this is — mark it as the current page. */
+	.archive-item__tags :global(.tag[aria-current='page']) {
+		background: var(--color-primary-200);
+		border-color: color-mix(in srgb, var(--color-brand) 45%, transparent);
+		color: var(--color-brand-deep);
+	}
+</style>

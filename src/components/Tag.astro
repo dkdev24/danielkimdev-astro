@@ -55,7 +55,7 @@ const classes = ['tag', { 'tag--interactive': interactive }, className];
 			{display}
 		</button>
 	) : href ? (
-		<a class:list={classes} href={href}>
+		<a class:list={classes} href={href} {...rest}>
 			{display}
 		</a>
 	) : (

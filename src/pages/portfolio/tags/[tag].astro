@@ -1,0 +1,10 @@
+---
+import TagArchivePage from '../../../components/TagArchivePage.astro';
+import { getPortfolioTagPaths } from '../../../utils/tags';
+
+export const getStaticPaths = () => getPortfolioTagPaths('en');
+
+const { tag, tagLabel, entries } = Astro.props;
+---
+
+<TagArchivePage lang="en" kind="portfolio" tag={tag} tagLabel={tagLabel} entries={entries} />

@@ -16,6 +16,17 @@ Entry template:
 
 ---
 
+## 2026-06-29 — Deploy guardrail + Stage 25 (blog search) & Stage 26 (tag archives)
+**Did:**
+- **Deploy guardrail.** Added `scripts/predeploy-guard.sh`, wired as the npm `predeploy` lifecycle hook (runs automatically before `npm run deploy`). Warns (doesn't hard-block — Daniel sometimes ships a quick uncommitted tweak) on: not on `main`, dirty working tree, or drift vs `origin/main`. Interactive `[y/N]` confirm; aborts in non-interactive shells; override with `DEPLOY_ALLOW_DIRTY=1`. Verified both abort and override paths.
+- **Stage 25 — blog client-side search.** Added a search box to `BlogIndexPage.astro` that layers onto the Stage-24 unified controller: visibility of an item = matchesTag AND matchesQuery AND within the pager window. Search box ships `hidden` and is revealed by JS (progressive enhancement — a no-JS visitor never sees a dead input). Match is case-insensitive substring over a precomputed `data-search` attr per item (title + summary + tag keys + localized tag labels). Clear button + `aria-live`-friendly no-results message (`.blog-noresults`, distinct from the zero-posts `.blog-empty`). 4 i18n keys added to both dicts.
+- **Stage 26 — tag/topic archive pages.** New static routes (one page per tag, per collection, per locale): `/blog/tags/<tag>/`, `/portfolio/tags/<tag>/` (+ `/ko/...`). Shared dumb renderer `TagArchivePage.astro` fed by builders in new `src/utils/tags.ts` (`getBlogTagPaths`/`getPortfolioTagPaths`/`getTagPath`). Blog archive cards link to the post; **portfolio cards are self-contained (no detail route until Stage 27)** — `href` omitted, title is plain text. Item tag chips on the blog index and portfolio page now link into the archive set; the current tag's chip carries `aria-current="page"`. Localized headings via `{kind}.taggedTitle`. Build went 13 → 39 pages.
+- **Tag.astro fix.** The `<a>` (href) branch didn't forward `{...rest}`, so attributes like `aria-current` were silently dropped — only the `<button>` branch spread rest. Added `{...rest}` to the link branch (no regression: existing href callers pass no extra attrs).
+- **Tests.** New `tests/e2e/blog-search.spec.ts` (4) + `tests/e2e/tag-archives.spec.ts` (4). Full suite **15 passed**; `astro check` 0 errors; prod build clean (39 pages). Note: scope heading locators to the page (e.g. `.archive__head h1`) — the Astro dev toolbar injects its own `<h1>`s and trips strict mode otherwise.
+**Decisions:** Deploy guardrail is a *warning* gate, not a block (preserves the ship-a-tweak workflow). Portfolio tag archives intentionally ship before portfolio detail pages (Stage 27) with self-contained, non-linking cards rather than dead links.
+**Files touched:** `scripts/predeploy-guard.sh` (new), `package.json` (predeploy hook), `src/components/{BlogIndexPage,TagArchivePage,Tag,PortfolioPage}.astro`, `src/utils/tags.ts` (new), `src/pages/{blog,ko/blog,portfolio,ko/portfolio}/tags/[tag].astro` (new), `src/i18n/{en,ko}.json`, `tests/e2e/{blog-search,tag-archives}.spec.ts` (new), `dev-references/plans/00-index.md`.
+**Next:** Stage 27 (`/portfolio/[slug]` detail pages) — then revisit portfolio archive cards to link titles to the new detail route. Then 28 (per-post OG images), 29 (authoring docs + content-lint CI).
+
 ## 2026-06-29 — P1 kickoff: backlog decomposed + Stage 22 (Web Analytics) & 23 (404)
 
 **Did:**

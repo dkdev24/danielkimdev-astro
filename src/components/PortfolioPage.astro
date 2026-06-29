@@ -9,6 +9,7 @@ import Card from './Card.astro';
 import Tag from './Tag.astro';
 import type { Lang } from '../i18n/utils';
 import { getLocalizedPath, useTranslations } from '../i18n/utils';
+import { getTagPath } from '../utils/tags';
 import { SITE_DESCRIPTION_BY_LOCALE } from '../consts';
 
 interface Props {
@@ -64,7 +65,7 @@ const aboutTimeline = `${getLocalizedPath('/about/', lang)}#timeline-h`;
 								<p class="pf-card__summary">{entry.data.summary}</p>
 								<div class="pf-card__tags">
 									{entry.data.tags.map((tg) => (
-										<Tag tag={tg} lang={lang} />
+										<Tag tag={tg} lang={lang} href={getTagPath('portfolio', tg, lang)} />
 									))}
 								</div>
 								<details class="pf-card__details">
