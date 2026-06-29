@@ -50,7 +50,9 @@
 		"tags": "Tags",
 		"olderPost": "Older post",
 		"newerPost": "Newer post",
-		"morePosts": "More posts"
+		"morePosts": "More posts",
+		"loadMore": "Load more posts",
+		"showingCount": "Showing {shown} of {total} posts"
 	},
 	"portfolio": {
 		"title": "Portfolio",

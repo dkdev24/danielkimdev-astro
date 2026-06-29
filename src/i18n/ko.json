@@ -50,7 +50,9 @@
 		"tags": "태그",
 		"olderPost": "이전 글",
 		"newerPost": "다음 글",
-		"morePosts": "더 많은 글"
+		"morePosts": "더 많은 글",
+		"loadMore": "글 더 보기",
+		"showingCount": "총 {total}개 중 {shown}개 표시"
 	},
 	"portfolio": {
 		"title": "포트폴리오",

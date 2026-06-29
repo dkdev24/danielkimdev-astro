@@ -42,13 +42,12 @@ export const DEFAULT_OG_IMAGE = '/og-default.png';
 export const CONTACT_EMAIL = 'danielkimdev24@gmail.com';
 
 // Cloudflare Web Analytics — cookieless, privacy-friendly traffic measurement
-// (P1, Stage 22). The beacon loads ONLY in production builds AND only when this
-// token is non-empty (see BaseHead), so dev/preview never pings CF and an empty
-// token is a safe no-op. TODO(daniel): paste the token from the Cloudflare
-// dashboard → Web Analytics → your site → "JS snippet" (the `data-cf-beacon`
-// `token` value). Alternatively, skip this and use CF's zero-code "Automatic
-// Setup" (works because the apex is proxied) — but don't enable both, or pageviews
-// double-count. Leaving this '' keeps the manual beacon off.
+// (P1, Stage 22). DECISION (2026-06-29): Daniel enabled CF "Automatic Setup"
+// (edge-injected beacon, zero code) in the dashboard, so this MUST stay '' — the
+// manual beacon (see BaseHead) is intentionally OFF. Do NOT paste a token here:
+// it would load a second beacon on top of the edge-injected one and double-count
+// every pageview. Kept only as a portable fallback if Automatic Setup is ever
+// turned off. The beacon loads only when this is non-empty AND in production.
 export const CF_ANALYTICS_TOKEN = '';
 
 // Social profiles (PRD §4 footer). Locked 2026-06-28: LinkedIn + email only —

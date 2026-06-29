@@ -6,6 +6,7 @@
 // stay P1. Reuses the Stage 15 portfolio filter pattern.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from './Button.astro';
 import Card from './Card.astro';
 import Tag from './Tag.astro';
 import type { Lang } from '../i18n/utils';
@@ -94,6 +95,17 @@ for (const post of posts) {
 				<p class="blog-empty">{t('blog.noPosts')}</p>
 			)
 		}
+
+		{
+			posts.length > 0 && (
+				<div class="blog-more" hidden data-showing-template={t('blog.showingCount')}>
+					<p class="blog-more__status" aria-live="polite" />
+					<Button variant="secondary" id="blog-load-more" data-page-size="6">
+						{t('blog.loadMore')}
+					</Button>
+				</div>
+			)
+		}
 	</section>
 </BaseLayout>
 
@@ -162,23 +174,94 @@ for (const post of posts) {
 	.blog-empty {
 		color: var(--color-text-secondary);
 	}
+
+	/* Load-more controls — JS-only (hidden without JS so the full list shows). */
+	.blog-more {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-3);
+		margin-top: var(--space-10);
+	}
+	/* Explicit override: `.blog-more`'s flex display would otherwise beat the
+	   default [hidden] rule, showing the block (and a dead button) without JS. */
+	.blog-more[hidden] {
+		display: none;
+	}
+	.blog-more__status {
+		margin: 0;
+		font-family: var(--font-data);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
 </style>
 
 <script>
+	// Unified controller for the blog index: the tag filter and the "load more"
+	// pager share one render pass so they compose. Visibility of each item is a
+	// function of (a) whether it matches the active tag and (b) whether it falls
+	// within the current visible window. Without JS none of this runs, so every
+	// item stays visible and the load-more block stays hidden (progressive
+	// enhancement — matches the draft/no-JS behavior elsewhere).
 	const filters = Array.from(document.querySelectorAll<HTMLElement>('.blog-filters [data-filter]'));
 	const items = Array.from(document.querySelectorAll<HTMLElement>('.blog-item'));
+	const more = document.querySelector<HTMLElement>('.blog-more');
+	const status = document.querySelector<HTMLElement>('.blog-more__status');
+	const loadMoreBtn = document.querySelector<HTMLElement>('#blog-load-more');
 
-	function apply(tag: string) {
+	const PAGE_SIZE = Number(loadMoreBtn?.dataset.pageSize) || 6;
+	const showingTemplate = more?.dataset.showingTemplate ?? '';
+
+	let activeTag = 'all';
+	let visible = PAGE_SIZE;
+
+	function matches(item: HTMLElement) {
+		if (activeTag === 'all') return true;
+		return (item.getAttribute('data-tags') ?? '').split(' ').includes(activeTag);
+	}
+
+	function render() {
+		let matched = 0;
 		items.forEach((item) => {
-			const tags = (item.getAttribute('data-tags') ?? '').split(' ');
-			item.hidden = tag !== 'all' && !tags.includes(tag);
+			if (matches(item)) {
+				item.hidden = matched >= visible; // within the visible window?
+				matched += 1;
+			} else {
+				item.hidden = true;
+			}
 		});
-		filters.forEach((f) =>
-			f.setAttribute('aria-pressed', String(f.getAttribute('data-filter') === tag)),
-		);
+
+		if (more) {
+			// Only surface the controls when there's more than one page to show
+			// (so a small/filtered set doesn't render a lone "Showing 2 of 2").
+			more.hidden = matched <= PAGE_SIZE;
+			const shown = Math.min(visible, matched);
+			if (status) {
+				status.textContent = showingTemplate
+					.replace('{shown}', String(shown))
+					.replace('{total}', String(matched));
+			}
+			// Toggle via inline display, not [hidden]: the button is Button-scoped
+			// (this component's CSS can't reach it) and .btn sets display anyway.
+			if (loadMoreBtn) loadMoreBtn.style.display = matched > visible ? '' : 'none';
+		}
 	}
 
 	filters.forEach((f) =>
-		f.addEventListener('click', () => apply(f.getAttribute('data-filter') ?? 'all')),
+		f.addEventListener('click', () => {
+			activeTag = f.getAttribute('data-filter') ?? 'all';
+			visible = PAGE_SIZE; // reset the pager when the filter changes
+			filters.forEach((b) =>
+				b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === activeTag)),
+			);
+			render();
+		}),
 	);
+
+	loadMoreBtn?.addEventListener('click', () => {
+		visible += PAGE_SIZE;
+		render();
+	});
+
+	render();
 </script>

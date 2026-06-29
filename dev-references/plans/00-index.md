@@ -85,7 +85,7 @@
 |---|-------|-------|------------|--------|
 | 22 | [Cloudflare Web Analytics (cookieless)](stage-22-web-analytics.md) | Measurement | 21 | ✅ Done |
 | 23 | [404 page (bilingual)](stage-23-not-found.md) | Polish | 06 | ✅ Done |
-| 24 | Blog pagination / load-more | Blog scale | 16 | ⬜ Not started |
+| 24 | [Blog pagination / load-more](stage-24-blog-pagination.md) | Blog scale | 16 | ✅ Done |
 | 25 | Blog client-side search | Blog scale | 16, 24 | ⬜ Not started |
 | 26 | Tag/topic archive pages (blog + portfolio) | Taxonomy | 15, 16 | ⬜ Not started |
 | 27 | Portfolio detail pages (`/portfolio/[slug]`) | Pages | 15 | ⬜ Not started |

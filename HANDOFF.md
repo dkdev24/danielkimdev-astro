@@ -5,7 +5,7 @@
 > **Budget: ~60 lines / one screen. Edit in place, replace don't append, prune as you add** (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
 **Last updated:** 2026-06-29
-**Status:** **LIVE** at https://danielkimdev.com (custom domain connected 2026-06-29; apex + www→apex 301; `.pages.dev` still works). Last deploy 2026-06-28; content + P1 work below is newer — **needs redeploy**. All of P0 (Stages 01–21) shipped; **P1 now decomposed into Stages 22–29** (index), with **22 (Web Analytics) + 23 (404) done**. Remaining = post-deploy Lighthouse, a couple of content items, P1 Stages 24–29 — none block launch.
+**Status:** **LIVE** at https://danielkimdev.com (custom domain; apex + www→apex 301; `.pages.dev` works). **Deployed 2026-06-29** with content + P1 22–23 (404 verified live). All of P0 (Stages 01–21) shipped; **P1 decomposed into Stages 22–29** (index), **22 (Web Analytics) + 23 (404) + 24 (pagination) done** (24 not yet deployed). Web Analytics runs via CF **Automatic Setup** (edge beacon). Remaining = post-deploy Lighthouse, a couple of content items, P1 Stages 25–29 — none block launch.
 
 ## Project in one line
 
@@ -14,7 +14,8 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 ## Current state
 
 - **Shipped:** P0 complete + P1 Stages 22–23. Site live, both locales, all routes 200, `astro check` clean, e2e 5 passed. Per-stage notes in [`WORKLOG.md`](WORKLOG.md); stage status in [`plans/00-index.md`](dev-references/plans/00-index.md).
-- **P1 progress:** Web Analytics wired but **token-gated/off** (`CF_ANALYTICS_TOKEN` empty in `consts.ts` → no beacon; prod-only); custom **404** at `src/pages/404.astro` (single static `dist/404.html`, bilingual via inline locale-swap, `noindex`).
+- **P1 progress:** Web Analytics live via CF **Automatic Setup** (edge-injected). The repo's manual beacon stays OFF — keep `CF_ANALYTICS_TOKEN` empty in `consts.ts` (a token would double-count). Custom **404** at `src/pages/404.astro` (single static `dist/404.html`, bilingual via inline locale-swap, `noindex`) — verified live.
+- **Placeholder blog fixtures:** 10 EN + 10 KO `placeholder-NN-*.md` (`draft: true`) seed Stages 24–26 with volume. **Dev-only** — excluded from prod by draft gating; remove via `rm src/content/blog/{en,ko}/placeholder-*.md`. Don't flip them to `draft: false`.
 - **Redeploy:** `npm run deploy` (= `astro build && wrangler pages deploy ./dist --project-name danielkimdev --branch main`). **Direct-upload project — no Git auto-deploy**; run the script to ship. Non-`main` `--branch` → isolated preview URL.
 - **Architecture quick map:** every page renders through `src/layouts/BaseLayout.astro` (sets `<html lang>`, `BaseHead`, header/main/footer). Pages are thin per-locale wrappers (`pages/x.astro` + `pages/ko/x.astro`) around a shared `src/components/XPage.astro`. Content = 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`, folder-by-locale + `lang` field. Tokens in `src/styles/tokens.css` are the single source of truth (light + `[data-theme="dark"]`).
 
@@ -40,13 +41,13 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 ## Next steps (P0 shipped — launch + backlog, priority order)
 
 1. **Post-deploy Lighthouse** — run on the live URL (`danielkimdev.com`), record in [`plans/stage-21-deploy.md`](dev-references/plans/stage-21-deploy.md). (Local CWV strong: EN home 148KB, CLS 0, LCP ~300ms.)
-2. **Redeploy** — local content is ahead of production (portfolio + both blog posts rewritten 2026-06-29). Run `npm run deploy` to ship.
+2. **Redeploy** — only when new local work lands; `npm run deploy`. *(Deployed 2026-06-29 with content + P1 22–23; working tree is in sync with prod aside from this session's doc/decision tweaks.)*
 3. **Content** — mostly done. Remaining: `portfolio/{en,ko}/digital-garden.md` "link the tooling write-up" TODO (waits on a future post); confirm whatifclassics `period: 2025–2026`; optional new post seeds. *(Headshot, KO copy, timeline, and all portfolio dates/links are now filled.)*
-4. **P1 stages 24–29** ([`plans/00-index.md`](dev-references/plans/00-index.md), in order): 24 blog pagination/load-more · 25 blog search · 26 tag/topic archives · 27 `/portfolio/[slug]` detail · 28 per-post OG images · 29 authoring docs + content-lint CI. *(22 Web Analytics + 23 404 done.)*
+4. **P1 stages 25–29** ([`plans/00-index.md`](dev-references/plans/00-index.md), in order): 25 blog search · 26 tag/topic archives · 27 `/portfolio/[slug]` detail · 28 per-post OG images · 29 authoring docs + content-lint CI. *(22 Web Analytics + 23 404 + 24 pagination done.)* Stage 25 layers onto the Stage-24 index controller (search = another predicate ANDed with the tag filter + window).
 
 ## Open / needs Daniel
 
-- **CF Web Analytics token:** paste it into `CF_ANALYTICS_TOKEN` (`consts.ts`) to turn the beacon on — OR enable CF "Automatic Setup" and leave it empty. Don't do both (double-counts). Until then, analytics is off.
+- **CF Web Analytics:** done via Automatic Setup. Keep `CF_ANALYTICS_TOKEN` empty — adding a token would double-count. (Edge beacon can take a few minutes to appear in page HTML after enabling.)
 - **PRD framing follow-up:** §1 Context, §2 Goal 2, §13.4 still lean media-tech — needs a pass to reflect the AI-knowledge-work positioning shift.
 
 ## Conventions / gotchas
