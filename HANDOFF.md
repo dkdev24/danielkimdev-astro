@@ -49,7 +49,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Open / needs Daniel
 
-- **CF Web Analytics:** done via Automatic Setup. Keep `CF_ANALYTICS_TOKEN` empty — adding a token would double-count. (Edge beacon can take a few minutes to appear in page HTML after enabling.)
+- **🔴 CF Web Analytics shows "no visitors" — BROKEN, fix next session.** Both `danielkimdev.com` and `whatifclassics.com` (both on CF Registrar, Automatic Setup enabled) report zero. **Key clue:** `whatifclassics.com` has months of real traffic (confirmed in its own **Umami** analytics) yet CF shows zero — and we never touched its config — so this is **account/setup-level, not just our danielkimdev CSP** (that block was real but is now fixed; beacon confirmed loading on danielkimdev via Lighthouse). Leads to check: (1) **zone proxy status** — Automatic Setup edge-injects the beacon only when DNS records are **proxied (orange cloud)**; if either zone is "DNS only" (grey) or the site is hosted off-CF with grey-cloud DNS, no injection → no data; (2) confirm the beacon actually **POSTs** to `cloudflareinsights.com` (Network tab, not just that `beacon.min.js` loads); (3) right dashboard/site-token + date range; (4) consider the **manual snippet** fallback (set `CF_ANALYTICS_TOKEN` in `consts.ts` — repo beacon is wired but OFF) if Automatic Setup can't inject. **If switching to the manual token, keep only ONE method on** (manual XOR Automatic) to avoid double-count.
 - **PRD framing follow-up:** §1 Context, §2 Goal 2, §13.4 still lean media-tech — needs a pass to reflect the AI-knowledge-work positioning shift.
 
 ## Conventions / gotchas
