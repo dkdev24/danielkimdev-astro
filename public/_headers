@@ -1,13 +1,16 @@
 # Cloudflare Pages custom headers (https://developers.cloudflare.com/pages/configuration/headers/)
-# Stage 01 baseline. Revisit the CSP in the perf/deploy stages once the asset
-# origins (fonts, analytics) are final — keep it tight but not build-breaking.
+# CSP finalized 2026-06-29 (post-deploy Lighthouse, stage-21-deploy.md): script-src
+# allows 'unsafe-inline' for the no-flash inline theme script (ThemeScript.astro,
+# is:inline) and the Cloudflare Web Analytics beacon origin; connect-src allows the
+# beacon's report endpoint. 'unsafe-inline' is the pragmatic choice for a no-auth
+# static site (no per-build hash maintenance). style-src already allows inline.
 
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
   Permissions-Policy: geolocation=(), microphone=(), camera=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
 
 # Astro emits content-hashed assets under /_astro/* — safe to cache forever (immutable).
 /_astro/*

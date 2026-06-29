@@ -35,4 +35,27 @@ Ship v1: confirm the static build, finalize deploy config, deploy to Cloudflare 
 ## Handoff note
 **P0 / v1 shipped.** Record the live URL and Lighthouse scores; then run the index's P1 decomposition for `stage-22+`.
 
-**Status (2026-06-28):** **DEPLOYED.** Site live at `https://danielkimdev.pages.dev` (direct upload via `wrangler pages deploy ./dist --project-name danielkimdev --branch main`; 33 files, `_headers` applied). A `deploy` script (`astro build && wrangler pages deploy …`) was added to `package.json` for one-command redeploys. All production URLs verified 200 in both locales (see Tasks). **Remaining (Daniel):** (1) attach `danielkimdev.com` at the apex (no base path) when ready — domain is in hand but intentionally deferred; (2) run Lighthouse against the live URL and record the scores here. Then start the P1 backlog. Note: the project is **direct-upload** (no Git integration) — redeploy with `npm run deploy`.
+**Status (2026-06-28):** **DEPLOYED.** Site live at `https://danielkimdev.pages.dev` (direct upload via `wrangler pages deploy ./dist --project-name danielkimdev --branch main`; 33 files, `_headers` applied). A `deploy` script (`astro build && wrangler pages deploy …`) was added to `package.json` for one-command redeploys. All production URLs verified 200 in both locales (see Tasks). Note: the project is **direct-upload** (no Git integration) — redeploy with `npm run deploy`.
+
+## Post-deploy Lighthouse (2026-06-29, live `danielkimdev.com`)
+
+Hosted Lighthouse (PSI) anonymous quota was exhausted (429), so these are **local Lighthouse 12** runs (Chrome, mobile preset, simulated throttling) against production. Perf is indicative (runner-dependent); A11y/BP/SEO are deterministic.
+
+| Page | Perf | A11y | Best-Pr | SEO | LCP | CLS |
+|------|:----:|:----:|:-------:|:---:|----:|----:|
+| `/` (home EN) | 97 | 100 | 93 | 100 | 2.2 s | 0 |
+| `/ko/` (home KO) | 100 | 100 | 93 | 100 | 1.7 s | 0 |
+| `/portfolio/` | 100 | 100 | 93 | 100 | 1.6 s | 0 |
+| `/portfolio/whatifclassics/` (Stage 27) | 99 | 100 | 93 | 100 | 1.9 s | 0 |
+| `/blog/agent-readiness/` | 99 | 100 | 93 | 100 | 1.6 s | 0 |
+
+TBT 0 ms everywhere; FCP ~1.7 s. **Excellent across the board** — meets the PRD perf targets.
+
+### ⚠️ Finding: production CSP is blocking inline scripts + the analytics beacon
+The only thing docking **Best Practices (93)** is `errors-in-console` + `inspector-issues`, both caused by the `Content-Security-Policy` in `public/_headers` (`script-src 'self'`, a Stage-01 baseline whose own comment said to revisit it "once analytics origins are final" — never done). It is **enforced in prod** and blocks:
+1. **The no-flash inline theme script** (`ThemeScript.astro`, `is:inline`) → defeats Stage-03 no-flash dark mode (FOUC on first paint).
+2. **The Cloudflare Web Analytics beacon** (`static.cloudflareinsights.com/beacon.min.js`) → **analytics has been collecting nothing** despite HANDOFF marking it live.
+
+**Fix:** loosen `script-src` to permit the inline bootstrap + the CF beacon origin, and allow the beacon's report endpoint in `connect-src`, e.g.:
+`script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com;`
+(Or replace `'unsafe-inline'` with the per-script sha256 hashes for a tighter policy — but Astro's inline bootstrap hash can change across builds, so for a no-auth static site `'unsafe-inline'` is the pragmatic call.) Redeploy, then re-run to confirm BP → 100 and the beacon loads.
