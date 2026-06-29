@@ -77,9 +77,21 @@
 
 **Critical path:** 01 → 02 → 03/04 → 05 → 06 → 07 → 08, then 09 → 10 in parallel with 11 → 12, converging on pages 13–18, finishing with 19/20 → 21.
 
-## Not yet decomposed (P1/P2 backlog — PRD §12)
+## P1 Stages (decomposed 2026-06-29)
 
-- **P1:** tag/topic archive pages, blog search, pagination/load-more, portfolio detail pages, auto-generated per-post OG images, 404 polish, Cloudflare Web Analytics, authoring docs + content-lint CI.
+> P0 shipped, so the P1 list (PRD §12) is now broken into session-sized stages. Order is priority-weighted (Daniel's stated order — Web Analytics, then blog search/pagination, then portfolio detail) and front-loads features that deliver value at the current low post count (analytics, 404). Same conventions as P0 apply.
+
+| # | Stage | Theme | Depends on | Status |
+|---|-------|-------|------------|--------|
+| 22 | [Cloudflare Web Analytics (cookieless)](stage-22-web-analytics.md) | Measurement | 21 | ✅ Done |
+| 23 | [404 page (bilingual)](stage-23-not-found.md) | Polish | 06 | ✅ Done |
+| 24 | Blog pagination / load-more | Blog scale | 16 | ⬜ Not started |
+| 25 | Blog client-side search | Blog scale | 16, 24 | ⬜ Not started |
+| 26 | Tag/topic archive pages (blog + portfolio) | Taxonomy | 15, 16 | ⬜ Not started |
+| 27 | Portfolio detail pages (`/portfolio/[slug]`) | Pages | 15 | ⬜ Not started |
+| 28 | Auto-generated per-post OG images | SEO | 17, 18 | ⬜ Not started |
+| 29 | Authoring docs + content-lint CI | DX | 09, 10 | ⬜ Not started |
+
+## Not yet decomposed (P2 backlog — PRD §12)
+
 - **P2:** newsletter capture, post series/collections, related posts, reading progress, webmentions/external discussion links, optional hybrid/SSR, light PKM→site hand-off automation.
-
-> When P0 ships, run this same decomposition over the P1 list to create `stage-22+`.

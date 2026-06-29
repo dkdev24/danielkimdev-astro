@@ -5,7 +5,7 @@
 // every page (it renders inside BaseLayout's <head>) gets the styles.
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
-import { DEFAULT_OG_IMAGE, SITE_TITLE } from '../consts';
+import { CF_ANALYTICS_TOKEN, DEFAULT_OG_IMAGE, SITE_TITLE } from '../consts';
 import { Font } from 'astro:assets';
 import ThemeScript from './ThemeScript.astro';
 import type { Lang } from '../i18n/utils';
@@ -68,6 +68,10 @@ if (alternates) {
 const hasCounterpart = alternates ? Boolean(alternates.en && alternates.ko) : false;
 
 const jsonLdList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+
+// Cloudflare Web Analytics beacon (Stage 22): cookieless, prod-only, and only
+// when a token is configured. Off in dev/preview and a no-op when unset.
+const showAnalytics = import.meta.env.PROD && CF_ANALYTICS_TOKEN !== '';
 ---
 
 <!-- No-flash theme resolver — must run before paint (Stage 03). -->
@@ -147,4 +151,16 @@ const jsonLdList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 	jsonLdList.map((data) => (
 		<script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />
 	))
+}
+
+<!-- Cloudflare Web Analytics — cookieless beacon (Stage 22), prod-only + token-gated. -->
+{
+	showAnalytics && (
+		<script
+			is:inline
+			defer
+			src="https://static.cloudflareinsights.com/beacon.min.js"
+			data-cf-beacon={JSON.stringify({ token: CF_ANALYTICS_TOKEN })}
+		/>
+	)
 }

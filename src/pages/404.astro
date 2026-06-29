@@ -1,0 +1,121 @@
+---
+// Custom 404 (Stage 23, P1). Astro emits this as a single static `dist/404.html`
+// that Cloudflare Pages serves for ANY unmatched route — including `/ko/…` ones.
+// Because it's one file, locale can't be decided at the server; we render BOTH
+// language blocks (EN visible by default, KO hidden) and a tiny inline script
+// reveals the right one from `location.pathname` and fixes <html lang> + <title>.
+// No-JS degrades to the English block. The page is noindex and has no hreflang.
+//
+// Note: the Header/Footer chrome stays in its build-time locale (EN) — an
+// accepted compromise for a single static error page; only the main content swaps.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import { useTranslations } from '../i18n/utils';
+
+const en = useTranslations('en');
+const ko = useTranslations('ko');
+
+const blocks = [
+	{
+		lang: 'en' as const,
+		t: en,
+		home: '/',
+		links: [
+			{ href: '/blog/', label: en('nav.blog') },
+			{ href: '/about/', label: en('nav.about') },
+		],
+	},
+	{
+		lang: 'ko' as const,
+		t: ko,
+		home: '/ko/',
+		links: [
+			{ href: '/ko/blog/', label: ko('nav.blog') },
+			{ href: '/ko/about/', label: ko('nav.about') },
+		],
+	},
+];
+---
+
+<BaseLayout
+	title={`404 — ${en('notFound.title')}`}
+	description={en('notFound.message')}
+	lang="en"
+	alternates={false}
+	noindex
+>
+	<section class="notfound container">
+		<p class="notfound__code" aria-hidden="true">404</p>
+		{
+			blocks.map((b) => (
+				<div class="notfound__block" lang={b.lang} hidden={b.lang === 'ko'} data-locale={b.lang}>
+					<h1 class="notfound__title">{b.t('notFound.title')}</h1>
+					<p class="notfound__message">{b.t('notFound.message')}</p>
+					<div class="notfound__actions">
+						<Button href={b.home} variant="primary">
+							{b.t('notFound.home')}
+						</Button>
+						{b.links.map((l) => (
+							<Button href={l.href} variant="ghost" size="sm">
+								{l.label}
+							</Button>
+						))}
+					</div>
+				</div>
+			))
+		}
+	</section>
+</BaseLayout>
+
+<script is:inline>
+	// Reveal the locale block matching the attempted URL (single static 404.html).
+	(function () {
+		var isKo = location.pathname === '/ko' || location.pathname.indexOf('/ko/') === 0;
+		var locale = isKo ? 'ko' : 'en';
+		var blocks = document.querySelectorAll('.notfound__block');
+		for (var i = 0; i < blocks.length; i++) {
+			blocks[i].hidden = blocks[i].getAttribute('data-locale') !== locale;
+		}
+		if (isKo) {
+			document.documentElement.lang = 'ko';
+			document.title = '404 — 페이지를 찾을 수 없습니다';
+		}
+	})();
+</script>
+
+<style>
+	.notfound {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: var(--space-4);
+		padding-block: var(--space-16) var(--space-20);
+	}
+	.notfound__code {
+		font-family: var(--font-heading);
+		font-weight: var(--weight-bold);
+		font-size: clamp(5rem, 18vw, 9rem);
+		line-height: 1;
+		margin: 0;
+		color: var(--color-text-muted);
+		opacity: 0.5;
+		letter-spacing: -0.02em;
+	}
+	.notfound__title {
+		font-size: var(--text-h2);
+		margin: 0;
+	}
+	.notfound__message {
+		max-width: 42ch;
+		margin: 0;
+		color: var(--color-text-muted);
+	}
+	.notfound__actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--space-3);
+		margin-top: var(--space-2);
+	}
+</style>

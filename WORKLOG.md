@@ -16,6 +16,24 @@ Entry template:
 
 ---
 
+## 2026-06-29 — P1 kickoff: backlog decomposed + Stage 22 (Web Analytics) & 23 (404)
+
+**Did:**
+- **Decomposed the P1 backlog into stages 22–29** in [`plans/00-index.md`](dev-references/plans/00-index.md) (new "P1 Stages" table; P2 stays as the undecomposed backlog). Order is priority-weighted (Daniel's stated order — Web Analytics → blog search/pagination → portfolio detail) and front-loads value at the current low post count.
+- **Stage 22 — Cloudflare Web Analytics (cookieless):** added `CF_ANALYTICS_TOKEN` to `consts.ts` (default `''`, `TODO(daniel)`) and a token-gated, **prod-only** beacon in `BaseHead.astro` (`import.meta.env.PROD && token !== ''`). Ships as a safe no-op until Daniel pastes the token (or uses CF Automatic Setup instead — not both). Verified: empty token → zero `cloudflareinsights` refs in `dist/`. Doc: [`stage-22-web-analytics.md`](dev-references/plans/stage-22-web-analytics.md).
+- **Stage 23 — bilingual 404:** new `src/pages/404.astro` (→ one static `dist/404.html` CF Pages serves for all unmatched routes). Renders both locale blocks (EN visible, KO hidden); an `is:inline` script reveals the KO block + fixes `<html lang>`/`title` on `/ko/…` paths. `noindex`, no hreflang, no-JS degrades to EN. Reuses existing `notFound.*` i18n keys. Doc: [`stage-23-not-found.md`](dev-references/plans/stage-23-not-found.md).
+- **Tests:** `tests/e2e/not-found.spec.ts` (EN block + KO swap). `astro check` 0/0/0; `astro build` emits `dist/404.html` with both `data-locale` blocks and excludes it from the sitemap; full e2e suite **5 passed**.
+
+**Decisions:**
+- P1 stage order locked as 22→29 (see index). 404 keeps Header/Footer chrome in build-time locale (EN) even for KO visitors — accepted compromise for a single static error page; only `<main>` content swaps.
+- Web Analytics shipped behind a token flag (manual beacon), not CF Automatic Setup, so the integration lives in-repo and is portable. **Only one path should be active** or pageviews double-count.
+
+**Files touched:** `dev-references/plans/00-index.md`, `dev-references/plans/stage-22-web-analytics.md`, `dev-references/plans/stage-23-not-found.md`, `src/consts.ts`, `src/components/BaseHead.astro`, `src/pages/404.astro`, `tests/e2e/not-found.spec.ts`.
+
+**Next:** Stage 24 (blog pagination/load-more) → 25 (search) → 26 (tag archives) → 27 (`/portfolio/[slug]`) → 28 (OG images) → 29 (authoring docs + content-lint CI). Daniel still owes the CF Analytics token (or the Automatic-Setup toggle). Redeploy still pending (content ahead of prod).
+
+---
+
 ## 2026-06-29 — Custom domain connected (apex + www redirect) + Playwright scaffold
 
 **Did:**
