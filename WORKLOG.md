@@ -16,6 +16,25 @@ Entry template:
 
 ---
 
+## 2026-06-30 — Career timeline (2000–2010) + DoveRunner dual-role update
+
+**Did:**
+- **Timeline: added early-career entries (2000–2010).** Three new EN+KO pairs sourced from `dev-references/Profile.pdf` (extracted via `markitdown` CLI):
+  - Netz Communications, Software Developer, 2000–2002 (VoIP internet call center solution)
+  - ACTSoft, Software Developer, 2002–2007 (enterprise PC management + online game billing; domestic/international project management)
+  - Ubitrotech, Senior Engineer, 2007–2010 (GPS navigation for North American PND market + Korean iPhone App Store nav app)
+  Renumbered existing entries order 1–3 → 4–6 to preserve chronological ascending sort.
+- **DoveRunner role updated to dual title: Developer Advocate & Product Owner.** Context from Daniel: DevRel = maintaining docs.doverunner.com + occasional conference sessions; PO = Platform Ops team, which owns the consolidated customer console, internal admin console, and backend systems linking DRM, Watermarking, and App Security product lines. Propagated across: `timeline/en-03-devrel.json` + `ko-03-devrel.json` (role + summary), `data/about.ts` bio para 2 (EN + KO), `portfolio/{en,ko}/talks-writing-devrel.md` (title, role, summary, added PO bullet), `portfolio/{en,ko}/career.md` (DoveRunner description).
+- **Deployed.** `npm install` was needed (node_modules absent on this machine). Wrangler required interactive `wrangler login` (non-interactive PowerShell returned auth error). Build: 51 pages clean. Upload: 18 new/changed files (54 already cached). Live at apex `danielkimdev.com` (preview: https://6bc2b97d.danielkimdev.pages.dev).
+
+**Decisions:** `npm run deploy` requires an interactive terminal with `sh` on PATH (predeploy guard) and Node-resolved `astro`. On environments where that fails, run `node_modules\.bin\astro build` then `node_modules\.bin\wrangler pages deploy ./dist --project-name danielkimdev --branch main` separately, after `wrangler login`. Added note to HANDOFF.
+
+**Files touched:** `src/content/timeline/en-early-01-netz.json`, `en-early-02-actsoft.json`, `en-early-03-ubitrotech.json` (new ×3), `ko-early-01-netz.json`, `ko-early-02-actsoft.json`, `ko-early-03-ubitrotech.json` (new ×3), `src/content/timeline/en-0{1,2,3}-*.json` + `ko-0{1,2,3}-*.json` (order bumped to 4–6), `src/data/about.ts`, `src/content/portfolio/en/{career,talks-writing-devrel}.md`, `src/content/portfolio/ko/{career,talks-writing-devrel}.md`.
+
+**Next:** Stage 28 (per-post OG images), Stage 29 (authoring docs + content-lint CI). CF Web Analytics still showing zero (see HANDOFF open items).
+
+---
+
 ## 2026-06-29 — CF plugin cleanup · plan docs (25–29, P2 30–36) · Stage 27 (portfolio detail)
 **Did:**
 - **Cloudflare cleanup.** No CF code work remains beyond deploy (Web Analytics = Automatic Setup, domain connected). Disabled the `cloudflare@claude-plugins-official` plugin in `.claude/settings.json` and deleted 4 global user skills (`cloudflare`, `cloudflare-one`, `cloudflare-one-migrations`, `turnstile-spin`); kept `wrangler` (deploy) + `daniel-writing-style`.

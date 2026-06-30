@@ -38,6 +38,29 @@ The Playwright **MCP server is intentionally removed** — driving a browser liv
 - Keep assertions generic (status + title + visible heading) for smoke coverage; tighten per-page when testing a specific feature.
 - Run `/clear` or `/compact` when switching between unrelated UI tasks so stale browser snapshots aren't resubmitted.
 
+## Tool usage
+
+### Fetching web content
+Use the **defuddle CLI** to retrieve content from URLs — it strips navigation, ads, and clutter and returns clean markdown, saving tokens vs. raw HTML.
+
+```bash
+defuddle parse <url> --md
+```
+
+If not installed: `npm install -g defuddle`
+
+### Converting documents to markdown
+Use the **markitdown CLI** to convert PDFs, Word docs, spreadsheets, PowerPoints, images, and other non-text formats to markdown before processing them.
+
+```bash
+markitdown <file>
+```
+
+If not installed: `pip install markitdown`
+
+### Install missing tools before use
+If either CLI is not on `PATH`, install it first (commands above), then proceed. Do not fall back to WebFetch or raw file reads when the appropriate CLI is available.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build
