@@ -11,4 +11,4 @@ order: 6
 translationKey: career
 ---
 
-전체 흐름은 소개 페이지의 타임라인에서 보실 수 있습니다. C/C++·Java 시스템 개발(Netz, ACTSoft, Ubitrotech)에서 시작해 INKA Entworks·PallyCon에서 DRM 엔지니어링과 제품을 거쳐, DoveRunner에서 개발자 애드보킷으로 이어집니다.
+전체 흐름은 소개 페이지의 타임라인에서 보실 수 있습니다. C/C++·Java 시스템 개발(Netz, ACTSoft, Ubitrotech)에서 시작해 INKA Entworks·PallyCon에서 DRM 엔지니어링과 제품을 거쳐, DoveRunner에서 디벨로퍼 애드보킷(문서 사이트·기술 글쓰기·콘퍼런스 발표)과 플랫폼 옵스 팀 프로덕트 오너를 함께 맡고 있습니다.

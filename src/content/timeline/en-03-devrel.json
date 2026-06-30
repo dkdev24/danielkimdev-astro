@@ -1,9 +1,9 @@
 {
-  "role": "Developer Advocate",
+  "role": "Developer Advocate & Product Owner",
   "org": "DoveRunner",
   "start": "2025",
   "end": "present",
-  "summary": "Connecting product and developers through documentation, technical writing, and talks on content security and streaming technology.",
+  "summary": "Dual role: Developer Advocate managing the DoveRunner developer docs site and speaking at conferences on content security and streaming; and Product Owner for the Platform Ops team, driving requirements and release plans across DRM, Watermarking, App Security, and the consolidated customer and admin consoles.",
   "lang": "en",
-  "order": 3
+  "order": 6
 }

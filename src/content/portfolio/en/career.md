@@ -11,4 +11,4 @@ order: 6
 translationKey: career
 ---
 
-The full arc is on the About page timeline — from C/C++ and Java systems work (Netz, ACTSoft, Ubitrotech) through DRM engineering and product at INKA Entworks / PallyCon, to Developer Advocacy at DoveRunner.
+The full arc is on the About page timeline — from C/C++ and Java systems work (Netz, ACTSoft, Ubitrotech) through DRM engineering and product at INKA Entworks / PallyCon, to a dual role at DoveRunner: Developer Advocate (docs site, technical writing, conference talks) and Product Owner for the Platform Ops team.
