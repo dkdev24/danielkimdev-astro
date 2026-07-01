@@ -16,6 +16,40 @@ Entry template:
 
 ---
 
+## 2026-07-01 — Stage 32: reading progress indicator
+
+**Did:** Implemented Stage 32 (P2 backlog) — a thin scroll-progress bar on blog post pages. New
+`src/components/ReadingProgress.astro`: a fixed 3px bar at `z-index: 60` (above the sticky header's
+`z-index: 50` in `Header.astro`, so it overlays the header's top edge as a full-width line — the
+common "reading progress" pattern, chosen over sitting below the header). Width is driven by a CSS
+`transform: scaleX()` (compositor-only, no layout reflow) computed from `.post__body`'s bounding
+rect against `window.scrollY`/`innerHeight`, throttled via `requestAnimationFrame` off a passive
+scroll listener, in an `<script is:inline>` following the same drop-in pattern as `CodeCopy.astro`.
+Marked `aria-hidden="true"` rather than a live `role="progressbar"` (per the plan's default — the
+TOC already gives structural position, and a continuously-updating live region would be noisy for
+AT users) — left the `TODO(daniel)` on that choice unresolved rather than deciding for him. Wired
+into `BlogPost.astro` alongside `<CodeCopy />`.
+**Decisions:** Skipped adding a component-local `@media (prefers-reduced-motion: no-preference)`
+transition gate (which the plan doc suggested) — `global.css` already has a blanket kill-switch
+(`transition-duration: 0.01ms !important` under `reduce`) that covers this transition for free;
+verified via `page.emulateMedia({ reducedMotion: 'reduce' })` that the computed
+`transitionDuration` collapses to `1e-05s`. Adding a redundant local rule would duplicate existing
+global behavior for no benefit.
+**Verification:** New `tests/e2e/reading-progress.spec.ts` (2 tests) — bar is `aria-hidden` and
+reads ~0 (`scaleX(0)`/`none`) before scrolling; scrolling to the post's bottom drives it to ~1
+without exceeding it (read via computed `transform` matrix, since the bar uses `scaleX` not
+`width`). First test run against the *bottom-of-page* scroll flakily read `scaleX(0.033)` — traced
+to a stale-compile race on the dev server's first request after the file changed, not a logic bug;
+re-running (and the full suite) passed cleanly. `astro check` 0 errors, `astro build` 59 pages (no
+new routes), `npm run test:e2e` 30/30 passing.
+**Files touched:** new `src/components/ReadingProgress.astro`, `src/layouts/BlogPost.astro`, new
+`tests/e2e/reading-progress.spec.ts`, `dev-references/plans/stage-32-reading-progress.md` (status +
+handoff note), `dev-references/plans/00-index.md` (status cell), `HANDOFF.md`.
+**Next:** Stages 33–36 (webmentions, newsletter capture, PKM hand-off automation, optional
+hybrid/SSR migration) are still one-line scope only — each needs a Daniel decision (provider/scope)
+before it can be decomposed into a full plan doc like 28–32 have. Not yet deployed; redeploy
+alongside Stages 30–31 when ready.
+
 ## 2026-07-01 — Stage 31: related posts
 
 **Did:** Implemented Stage 31 (P2 backlog) — a static "Related posts" block per blog post, ranked

@@ -103,7 +103,7 @@
 |---|-------|------------------|-------|------------|--------|
 | 30 | [Post series / collections](stage-30-series.md) | Group multi-part posts (frontmatter `series` + ordered nav); schema + index surfacing. | Content model | 09, 16 | ✅ Done |
 | 31 | [Related posts](stage-31-related-posts.md) | Per-post "related" block by shared tags; excludes same-series posts (built on 30). | Blog | 17, 26, 30 | ✅ Done |
-| 32 | [Reading progress indicator](stage-32-reading-progress.md) | Scroll-progress bar on post pages; respects `prefers-reduced-motion`. Small. | Polish | 17 | ⬜ Not started |
+| 32 | [Reading progress indicator](stage-32-reading-progress.md) | Scroll-progress bar on post pages; respects `prefers-reduced-motion`. Small. | Polish | 17 | ✅ Done |
 | 33 | Webmentions / external discussion links | "Discuss on LinkedIn" links per post; optional webmention.io display. **TODO(daniel): provider/scope.** | Community | 17 | ⬜ Not started |
 | 34 | Newsletter capture | Email signup → external provider (static-friendly POST), no accounts/auth. **TODO(daniel): provider.** | Growth | 08 | ⬜ Not started |
 | 35 | PKM → site hand-off automation | Light script to *assist* (not auto-publish) drafting a post from PKM notes into the content schema. | DX | 09, 29 | ⬜ Not started |

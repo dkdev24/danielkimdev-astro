@@ -3,7 +3,7 @@
 **Session size:** ~15–20 min · **Priority:** P2 · **Theme:** Polish
 **Depends on:** 17 (blog post layout) · **Next:** 33
 **PRD refs:** §12 (P2 backlog) · **Design refs:** DESIGN-minimax (tokens)
-**Status:** ⬜ Not started
+**Status:** ✅ Done
 
 ## Goal
 A thin scroll-progress bar on post pages so a reader can gauge how far through a (sometimes long,
@@ -61,3 +61,20 @@ constraint with either.
 ## Handoff note
 Note the z-index/stacking decision relative to the sticky header, and whether the AT-exposure
 `TODO(daniel)` above was resolved one way or the other.
+
+**Done 2026-07-01.** New `src/components/ReadingProgress.astro`: a fixed 3px bar, `z-index: 60`
+(above the sticky header's `z-index: 50` — the bar deliberately overlays the header's top edge as
+a full-width line, the common "reading progress" pattern, rather than sitting below it).
+`aria-hidden="true"`, **not** exposed as `role="progressbar"` — kept as the plan's default
+recommendation; the AT-exposure `TODO(daniel)` was not overridden. Width driven by a CSS
+`transform: scaleX()` (compositor-only, no reflow) computed from `.post__body`'s bounding rect vs.
+`window.scrollY`/`innerHeight`, throttled via `requestAnimationFrame` off a passive scroll listener
+— `<script is:inline>` in the same pattern as `CodeCopy.astro`. Reduced-motion: did **not** add a
+component-local `@media (prefers-reduced-motion: no-preference)` transition gate as a new rule —
+`global.css` already has a blanket kill-switch (`transition-duration: 0.01ms !important` under
+`reduce`) that covers this transition for free; verified via `page.emulateMedia({ reducedMotion:
+'reduce' })` that the computed `transitionDuration` collapses to `1e-05s`. Wired into
+`BlogPost.astro` alongside `<CodeCopy />`. Verified with `tests/e2e/reading-progress.spec.ts` (2
+tests: bar is `aria-hidden` and reads ~0 before scrolling; scrolling to the post's bottom drives it
+to ~1 without exceeding it) — `astro check` 0 errors, `astro build` 59 pages (no new routes), full
+`npm run test:e2e` 30/30 passing.

@@ -1,0 +1,70 @@
+---
+// Reading progress indicator (Stage 32) — a thin fixed bar tracking scroll
+// position through `.post__body` (the prose column), not the whole document:
+// the header/hero/TOC shouldn't count toward 0%, and the footer/pagination/
+// back-link shouldn't count toward 100% landing early. Purely supplementary
+// to the TOC's structural position (not the primary way to gauge position),
+// so it's `aria-hidden` rather than a live `role="progressbar"` — a
+// continuously-updating live region would be noisy for AT users for little
+// value. Sits above the sticky header (z-index) as a full-width top line.
+---
+
+<div class="reading-progress" aria-hidden="true">
+	<div class="reading-progress__bar"></div>
+</div>
+
+<script is:inline>
+	(function () {
+		var bar = document.querySelector('.reading-progress__bar');
+		var body = document.querySelector('.post__body');
+		if (!bar || !body) return;
+
+		var ticking = false;
+
+		function update() {
+			ticking = false;
+			var bodyTop = body.getBoundingClientRect().top + window.scrollY;
+			var total = Math.max(body.offsetHeight - window.innerHeight, 1);
+			var progress = (window.scrollY - bodyTop) / total;
+			progress = Math.min(1, Math.max(0, progress));
+			bar.style.transform = 'scaleX(' + progress + ')';
+		}
+
+		function onScroll() {
+			if (ticking) return;
+			ticking = true;
+			requestAnimationFrame(update);
+		}
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		window.addEventListener('resize', onScroll);
+		update();
+	})();
+</script>
+
+<style>
+	.reading-progress {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 3px;
+		z-index: 60;
+		pointer-events: none;
+	}
+	.reading-progress__bar {
+		width: 100%;
+		height: 100%;
+		background: var(--color-brand);
+		transform: scaleX(0);
+		transform-origin: left;
+	}
+	/* Reduced motion: width still updates (information, not decoration) — only
+	   the smoothing transition is skipped, per the global kill-switch in
+	   global.css (`transition-duration: 0.01ms !important` under `reduce`). */
+	@media (prefers-reduced-motion: no-preference) {
+		.reading-progress__bar {
+			transition: transform var(--motion-fast-ease);
+		}
+	}
+</style>
