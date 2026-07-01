@@ -16,6 +16,20 @@ Entry template:
 
 ---
 
+## 2026-07-01 — Deployed Stages 30–32 + the `--space-5` CSS fix
+
+**Did:** Daniel ran `npm run deploy` (commit `d64f8c8`) and confirmed on `danielkimdev.com` that the
+related-post card gap/height fix looks correct live. This ships Stages 30 (post series), 31
+(related posts), 32 (reading progress), the first `building-llm-pkm-in-public` post, and the
+`--space-5` token fix all together — first deploy since 2026-06-30.
+**Decisions:** none new.
+**Verification:** Daniel's own visual confirmation on the live site (not re-verified by Claude this
+session — no live-Lighthouse or live-DOM re-check was run after this handoff).
+**Files touched:** none (deploy-only session).
+**Next:** Re-run post-deploy Lighthouse (last one is from 2026-06-29, predates Stages 30–32).
+Otherwise pick up P1 Stages 28–29 (OG images, authoring docs/CI) or decide scope for P2 33–36
+(webmentions, newsletter, PKM hand-off, hybrid/SSR).
+
 ## 2026-07-01 — Fix: invalid `--space-5` token (related-post cards touching, uneven height)
 
 **Did:** After deploying Stage 31, Daniel reported the related-post cards rendering with no gap
