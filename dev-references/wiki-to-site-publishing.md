@@ -8,6 +8,10 @@ project (`daniel-writing-style` + `draft-review-kit`); by the time a draft lands
 `content-materials/` folder it is content-final. **Do not re-run `daniel-writing-style` in this
 project** — the job here is schema conversion and formatting, not another editing pass.
 
+For the broader cross-project relationship (repo boundary, when a shared/parent-folder session is
+worth it, context-usage guardrails) see [`AGENTS-ROOT.md`](AGENTS-ROOT.md) — that's policy, this
+doc is the actual publishing steps.
+
 ## Source format (wiki project export)
 
 Drafts arrive as a pair of files in `content-materials/`, e.g.

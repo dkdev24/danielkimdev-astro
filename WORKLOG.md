@@ -16,6 +16,35 @@ Entry template:
 
 ---
 
+## 2026-07-01 — Drafted root-level cross-project instructions (AGENTS-ROOT.md)
+
+**Did:** Talked through whether to merge this repo and the separate LLM-wiki project into one
+monorepo (decided: no — keep repos separate, private wiki vs. public deploy target). Confirmed via
+the Claude Code docs that a shared parent-folder session correctly scopes nested `CLAUDE.md`s and
+project-level skills per-subdirectory (on-demand, directory-qualified if names collide), but
+permissions/git behavior for sibling repos under a non-repo parent is undocumented. Landed on
+**lean pipeline by default** (current `content-materials/` export flow), with a shared
+parent-folder session as an opt-in for genuine cross-project reasoning — and even then, prefer a
+forked/sub-agent for exploratory reads so raw wiki content doesn't bloat the main thread's context
+(Daniel is on Claude Pro and is explicitly protecting session/weekly usage).
+
+Drafted [`dev-references/AGENTS-ROOT.md`](dev-references/AGENTS-ROOT.md) — the intended
+`CLAUDE.md`/`AGENTS.md` for that future shared parent folder, staged here for version history
+until the parent folder actually exists (then copy or symlink it out; sync is manual copy, not a
+third git repo). Covers: the two-project relationship, the publishing pipeline (pointer to
+`wiki-to-site-publishing.md`, which is the actual steps — this file is policy), the locked
+separate-repos/lean-pipeline decisions above, and the skill/config scoping notes. Left
+`TODO(daniel)` markers for facts I don't have: the wiki project's actual path/name, and whether it
+already has its own `CLAUDE.md`.
+
+**Files touched:** `dev-references/AGENTS-ROOT.md` (new), `dev-references/wiki-to-site-publishing.md`
+(added a cross-reference).
+
+**Next:** Daniel to actually set up the parent folder + fill in the TODOs, then copy/symlink this
+file into place.
+
+---
+
 ## 2026-07-01 — Rule: delete wiki-project source drafts once published
 
 **Did:** Added a "delete the source drafts once verified" rule to
