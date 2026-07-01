@@ -58,7 +58,14 @@
 		"searchClear": "Clear search",
 		"noResults": "No posts match your search.",
 		"taggedTitle": "Posts tagged “{tag}”",
-		"browseAllTags": "Browse all posts"
+		"browseAllTags": "Browse all posts",
+		"seriesPartLabel": "Part {n} of {total} · {series}",
+		"seriesNav": "Series navigation",
+		"seriesPrev": "Previous in series",
+		"seriesNext": "Next in series",
+		"allSeries": "All series",
+		"seriesPartsCountOne": "1 part",
+		"seriesPartsCount": "{count} parts"
 	},
 	"portfolio": {
 		"title": "Portfolio",

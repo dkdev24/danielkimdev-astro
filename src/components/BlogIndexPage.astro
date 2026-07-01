@@ -15,6 +15,7 @@ import { SITE_DESCRIPTION_BY_LOCALE } from '../consts';
 import { readingTimeMinutes } from '../utils/readingTime';
 import { getPostPath } from '../utils/blog';
 import { getTagPath } from '../utils/tags';
+import { getSeriesIndexPath } from '../utils/series';
 
 interface Props {
 	lang: Lang;
@@ -32,6 +33,12 @@ const posts = (
 	)
 ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+// Series (Stage 30) don't get their own filter chip (that's a topical, not
+// editorial, distinction) — just a peer discovery link to the hub index when
+// at least one post here belongs to a series.
+const hasSeries = posts.some((post) => post.data.series !== undefined);
+const seriesIndexHref = getSeriesIndexPath(lang);
+
 // Distinct tags across this locale's posts, in first-seen order — drives the filter.
 const filterTags: string[] = [];
 for (const post of posts) {
@@ -45,6 +52,13 @@ for (const post of posts) {
 		<header class="blog__head">
 			<h1>{t('blog.title')}</h1>
 			<p class="blog__intro">{t('blog.intro')}</p>
+			{
+				hasSeries && (
+					<p class="blog__series-link">
+						<a href={seriesIndexHref}>{t('blog.allSeries')} &rarr;</a>
+					</p>
+				)
+			}
 		</header>
 
 		{
@@ -168,6 +182,18 @@ for (const post of posts) {
 		font-size: var(--text-lg);
 		color: var(--color-text-secondary);
 		max-width: 60ch;
+	}
+	.blog__series-link {
+		margin: var(--space-3) 0 0;
+		font-family: var(--font-ui);
+		font-weight: var(--weight-medium);
+	}
+	.blog__series-link a {
+		color: var(--color-brand-deep);
+		text-decoration: none;
+	}
+	.blog__series-link a:hover {
+		text-decoration: underline;
 	}
 
 	/* Search box — JS-only (hidden until the controller reveals it). */

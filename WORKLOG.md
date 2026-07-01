@@ -16,6 +16,162 @@ Entry template:
 
 ---
 
+## 2026-07-01 — Rule: delete wiki-project source drafts once published
+
+**Did:** Added a "delete the source drafts once verified" rule to
+[`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md) and
+`HANDOFF.md` — once a `content-materials/<slug>-{en,ko}.md` pair is copied into
+`src/content/blog/` and passes the verification checklist, delete the source files. This happens
+as soon as the post is verified, not gated on `npm run deploy` (the wiki project is the source of
+truth; git history covers "what did the draft look like" if ever needed). Applied it
+retroactively: deleted `content-materials/building-llm-pkm-in-public-ep1-{en,ko}.md` since that
+post is published and deployed.
+
+**Left alone (flagged, not deleted):** `content-materials/2026-06-0{1,2}-*-agent-readiness.en.md`
+— these are the pre-YAML export format, explicitly DoveRunner-branded, and don't match what's
+actually live (`agent-readiness.md` is de-branded/restructured, and there's no Part 2 on the site
+yet). Unclear whether these were ever mechanically "published" under this rule or predate it
+entirely — needs a Daniel decision, not an assumption.
+
+**Files touched:** `dev-references/wiki-to-site-publishing.md`, `HANDOFF.md`; deleted
+`content-materials/building-llm-pkm-in-public-ep1-{en,ko}.md`.
+
+**Next:** none blocking. Daniel to confirm whether the two agent-readiness content-materials
+files should be deleted too.
+
+---
+
+## 2026-07-01 — Documented the wiki-project → site publishing workflow
+
+**Did:** Daniel clarified that blog-post drafts arrive **voice/content-final** — he drafts them in
+a separate LLM-wiki project through `daniel-writing-style` + a `draft-review-kit` there, and only
+drops the "ready to publish" result into this repo's `content-materials/`. So `daniel-writing-style`
+should never run again in *this* project; publishing a draft here is purely a mechanical schema
+conversion. Wrote [`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md):
+the wiki export's YAML frontmatter shape, a field-by-field mapping to this site's blog schema,
+tag-enum and series-slug-registration rules, a content-body cleanup checklist (strip the redundant
+H1/byline/dividers/next-episode teaser this site's layout already renders, don't touch the prose
+otherwise), and the one real gap — the wiki export has no `description` (SEO excerpt) field yet,
+so that's the one thing this repo still has to author until the wiki project's template adds it.
+Linked the doc from `AGENTS.md` (new paragraph in "Project") and `HANDOFF.md` (Conventions
+bullet), both now stating **don't re-run `daniel-writing-style` here**.
+
+**Decisions:** Publishing = mechanical from here on. The only voice-adjacent check left on this
+side is a plain `grep` for stray em-dashes in Korean output (found one in episode 1 despite it
+being marked "ready" upstream) — not a reason to re-invoke the skill, just a cheap sanity check.
+
+**Files touched:** `dev-references/wiki-to-site-publishing.md` (new), `AGENTS.md`, `HANDOFF.md`.
+
+**Next:** none — reference doc, not blocking anything in flight.
+
+---
+
+## 2026-07-01 — Fixed predeploy guard on plain Windows shells (sh → Node)
+
+**Did:** `scripts/predeploy-guard.sh` (bash/POSIX `sh`) failed with "sh not found" when
+`npm run deploy` (and its `predeploy` hook) ran from a native Windows PowerShell/cmd session —
+the standard Git-for-Windows installer only adds `Git\cmd` (has `git.exe`) to PATH, not
+`Git\bin`/`Git\usr\bin` (has `bash.exe`/`sh.exe`), so `git` resolves but `sh` doesn't. Rewrote the
+guard as `scripts/predeploy-guard.mjs` (plain Node, using `child_process.execFileSync` for the
+git calls and `readline` for the `[y/N]` prompt) — identical behavior (branch/dirty-tree/origin-drift
+checks, `DEPLOY_ALLOW_DIRTY=1` override, non-TTY abort), but Node is already a hard requirement
+for this project so it runs the same on Windows, macOS, and Linux regardless of shell. Deleted the
+old `.sh`; `package.json`'s `predeploy` script now runs `node scripts/predeploy-guard.mjs`.
+Verified via `npm run predeploy` from an actual PowerShell session (not just Git Bash).
+
+**Files touched:** `scripts/predeploy-guard.mjs` (new, replaces `.sh`), `package.json`,
+`HANDOFF.md`.
+
+**Next:** none — this was a standalone fix, not blocking anything else in flight.
+
+---
+
+## 2026-07-01 — Published Episode 1 of "Building LLM-PKM in Public"
+
+**Did:**
+- **Adapted Daniel's drafts** (`content-materials/building-llm-pkm-in-public-ep1-{en,ko}.md`) into
+  the site's blog schema: `src/content/blog/{en,ko}/building-llm-pkm-in-public-ep1.md`. Kept his
+  authored prose/title as-is; stripped platform-specific scaffolding that doesn't fit this site
+  (duplicate H1, italic episode byline, `---` dividers, `domain`/`status`/`created`/`published`
+  meta fields) since those are redundant with what `BlogPost.astro` already renders (title, series
+  badge) or aren't part of this schema. Wrote new EN/KO SEO descriptions (not supplied in the
+  drafts) via the `daniel-writing-style` skill. `tags: [pkm, ai-llm]` mapped 1:1 from his own
+  `domain:` field — both already valid `BLOG_TAGS`. `pubDate: 2026-07-01` (today, not the
+  `created: 2026-04-20` draft date). One stray em-dash in the Korean body (not in his title) was
+  converted to a comma per the skill's Korean-voice rule against em-dashes.
+- **Renamed the series slug** from the Stage 30 placeholder `llm-wiki-in-public` to
+  `building-llm-pkm-in-public` (`src/data/series.ts`) to match the name Daniel actually gave it in
+  his draft frontmatter (`series: Building LLM-PKM in Public`). Wrote a Korean series title/
+  description to match (`LLM-PKM 공개 구축기`) since his draft only specified the English series
+  name. Updated the stale slug references in `stage-30-series.md`/`HANDOFF.md` left over from
+  before this post existed.
+- **Resolved the `digital-garden.md` portfolio TODO** ("link the tooling write-up") — this post
+  *is* that write-up, so both EN/KO portfolio items now link to it instead of carrying a
+  `TODO(daniel)` marker.
+- **Fixed two now-stale e2e assertions** in `tests/e2e/blog-pagination.spec.ts` that hardcoded a
+  dev-mode post count of 12 (10 placeholders + 2 real posts) — now 13, and since 13 isn't an exact
+  multiple of `PAGE_SIZE` (6), the "load more" flow needed a second click to reach the end (it
+  didn't when the count was an exact multiple).
+- **Verified:** `astro check` clean (71 files), `astro build` clean (51 → 59 pages locally — 8 new:
+  the new post × EN/KO, its series hub × EN/KO, `agent-readiness`'s hub × EN/KO now that a second
+  series exists, and the series index × EN/KO with real content instead of one entry). All 24 e2e
+  specs pass (including the two fixed pagination ones).
+
+**Decisions:** Preserve Daniel's own authored title/prose verbatim (including his title's em-dash)
+rather than "correcting" it — the anti-slop/anti-em-dash rules in `daniel-writing-style` target
+*newly generated* prose, not literal edits to his own supplied text.
+
+**Files touched:** `src/data/series.ts`, `src/content/blog/{en,ko}/building-llm-pkm-in-public-ep1.md`
+(new), `src/content/portfolio/{en,ko}/digital-garden.md`, `tests/e2e/blog-pagination.spec.ts`,
+`dev-references/plans/stage-30-series.md`, `HANDOFF.md`.
+
+**Next:** Not deployed yet — run `npm run deploy` to publish. Stage 31 (related posts) is next up
+whenever picked up.
+
+---
+
+## 2026-07-01 — Plan docs for P2 stages 30–32 · Stage 30 (post series) built
+
+**Did:**
+- **Decomposed and wrote plan docs for the three unstarted P2 stages** (`dev-references/plans/`):
+  `stage-30-series.md`, `stage-31-related-posts.md`, `stage-32-reading-progress.md` — linked
+  from `00-index.md`. Renumbered so the doc order matches build order: series (30) ships before
+  related posts (31), since 31's same-series exclusion depends on 30 existing; reading progress
+  (32) is independent and unordered relative to either.
+- **Built Stage 30 (post series / collections).** New `series` optional enum field on the blog
+  schema (`content.config.ts`), enum sourced from a new `src/data/series.ts` registry (seeded with
+  `llm-wiki-in-public` and `agent-readiness` — no manual order field, series order is always
+  `pubDate`). `getBlogPaths` (`utils/blog.ts`) now computes `seriesIndex`/`seriesTotal`/
+  `seriesPrev`/`seriesNext` per post. New `utils/series.ts` (mirrors `utils/tags.ts`'s builder
+  split) + `SeriesArchivePage.astro` (forward-ordered hub, `/blog/series/<slug>/` + `/ko/`) +
+  `SeriesIndexPage.astro` (`/blog/series/` + `/ko/`, only series with ≥1 published part).
+  `BlogPost.astro` renders a "Part N of {total} · {series}" badge under the title whenever
+  `series` is set (even 1/1 — signals more is coming without fabricating posts) and a visually
+  distinct `.post__series-nav` tinted box for series-scoped prev/next, separate from the existing
+  reverse-chron older/newer pagination. Blog index shows an "All series →" link when applicable.
+  `agent-readiness.md` (EN+KO) tagged `series: agent-readiness` as its retrofitted Part 1.
+- **Tests:** new `tests/e2e/series.spec.ts` (5 specs) — badge + hub link, no prev/next on a lone
+  part, hub listing, series index navigation, blog-index discovery link, KO localization. Had to
+  `npx playwright install chromium` (browser binary wasn't present in this environment). All 24
+  e2e specs pass; `astro check` clean; prod build 51 → 55 pages.
+
+**Decisions:** Series is orthogonal to tags (kept both on `agent-readiness.md`) — series is an
+editorial "read in order" arc, tags stay topical. Ordering is always `pubDate`, no manual order
+field (YAGNI). The part badge shows even at 1/1 rather than waiting for a second part to exist.
+
+**Files touched:** `dev-references/plans/{00-index,stage-30-series,stage-31-related-posts,
+stage-32-reading-progress}.md`, `src/content.config.ts`, `src/data/series.ts` (new),
+`src/utils/{blog,series}.ts`, `src/layouts/BlogPost.astro`, `src/components/{SeriesArchivePage,
+SeriesIndexPage,BlogIndexPage}.astro`, `src/pages/{blog,ko/blog}/series/{[slug],index}.astro`
+(new), `src/pages/{blog,ko/blog}/[...slug].astro`, `src/i18n/{en,ko}.json`,
+`src/content/blog/{en,ko}/agent-readiness.md`, `tests/e2e/series.spec.ts` (new).
+
+**Next:** Stage 31 (related posts) — series-exclusion prerequisite is now satisfied. `llm-wiki-in-public`
+series is registered but has zero published parts — won't surface anywhere until its first post
+ships with `series: llm-wiki-in-public`. Redeploy (`npm run deploy`) when ready to ship this.
+
+---
+
 ## 2026-06-30 — Career timeline (2000–2010) + DoveRunner dual-role update
 
 **Did:**

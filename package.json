@@ -12,7 +12,7 @@
     "astro": "astro",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "predeploy": "sh scripts/predeploy-guard.sh",
+    "predeploy": "node scripts/predeploy-guard.mjs",
     "deploy": "astro build && wrangler pages deploy ./dist --project-name danielkimdev --branch main"
   },
   "dependencies": {

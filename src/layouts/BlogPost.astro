@@ -25,6 +25,8 @@ import {
 import { DEFAULT_OG_IMAGE, SITE_TITLE } from '../consts';
 import { readingTimeMinutes } from '../utils/readingTime';
 import { getPostPath } from '../utils/blog';
+import { getSeriesPath } from '../utils/series';
+import { SERIES } from '../data/series';
 import { blogPostingJsonLd } from '../utils/seo';
 
 interface Props {
@@ -36,12 +38,23 @@ interface Props {
 	older?: CollectionEntry<'blog'>;
 	/** EN/KO counterpart (same `translationKey`), if one exists. */
 	counterpart?: CollectionEntry<'blog'>;
+	/** 1-based position within `post.data.series`, when set (Stage 30). */
+	seriesIndex?: number;
+	/** Total published parts in the series, when set. */
+	seriesTotal?: number;
+	/** Earlier part in the same series, if one exists. */
+	seriesPrev?: CollectionEntry<'blog'>;
+	/** Later part in the same series, if one exists. */
+	seriesNext?: CollectionEntry<'blog'>;
 }
 
-const { post, headings, newer, older, counterpart } = Astro.props;
+const { post, headings, newer, older, counterpart, seriesIndex, seriesTotal, seriesPrev, seriesNext } =
+	Astro.props;
 const lang = post.data.lang as Lang;
 const t = useTranslations(lang);
-const { title, description, pubDate, updatedDate, tags, heroImage, ogImage } = post.data;
+const { title, description, pubDate, updatedDate, tags, heroImage, ogImage, series: seriesSlug } =
+	post.data;
+const seriesMeta = seriesSlug ? SERIES[seriesSlug] : undefined;
 
 const blogHref = getLocalizedPath('/blog/', lang);
 const localeBadge = lang === 'en' ? 'EN' : 'KO';
@@ -102,6 +115,19 @@ const jsonLd = blogPostingJsonLd({
 				</p>
 				<h1 class="post__title">{title}</h1>
 				{
+					seriesMeta && (
+						<p class="post__series">
+							<a href={getSeriesPath(seriesSlug!, lang)}>
+								{t('blog.seriesPartLabel', {
+									n: seriesIndex ?? 1,
+									total: seriesTotal ?? 1,
+									series: seriesMeta.title[lang],
+								})}
+							</a>
+						</p>
+					)
+				}
+				{
 					updatedDate && (
 						<p class="post__updated">
 							{t('blog.updatedOn')}{' '}
@@ -154,6 +180,30 @@ const jsonLd = blogPostingJsonLd({
 					<slot />
 				</div>
 			</div>
+
+			{
+				seriesMeta && (seriesPrev || seriesNext) && (
+					<nav class="post__series-nav" aria-label={t('blog.seriesNav')}>
+						<p class="post__series-nav-heading">{seriesMeta.title[lang]}</p>
+						<div class="post__series-nav-links">
+							{seriesPrev ? (
+								<a class="post__pag post__pag--prev" href={getPostPath(seriesPrev)}>
+									<span class="post__pag-label">← {t('blog.seriesPrev')}</span>
+									<span class="post__pag-title">{seriesPrev.data.title}</span>
+								</a>
+							) : (
+								<span />
+							)}
+							{seriesNext && (
+								<a class="post__pag post__pag--next" href={getPostPath(seriesNext)}>
+									<span class="post__pag-label">{t('blog.seriesNext')} →</span>
+									<span class="post__pag-title">{seriesNext.data.title}</span>
+								</a>
+							)}
+						</div>
+					</nav>
+				)
+			}
 
 			{
 				(newer || older) && (
@@ -212,6 +262,19 @@ const jsonLd = blogPostingJsonLd({
 		font-size: var(--text-h1);
 		margin: 0 0 var(--space-3);
 	}
+	.post__series {
+		margin: 0 0 var(--space-3);
+		font-family: var(--font-ui);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+	}
+	.post__series a {
+		color: var(--color-brand-deep);
+		text-decoration: none;
+	}
+	.post__series a:hover {
+		text-decoration: underline;
+	}
 	.post__updated {
 		margin: 0 0 var(--space-3);
 		font-size: var(--text-sm);
@@ -265,6 +328,30 @@ const jsonLd = blogPostingJsonLd({
 	/* Generous reading measure (DESIGN-minimax §3) within the prose column. */
 	.post__body {
 		max-width: 72ch;
+	}
+
+	/* Series-scoped nav — visually distinct (tinted box + heading) from the
+	   plain reverse-chron pagination below it, so the two aren't confused. */
+	.post__series-nav {
+		margin-top: var(--space-12);
+		padding: var(--space-5) var(--space-6);
+		background: var(--color-bg-muted);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-md);
+	}
+	.post__series-nav-heading {
+		margin: 0 0 var(--space-4);
+		font-family: var(--font-ui);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		color: var(--color-text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+	.post__series-nav-links {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-4);
 	}
 
 	.post__pagination {

@@ -30,3 +30,7 @@ pnpm-debug.log*
 
 # Personal CV used only as a local source for the About page — do not commit
 dev-references/Profile.pdf
+
+# Source drafts from the separate LLM-wiki project — untracked by design
+# (see dev-references/wiki-to-site-publishing.md); delete once published.
+content-materials/

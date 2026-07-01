@@ -13,4 +13,4 @@ translationKey: digital-garden
 
 노트와 에세이, 실험을 기록하는 살아 있는 공간이자, 그 공간을 움직이는 PKM·AI 인프라입니다.
 
-TODO(daniel): 도구 구성에 대한 글 링크.
+이 시스템을 만들어가는 과정을 공개로 기록하고 있습니다: [LLM-PKM 공개 구축기](/ko/blog/building-llm-pkm-in-public-ep1/).

@@ -1,0 +1,9 @@
+---
+// Korean all-series index (/ko/blog/series/).
+import SeriesIndexPage from '../../../../components/SeriesIndexPage.astro';
+import { getSeriesIndexEntries } from '../../../../utils/series';
+
+const series = await getSeriesIndexEntries('ko');
+---
+
+<SeriesIndexPage lang="ko" series={series} />

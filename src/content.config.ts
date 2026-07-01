@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { SERIES_SLUGS } from './data/series';
 
 // Locale strategy (locked Stage 09): folder-by-locale (`blog/en/`, `blog/ko/`,
 // `portfolio/en/`, `portfolio/ko/`) AND an explicit `lang` field on every entry.
@@ -54,6 +55,10 @@ const blog = defineCollection({
 			// Links the EN/KO versions of the same piece (PRD §7.4). A post needs
 			// no counterpart; when one exists, both share the same translationKey.
 			translationKey: z.string().optional(),
+			// Multi-part series membership (Stage 30). No manual order field —
+			// a series' part order is always pubDate order (utils/blog.ts).
+			// Off-registry slugs fail the build, same as the tag enums.
+			series: z.enum(SERIES_SLUGS).optional(),
 			heroImage: image().optional(),
 			// OG image is a path string (resolved to an absolute URL in head, Stage 18),
 			// not an optimized asset — social crawlers need a plain URL.

@@ -17,7 +17,7 @@ catch. Closes the numbered P0+P1 plan.
   present); (2) portfolio EN/KO **slug pairing** (shared-filename model from Stage 27);
   (3) belt-and-suspenders off-enum tag check with a friendly message; (4) required frontmatter
   presence with a human-readable error; (5) optional image-alt / draft hygiene.
-- Repo currently has **no `.github/workflows/`** and one script (`scripts/predeploy-guard.sh`).
+- Repo currently has **no `.github/workflows/`** and one script (`scripts/predeploy-guard.mjs`).
   Deploy is manual (`npm run deploy`) — CI here is **gate-only** (check/lint/build/test), not
   auto-deploy (Direct-upload Pages project, locked decision).
 - **TODO(daniel): confirm CI scope** — minimal (`astro check` + content-lint + `astro build`)

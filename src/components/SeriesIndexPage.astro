@@ -1,0 +1,112 @@
+---
+// All-series index (Stage 30) — a peer discovery path to tag browsing: lists
+// every registered series that has at least one published part, linking to its
+// hub page. Fed by `utils/series.ts`'s getSeriesIndexEntries.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from './Card.astro';
+import type { Lang } from '../i18n/utils';
+import { getLocalizedPath, useTranslations } from '../i18n/utils';
+
+interface SeriesIndexEntry {
+	slug: string;
+	title: string;
+	description: string;
+	count: number;
+	href: string;
+}
+
+interface Props {
+	lang: Lang;
+	series: SeriesIndexEntry[];
+}
+
+const { lang, series } = Astro.props;
+const t = useTranslations(lang);
+const blogHref = getLocalizedPath('/blog/', lang);
+---
+
+<BaseLayout
+	title={`${t('blog.allSeries')} — Daniel Kim`}
+	description={t('blog.allSeries')}
+	lang={lang}
+	noindex={series.length === 0}
+>
+	<section class="container archive">
+		<nav class="archive__back">
+			<a href={blogHref}>&larr; {t('blog.backToBlog')}</a>
+		</nav>
+		<header class="archive__head">
+			<h1>{t('blog.allSeries')}</h1>
+		</header>
+
+		<ul class="series-index-list">
+			{
+				series.map((s) => (
+					<li class="series-index-item">
+						<Card as="article" interactive>
+							<h2 class="series-index-item__title">
+								<a href={s.href}>{s.title}</a>
+							</h2>
+							<p class="series-index-item__summary">{s.description}</p>
+							<p class="series-index-item__count">
+								{s.count === 1
+									? t('blog.seriesPartsCountOne')
+									: t('blog.seriesPartsCount', { count: s.count })}
+							</p>
+						</Card>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</BaseLayout>
+
+<style>
+	.archive {
+		padding-block: var(--space-12) var(--space-16);
+	}
+	.archive__back {
+		margin-bottom: var(--space-4);
+		font-size: var(--text-sm);
+	}
+	.archive__back a {
+		color: var(--color-text-secondary);
+		text-decoration: none;
+	}
+	.archive__back a:hover {
+		color: var(--color-link);
+	}
+	.archive__head {
+		margin-bottom: var(--space-8);
+	}
+
+	.series-index-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+		gap: var(--space-6);
+	}
+	.series-index-item__title {
+		margin: 0 0 var(--space-2);
+		font-size: var(--text-h4);
+	}
+	.series-index-item__title a {
+		color: var(--color-text-heading);
+		text-decoration: none;
+	}
+	.series-index-item__title a:hover {
+		color: var(--color-link);
+	}
+	.series-index-item__summary {
+		margin: 0 0 var(--space-3);
+		color: var(--color-text-secondary);
+	}
+	.series-index-item__count {
+		margin: 0;
+		font-family: var(--font-data);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+</style>

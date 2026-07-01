@@ -7,10 +7,21 @@ import { getBlogPaths } from '../../../utils/blog';
 
 export const getStaticPaths = () => getBlogPaths('ko');
 
-const { post, newer, older, counterpart } = Astro.props;
+const { post, newer, older, counterpart, seriesIndex, seriesTotal, seriesPrev, seriesNext } =
+	Astro.props;
 const { Content, headings } = await render(post);
 ---
 
-<BlogPost post={post} headings={headings} newer={newer} older={older} counterpart={counterpart}>
+<BlogPost
+	post={post}
+	headings={headings}
+	newer={newer}
+	older={older}
+	counterpart={counterpart}
+	seriesIndex={seriesIndex}
+	seriesTotal={seriesTotal}
+	seriesPrev={seriesPrev}
+	seriesNext={seriesNext}
+>
 	<Content />
 </BlogPost>

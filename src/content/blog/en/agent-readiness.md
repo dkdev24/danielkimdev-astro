@@ -6,6 +6,7 @@ lang: en
 tags: [ai-ready-docs, ai-llm]
 draft: false
 translationKey: agent-readiness
+series: agent-readiness
 ---
 
 A developer types a prompt. An AI coding agent reads your documentation, generates the

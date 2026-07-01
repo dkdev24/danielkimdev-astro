@@ -14,4 +14,4 @@ translationKey: digital-garden
 A living notebook of notes, essays, and experiments — and the PKM + AI plumbing
 that runs it.
 
-TODO(daniel): link the tooling write-up.
+I'm writing about how it's built, in public: [Building LLM-PKM in Public](/blog/building-llm-pkm-in-public-ep1/).

@@ -6,6 +6,7 @@ lang: ko
 tags: [ai-ready-docs, ai-llm]
 draft: false
 translationKey: agent-readiness
+series: agent-readiness
 ---
 
 개발자가 프롬프트를 입력합니다. AI 코딩 에이전트가 문서를 읽고, 연동 코드를 생성하고, 풀 리퀘스트(PR)를 엽니다. 이 코드는 팀의 누구도 직접 작성하지 않았고, 더 이상 누구도 우리가 기대한 방식대로 문서를 읽지 않습니다. 이런 흐름은 이미 현실이 되었고, API나 SDK를 제공하는 입장이라면 한 가지 질문을 피하기 어렵습니다. 우리 문서는 사람뿐 아니라 에이전트가 사용할 수 있도록 만들어져 있는가 하는 점입니다.

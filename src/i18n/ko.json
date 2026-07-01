@@ -58,7 +58,14 @@
 		"searchClear": "검색 지우기",
 		"noResults": "검색 결과가 없습니다.",
 		"taggedTitle": "‘{tag}’ 태그가 달린 글",
-		"browseAllTags": "전체 글 보기"
+		"browseAllTags": "전체 글 보기",
+		"seriesPartLabel": "{series} {n}/{total}편",
+		"seriesNav": "시리즈 이동",
+		"seriesPrev": "이전 편",
+		"seriesNext": "다음 편",
+		"allSeries": "전체 시리즈",
+		"seriesPartsCountOne": "총 1편",
+		"seriesPartsCount": "총 {count}편"
 	},
 	"portfolio": {
 		"title": "포트폴리오",

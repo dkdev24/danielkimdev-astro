@@ -1,0 +1,9 @@
+---
+// English all-series index (/blog/series/).
+import SeriesIndexPage from '../../../components/SeriesIndexPage.astro';
+import { getSeriesIndexEntries } from '../../../utils/series';
+
+const series = await getSeriesIndexEntries('en');
+---
+
+<SeriesIndexPage lang="en" series={series} />

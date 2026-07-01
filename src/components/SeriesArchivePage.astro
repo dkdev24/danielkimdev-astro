@@ -1,0 +1,136 @@
+---
+// Series hub page (Stage 30) — one static page per series, per locale, listing
+// its parts forward-ordered (oldest first — a series reads front-to-back,
+// unlike the reverse-chron tag archives in TagArchivePage.astro). Fed by
+// `utils/series.ts`'s getSeriesArchivePaths builder so this stays a dumb
+// renderer, same split as the tag archive.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from './Card.astro';
+import type { Lang } from '../i18n/utils';
+import { getLocalizedPath, useTranslations } from '../i18n/utils';
+import { getSeriesIndexPath } from '../utils/series';
+
+interface SeriesEntry {
+	partIndex: number;
+	title: string;
+	href: string;
+	summary: string;
+}
+
+interface Props {
+	lang: Lang;
+	slug: string;
+	title: string;
+	description: string;
+	entries: SeriesEntry[];
+}
+
+const { lang, title, description, entries } = Astro.props;
+const t = useTranslations(lang);
+
+const backHref = getSeriesIndexPath(lang);
+const blogHref = getLocalizedPath('/blog/', lang);
+const total = entries.length;
+---
+
+<BaseLayout title={`${title} — Daniel Kim`} description={description} lang={lang}>
+	<section class="container archive">
+		<nav class="archive__back">
+			<a href={backHref}>&larr; {t('blog.allSeries')}</a>
+		</nav>
+		<header class="archive__head">
+			<h1>{title}</h1>
+			<p class="archive__description">{description}</p>
+		</header>
+
+		<ol class="series-list">
+			{
+				entries.map((entry) => (
+					<li class="series-item">
+						<Card as="article" interactive>
+							<p class="series-item__part">
+								{t('blog.seriesPartLabel', { n: entry.partIndex, total, series: title })}
+							</p>
+							<h2 class="series-item__title">
+								<a href={entry.href}>{entry.title}</a>
+							</h2>
+							<p class="series-item__summary">{entry.summary}</p>
+						</Card>
+					</li>
+				))
+			}
+		</ol>
+
+		<p class="archive__back-to-blog">
+			<a href={blogHref}>&larr; {t('blog.backToBlog')}</a>
+		</p>
+	</section>
+</BaseLayout>
+
+<style>
+	.archive {
+		padding-block: var(--space-12) var(--space-16);
+	}
+	.archive__back {
+		margin-bottom: var(--space-4);
+		font-size: var(--text-sm);
+	}
+	.archive__back a {
+		color: var(--color-text-secondary);
+		text-decoration: none;
+	}
+	.archive__back a:hover {
+		color: var(--color-link);
+	}
+	.archive__head {
+		margin-bottom: var(--space-8);
+		max-width: 68ch;
+	}
+	.archive__description {
+		margin: var(--space-2) 0 0;
+		color: var(--color-text-secondary);
+	}
+
+	.series-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-6);
+		max-width: 68ch;
+	}
+	.series-item__part {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-data);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+	.series-item__title {
+		margin: 0 0 var(--space-2);
+		font-size: var(--text-h4);
+	}
+	.series-item__title a {
+		color: var(--color-text-heading);
+		text-decoration: none;
+	}
+	.series-item__title a:hover {
+		color: var(--color-link);
+	}
+	.series-item__summary {
+		margin: 0;
+		color: var(--color-text-secondary);
+	}
+
+	.archive__back-to-blog {
+		margin-top: var(--space-8);
+		font-family: var(--font-ui);
+		font-weight: var(--weight-medium);
+	}
+	.archive__back-to-blog a {
+		color: var(--color-text-secondary);
+		text-decoration: none;
+	}
+	.archive__back-to-blog a:hover {
+		color: var(--color-link);
+	}
+</style>

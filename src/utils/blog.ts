@@ -19,8 +19,10 @@ export function getPostPath(entry: CollectionEntry<'blog'>): string {
 /**
  * getStaticPaths data for one locale's posts. Drafts are dropped from production
  * builds but reachable in `astro dev` (matches the index's draft gating). Each
- * path carries its neighbours for prev/next (same locale, reverse-chron) and its
- * cross-language counterpart resolved via `translationKey`.
+ * path carries its neighbours for prev/next (same locale, reverse-chron), its
+ * cross-language counterpart resolved via `translationKey`, and — when
+ * `series` is set (Stage 30) — its position within that series (oldest-first,
+ * since a series reads front-to-back rather than reverse-chron).
  */
 export async function getBlogPaths(lang: Lang) {
 	const all = await getCollection('blog', (e) =>
@@ -30,19 +32,44 @@ export async function getBlogPaths(lang: Lang) {
 		.filter((e) => e.data.lang === lang)
 		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-	return localePosts.map((post, i) => ({
-		params: { slug: getPostSlug(post.id) },
-		props: {
-			post,
-			// Reverse-chron list: index-1 is more recent (newer), index+1 is older.
-			newer: localePosts[i - 1],
-			older: localePosts[i + 1],
-			counterpart: post.data.translationKey
-				? all.find(
-						(e) =>
-							e.data.lang !== lang && e.data.translationKey === post.data.translationKey,
-					)
-				: undefined,
-		},
-	}));
+	// Group series parts oldest-first. A Map (not a plain object) so a series
+	// slug can never collide with an inherited Object.prototype key.
+	const seriesGroups = new Map<string, CollectionEntry<'blog'>[]>();
+	for (const post of localePosts) {
+		const slug = post.data.series;
+		if (!slug) continue;
+		const group = seriesGroups.get(slug) ?? [];
+		group.push(post);
+		seriesGroups.set(slug, group);
+	}
+	for (const group of seriesGroups.values()) {
+		group.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+	}
+
+	return localePosts.map((post, i) => {
+		const slug = post.data.series;
+		const group = slug ? seriesGroups.get(slug) : undefined;
+		const seriesPos = group ? group.findIndex((p) => p.id === post.id) : -1;
+
+		return {
+			params: { slug: getPostSlug(post.id) },
+			props: {
+				post,
+				// Reverse-chron list: index-1 is more recent (newer), index+1 is older.
+				newer: localePosts[i - 1],
+				older: localePosts[i + 1],
+				counterpart: post.data.translationKey
+					? all.find(
+							(e) =>
+								e.data.lang !== lang && e.data.translationKey === post.data.translationKey,
+						)
+					: undefined,
+				// Series nav (Stage 30) — undefined unless `series` is set.
+				seriesIndex: group ? seriesPos + 1 : undefined,
+				seriesTotal: group ? group.length : undefined,
+				seriesPrev: group && seriesPos > 0 ? group[seriesPos - 1] : undefined,
+				seriesNext: group && seriesPos < group.length - 1 ? group[seriesPos + 1] : undefined,
+			},
+		};
+	});
 }

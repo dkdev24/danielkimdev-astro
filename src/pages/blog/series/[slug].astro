@@ -1,0 +1,10 @@
+---
+import SeriesArchivePage from '../../../components/SeriesArchivePage.astro';
+import { getSeriesArchivePaths } from '../../../utils/series';
+
+export const getStaticPaths = () => getSeriesArchivePaths('en');
+
+const { slug, title, description, entries } = Astro.props;
+---
+
+<SeriesArchivePage lang="en" slug={slug} title={title} description={description} entries={entries} />
