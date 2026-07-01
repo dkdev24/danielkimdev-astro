@@ -16,6 +16,37 @@ Entry template:
 
 ---
 
+## 2026-07-01 — Stage 31: related posts
+
+**Did:** Implemented Stage 31 (P2 backlog) — a static "Related posts" block per blog post, ranked
+by shared tags. Added `getRelatedPosts(post, localePosts, limit = 3)` to `src/utils/blog.ts`
+(shared-tag count desc, `pubDate` desc tiebreak, excludes the post itself and any same-series
+sibling since Stage 30's series nav already links those) and wired it into `getBlogPaths`'s
+per-path props. Both `src/pages/blog/[...slug].astro` and `src/pages/ko/blog/[...slug].astro`
+destructure named props explicitly rather than spreading `Astro.props`, so the first pass silently
+dropped `related` — caught by inspecting the built `dist/` HTML (no "Related posts" section
+appeared) rather than trusting `astro check`/`astro build` alone, since both passed cleanly either
+way. Fixed by adding `related` to both route files' destructuring and the `<BlogPost>` call.
+`BlogPost.astro` renders the section (new `blog.relatedPosts` i18n key, EN "Related posts" / KO
+"관련 글") above the older/newer pagination, `Card`-based like the Stage 26 tag-archive list.
+**Decisions:** none new — followed the existing plan doc's scope as written.
+**Verification:** confirmed via built `dist/` output that `agent-readiness` ↔
+`building-llm-pkm-in-public-ep1` (share `ai-llm`) and `welcome-digital-garden` ↔ ep1 (share `pkm`)
+each surface one another, while `agent-readiness` ↔ `welcome-digital-garden` (zero shared tags)
+correctly show no link despite being pagination-adjacent; KO locale renders the localized heading
+and only links to KO paths. Added `tests/e2e/related-posts.spec.ts` (4 tests) — assertions check
+presence/absence of specific known-post links rather than exact counts, since `astro dev` (which
+Playwright drives) includes the Stage 24–26 draft placeholder fixtures that the prod build excludes,
+and those skew raw related-post totals. Full suite: `astro check` 0 errors, `astro build` 59 pages
+(no new routes — Stage 31 only adds a section to existing post pages), `npm run test:e2e` 28/28
+passing.
+**Files touched:** `src/utils/blog.ts`, `src/layouts/BlogPost.astro`,
+`src/pages/blog/[...slug].astro`, `src/pages/ko/blog/[...slug].astro`, `src/i18n/{en,ko}.json`,
+new `tests/e2e/related-posts.spec.ts`, `dev-references/plans/stage-31-related-posts.md` (status +
+handoff note), `dev-references/plans/00-index.md` (status cell), `HANDOFF.md`.
+**Next:** Stage 32 (reading progress indicator) has a plan doc and is independent of 31 — next
+P2 pickup. Not yet deployed; redeploy alongside Stage 30 when ready.
+
 ## 2026-07-01 — Drafted root-level cross-project instructions (AGENTS-ROOT.md)
 
 **Did:** Talked through whether to merge this repo and the separate LLM-wiki project into one

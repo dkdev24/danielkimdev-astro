@@ -17,6 +17,34 @@ export function getPostPath(entry: CollectionEntry<'blog'>): string {
 }
 
 /**
+ * Related posts (Stage 31) — same-locale siblings ranked by shared-tag count
+ * (descending), tie-broken by recency. Same-series posts are excluded since
+ * Stage 30's series prev/next nav already links them; showing them again here
+ * would duplicate that link under a second heading.
+ */
+export function getRelatedPosts(
+	post: CollectionEntry<'blog'>,
+	localePosts: CollectionEntry<'blog'>[],
+	limit = 3,
+): CollectionEntry<'blog'>[] {
+	const postTags = new Set(post.data.tags);
+	return localePosts
+		.filter((candidate) => candidate.id !== post.id)
+		.filter((candidate) => !(post.data.series && candidate.data.series === post.data.series))
+		.map((candidate) => ({
+			candidate,
+			shared: candidate.data.tags.filter((tag) => postTags.has(tag)).length,
+		}))
+		.filter(({ shared }) => shared > 0)
+		.sort(
+			(a, b) =>
+				b.shared - a.shared || b.candidate.data.pubDate.valueOf() - a.candidate.data.pubDate.valueOf(),
+		)
+		.slice(0, limit)
+		.map(({ candidate }) => candidate);
+}
+
+/**
  * getStaticPaths data for one locale's posts. Drafts are dropped from production
  * builds but reachable in `astro dev` (matches the index's draft gating). Each
  * path carries its neighbours for prev/next (same locale, reverse-chron), its
@@ -69,6 +97,8 @@ export async function getBlogPaths(lang: Lang) {
 				seriesTotal: group ? group.length : undefined,
 				seriesPrev: group && seriesPos > 0 ? group[seriesPos - 1] : undefined,
 				seriesNext: group && seriesPos < group.length - 1 ? group[seriesPos + 1] : undefined,
+				// Related posts (Stage 31) — shared-tag ranked, same-series excluded.
+				related: getRelatedPosts(post, localePosts),
 			},
 		};
 	});

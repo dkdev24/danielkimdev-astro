@@ -65,7 +65,8 @@
 		"seriesNext": "Next in series",
 		"allSeries": "All series",
 		"seriesPartsCountOne": "1 part",
-		"seriesPartsCount": "{count} parts"
+		"seriesPartsCount": "{count} parts",
+		"relatedPosts": "Related posts"
 	},
 	"portfolio": {
 		"title": "Portfolio",

@@ -65,7 +65,8 @@
 		"seriesNext": "다음 편",
 		"allSeries": "전체 시리즈",
 		"seriesPartsCountOne": "총 1편",
-		"seriesPartsCount": "총 {count}편"
+		"seriesPartsCount": "총 {count}편",
+		"relatedPosts": "관련 글"
 	},
 	"portfolio": {
 		"title": "포트폴리오",

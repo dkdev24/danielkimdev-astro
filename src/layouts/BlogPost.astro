@@ -14,6 +14,7 @@ import BaseLayout from './BaseLayout.astro';
 import TOC from '../components/TOC.astro';
 import CodeCopy from '../components/CodeCopy.astro';
 import Tag from '../components/Tag.astro';
+import Card from '../components/Card.astro';
 import type { Lang } from '../i18n/utils';
 import {
 	formatDate,
@@ -46,10 +47,22 @@ interface Props {
 	seriesPrev?: CollectionEntry<'blog'>;
 	/** Later part in the same series, if one exists. */
 	seriesNext?: CollectionEntry<'blog'>;
+	/** Same-locale posts ranked by shared tags, same-series excluded (Stage 31). */
+	related?: CollectionEntry<'blog'>[];
 }
 
-const { post, headings, newer, older, counterpart, seriesIndex, seriesTotal, seriesPrev, seriesNext } =
-	Astro.props;
+const {
+	post,
+	headings,
+	newer,
+	older,
+	counterpart,
+	seriesIndex,
+	seriesTotal,
+	seriesPrev,
+	seriesNext,
+	related = [],
+} = Astro.props;
 const lang = post.data.lang as Lang;
 const t = useTranslations(lang);
 const { title, description, pubDate, updatedDate, tags, heroImage, ogImage, series: seriesSlug } =
@@ -206,6 +219,38 @@ const jsonLd = blogPostingJsonLd({
 			}
 
 			{
+				related.length > 0 && (
+					<section class="post__related" aria-labelledby="related-posts-heading">
+						<h2 id="related-posts-heading" class="post__related-heading">
+							{t('blog.relatedPosts')}
+						</h2>
+						<ul class="post__related-list">
+							{related.map((rel) => {
+								const relMinutes = readingTimeMinutes(rel.body, lang);
+								return (
+									<li>
+										<Card as="article" interactive>
+											<p class="post__related-meta">
+												<time datetime={rel.data.pubDate.toISOString()}>
+													{formatDate(rel.data.pubDate, lang)}
+												</time>
+												<span aria-hidden="true"> · </span>
+												<span>{formatReadingTime(relMinutes, lang)}</span>
+											</p>
+											<h3 class="post__related-title">
+												<a href={getPostPath(rel)}>{rel.data.title}</a>
+											</h3>
+											<p class="post__related-summary">{rel.data.description}</p>
+										</Card>
+									</li>
+								);
+							})}
+						</ul>
+					</section>
+				)
+			}
+
+			{
 				(newer || older) && (
 					<nav class="post__pagination" aria-label={t('blog.morePosts')}>
 						{older ? (
@@ -352,6 +397,43 @@ const jsonLd = blogPostingJsonLd({
 		display: flex;
 		justify-content: space-between;
 		gap: var(--space-4);
+	}
+
+	.post__related {
+		margin-top: var(--space-12);
+	}
+	.post__related-heading {
+		margin: 0 0 var(--space-4);
+		font-size: var(--text-h4);
+	}
+	.post__related-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+		gap: var(--space-5);
+	}
+	.post__related-meta {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-data);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+	.post__related-title {
+		margin: 0 0 var(--space-2);
+		font-size: var(--text-lg);
+	}
+	.post__related-title a {
+		color: var(--color-text-heading);
+		text-decoration: none;
+	}
+	.post__related-title a:hover {
+		color: var(--color-link);
+	}
+	.post__related-summary {
+		margin: 0;
+		color: var(--color-text-secondary);
 	}
 
 	.post__pagination {

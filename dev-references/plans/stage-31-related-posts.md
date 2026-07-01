@@ -4,7 +4,7 @@
 **Depends on:** 17 (blog post layout), 26 (tag archives / `utils/tags.ts`), 30 (series — for the
 same-series exclusion below) · **Next:** 32
 **PRD refs:** §12 (P2 backlog) · **Design refs:** DESIGN-minimax (tokens, Card component)
-**Status:** ⬜ Not started
+**Status:** ✅ Done
 
 ## Goal
 Surface a small "related posts" block on each post, computed statically from shared tags — no
@@ -62,3 +62,19 @@ from the series prev/next nav Stage 30 already provides for series posts.
 ## Handoff note
 Confirm the same-series exclusion is live and that no post shows a link twice (once under
 "Related", once under series nav).
+
+**Done 2026-07-01.** `getRelatedPosts(post, localePosts, limit = 3)` added to `utils/blog.ts`
+(shared-tag count desc, `pubDate` desc tiebreak, self- and same-series-excluded) and wired into
+`getBlogPaths`'s per-path props; both `pages/blog/[...slug].astro` and `pages/ko/blog/[...slug].astro`
+now pass `related` through to `BlogPost.astro` (initially missed on the first pass — the route
+files destructure named props explicitly, so a new prop must be added in three places: the util,
+and both locale routes, not just the layout). Renders as a `Related posts` /`관련 글` section (new
+`blog.relatedPosts` i18n key) above the older/newer pagination, using `Card` in the same shape as
+the Stage 26 tag-archive list. Verified: `agent-readiness` ↔ `building-llm-pkm-in-public-ep1` share
+`ai-llm`; `welcome-digital-garden` ↔ ep1 share `pkm`; `agent-readiness` ↔ `welcome-digital-garden`
+correctly show *no* link (zero shared tags) despite both being pagination-adjacent. Same-series
+exclusion is coded but unverified end-to-end — no series currently has 2+ published parts. New
+`tests/e2e/related-posts.spec.ts` (4 tests, all passing) checks presence/absence of known real-post
+links rather than exact counts, since `astro dev` includes the Stage 24-26 draft placeholder
+fixtures (which the prod build excludes) and those skew raw totals. `astro check` 0 errors,
+`astro build` 59 pages (unchanged), full `npm run test:e2e` 28/28 passing.
