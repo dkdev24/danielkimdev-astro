@@ -54,3 +54,24 @@ test('KO post renders the localized "Related posts" heading and same-locale link
 		page.locator('.post__related-list a[href="/ko/blog/building-llm-pkm-in-public-ep1/"]'),
 	).toBeVisible();
 });
+
+test('cards have a real gap between them and render at equal height', async ({ page }) => {
+	// agent-readiness has 3+ related items in dev (drafts included), so the grid
+	// wraps to at least two columns — enough to catch a zero/invalid gap.
+	await page.goto('/blog/agent-readiness/');
+
+	const list = page.locator('.post__related-list');
+	const gap = await list.evaluate((el) => getComputedStyle(el).columnGap);
+	// A regression here (e.g. an undefined --space-* token) computes to "normal"
+	// (0px), not a pixel value.
+	expect(gap).toMatch(/^\d/);
+	expect(parseFloat(gap)).toBeGreaterThan(0);
+
+	const heights = await list
+		.locator(':scope > li')
+		.evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height));
+	expect(heights.length).toBeGreaterThan(1);
+	for (const h of heights) {
+		expect(h).toBeCloseTo(heights[0], 0);
+	}
+});

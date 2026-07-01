@@ -381,7 +381,7 @@ const jsonLd = blogPostingJsonLd({
 	   plain reverse-chron pagination below it, so the two aren't confused. */
 	.post__series-nav {
 		margin-top: var(--space-12);
-		padding: var(--space-5) var(--space-6);
+		padding: var(--space-4) var(--space-6);
 		background: var(--color-bg-muted);
 		border: 1px solid var(--color-border-subtle);
 		border-radius: var(--radius-md);
@@ -414,7 +414,13 @@ const jsonLd = blogPostingJsonLd({
 		padding: 0;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-		gap: var(--space-5);
+		gap: var(--space-6);
+	}
+	.post__related-list li {
+		height: 100%;
+	}
+	.post__related-list :global(.card) {
+		height: 100%;
 	}
 	.post__related-meta {
 		margin: 0 0 var(--space-2);

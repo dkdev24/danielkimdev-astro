@@ -16,6 +16,34 @@ Entry template:
 
 ---
 
+## 2026-07-01 — Fix: invalid `--space-5` token (related-post cards touching, uneven height)
+
+**Did:** After deploying Stage 31, Daniel reported the related-post cards rendering with no gap
+between them and inconsistent heights. Root cause: `.post__related-list { gap: var(--space-5); }`
+referenced a token that doesn't exist in `tokens.css` (the spacing scale jumps `--space-4` (16px) →
+`--space-6` (24px), no `--space-5`) — an undefined custom property makes the whole `gap` declaration
+invalid at computed-value time, so it silently fell back to `normal` (0px). Grepped the codebase for
+the same typo and found two more live instances: `.post__series-nav`'s `padding: var(--space-5)
+var(--space-6)` in `BlogPost.astro` (Stage 30, already deployed — its padding was silently zero too,
+though no post currently has 2+ series parts to make that box visible) and `.blog-search`'s
+`margin-bottom: var(--space-5)` in `BlogIndexPage.astro`. Fixed all three to valid tokens
+(`--space-6` for the two list/box gaps, `--space-4` for the series-nav's vertical padding, matching
+`Callout.astro`'s padding convention). Separately, the uneven card heights were a real (unrelated)
+layout gap: CSS Grid stretches the `<li>` grid items to equal row height by default, but the `Card`
+component inside each `<li>` only sized to its own content — added `.post__related-list :global(.card)
+{ height: 100%; }` so the card fills its (already-equal) `<li>`.
+**Decisions:** none new.
+**Verification:** Confirmed the bug live on `danielkimdev.com` first (`getComputedStyle(...).gap`
+read `"normal"`, card heights read 254px vs. 278px) before touching code. After the fix, local dev
+shows `columnGap: "24px"` and equal card heights (verified via screenshot + computed styles). Added
+a regression test to `tests/e2e/related-posts.spec.ts` (`cards have a real gap between them and
+render at equal height`) asserting `columnGap` is a positive pixel value (not `"normal"`) and all
+`<li>` heights match — this would have caught the original bug. `astro check` 0 errors, `astro
+build` 59 pages, full `npm run test:e2e` 31/31 passing.
+**Files touched:** `src/layouts/BlogPost.astro`, `src/components/BlogIndexPage.astro`,
+`tests/e2e/related-posts.spec.ts`.
+**Next:** Redeploy (`npm run deploy`) to ship this fix along with Stages 30–32.
+
 ## 2026-07-01 — Stage 32: reading progress indicator
 
 **Did:** Implemented Stage 32 (P2 backlog) — a thin scroll-progress bar on blog post pages. New
