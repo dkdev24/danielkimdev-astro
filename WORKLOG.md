@@ -16,6 +16,33 @@ Entry template:
 
 ---
 
+## 2026-07-02 — Published `building-llm-pkm-in-public` ep.2 and ep.3 (EN/KO)
+
+**Did:** Converted the ep.2 (`From Data Hoarder to Knowledge Architect`) and ep.3 (`What Insight
+Synthesis Actually Looks Like`) drafts from `content-materials/` into 4 live blog files under
+`src/content/blog/{en,ko}/` per [`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md):
+stripped the wiki export's `slug`/`status`/`published_url` fields, the leading `# Title` line, the
+italic episode byline, and `---` dividers; set `draft: false`; used `translationKey`/`series`
+verbatim (already on-registry: `pkm`/`ai-llm` tags, `building-llm-pkm-in-public` series). `pubDate`
+set to 2026-07-02 (ep.2) and 2026-07-03 (ep.3) to keep series/chronological order after ep.1
+(2026-07-01) — the wiki export's `published` field was empty, so these are today's actual publish
+dates per the checklist, not backfilled. No editorial review requested or performed (Daniel: content
+already final upstream). Ran the full verification checklist: `astro check` (0 errors), `astro
+build` (63 pages, up from 59 — +4 posts, no new series so no new hub pages), grepped both KO files
+for stray em-dashes (none found). Deleted all 4 source files from `content-materials/` after
+verification, per the checklist's "not gated on deploying" rule.
+**Decisions:** none new — pure mechanical publish per the existing checklist.
+**Verification:** `astro check` 0 errors/0 warnings; `astro build` completed, confirmed
+`/blog/building-llm-pkm-in-public-ep{2,3}/` and `/ko/blog/...` in the output tree alongside the
+existing series hub pages (no new hub needed, series already registered). Did not re-run
+`test:e2e` (no code changed, content-only session).
+**Files touched:** `src/content/blog/en/building-llm-pkm-in-public-ep{2,3}.md`,
+`src/content/blog/ko/building-llm-pkm-in-public-ep{2,3}.md` (new). Deleted (untracked):
+`content-materials/building-llm-pkm-in-public-ep{2,3}-{en,ko}.md`.
+**Next:** Committed and pushed to `origin/main` (`46dc698`) but **not deployed** — Daniel is running
+`npm run deploy` manually this time (direct-upload project, push alone doesn't ship it). Re-run
+post-deploy Lighthouse once live (last run predates Stages 30–32, and now also predates ep.2/ep.3).
+
 ## 2026-07-01 — Deployed Stages 30–32 + the `--space-5` CSS fix
 
 **Did:** Daniel ran `npm run deploy` (commit `d64f8c8`) and confirmed on `danielkimdev.com` that the
