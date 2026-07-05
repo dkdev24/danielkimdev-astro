@@ -4,6 +4,24 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-07-06 — whatifclassics portfolio update + Fable-5 revival blog post (EN/KO)
+
+**Did:** Two related tasks in one session.
+
+1. **Portfolio update (`whatifclassics`):** removed the stale "It's on pause now" closing line from both EN/KO `src/content/portfolio/{en,ko}/whatifclassics.md`. Added a paragraph noting the project was resumed in mid-2026 via Claude's Fable 5 free-access weekend, with the full look-and-feel rebuilt in a single weekend. Added two screenshots sourced from the Day 34 blog post (`public/images/portfolio/whatifclassics-{home,storyplay}.jpeg` — downloaded from `whatifclassics.com/blog/revamp-after-{home,card}.jpeg`). Added a third link entry (Day 34 comeback post) to the links list in both EN/KO.
+
+2. **New blog post (`whatifclassics-fable5-revival`, EN/KO):** standalone post (no series, tags `[solopreneur, ai-llm]`, pubDate 2026-07-06) recapping the Fable-5 weekend sprint for danielkimdev.com readers (AI/solopreneur audience — not the whatifclassics community). Content sourced from `whatifclassics.com/blog/building-in-public-day-34/`; both versions re-authored from source using the `daniel-writing-style` skill (Workflow A for KO, en-rendering-guide conventions for EN). Slop pass: zero KO tells (no em-dash, no 게다가/더 나아가, no ~라고 할 수 있습니다), zero EN magic vocab.
+
+**Verification:** `astro check` 0 errors/0 warnings; `astro build` 83 pages (up from 81 before session — +2 for the new post). Both new pages confirmed in dist output.
+
+**Files created:** `src/content/blog/{en,ko}/whatifclassics-fable5-revival.md`, `public/images/portfolio/whatifclassics-home.jpeg`, `public/images/portfolio/whatifclassics-storyplay.jpeg`
+
+**Files updated:** `src/content/portfolio/{en,ko}/whatifclassics.md`, `HANDOFF.md`, `WORKLOG.md`
+
+**Deployed:** 2026-07-06 — this session (includes ep.1–ep.10 from prior session that had not yet been deployed).
+
+---
+
 ## 2026-07-06 — Publish ep.4–ep.10 (building-llm-pkm-in-public) + spread pubDates
 
 Published 7 new episodes (EN+KO) of the `building-llm-pkm-in-public` series. Also backdated ep.1–ep.3 pubDates to give the whole series a natural weekly cadence.
