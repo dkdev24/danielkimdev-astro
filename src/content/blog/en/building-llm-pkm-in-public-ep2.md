@@ -1,7 +1,7 @@
 ---
 title: "From Data Hoarder to Knowledge Architect: Bad Sources Make a Bad Wiki"
 description: "I used to think feeding articles to AI and letting it fill my wiki counted as building knowledge. Here's how bad sources turned that into a well-organized trash can, and the three-part quality check I built to stop it."
-pubDate: 2026-07-02
+pubDate: 2026-05-12
 lang: en
 tags: [pkm, ai-llm]
 draft: false

@@ -4,6 +4,27 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-07-06 — Publish ep.4–ep.10 (building-llm-pkm-in-public) + spread pubDates
+
+Published 7 new episodes (EN+KO) of the `building-llm-pkm-in-public` series. Also backdated ep.1–ep.3 pubDates to give the whole series a natural weekly cadence.
+
+**PubDate schedule (all episodes):**
+ep1=2026-05-05, ep2=2026-05-12, ep3=2026-05-20, ep4=2026-05-28, ep5=2026-06-04,
+ep6=2026-06-11, ep7=2026-06-19, ep8=2026-06-26, ep9=2026-07-02, ep10=2026-07-06
+
+**Files created:** `src/content/blog/{en,ko}/building-llm-pkm-in-public-ep{4..10}.md`
+**Files updated:** `src/content/blog/{en,ko}/building-llm-pkm-in-public-ep{1..3}.md` (pubDate only)
+**Source files:** deleted from `content-materials/` after verification (wiki project is source of truth)
+
+Schema conversion applied per `dev-references/wiki-to-site-publishing.md`:
+stripped title line, italic episode byline, `---` dividers, trailing wiki-link footnotes; dropped `slug`/`episode`/`status`/`daniel_reviewed` fields; set `draft: false`.
+
+Em-dashes noted in KO files — all are structural technical separators (`Stage 1 — 분석`, tool-name bullets) preserved from Daniel's reviewed source, not stray prose punctuation.
+
+Build: `astro check` 0 errors → `astro build` 81 pages (up from 63). Awaiting `git commit` + `npm run deploy`.
+
+---
+
 Entry template:
 
 ```

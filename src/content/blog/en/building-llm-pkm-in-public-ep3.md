@@ -1,7 +1,7 @@
 ---
 title: "What Insight Synthesis Actually Looks Like: The One Point Where DRM Expertise Meets the AI Agent Economy"
 description: "Looking for where DRM expertise actually meets the AI agent economy, my first answer was wrong. Here's the retraction, and the one real connection point regulation is already making mandatory."
-pubDate: 2026-07-03
+pubDate: 2026-05-20
 lang: en
 tags: [pkm, ai-llm]
 draft: false

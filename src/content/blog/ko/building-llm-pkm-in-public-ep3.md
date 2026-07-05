@@ -1,7 +1,7 @@
 ---
 title: "인사이트 도출의 실제 모습: DRM 전문성과 AI 에이전트 경제가 만나는 단 하나의 지점"
 description: "OTT 보안 기술과 AI 에이전트가 만나는 지점을 찾다가, 첫 번째 답이 틀렸다는 것을 알게 됐습니다. 억지 연결을 버리고 진짜 연결점 하나를 찾아낸 과정을 공유합니다."
-pubDate: 2026-07-03
+pubDate: 2026-05-20
 lang: ko
 tags: [pkm, ai-llm]
 draft: false

@@ -1,7 +1,7 @@
 ---
 title: "AI와 함께 10년 지식을 정리하기 시작했습니다 — 그 이유와 출발점"
 description: "지난 10년간 쌓아온 OTT·DRM 경험을 AI와 함께 정리하는 개인 지식관리 시스템, LLM-Wiki를 만들어가는 과정을 공개로 기록합니다. 왜 시작했는지, 그리고 몇 주 만에 무엇이 쌓였는지 살펴봅니다."
-pubDate: 2026-07-01
+pubDate: 2026-05-05
 lang: ko
 tags: [pkm, ai-llm]
 draft: false

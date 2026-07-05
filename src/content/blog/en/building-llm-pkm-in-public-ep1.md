@@ -1,7 +1,7 @@
 ---
 title: "I Started Organizing a Decade of Knowledge with AI — Why and Where to Begin"
 description: "Starting a public series on building a personal LLM-Wiki out of a decade of OTT and DRM experience. Why AI can summarize but not reflect, and what the system looks like a few weeks in."
-pubDate: 2026-07-01
+pubDate: 2026-05-05
 lang: en
 tags: [pkm, ai-llm]
 draft: false
