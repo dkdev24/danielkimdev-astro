@@ -1,6 +1,6 @@
 ---
-title: "I Spent a Free Weekend Rebuilding a Stalled Side Project with Claude's Fable Model"
-description: "After five months away from What If Classics, a free Anthropic Fable weekend pulled me back. What two days of rebuilding actually looked like — and what Fable is like in practice on a Claude Pro plan."
+title: "What a Five-Month Stall Taught Me About Working With AI"
+description: "Returning to What If Classics after five months with Fable clarified something about AI-assisted work: the bottleneck isn't execution — it's knowing how to package a problem before you hand it over."
 pubDate: 2026-07-06
 lang: en
 tags: [solopreneur, ai-llm]
@@ -8,44 +8,48 @@ draft: false
 translationKey: whatifclassics-fable5-revival
 ---
 
-Five months. That's how long What If Classics had been sitting untouched.
+Five months is a long time for a project to sit untouched. [What If Classics](https://whatifclassics.com) had been in that state since Day 33 of my building-in-public diary. Traffic wasn't moving, the inertia built up, and eventually the project settled into a drawer.
 
-The building-in-public diary I'd been keeping on the project went quiet after Day 33. Traffic wasn't moving, opening the laptop to work on it stopped feeling worthwhile, and eventually I just stopped. The idea stayed alive in my head. The project didn't.
+Then Anthropic reopened [Fable](https://www.anthropic.com/news/redeploying-fable-5) for a free weekend. I used it to go back to something stalled rather than start something new. The site is working now — but I want to write about what the process clarified, not the implementation.
 
-Then Anthropic reopened [Fable](https://www.anthropic.com/news/redeploying-fable-5) for a free weekend. I decided to spend it going back to something unfinished rather than starting something new.
+## The Real Problem With a Stalled Project
 
-## What the Site Looked Like Before
+Looking back, the issue wasn't motivation. It was that I didn't have the project decomposed into units small enough to hand off.
 
-[What If Classics](https://whatifclassics.com) turns public-domain novels into short choice-driven stories. You drag a card left or right, branch through the plot, reach one of sixteen endings, and collect an MBTI-style character card based on your choices. The interactive core was already built. But everything wrapped around it looked like a blog template painted dark — a landing page, a library section, no visual grammar connecting any of it to the feeling of a game.
+Working with AI has changed what "ready to work" means to me. Before, ready meant having time and energy. Now it also means having a problem statement clear enough to delegate. A vague goal — "make this feel more like a game" — doesn't move. A specific problem — "replace the button-click choice interface with a drag-and-swipe interaction and add card tilt physics" — does.
 
-The reference for the weekend was [Reigns](https://www.reignsgame.com/): a full-screen dark stage, one card at a time, resource meters along the top. That frame is most of what makes a card-swipe interface feel like playing a game rather than clicking through a website.
+The five-month stall wasn't a motivation problem. It was a decomposition problem.
 
-## Two Passes
+## Session Architecture Under a Hard Constraint
 
-The first pass was the story screen itself. I swapped the plain button interface for a real drag-and-swipe interaction with card tilt physics, and added a 3D flip animation on the ending card reveal. A few hours in, it worked.
+Fable on the Claude Pro plan burns through the five-hour usage window in roughly 30 to 40 minutes. That's a tight constraint. But tight constraints can force something useful: you can't waste a session on vague exploration when it resets that fast. Each session needs a defined scope and a concrete deliverable before you open the laptop.
 
-The second pass started from a realization: the seam between the new story screen and the rest of the site was jarring. You'd work through a dark, game-like story, hit exit, and land back on a bright static page. The whole site needed the same treatment.
+This is what makes AI collaboration productive regardless of which model you're using. The time constraint just made the discipline visible. I planned the work in two chunks — the interactive core of the story screen first, then the whole site's visual frame — and that planning came before any code ran. The session was execution. The architecture was the upstream work.
 
-We rebuilt it as one continuous dark stage. The cream card became the only light surface anywhere on the site. Story covers now fan out on the title screen like a hand of cards. Even the blog section was pulled into the same visual space. The frame carries through now, not just the play screen.
+## What You Delegate vs. What You Direct
 
-## What You Only Find by Playing It
+The sharpest example from the weekend was the text length problem.
 
-Building to spec and having something actually work are two different things.
+Playing through the site on my phone, I noticed the card text often ran long enough to require pagination — friction that breaks the pacing of a choice-driven story. The fix required auditing every text node across six story packs.
 
-On mobile, the ending screen overflowed the viewport with no scroll container. Share and download buttons were physically unreachable. On desktop, releasing the mouse outside the browser window during a card drag left the card frozen mid-swipe — the kind of edge case that only shows up when you use your own project wrong.
+640 nodes.
 
-The text problem was more systematic. Fable opened all 640 story nodes across the six packs, measured character counts, identified the nodes running too long for a phone-size card, and trimmed them. That's not something I would have tackled manually. I described the problem, handed it over, and it got handled.
+I described the problem. Fable opened all of them, measured character counts, identified the ones exceeding the mobile-card threshold, and trimmed them. That's not a task I would have approached directly — not because the individual edit is hard, but because I never would have framed it as a tractable single task. The mental overhead of organizing that audit would have been enough to defer it indefinitely.
 
-## What Fable Is Like in Practice
+The same pattern holds across a lot of AI-assisted work: certain tasks become visible as discrete, delegatable units only when you have a collaborator who can handle the scale. Recognizing which problems belong in that category is where the real skill sits — not in prompting.
 
-The results over two days were real. A dark-painted blog template became something that actually plays like a game. Fable also ran a clean Astro framework upgrade from v5 to v7, in two stages, alongside all the visual work.
+## The Frame Insight
 
-The practical constraint worth naming: on the Claude Pro plan, Fable burns through the five-hour usage window in roughly 30 to 40 minutes. Each session required planning upfront, a push to extract as much progress as possible before the cutoff, then waiting for the next window. The free event is over, so I'm back on my regular model. Usage-based pricing is hard to justify for a project with no revenue yet.
+The most unexpected thing about the weekend: I didn't write a single new story.
 
-One more honest note: I didn't write a single new story pack this weekend. All six packs kept their content exactly as written. Only the way they're presented changed. That felt more significant than I expected — the same six stories, in a new frame, feel like a different thing entirely.
+All six existing story packs kept their content exactly as written. What changed was the visual frame and how the whole site presents itself. The result felt like a fundamentally different project.
 
-## What Comes Next
+This is a pattern that shows up in knowledge architecture too. The substance doesn't always need to change. Structure around the substance is often the work that gets deferred because it doesn't feel like "real" production. The Fable weekend was a reminder that framing is as substantive as content — and that AI can make the structural work tractable in a way it wasn't before.
 
-Two face-down cards sit on the story list page, placeholders for packs still in the works. Whether I write new stories first or tighten up the gameplay first, I haven't decided. The project is no longer in a drawer.
+## Where This Leaves the Project
+
+The project is out of the drawer. Two face-down cards sit on the story list page, placeholders for packs still in progress. Whether new stories come first or gameplay refinement comes first, I haven't decided.
+
+What I have decided is that the session-planning discipline from this weekend is worth keeping — even now that the free event is over and I'm back on my regular model. The constraint that forced it is gone. The habit shouldn't be.
 
 Project-level updates live in the [Building in Public diary](https://whatifclassics.com/blog) on the What If Classics site.
