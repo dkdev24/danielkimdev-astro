@@ -32,7 +32,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 ## Locked decisions (do not re-litigate without Daniel)
 
 - **Domain:** `danielkimdev.com` live — proxied apex CNAME → `danielkimdev.pages.dev`; `www` 301-redirects to apex. Wrangler OAuth token is zone read-only; rule edits need a scoped API token (`.env` → `cloudflare-api-token`, gitignored).
-- **Deploy:** Cloudflare Pages. **Two valid paths — both kept:** (1) `git push origin main` → auto-deploy via GitHub integration (confirmed 2026-07-06); (2) `npm run deploy` (wrangler direct-upload, `DEPLOY_ALLOW_DIRTY=1` to skip prompt). Static `dist/`. No Git auto-deploy was previously active; now it is.
+- **Deploy:** Cloudflare Pages, static `dist/`. **Default (unqualified "deploy"): `git push origin main`** — triggers auto-deploy via GitHub integration. Fallback only: `npm run deploy` (wrangler direct-upload, `DEPLOY_ALLOW_DIRTY=1`) — use when explicitly asked or when pushing isn't possible. Never run both in the same session; that causes duplicate CF Pages builds.
 - **i18n routing:** `defaultLocale: "en"`, `prefixDefaultLocale: false` — EN at root, KO under `/ko/`.
 - **Design:** [`DESIGN-minimax.md`](dev-references/DESIGN-minimax.md) is the visual source of truth; tokens centralized/swappable. Dark mode required, WCAG AA both themes.
 - **Positioning (2026-06-27):** Bridge angle, AI for knowledge work foregrounded. Blog leads on AI/PKM/automation. Media-tech/OTT/DRM = career credibility, About + Portfolio only.
