@@ -4,6 +4,18 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-07-06 — Favicon replacement + Cloudflare Pages Git integration
+
+**Did:**
+
+1. **Favicon replacement:** swapped out the default Astro SVG placeholder (`public/favicon.svg`) for a proper favicon.io-generated set. Copied all files from `dev-references/favicon_io/` to `public/`. Filled in blank `name`/`short_name` fields in `site.webmanifest` with `"Daniel Kim"`. Updated `BaseHead.astro` to use the full set of link tags (ICO → 32px PNG → 16px PNG → apple-touch-icon → webmanifest).
+
+2. **Cloudflare Pages Git integration:** connected the GitHub repo to Cloudflare Pages auto-deploy. Confirmed push-to-deploy works (commit `2c1b20f` triggered and deployed successfully). Both `git push` (auto) and `npm run deploy` (wrangler direct-upload) are kept as valid deploy paths.
+
+**Files updated:** `public/favicon.ico` (replaced), `public/favicon.svg` (deleted), `public/favicon-16x16.png`, `public/favicon-32x32.png`, `public/android-chrome-192x192.png`, `public/android-chrome-512x512.png`, `public/apple-touch-icon.png`, `public/site.webmanifest`, `src/components/BaseHead.astro`, `dev-references/favicon_io/` (source copies), `HANDOFF.md`, `WORKLOG.md`
+
+---
+
 ## 2026-07-06 — whatifclassics portfolio update + Fable-5 revival blog post (EN/KO)
 
 **Did:** Two related tasks in one session.
