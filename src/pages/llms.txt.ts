@@ -36,12 +36,12 @@ export const GET: APIRoute = async ({ site }) => {
 		'',
 	];
 
-	// Static pages that have no content-collection entry
+	// Static pages — link directly to .md siblings so all llms.txt links serve markdown
 	const staticPages = [
-		{ title: 'Home', path: '/', desc: 'Overview and featured work' },
-		{ title: 'About', path: '/about/', desc: 'Background, career, and what I work on' },
-		{ title: 'Blog', path: '/blog/', desc: 'All blog posts' },
-		{ title: 'Portfolio', path: '/portfolio/', desc: 'Work portfolio' },
+		{ title: 'Home', path: '/index.md', desc: 'Overview and featured work' },
+		{ title: 'About', path: '/about.md', desc: 'Background, career, and what I work on' },
+		{ title: 'Blog', path: '/blog/index.md', desc: 'All blog posts' },
+		{ title: 'Portfolio', path: '/portfolio/index.md', desc: 'Work portfolio' },
 	];
 
 	for (const page of staticPages) {
