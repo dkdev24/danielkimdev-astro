@@ -34,7 +34,8 @@ updated the skill itself and prepared for a potential open-source project.
 - OSS motivation: personal documentation + "free platform-agnostic alternative" framing.
   Not aiming to be a widely-adopted standard — sharing because it may be useful.
 - Agent-readiness rollout is a candidate blog post (series: `agent-readiness`).
-  `TODO(daniel):` draft when ready.
+  Before/after screenshots added at root: `isitagentready-result-before-skill.png`
+  and `isitagentready-result-after-skill.png`. `TODO(daniel):` draft when ready.
 
 **Files created:** `agent-readiness-skill-oss-brief.md`
 **Files updated:** `.opencode/skills/agent-readiness-astro/SKILL.md`,
