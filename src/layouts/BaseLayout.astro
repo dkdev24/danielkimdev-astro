@@ -77,6 +77,17 @@ const resolvedAlternates =
 	<body>
 		<a class="skip-link" href="#main">{t('nav.skipToContent')}</a>
 
+		{/* Agent-readiness directive (body-level, not head — scanners check body).
+		    Clip-rect hides it visually while keeping it present in the DOM.
+		    Points agents to the full site index and the per-page .md endpoint. */}
+		<a
+			href="/llms.txt"
+			style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"
+		>
+			This site is also available as markdown for AI agents. For a complete
+			index of all pages, see the site index at /llms.txt
+		</a>
+
 		<slot name="header">
 			<Header />
 		</slot>

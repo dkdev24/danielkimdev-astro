@@ -12,6 +12,19 @@
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
 
+# Agent-readiness: Link header on / so agents can discover major sections without crawling.
+# Vary: Accept is set here as a static fallback; the middleware (functions/_middleware.ts)
+# also sets it dynamically on negotiated responses.
+/
+  Link: </blog/>; rel="service-doc"; title="Blog", </portfolio/>; rel="service-doc"; title="Portfolio", </about/>; rel="service-doc"; title="About"
+  Vary: Accept
+
+# Markdown siblings: explicit Content-Type for pre-built .md files.
+# (Middleware also sets this for Accept-negotiated responses at pretty URLs.)
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+  Vary: Accept
+
 # Astro emits content-hashed assets under /_astro/* — safe to cache forever (immutable).
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
