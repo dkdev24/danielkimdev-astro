@@ -4,8 +4,8 @@
 > *present* state, not history. Full per-session, per-stage detail lives in [`WORKLOG.md`](WORKLOG.md).
 > **Budget: ~60 lines / one screen. Edit in place, replace don't append, prune as you add** (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-07-06
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. **Last deploy 2026-07-06** (favicon replacement via Git push — auto-deploy confirmed working). Prod is **83 pages**. Lighthouse **not yet re-run** since 2026-07-01 — still pending.
+**Last updated:** 2026-07-07
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. **Last deploy 2026-07-07** (agent-readiness — 4 commits). Prod is **87 pages** (83 HTML + new .md siblings). **afdocs score: 99/100 (A)**. Lighthouse **not yet re-run** since 2026-07-01 — still pending.
 
 ## Project in one line
 
@@ -13,7 +13,8 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Current state
 
-- **Shipped (live):** P0 complete + P1 Stages 22–27 + P2 Stages 30–32, all deployed. Last deploy 2026-07-06 (commit on `main`). Prod is **83 pages**. Per-stage notes in [`WORKLOG.md`](WORKLOG.md); stage status in [`plans/00-index.md`](dev-references/plans/00-index.md).
+- **Shipped (live):** P0 complete + P1 Stages 22–27 + P2 Stages 30–32, all deployed. Last deploy 2026-07-07 (agent-readiness, 4 commits on `main`). Prod is **87 pages** (83 HTML + 4 new markdown-only .md pages). Per-stage notes in [`WORKLOG.md`](WORKLOG.md); stage status in [`plans/00-index.md`](dev-references/plans/00-index.md).
+- **Agent readiness (2026-07-07):** afdocs **99/100 (A)**. All 7 signals live: `llms.txt`, `robots.txt` + content-signal, `.md` siblings for all 23 pages, body directive, `_headers` Link+Vary, CF Pages middleware (`functions/_middleware.ts`) for content negotiation. Only gap: `/about.md` parity (timeline data not in .md — acceptable, editorial). See [`learning-agent-readiness-updates.md`](learning-agent-readiness-updates.md) for rollout notes.
 - **Content (2026-07-06):** `building-llm-pkm-in-public` ep.1–ep.10 (EN/KO) live. PubDates weekly: ep1=2026-05-05 … ep10=2026-07-06. Standalone post `whatifclassics-fable5-revival` (EN/KO, tags `[solopreneur, ai-llm]`, pubDate 2026-07-06) — fully rewritten (2026-07-06) from a technical sprint recap into an AI-knowledge-architect POV piece (decomposition problem, session architecture, delegate vs. direct, frame-as-content). The whatifclassics.com Day 34 post stays as the dev diary; this post is the meta-reflection. Portfolio: `whatifclassics.md` (EN/KO) updated with Fable-5 revival paragraph + two screenshots (`public/images/portfolio/whatifclassics-{home,storyplay}.jpeg`) + Day 34 blog link.
 - **Post series (Stage 30):** optional `series` enum on the blog schema (`src/data/series.ts` — 2 slugs: `agent-readiness`, `building-llm-pkm-in-public`). Order is always `pubDate`. `BlogPost.astro` shows "Part N of {total}" badge + series-scoped prev/next. Hubs at `/blog/series/<slug>/` (+`/ko/`), index at `/blog/series/`, builders in `utils/series.ts`.
 - **Related posts (Stage 31):** `getRelatedPosts()` in `utils/blog.ts` ranks same-locale siblings by shared-tag count then recency, excluding self + same-series posts. **Post-deploy fix (2026-07-01):** `--space-5` token doesn't exist (scale jumps 4→6) — silently no-ops. **Re-check any new `var(--space-N)` against `tokens.css` scale** (px, 0_5, 1, 1_5, 2, 2_5, 3, 3_5, 4, 6, 8, 10, 12, 16, 20 — no 5, 7, 9, 11...).
@@ -42,9 +43,10 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Post-deploy Lighthouse** — not re-run since 2026-07-01. Baseline was Perf 97–100 / A11y 100 / BP 100 / SEO 100 (see [`plans/stage-21-deploy.md`](dev-references/plans/stage-21-deploy.md)).
+1. **Post-deploy Lighthouse** — not re-run since 2026-07-01. Baseline was Perf 97–100 / A11y 100 / BP 100 / SEO 100. The new `functions/_middleware.ts` adds a CF Pages Function — verify Lighthouse scores haven't regressed.
 2. **P1 stages 28–29** ([`plans/00-index.md`](dev-references/plans/00-index.md)): 28 per-post OG images · 29 authoring docs + content-lint CI. P2 33–36 still one-line scope.
-3. **PRD framing follow-up:** §1 Context, §2 Goal 2, §13.4 still lean media-tech — needs a pass to reflect the AI-knowledge-work shift.
+3. **Agent readiness fast-follows:** KO locale `.md` endpoints + KO section in `llms.txt`; `/about.md` parity gap (add timeline data); update skill `references/cloudflare-pages.md` based on [`learning-agent-readiness-updates.md`](learning-agent-readiness-updates.md).
+4. **PRD framing follow-up:** §1 Context, §2 Goal 2, §13.4 still lean media-tech — needs a pass to reflect the AI-knowledge-work shift.
 
 ## Conventions / gotchas
 

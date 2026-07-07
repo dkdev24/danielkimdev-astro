@@ -4,6 +4,41 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-07-07 — Agent readiness (0 → 99/100 afdocs)
+
+Implemented all 7 agent-readiness signals for danielkimdev.com using the
+`agent-readiness-astro` skill (v0.1.0). Cloudflare Pages platform. Full rollout
+notes and lessons in [`learning-agent-readiness-updates.md`](learning-agent-readiness-updates.md).
+
+**Score progression:** 0/100 (F) → 94 (Layer 1) → 96 (Layer 2) → 98 (static .md pages) → **99/100 (A)**
+
+**Layer 1 — host-agnostic (commit `5c7c9af`):**
+- `src/pages/robots.txt.ts` — crawl policy + `Content-Signal: ai-train=no, search=yes, ai-input=yes`
+- `src/pages/llms.txt.ts` — EN blog + portfolio + static pages, all linked as `.md` URLs
+- `src/pages/blog/[slug].md.ts` — pre-built `.md` sibling for every EN blog post
+- `src/pages/portfolio/[slug].md.ts` — pre-built `.md` sibling for every EN portfolio item
+- `src/layouts/BaseLayout.astro` — clip-rect hidden `<a href="/llms.txt">` in `<body>` (not `<head>`)
+- `public/_headers` — `Link` header on `/`, `/*.md` Content-Type, `Vary: Accept`
+
+**Layer 2 — Cloudflare Pages middleware (commit `70e6795`):**
+- `functions/_middleware.ts` — intercepts `Accept: text/markdown`, looks up `.md` asset via `env.ASSETS.fetch()`, falls back to normal serving; adds `Vary: Accept` to all responses
+- `public/_routes.json` — excludes `/_astro/*`, `/images/*`, favicons from Function invocation
+
+**Layer 3 — static page .md siblings + llms.txt fix (commit `d9d9807`):**
+- `src/pages/index.md.ts`, `src/pages/about.md.ts`, `src/pages/blog/index.md.ts`, `src/pages/portfolio/index.md.ts` — hand-written `.md` endpoints for pages with no collection entry
+- Updated `llms.txt` static-page links to point to `.md` URLs (not pretty HTML URLs)
+
+**Layer 4 — middleware index.md fallback (commit `bb4d802`):**
+- Fixed middleware: added two-step `.md` lookup: try `<path>.md` first, then `<path>/index.md`. Required for section roots (`/`, `/blog/`, `/portfolio/`)
+
+**Known remaining gap:** `/about.md` has 100% content-parity missing vs HTML (timeline collection data not in .md). Acceptable — editorial decision, not infra bug.
+
+**Files created:** `src/pages/robots.txt.ts`, `src/pages/llms.txt.ts`, `src/pages/blog/[slug].md.ts`, `src/pages/portfolio/[slug].md.ts`, `src/pages/index.md.ts`, `src/pages/about.md.ts`, `src/pages/blog/index.md.ts`, `src/pages/portfolio/index.md.ts`, `functions/_middleware.ts`, `public/_routes.json`, `learning-agent-readiness-updates.md`
+
+**Files updated:** `src/layouts/BaseLayout.astro`, `public/_headers`, `HANDOFF.md`, `WORKLOG.md`
+
+---
+
 ## 2026-07-06 — Favicon replacement + Cloudflare Pages Git integration
 
 **Did:**
