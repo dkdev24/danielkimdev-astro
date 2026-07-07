@@ -4,6 +4,45 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-07-07 — Skill upgrade to v0.2.0 + OSS brief
+
+Second half of the agent-readiness session. After the 99/100 score was confirmed,
+updated the skill itself and prepared for a potential open-source project.
+
+**Skill upgrade (`agent-readiness-astro` v0.1.0 → v0.2.0, commit `ba09362`):**
+- `SKILL.md`: CF Pages reference updated from "unverified design" to "scanner-verified";
+  added CLI-vs-web-UI scanner warning; added `llms.txt` link rule (all links must be
+  `.md` URLs); added static-pages-without-collection-entries pattern; added multi-source
+  parity gap to acceptable-gaps list; replaced "rolling this out" caveat with "both
+  platform refs are now verified"
+- `references/cloudflare-pages.md`: status banner flipped; middleware sample replaced
+  with two-step `.md` / `index.md` fallback; trailing-slash section updated from
+  speculation to confirmed facts; Dead ends section added (single-step lookup failure,
+  hardcoded `/` → `/index` anti-pattern)
+
+**OSS project brief (commit `34299c0`):**
+- [`agent-readiness-skill-oss-brief.md`](agent-readiness-skill-oss-brief.md) created —
+  context doc for starting an open-source multi-framework version of the skill. Covers:
+  pre-built-static vs. runtime-conversion architecture clarification, positioning vs.
+  Cloudflare's Pro-plan native feature, all five hard-won implementation lessons,
+  Astro-specific parts mapped to framework equivalents, acceptable remaining gaps.
+
+**Discussion notes (not actioned, for reference):**
+- Cloudflare's native "Markdown for Agents" (Pro-only) does runtime HTML-to-MD
+  conversion; the skill's approach is pre-built static files — cleaner output, requires
+  a build step.
+- OSS motivation: personal documentation + "free platform-agnostic alternative" framing.
+  Not aiming to be a widely-adopted standard — sharing because it may be useful.
+- Agent-readiness rollout is a candidate blog post (series: `agent-readiness`).
+  `TODO(daniel):` draft when ready.
+
+**Files created:** `agent-readiness-skill-oss-brief.md`
+**Files updated:** `.opencode/skills/agent-readiness-astro/SKILL.md`,
+  `.opencode/skills/agent-readiness-astro/references/cloudflare-pages.md`,
+  `HANDOFF.md`, `WORKLOG.md`
+
+---
+
 ## 2026-07-07 — Agent readiness (0 → 99/100 afdocs)
 
 Implemented all 7 agent-readiness signals for danielkimdev.com using the
