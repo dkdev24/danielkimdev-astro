@@ -4,6 +4,21 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-07-11 — Publish post: ai-memory-tool-removed (EN/KO)
+
+Mechanical schema conversion of `content-materials/blog-draft-ai-memory-{en,ko}.md` into live blog posts.
+
+- Created `src/content/blog/en/ai-memory-tool-removed.md` and `src/content/blog/ko/ai-memory-tool-removed.md`
+- Frontmatter: `pubDate: 2026-07-11`, `draft: false`, `translationKey: ai-memory-tool-removed`, `tags: [ai-llm, pkm, solopreneur]`
+- Content cleanup: stripped `---` hr dividers; kept all prose verbatim
+- No new series (standalone post)
+- `astro build` confirmed 3 new routes: `/blog/ai-memory-tool-removed.md`, `/blog/ai-memory-tool-removed/`, `/ko/blog/ai-memory-tool-removed/`
+- KO: no em dashes found
+- Deleted source drafts from `content-materials/` per publishing checklist
+- Deploy: `git push origin main` pending (not yet pushed)
+
+---
+
 ## 2026-07-07 — Skill upgrade to v0.2.0 + OSS brief
 
 Second half of the agent-readiness session. After the 99/100 score was confirmed,
