@@ -27,7 +27,7 @@ The agent had to remember to write a memory after any significant decision, and 
 I settled on two files inside the repository.
 
 - **HANDOFF.md**: loaded automatically at every session start. Short, always current. It captures what happened last session, the current project state, and next steps. Rewritten each session, not accumulated.
-- **CHANGELOG.md**: a running session log, newest entries at the top. Never auto-loaded. I read it on demand when I need deeper context.
+- **WORKLOG.md**: a running session log, newest entries at the top. Never auto-loaded. I read it on demand when I need deeper context.
 
 Two files. No external dependencies. Continuity across sessions, devices, and agents.
 
@@ -40,7 +40,7 @@ I ran both systems in parallel for a while, partly as a backup and partly out of
 - Everything worth remembering was already in the two markdown files.
 - Those files are version-controlled, human-readable, and searchable with standard tools.
 - Mem0 still required the agent to write and read on every session. The same coverage problem I'd been trying to solve was now duplicated across two systems.
-- The only remaining advantage Mem0 had was semantic search, but `grep` and reading the top of CHANGELOG.md covered the vast majority of those cases.
+- The only remaining advantage Mem0 had was semantic search, but `grep` and reading the top of WORKLOG.md covered the vast majority of those cases.
 
 There was no reason to run both.
 
@@ -51,9 +51,9 @@ That said, Mem0 is well-suited to other use cases. Its [official site](https://m
 The design principle is simple:
 
 - **HANDOFF.md stays small** because it's rewritten each session, not appended to.
-- **CHANGELOG.md can grow without limit** because it's never auto-loaded, so the agent reads only what it needs.
+- **WORKLOG.md can grow without limit** because it's never auto-loaded, so the agent reads only what it needs.
 
-CHANGELOG.md is over 4,000 lines now. That's fine. No agent pulls the whole thing into context. To catch up on recent sessions, read the top 150 lines. To find something specific, search for it.
+WORKLOG.md is over 4,000 lines now. That's fine. No agent pulls the whole thing into context. To catch up on recent sessions, read the top 150 lines. To find something specific, search for it.
 
 ## Conclusion
 
