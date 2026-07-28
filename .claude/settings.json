@@ -1,5 +1,6 @@
 {
   "enabledPlugins": {
-    "frontend-design@claude-plugins-official": true
+    "frontend-design@claude-plugins-official": true,
+    "draft-review-kit@draft-review-kit-local": true
   }
 }
