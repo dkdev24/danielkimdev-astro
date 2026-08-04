@@ -6,7 +6,7 @@ summary: A public beta that replays Zork I's parser-driven text adventure as Com
 category: side-ai
 tags: [ai-llm, solopreneur]
 lang: en
-featured: false
+featured: true
 order: 4
 translationKey: grues-in-comic
 links:

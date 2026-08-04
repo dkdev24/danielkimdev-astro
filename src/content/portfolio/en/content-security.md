@@ -7,7 +7,7 @@ summary: Owned the multi-DRM and forensic-watermarking content-protection produc
 category: product
 tags: [drm-content-security, ott-streaming]
 lang: en
-featured: true
+featured: false
 order: 6
 translationKey: content-security
 ---

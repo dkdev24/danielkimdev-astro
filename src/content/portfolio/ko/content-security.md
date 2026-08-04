@@ -7,7 +7,7 @@ summary: "글로벌 OTT·스트리밍 고객을 위한 Multi-DRM과 포렌식 �
 category: product
 tags: [drm-content-security, ott-streaming]
 lang: ko
-featured: true
+featured: false
 order: 6
 translationKey: content-security
 ---

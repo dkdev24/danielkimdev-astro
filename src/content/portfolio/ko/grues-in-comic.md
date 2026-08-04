@@ -6,7 +6,7 @@ summary: "Zork I의 파서 기반 텍스트 어드벤처를 Comic Chat 스타일
 category: side-ai
 tags: [ai-llm, solopreneur]
 lang: ko
-featured: false
+featured: true
 order: 4
 translationKey: grues-in-comic
 links:

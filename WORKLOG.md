@@ -26,6 +26,11 @@ post, plus a new companion portfolio item for the side project the post covers.
 
 **Gameplay screenshot (same session, follow-up):** Daniel dropped `content-materials/grues-in-comic-screenshot.png`. Copied to `public/images/blog/grues-in-comic-beta.png` and `public/images/portfolio/grues-in-comic.png` (same source image, two public paths — matches the existing `whatifclassics` inline-markdown-image convention, plain `![]()` + public path, not the `heroImage`/`thumbnail` content-collection `image()` schema field, which no post/portfolio item uses yet). Embedded in all four files (blog EN/KO, portfolio EN/KO) with locale-matched alt text describing the West of House comic panels + classic Zork text output. Source screenshot deleted from `content-materials/` after copying. Rebuilt — still 89 pages, both image paths present in `dist/`.
 
+**Portfolio pruning + Home featured swap (same session, follow-up):** Daniel asked to remove the `career` portfolio item (the About page timeline already covers career history) and to surface `grues-in-comic` as one of the three featured items on Home.
+- Deleted `src/content/portfolio/{en,ko}/career.md`. No other file linked to it (`grep` for `career.md`/`portfolio/career` in `src/` was clean) — safe removal.
+- Home's featured section (`HomePage.astro:29-31`) is `getCollection('portfolio', featured===true).sort(order).slice(0,3)`. Before this change the 3 featured items were `ai-knowledge-work`(1), `digital-garden`(2), `content-security`(6). Set `featured: true` on `grues-in-comic` (order 4) and `featured: false` on `content-security` (order 6, both locales) so Home now shows exactly 3: `ai-knowledge-work`, `digital-garden`, `grues-in-comic`. `content-security` stays live and listed on `/portfolio/`, just no longer on Home — judgment call (lowest-priority of the three by `order`); flag to Daniel if he'd rather swap a different one.
+- Rebuilt: 85 pages (down 4 from 89 — the deleted `career` EN/KO detail + `.md` endpoint pages). Confirmed via `dist/index.html` / `dist/ko/index.html` grep that Home cards are now AI Knowledge Work → Digital Garden → Grues in Comic (both locales), and `/portfolio/` still lists `content-security` in the full grid.
+
 Deploy: `git push origin main` pending (not yet pushed).
 
 ---
