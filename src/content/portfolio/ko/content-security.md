@@ -8,7 +8,7 @@ category: product
 tags: [drm-content-security, ott-streaming]
 lang: ko
 featured: true
-order: 5
+order: 6
 translationKey: content-security
 ---
 

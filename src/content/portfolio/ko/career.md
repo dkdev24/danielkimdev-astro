@@ -7,7 +7,7 @@ category: career
 tags: [cloud-saas]
 lang: ko
 featured: false
-order: 6
+order: 7
 translationKey: career
 ---
 

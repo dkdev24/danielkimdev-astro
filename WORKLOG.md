@@ -4,6 +4,30 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-04 — Publish post + portfolio item: Grues in Comic (EN/KO)
+
+Mechanical schema conversion of `content-materials/grues-in-comic-beta-{en,ko}.md` into a live blog
+post, plus a new companion portfolio item for the side project the post covers.
+
+**Blog post:**
+- Created `src/content/blog/en/grues-in-comic-beta.md` and `src/content/blog/ko/grues-in-comic-beta.md`
+- Frontmatter: `pubDate: 2026-08-04`, `draft: false`, `translationKey: grues-in-comic-beta`, `tags: [ai-llm, solopreneur]`
+- Dropped non-schema `slug`/`status` fields from the wiki export; stripped leading `# Title` line
+- No `---` dividers or em dashes in either file
+- No new series (standalone post)
+- Deleted source drafts from `content-materials/` per publishing checklist
+
+**Portfolio item:**
+- Created `src/content/portfolio/{en,ko}/grues-in-comic.md` — category `side-ai`, tags `[ai-llm, solopreneur]`, `translationKey: grues-in-comic`, `order: 4` (placed right after `whatifclassics`)
+- Bumped `order` on `talks-writing-devrel` (4→5), `content-security` (5→6), `career` (6→7) in both locales to keep `career` last
+- Links point to `grues.danielkimdev.com` and the new blog post
+
+**Verification:** `npx astro check` (0 new errors — 4 pre-existing unrelated TS errors in `functions/_middleware.ts` / `[slug].md.ts`), `npx astro build` (89 pages, up from 87: +1 blog post + 1 portfolio item × 2 locales each, minus the net from routing — confirmed `/blog/grues-in-comic-beta/`, `/ko/blog/grues-in-comic-beta/`, `/portfolio/grues-in-comic/`, `/ko/portfolio/grues-in-comic/` all present).
+
+Deploy: `git push origin main` pending (not yet pushed).
+
+---
+
 ## 2026-07-11 — Publish post: ai-memory-tool-removed (EN/KO)
 
 Mechanical schema conversion of `content-materials/blog-draft-ai-memory-{en,ko}.md` into live blog posts.

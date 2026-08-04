@@ -8,7 +8,7 @@ category: talk-writing
 tags: [ott-streaming, ai-ready-docs]
 lang: en
 featured: false
-order: 4
+order: 5
 translationKey: talks-writing-devrel
 links:
   - label: Tech blog (Medium)
