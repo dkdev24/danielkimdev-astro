@@ -52,6 +52,8 @@ Zork는 1977년 MIT 학생들이 만든 텍스트 어드벤처 게임으로, 이
 
 이렇게 만든 결과물을 서브도메인으로 공개했습니다. **[grues.danielkimdev.com](https://grues.danielkimdev.com)** 에서 지금 바로 플레이해볼 수 있습니다.
 
+![그루스 인 코믹 플레이 화면 — 왼쪽은 West of House 시작 장면을 네 컷의 Comic Chat 패널로 그린 모습(Hero와 Dungeon Master 캐릭터 등장), 오른쪽은 look, open mailbox, get leaflet 같은 명령을 입력한 고전 Zork 텍스트 출력](/images/blog/grues-in-comic-beta.png)
+
 다만 아직은 저장소를 공개하지 않은 단계입니다. 정식 1.0 버전은 저장소 공개와 웹사이트 정식 오픈이 함께 이루어질 때 붙일 계획이며, 그전까지는 베타로 계속 다듬어갈 예정입니다.
 
 ## 마치며

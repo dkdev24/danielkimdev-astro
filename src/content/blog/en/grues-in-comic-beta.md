@@ -51,6 +51,8 @@ It looked like a long road at the start, but a few solid milestones are already 
 
 The result is live on a subdomain: **[grues.danielkimdev.com](https://grues.danielkimdev.com)**. You can play it right now.
 
+![Grues in Comic gameplay screenshot: the West of House opening scene rendered as four Comic Chat panels on the left, with the Hero and Dungeon Master characters, alongside the classic Zork text output — look, open mailbox, get leaflet — on the right](/images/blog/grues-in-comic-beta.png)
+
 The repository isn't public yet. I'm planning to tag 1.0 when the repo goes public alongside the site's official launch; until then, it stays in beta and keeps getting polished.
 
 ## Closing thoughts

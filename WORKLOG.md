@@ -24,6 +24,8 @@ post, plus a new companion portfolio item for the side project the post covers.
 
 **Verification:** `npx astro check` (0 new errors — 4 pre-existing unrelated TS errors in `functions/_middleware.ts` / `[slug].md.ts`), `npx astro build` (89 pages, up from 87: +1 blog post + 1 portfolio item × 2 locales each, minus the net from routing — confirmed `/blog/grues-in-comic-beta/`, `/ko/blog/grues-in-comic-beta/`, `/portfolio/grues-in-comic/`, `/ko/portfolio/grues-in-comic/` all present).
 
+**Gameplay screenshot (same session, follow-up):** Daniel dropped `content-materials/grues-in-comic-screenshot.png`. Copied to `public/images/blog/grues-in-comic-beta.png` and `public/images/portfolio/grues-in-comic.png` (same source image, two public paths — matches the existing `whatifclassics` inline-markdown-image convention, plain `![]()` + public path, not the `heroImage`/`thumbnail` content-collection `image()` schema field, which no post/portfolio item uses yet). Embedded in all four files (blog EN/KO, portfolio EN/KO) with locale-matched alt text describing the West of House comic panels + classic Zork text output. Source screenshot deleted from `content-materials/` after copying. Rebuilt — still 89 pages, both image paths present in `dist/`.
+
 Deploy: `git push origin main` pending (not yet pushed).
 
 ---
