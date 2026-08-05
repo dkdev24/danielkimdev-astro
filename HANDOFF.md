@@ -4,8 +4,8 @@
 > *present* state, not history. Full per-session, per-stage detail lives in [`WORKLOG.md`](WORKLOG.md).
 > **Budget: ~60 lines / one screen. Edit in place, replace don't append, prune as you add** (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-04 (session 4)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. `ai-memory-tool-removed` (EN/KO) is deployed (pushed since last HANDOFF update). New post `grues-in-comic-beta` (EN/KO) + new portfolio item `grues-in-comic` (EN/KO, featured on Home) committed locally, plus `career.md` portfolio item removed (About page timeline already covers it) and `content-security` un-featured on Home (swapped for Grues) — **deploy pending** (`git push origin main`). Local build is **85 pages**; prod is behind until pushed. **afdocs score: 99/100 (A)**. Lighthouse **not yet re-run** since 2026-07-01 — still pending.
+**Last updated:** 2026-08-05 (session 5)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. `ai-memory-tool-removed` (EN/KO) is deployed (pushed since last HANDOFF update). New post `grues-in-comic-beta` (EN/KO) + new portfolio item `grues-in-comic` (EN/KO, featured on Home) committed locally, plus `career.md` portfolio item removed (About page timeline already covers it) and `content-security` un-featured on Home (swapped for Grues), plus the **Umami Cloud tracker** (2026-08-05) — **deploy pending** (`git push origin main`). Local build is **85 pages**; prod is behind until pushed. **afdocs score: 99/100 (A)**. Lighthouse **not yet re-run** since 2026-07-01 — still pending.
 
 ## Project in one line
 
@@ -26,13 +26,14 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **Related posts (Stage 31):** `getRelatedPosts()` in `utils/blog.ts` ranks same-locale siblings by shared-tag count then recency, excluding self + same-series posts. **Post-deploy fix (2026-07-01):** `--space-5` token doesn't exist (scale jumps 4→6) — silently no-ops. **Re-check any new `var(--space-N)` against `tokens.css` scale** (px, 0_5, 1, 1_5, 2, 2_5, 3, 3_5, 4, 6, 8, 10, 12, 16, 20 — no 5, 7, 9, 11...).
 - **Reading progress (Stage 32):** fixed 3px bar, `z-index: 60`, tracks `.post__body` via `scaleX` rAF-throttled transform. `aria-hidden` (`TODO(daniel)` on progressbar role).
 - **Portfolio detail (Stage 27):** `/portfolio/<slug>/` (+ `/ko/`) via `PortfolioItem.astro`. EN/KO pair by shared slug (no `translationKey` on portfolio — field is stripped by schema). Markdown body supports standard images via `/images/portfolio/<file>` public path.
-- **P1 progress:** CF Web Analytics via Automatic Setup (edge-injected). Manual beacon OFF — `CF_ANALYTICS_TOKEN` stays empty in `consts.ts`. CSP (`public/_headers`) allows `'unsafe-inline'` + `static.cloudflareinsights.com` — **don't re-tighten `script-src` to `'self'`** or it kills analytics + the no-flash theme script. Custom 404 live.
+- **Analytics (two stacks, both live):** (1) CF Web Analytics via Automatic Setup (edge-injected); manual beacon OFF — `CF_ANALYTICS_TOKEN` stays empty in `consts.ts`. (2) **Umami Cloud free Hobby plan (2026-08-05)** — `UMAMI_WEBSITE_ID` in `consts.ts`, script in `BaseHead.astro`, gated `import.meta.env.PROD && id !== ''` so dev/preview never burn the 100k-events/month quota. They double-measure the same traffic on purpose (Umami adds per-page/referrer breakdowns CF's beacon lacks); expect two numbers that never quite agree. Website ID is public by design — in-repo, not an env var. CSP (`public/_headers`) allows `'unsafe-inline'` + `static.cloudflareinsights.com` + `cloud.umami.is` (script-src) and `cloudflareinsights.com` + `gateway.umami.is` (connect-src) — **don't re-tighten `script-src` to `'self'`** or it kills analytics + the no-flash theme script. Custom 404 live.
 - **Architecture quick map:** every page → `BaseLayout.astro`. Thin per-locale page wrappers around shared `XPage.astro` components. 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`, folder-by-locale + `lang` field. Tokens in `src/styles/tokens.css`.
 
 ### Invariants — easy to regress silently, keep them
 - **Font preload is locale-specific** (`BaseHead`): DM Sans on EN, Pretendard on KO. **Never preload Pretendard on EN** (~2.3MB).
 - **AA contrast tokens:** `--color-text-muted` = `--gray-500`; `.btn--primary` fills from `--color-btn-primary-bg`. Reuse semantic tokens, not raw grays/brand.
 - **Blog links:** always build with `getPostPath(entry)` (`utils/blog.ts`). Routes are `/blog/<slug>/` + `/ko/blog/<slug>/`.
+- **Umami CSP needs TWO hosts:** `cloud.umami.is` (script-src, serves `script.js`) *and* `gateway.umami.is` (connect-src, receives `/api/send`). Allow-listing only the first loads the script and silently drops every event — an empty dashboard, no console-visible clue on your side.
 - **i18n strings:** add every UI key to BOTH `src/i18n/en.json` and `ko.json` (parity is compile-enforced).
 - **Don't fabricate `TODO(daniel)` facts** — leave the marker for Daniel to fill.
 
@@ -49,7 +50,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Deploy `grues-in-comic-beta` + `grues-in-comic` portfolio item** — `git push origin main` to trigger CF Pages auto-deploy.
+1. **Deploy `grues-in-comic-beta` + `grues-in-comic` portfolio item + Umami tracker** — `git push origin main` to trigger CF Pages auto-deploy. After it lands, confirm in the Umami dashboard that events arrive (the tracker is prod-only, so it is unverifiable until deployed) and that DevTools shows no CSP violation on `gateway.umami.is`.
 2. **Post-deploy Lighthouse** — not re-run since 2026-07-01. Baseline was Perf 97–100 / A11y 100 / BP 100 / SEO 100. The new `functions/_middleware.ts` adds a CF Pages Function — verify scores haven't regressed.
 3. **P1 stages 28–29** ([`plans/00-index.md`](dev-references/plans/00-index.md)): 28 per-post OG images · 29 authoring docs + content-lint CI. P2 33–36 still one-line scope.
 4. **Agent readiness fast-follows:** KO locale `.md` endpoints + KO section in `llms.txt`; `/about.md` parity (add timeline data).

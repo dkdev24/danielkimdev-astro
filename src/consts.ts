@@ -50,6 +50,18 @@ export const CONTACT_EMAIL = 'danielkimdev24@gmail.com';
 // turned off. The beacon loads only when this is non-empty AND in production.
 export const CF_ANALYTICS_TOKEN = '';
 
+// Umami Cloud (free Hobby plan) — cookieless, privacy-friendly analytics, added
+// 2026-08-05 alongside CF Web Analytics (they measure the same traffic but Umami
+// gives per-page/referrer breakdowns CF's edge beacon doesn't). The website ID is
+// public by design (it ships in the page HTML), so it lives in the repo rather
+// than an env var. Empty string disables the script entirely; it also only loads
+// in production, so local dev/preview never pollutes the stats.
+// The script itself is served from cloud.umami.is but posts events to
+// gateway.umami.is — BOTH hosts must stay allow-listed in public/_headers CSP.
+// (Typed `string`, not the literal, so the `!== ''` gate in BaseHead isn't a
+// "these types have no overlap" TS error.)
+export const UMAMI_WEBSITE_ID: string = '441036e0-3773-44ce-8d76-55b6fc9aeb6b';
+
 // Social profiles (PRD §4 footer). Locked 2026-06-28: LinkedIn + email only —
 // no X (Twitter) or GitHub accounts to show yet, so those are omitted entirely
 // (don't scaffold placeholders). Revisit only if Daniel creates them.

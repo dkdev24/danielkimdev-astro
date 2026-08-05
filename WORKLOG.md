@@ -4,6 +4,48 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-05 — Umami Cloud analytics + Cloudflare self-hosting feasibility check
+
+**Feasibility question first:** Daniel asked whether Umami could be self-hosted free on his Cloudflare
+account. Answer: **no, not free, not on Cloudflare alone.** Two blockers, both hard:
+
+- **App:** Umami is a Next.js app; the only Cloudflare path is the OpenNext adapter, and Workers Free
+  caps a Worker at 3 MiB gzipped (10 MiB on Paid). Umami's bundle (Prisma client + charts + admin UI)
+  has no realistic chance of fitting. That alone forces Workers Paid ($5/mo).
+- **Database:** Umami v3 is **PostgreSQL-only** (dropped MySQL; min v12.14). D1 is SQLite, so it's a
+  rewrite not a config flag. Hyperdrive *is* on the free plan (100k queries/day) but it's only a pooler
+  pointing at Postgres hosted elsewhere. Containers (the "just run the Docker image" path) need Paid.
+
+Free combination that does work, if ever wanted: Vercel Hobby (app) + Neon/Supabase free (Postgres) +
+Cloudflare for DNS and a first-party tracker-proxy Worker (dodges EasyPrivacy blocklists). Daniel
+instead took **Umami Cloud's free Hobby plan** (100k events/month, zero ops) — the right call.
+
+**Implementation (Umami Cloud tracker):**
+- `src/consts.ts` — added `UMAMI_WEBSITE_ID` (`441036e0-…`). Public by design (it ships in page HTML),
+  so in-repo rather than an env var. Typed `string` not the string literal, or the `!== ''` gate below
+  is a TS2367 "no overlap" error.
+- `src/components/BaseHead.astro` — `is:inline` `<script defer src="https://cloud.umami.is/script.js"
+  data-website-id={…}>`, gated `import.meta.env.PROD && UMAMI_WEBSITE_ID !== ''`. Same prod-only +
+  configured-only pattern as the CF beacon; dev/preview emit nothing so local work can't eat the quota.
+  Lands on all 85 pages / both locales via BaseLayout → BaseHead.
+- `public/_headers` — **CSP was the real trap.** `default-src 'self'` would have blocked the tracker
+  outright. Needs two different hosts: `cloud.umami.is` in `script-src` (the file) and
+  `gateway.umami.is` in `connect-src` — verified by reading the live `script.js`, which builds its
+  collect URL as `${data-host-url || "https://gateway.umami.is"}/api/send`. Allow-listing only
+  `cloud.umami.is` would load the script fine and silently drop every event.
+
+**Verified:** `astro build` clean (85 pages); script tag present in `dist/index.html`,
+`dist/ko/index.html`, `dist/blog/index.html`. `astro check` = 4 errors, **all pre-existing**
+(`functions/_middleware.ts` missing `PagesFunction` types ×2; implicit-`any` in the two `[slug].md.ts`
+routes). Not verifiable locally beyond this — the tracker is prod-gated, so dashboard confirmation
+waits on deploy.
+
+**Decision:** CF Web Analytics **stays on** alongside Umami. They double-measure the same traffic
+deliberately (Umami adds per-page/referrer breakdowns the edge beacon lacks); the two pageview counts
+will never quite agree. Drop CF later if Umami proves sufficient.
+
+**Files touched:** `src/consts.ts`, `src/components/BaseHead.astro`, `public/_headers`, `HANDOFF.md`.
+
 ## 2026-08-04 — Publish post + portfolio item: Grues in Comic (EN/KO)
 
 Mechanical schema conversion of `content-materials/grues-in-comic-beta-{en,ko}.md` into a live blog
