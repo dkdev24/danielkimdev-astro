@@ -66,7 +66,11 @@
 		"allSeries": "All series",
 		"seriesPartsCountOne": "1 part",
 		"seriesPartsCount": "{count} parts",
-		"relatedPosts": "Related posts"
+		"relatedPosts": "Related posts",
+		"writingProcess": {
+			"ai-assisted": "AI-assisted",
+			"human-written": "Written by human"
+		}
 	},
 	"portfolio": {
 		"title": "Portfolio",

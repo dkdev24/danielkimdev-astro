@@ -4,6 +4,30 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-06 — Writing-process provenance field (AI-assisted vs. human-written)
+
+Daniel writes all posts through AI-assist skills today but wants to try 100%-human drafts on some
+future posts, and wants a durable, self-recorded provenance marker — not reader-verifiable, just his
+own record. Recommended a schema field (not a topic tag, to keep it out of tag-based nav/filtering)
+with a two-state enum, defaulting to the value that matches current practice so no backfill is needed.
+
+**Schema (`src/content.config.ts`):**
+- New exported const `WRITING_PROCESSES = ['ai-assisted', 'human-written']` + `WritingProcess` type.
+- New blog-schema field `writingProcess: z.enum(WRITING_PROCESSES).default('ai-assisted')`. Default
+  covers all 25 existing posts (EN+KO) with zero frontmatter edits — only future 100%-human posts need
+  `writingProcess: human-written` added explicitly.
+
+**Display (`src/layouts/BlogPost.astro`):** badge added to `.post__meta` next to the EN/KO locale
+badge — `{t(\`blog.writingProcess.${writingProcess}\`)}` — with a `title` attribute noting it's the
+author's own note, not independently verifiable. i18n keys added to both `src/i18n/en.json`
+("AI-assisted" / "Written by human") and `ko.json` ("AI 활용 작성" / "직접 작성") under `blog.writingProcess`.
+
+**Docs:** field documented in PRD §9.1 blog schema block (`dev-references/astro-site-prd.md`).
+
+Verified: `npx astro check` shows no new errors (4 pre-existing, unrelated to this change); `npm run
+build` completes clean, 85 pages. Not yet deployed — bundled with the other pending local changes (see
+HANDOFF "deploy pending" list).
+
 ## 2026-08-05 — Umami Cloud analytics + Cloudflare self-hosting feasibility check
 
 **Feasibility question first:** Daniel asked whether Umami could be self-hosted free on his Cloudflare

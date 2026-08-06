@@ -4,8 +4,8 @@
 > *present* state, not history. Full per-session, per-stage detail lives in [`WORKLOG.md`](WORKLOG.md).
 > **Budget: ~60 lines / one screen. Edit in place, replace don't append, prune as you add** (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-05 (session 5)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. `ai-memory-tool-removed` (EN/KO) is deployed (pushed since last HANDOFF update). New post `grues-in-comic-beta` (EN/KO) + new portfolio item `grues-in-comic` (EN/KO, featured on Home) committed locally, plus `career.md` portfolio item removed (About page timeline already covers it) and `content-security` un-featured on Home (swapped for Grues), plus the **Umami Cloud tracker** (2026-08-05) — **deploy pending** (`git push origin main`). Local build is **85 pages**; prod is behind until pushed. **afdocs score: 99/100 (A)**. Lighthouse **not yet re-run** since 2026-07-01 — still pending.
+**Last updated:** 2026-08-06 (session 6)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. `ai-memory-tool-removed` (EN/KO) is deployed (pushed since last HANDOFF update). New post `grues-in-comic-beta` (EN/KO) + new portfolio item `grues-in-comic` (EN/KO, featured on Home) committed locally, plus `career.md` portfolio item removed (About page timeline already covers it) and `content-security` un-featured on Home (swapped for Grues), plus the **Umami Cloud tracker** (2026-08-05) and the new **`writingProcess` blog field** (2026-08-06, see below) — **deploy pending** (`git push origin main`). Local build is **85 pages**; prod is behind until pushed. **afdocs score: 99/100 (A)**. Lighthouse **not yet re-run** since 2026-07-01 — still pending.
 
 ## Project in one line
 
@@ -18,6 +18,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **Skill upgraded (2026-07-07):** `agent-readiness-astro` bumped to **v0.2.0** — CF Pages reference flipped to scanner-verified, middleware sample fixed (two-step index.md fallback), `llms.txt` link rule added, scanner CLI-vs-web-UI note added. See `.opencode/skills/agent-readiness-astro/`.
 - **OSS brief (2026-07-07):** [`agent-readiness-skill-oss-brief.md`](agent-readiness-skill-oss-brief.md) — context doc for starting the open-source version of the skill (multi-framework, multi-platform). Covers architecture, positioning vs. Cloudflare native feature, all hard-won lessons, and Astro-specific parts to replace per framework.
 - **Blog post candidate:** the agent-readiness rollout + OSS idea discussion is potential blog material (series: `agent-readiness`). Before/after screenshots saved at root: `isitagentready-result-before-skill.png` and `isitagentready-result-after-skill.png`. `TODO(daniel):` draft when ready.
+- **Writing-process provenance (2026-08-06):** new blog schema field `writingProcess: "ai-assisted" | "human-written"` (`src/content.config.ts`), defaults to `ai-assisted` so all 25 existing posts need no frontmatter edits. Shown as a badge in `BlogPost.astro` header next to the EN/KO locale badge, with a hover tooltip noting it's self-reported. i18n keys `blog.writingProcess.ai-assisted` / `.human-written` in both `src/i18n/en.json` and `ko.json`. To mark a future post 100%-human, add `writingProcess: human-written` to its frontmatter. Documented in PRD §9.1.
 - **Content (2026-08-04):** standalone post `grues-in-comic-beta` (EN/KO, tags `[ai-llm, solopreneur]`, pubDate 2026-08-04) — Zork × Comic Chat mashup side project, public beta announcement. No series. Companion portfolio item `grues-in-comic.md` (EN/KO, category `side-ai`, order 4, `featured: true`) added. Gameplay screenshot embedded in all four files at `/images/blog/grues-in-comic-beta.png` + `/images/portfolio/grues-in-comic.png` (plain markdown image + public path, same convention as `whatifclassics`).
 - **Portfolio pruned (2026-08-04):** `career.md` (EN/KO) deleted from the portfolio collection at Daniel's request — the About page timeline is the canonical career history, this entry was redundant. `content-security` (order 6) un-featured on Home to make room for `grues-in-comic` (order 4) — Home's featured section is a hard `slice(0, 3)` (`HomePage.astro:31`), so exactly 3 `featured: true` items show at a time; it still appears in the full `/portfolio/` list, just not on Home. Deploy pending.
 - **Content (2026-07-11):** standalone post `ai-memory-tool-removed` (EN/KO, tags `[ai-llm, pkm, solopreneur]`, pubDate 2026-07-11) — why Mem0 was added then removed; two-markdown-file system (HANDOFF.md + CHANGELOG.md) as the replacement. No series. Deployed.
@@ -50,12 +51,13 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Deploy `grues-in-comic-beta` + `grues-in-comic` portfolio item + Umami tracker** — `git push origin main` to trigger CF Pages auto-deploy. After it lands, confirm in the Umami dashboard that events arrive (the tracker is prod-only, so it is unverifiable until deployed) and that DevTools shows no CSP violation on `gateway.umami.is`.
-2. **Post-deploy Lighthouse** — not re-run since 2026-07-01. Baseline was Perf 97–100 / A11y 100 / BP 100 / SEO 100. The new `functions/_middleware.ts` adds a CF Pages Function — verify scores haven't regressed.
-3. **P1 stages 28–29** ([`plans/00-index.md`](dev-references/plans/00-index.md)): 28 per-post OG images · 29 authoring docs + content-lint CI. P2 33–36 still one-line scope.
-4. **Agent readiness fast-follows:** KO locale `.md` endpoints + KO section in `llms.txt`; `/about.md` parity (add timeline data).
-5. **OSS skill project:** start from [`agent-readiness-skill-oss-brief.md`](agent-readiness-skill-oss-brief.md) — multi-framework, multi-platform open-source version of `agent-readiness-astro`.
-6. **PRD framing follow-up:** §1 Context, §2 Goal 2, §13.4 still lean media-tech — needs a pass to reflect the AI-knowledge-work shift.
+1. **Human-written provenance post:** Daniel is planning the first `writingProcess: human-written` post — about why he added the AI-assisted/human-written badge. Remind him to set that frontmatter field explicitly (default is `ai-assisted`); this post should be manually drafted, not run through `daniel-writing-style`.
+2. **Deploy `grues-in-comic-beta` + `grues-in-comic` portfolio item + Umami tracker** — `git push origin main` to trigger CF Pages auto-deploy. After it lands, confirm in the Umami dashboard that events arrive (the tracker is prod-only, so it is unverifiable until deployed) and that DevTools shows no CSP violation on `gateway.umami.is`.
+3. **Post-deploy Lighthouse** — not re-run since 2026-07-01. Baseline was Perf 97–100 / A11y 100 / BP 100 / SEO 100. The new `functions/_middleware.ts` adds a CF Pages Function — verify scores haven't regressed.
+4. **P1 stages 28–29** ([`plans/00-index.md`](dev-references/plans/00-index.md)): 28 per-post OG images · 29 authoring docs + content-lint CI. P2 33–36 still one-line scope.
+5. **Agent readiness fast-follows:** KO locale `.md` endpoints + KO section in `llms.txt`; `/about.md` parity (add timeline data).
+6. **OSS skill project:** start from [`agent-readiness-skill-oss-brief.md`](agent-readiness-skill-oss-brief.md) — multi-framework, multi-platform open-source version of `agent-readiness-astro`.
+7. **PRD framing follow-up:** §1 Context, §2 Goal 2, §13.4 still lean media-tech — needs a pass to reflect the AI-knowledge-work shift.
 
 ## Conventions / gotchas
 

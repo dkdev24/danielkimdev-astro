@@ -213,6 +213,7 @@ pubDate: date
 updatedDate: date?            # optional
 lang: "en" | "ko"
 tags: string[]                # from the canonical taxonomy (§5)
+writingProcess: "ai-assisted" | "human-written"  # author's own provenance note, default "ai-assisted" (2026-08-06); not reader-verifiable
 draft: boolean (default false)
 translationKey: string?       # links EN/KO versions of the same piece
 heroImage: string?

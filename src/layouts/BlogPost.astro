@@ -66,8 +66,17 @@ const {
 } = Astro.props;
 const lang = post.data.lang as Lang;
 const t = useTranslations(lang);
-const { title, description, pubDate, updatedDate, tags, heroImage, ogImage, series: seriesSlug } =
-	post.data;
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	tags,
+	heroImage,
+	ogImage,
+	series: seriesSlug,
+	writingProcess,
+} = post.data;
 const seriesMeta = seriesSlug ? SERIES[seriesSlug] : undefined;
 
 const blogHref = getLocalizedPath('/blog/', lang);
@@ -126,6 +135,10 @@ const jsonLd = blogPostingJsonLd({
 					<span>{formatReadingTime(minutes, lang)}</span>
 					<span aria-hidden="true"> · </span>
 					<span class="post__locale" aria-label={t('lang.current')}>{localeBadge}</span>
+					<span aria-hidden="true"> · </span>
+					<span class="post__writing-process" title="Author's own provenance note (not independently verifiable)">
+						{t(`blog.writingProcess.${writingProcess}`)}
+					</span>
 				</p>
 				<h1 class="post__title">{title}</h1>
 				{

@@ -35,8 +35,13 @@ export const PORTFOLIO_TAGS = [
 
 export const PORTFOLIO_CATEGORIES = ['product', 'talk-writing', 'side-ai', 'career'] as const;
 
+// Personal provenance note (not reader-verifiable, kept for the author's own
+// record-keeping): was this post written with AI assist or by hand.
+export const WRITING_PROCESSES = ['ai-assisted', 'human-written'] as const;
+
 export type Lang = (typeof LANGS)[number];
 export type BlogTag = (typeof BLOG_TAGS)[number];
+export type WritingProcess = (typeof WRITING_PROCESSES)[number];
 export type PortfolioTag = (typeof PORTFOLIO_TAGS)[number];
 export type PortfolioCategory = (typeof PORTFOLIO_CATEGORIES)[number];
 
@@ -51,6 +56,9 @@ const blog = defineCollection({
 			updatedDate: z.coerce.date().optional(),
 			lang,
 			tags: z.array(z.enum(BLOG_TAGS)).default([]),
+			// Defaults to 'ai-assisted' since every post to date used AI assist;
+			// set explicitly to 'human-written' on future 100%-human drafts.
+			writingProcess: z.enum(WRITING_PROCESSES).default('ai-assisted'),
 			draft: z.boolean().default(false),
 			// Links the EN/KO versions of the same piece (PRD §7.4). A post needs
 			// no counterpart; when one exists, both share the same translationKey.
