@@ -4,6 +4,23 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-16 — HANDOFF/AGENTS line-length rules applied
+
+Applied the `project-init` skill's max-length rules to this project's system docs: **HANDOFF.md capped
+at 50 lines** (was 68) and **AGENTS.md capped at 80 lines** (already at 77, now documents the cap
+explicitly).
+
+- `HANDOFF.md`: rewrote to fit the new budget — condensed the "Current state" bullets (writing-process
+  field, Umami, agent-readiness, portfolio pruning) since the same detail already exists in this
+  WORKLOG's 2026-08-05/2026-08-06 entries; trimmed the purpose blockquote by one line to land exactly
+  at 50. No facts dropped, only de-duplicated against WORKLOG.
+- `AGENTS.md`: replaced the old "~60 lines / ~1,200 words" HANDOFF budget with the skill's canonical
+  "max 50 lines" wording, and added an explicit "AGENTS.md: max 80 lines" line so the cap on this file
+  itself is stated, not just followed.
+- `CLAUDE.md` is a symlink to `AGENTS.md`, so it picked up the same change automatically.
+
+Committed as `3db62dd` and pushed to `main`.
+
 ## 2026-08-06 — Writing-process provenance field (AI-assisted vs. human-written)
 
 Daniel writes all posts through AI-assist skills today but wants to try 100%-human drafts on some
