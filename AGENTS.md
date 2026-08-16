@@ -10,12 +10,14 @@ Blog post drafts are voice/content-final before they ever reach this repo — Da
 
 At the **start** of a session, read [`HANDOFF.md`](HANDOFF.md) — it holds the current state, locked decisions, and next steps. At the **end** of a session, update `HANDOFF.md` to reflect the new present state and append a dated entry to [`WORKLOG.md`](WORKLOG.md) (append-only history, newest on top).
 
-**HANDOFF stays lean — budget ~60 lines / ~1,200 words (one screen).** It is a *snapshot of the present*, not a log. When updating it:
+**HANDOFF.md: max 50 lines.** It is a *snapshot of the present*, not a log. When updating it:
 
 - **Edit in place; replace, don't append.** Never stack `Last session` / `Prior session` / `Earlier this session` narratives — that history goes in `WORKLOG.md` only.
 - **Prune as you add.** Drop anything now done, historical, or superseded; per-stage implementation write-ups belong in `WORKLOG.md`, with HANDOFF linking to it.
 - **Keep the fixed sections** (Status · Project · Current state + Invariants · Locked decisions · Next steps · Open · Conventions) — add facts within them, don't grow new narrative sections.
-- If HANDOFF exceeds the budget, that's the signal to move detail into `WORKLOG.md` before finishing.
+- Before saving, check the line count. Anything pushing it over 50 lines gets moved into a new `WORKLOG.md` entry instead of staying in the snapshot.
+
+**AGENTS.md: max 80 lines.** Keep only what's needed at session start — project orientation, HANDOFF/WORKLOG rules, core working agreements. Rarely-needed detail belongs in another doc, not inline here.
 
 ## Development
 
