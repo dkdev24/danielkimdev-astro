@@ -20,12 +20,11 @@ readiness, and it runs through a lot of what I write here.
 
 I arrived at this by a long detour. I spent more than two decades in software, first
 writing C and Java, then building and shipping DRM and content-security products for media
-and streaming, most recently in developer relations at a content-security company. That
-background isn't a
-separate topic I set aside to talk about AI; it's the reason my AI takes stay concrete.
-Years of explaining hard systems to engineers, and writing the documentation they depend
-on, taught me exactly where a vague instruction starts costing you. An AI agent reading
-those same docs only raises the stakes.
+and streaming, most recently in developer relations at a content-security company. I don't
+treat that background as separate from the AI writing. It's the reason the writing stays
+concrete. Years of explaining hard systems to engineers, and writing the documentation they
+depend on, taught me exactly where a vague instruction starts costing you. An AI agent
+reading those same docs only raises the stakes.
 
 So this garden grows along a few recurring threads:
 

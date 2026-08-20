@@ -8,7 +8,7 @@ draft: false
 translationKey: ai-memory-tool-removed
 ---
 
-Every day, another "agent memory" solution shows up in my feed. Commercial products, open-source libraries — the pitch is almost always the same: *"Your agent has amnesia."*
+Every day, another "agent memory" solution shows up in my feed. Commercial products, open-source libraries, the pitch is almost always the same: *"Your agent has amnesia."*
 
 The problem is real. Anyone who runs coding agents across multiple devices and sessions eventually hits it. Every new session, the agent has no idea what happened before: which architectural decisions you made, why you abandoned a particular approach, where work stands right now. Doesn't matter whether you're on Claude Code, OpenCode, or Gemini. You start over every time.
 
@@ -29,9 +29,9 @@ I settled on two files inside the repository.
 - **HANDOFF.md**: loaded automatically at every session start. Short, always current. It captures what happened last session, the current project state, and next steps. Rewritten each session, not accumulated.
 - **WORKLOG.md**: a running session log, newest entries at the top. Never auto-loaded. I read it on demand when I need deeper context.
 
-Two files. No external dependencies. Continuity across sessions, devices, and agents.
+Two files, no external dependencies, and continuity across sessions, devices, and agents.
 
-**The auto-loading mechanism is straightforward.** AGENTS.md (or CLAUDE.md) is a file where you keep always-on instructions for your agent. Add one line: "Read HANDOFF.md before anything else." Any agent that can read markdown — Claude Code, OpenCode, Gemini — picks this up without a plugin or integration.
+**The auto-loading mechanism is straightforward.** AGENTS.md (or CLAUDE.md) is a file where you keep always-on instructions for your agent. Add one line: "Read HANDOFF.md before anything else." Any agent that can read markdown, Claude Code, OpenCode, Gemini, picks this up without a plugin or integration.
 
 ## Why Mem0 became redundant
 
@@ -44,7 +44,7 @@ I ran both systems in parallel for a while, partly as a backup and partly out of
 
 There was no reason to run both.
 
-That said, Mem0 is well-suited to other use cases. Its [official site](https://mem0.ai) lists customer support, healthcare, education, and sales CRM as primary applications: all environments that serve many users and need per-user personalized memory. Remembering each patient's medical history, tracking each learner's progress, maintaining a customer's support history — that's where a dedicated memory service earns its place. Development workflows without a single shared repository fall into this category too. My setup is a single-repo, solo project, so markdown files are enough. Different conditions, different answer.
+That said, Mem0 is well-suited to other use cases. Its [official site](https://mem0.ai) lists customer support, healthcare, education, and sales CRM as primary applications: all environments that serve many users and need per-user personalized memory. Remembering each patient's medical history, tracking each learner's progress, maintaining a customer's support history: that's where a dedicated memory service earns its place. Development workflows without a single shared repository fall into this category too. My setup is a single-repo, solo project, so markdown files are enough. Different conditions, different answer.
 
 ## Why it works: rewrite vs. accumulate
 
@@ -57,6 +57,6 @@ WORKLOG.md is over 4,000 lines now. That's fine. No agent pulls the whole thing 
 
 ## Conclusion
 
-More tools don't mean better memory. They mean more maintenance surface.
+More tools mean more maintenance surface, not better memory.
 
-Once your notes are structured, versioned, and auto-loaded, a dedicated memory layer just adds complexity. Simple systems are easier to maintain, especially in multi-agent environments where the same state needs to be shared — a plain markdown file works in any agent without special integration.
+Once your notes are structured, versioned, and auto-loaded, a dedicated memory layer just adds complexity. Simple systems are easier to maintain, especially in multi-agent environments where the same state needs to be shared. A plain markdown file works in any agent without special integration.

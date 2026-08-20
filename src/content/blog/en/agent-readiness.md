@@ -29,14 +29,14 @@ A, then B" even when the prerequisite for A sits in a different document.
 An agent works from what the text says explicitly. If a constraint isn't written down, the
 agent assumes it doesn't exist. If "A then B" actually depends on finishing C first, and C
 lives on another page, the agent does B without C. It handles failure differently too. A
-person who hits an error recognizes the missing step; an agent generates retry logic,
+person who hits an error recognizes the missing step. An agent generates retry logic,
 infers an alternative, or confidently produces a workaround that looks right and isn't.
 
 ## One wrong parameter is enough
 
 Here is the shape I run into most often, stripped of the specifics. An integration has to
 prepare content for several client platforms, and those platforms don't all support the same
-options. One configuration field accepts two valid values; call them mode A and mode B. Most
+options. One configuration field accepts two valid values. Call them mode A and mode B. Most
 platforms take either one, but a single platform accepts only mode B, and that constraint
 lives in someone's head rather than in the docs. Watch what an agent does. It reads that the
 field accepts both values, picks mode A because that is what it saw working for the other
@@ -66,7 +66,7 @@ two independent layers.
 - **Content layer:** once the agent is reading, does the content actually let it produce
   correct code? Are prerequisites stated before the steps that need them? Are cross-document
   dependencies surfaced where they matter? Are security constraints flagged with the
-  consequence of getting them wrong? No tool measures this; you have to trace a real
+  consequence of getting them wrong? No tool measures this. You have to trace a real
   integration.
 
 The two are genuinely separate. A site can pass every infrastructure check and still be
@@ -114,7 +114,7 @@ documents, which is exactly where most agent failures begin.
 
 That points to two complementary methods, used together. The first is infrastructure
 scanning: tools that score a site's structural readiness. `isitagentready.com` tests bot
-access, API catalogs, MCP cards, and OAuth discovery; Fern's Agent Score checks for
+access, API catalogs, MCP cards, and OAuth discovery. Fern's Agent Score checks for
 `llms.txt` and Markdown availability. No single tool covers everything, so it's worth
 running more than one. The second is end-to-end scenario auditing: you follow a complete
 customer journey through the docs and ask, at every step, whether the documentation hands

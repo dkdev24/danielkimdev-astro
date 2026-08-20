@@ -4,6 +4,56 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-20 — daniel-writing-style retroactive audit across all 15 blog posts
+
+Daniel updated the `daniel-writing-style` skill (better AI-slop/em-dash detection, corpus-calibrated
+Korean tells, a title-clarity test) and asked to re-verify the site's existing content against it,
+starting with EP8 of `building-llm-pkm-in-public`, then extending to the rest of the series (EP1–EP7,
+EP9–EP10) and the 5 standalone posts (`agent-readiness`, `ai-memory-tool-removed`,
+`grues-in-comic-beta`, `welcome-digital-garden`, `whatifclassics-fable5-revival`). **This is a
+deliberate one-time exception to AGENTS.md's "do not run `daniel-writing-style` in this project"
+rule** — that rule assumes drafts arrive voice-final from the wiki project; this session was auditing
+*already-published* content against a *changed* skill, which the wiki project has no way to do
+retroactively. 28 of 30 EN/KO files needed changes (`agent-readiness` KO and `welcome-digital-garden`
+KO were already clean).
+
+**Process:** EP8 done directly in-session as the calibration pass (see prior turns), then the
+remaining 14 posts split across 3 parallel fork agents (EP1–4, EP5/6/7/9/10, the 5 standalone posts),
+each applying the same checklist.
+
+**What was wrong, in order of severity:**
+- **Em-dashes — the dominant issue, English-side almost exclusively.** EP4 EN had 15, EP9 EN and EP10
+  EN had 10 each (EP9's came from three "Stage N — Label" bold headers), `whatifclassics-fable5-revival`
+  EN had 8, EP8 EN had 5. Korean was consistently near-zero across the board — the sweep had apparently
+  been run on English drafts but not carried through translation/rewrite. All converted to sentence
+  breaks, restructuring, or (last resort) parentheses per the skill's stated order; punctuation-
+  displacement checked afterward so the dash count didn't just relocate to colons/comma-appositives.
+  A few stray semicolons (banned, same zero-tolerance rule) also turned up in `agent-readiness` and
+  `welcome-digital-garden` EN.
+- **Two real content bugs, not just style:** EP7 had the Rost Glukhov/Theo James stats duplicated
+  almost verbatim across two consecutive sections in both languages (trimmed to a back-reference).
+  `grues-in-comic-beta` had an ungrammatical sentence — a subject list severed from its verb by stray
+  commas — that turned out to be exactly the kind of comma-appositive pileup the skill's displacement
+  check now looks for; fixed with parentheses.
+- **Recurring AI-slop tropes:** negative parallelism ("wasn't X, it was Y") in EP1, EP3, EP4, EP6,
+  EP10, `ai-memory-tool-removed`, `whatifclassics-fable5-revival`; a stacked rhetorical-question trope
+  in EP4 ("Did that work need Wave orchestration? No. A security persona? No…"); bold-ordinal
+  tricolons ("**First**…**Second**…**Third**…") in EP9 and `grues-in-comic-beta`; a personified
+  Korean heading in EP2 and EP5; a handful of EN/KO fidelity drifts where one language's
+  closing line made a different claim than the other (EP5, EP8, EP9, EP10) — aligned so both versions
+  tell the same story.
+- **Title clarity (new skill check, §3.22):** EP8's title was the only one that failed the "can a
+  reader state the topic from the title alone" test in both languages — rewritten from
+  "Ten of Twelve Were Guesses: Auditing the Seeds of a Deterministic Registry" /
+  "…레지스트리의 씨앗을 검증하다" (metaphor-heavy) to "The Registry Meant to Stop Guessing Was Full of
+  Guesses: Auditing My Source Trust Data" / "추측을 막으려 만든 레지스트리가 추측투성이였다: 소스 신뢰도
+  데이터 감사하기", matching the series' established "[concrete hook]: [plain topic]" pattern (EP7,
+  EP9). Also fixed an em-dash inside EP1 KO's and `whatifclassics-fable5-revival` KO's titles.
+
+No technical claims, numbers, file paths, or facts were altered anywhere — only punctuation,
+rhetorical packaging/structure, and the two duplication/grammar bugs above. Not yet committed; see
+HANDOFF for the pending-commit note.
+
 ## 2026-08-16 — HANDOFF/AGENTS line-length rules applied
 
 Applied the `project-init` skill's max-length rules to this project's system docs: **HANDOFF.md capped

@@ -1,6 +1,6 @@
 ---
 title: "The Fix I Trusted Had the Same Flaw: Giving Source Judgment a Real Memory"
-description: "Source trust judgments kept drifting between sessions, so I built a registry to make them persistent. The two-axis framework behind that design, the author-level extension that strengthened it — and the uncomfortable thing I found in the seed data I'd used to populate it."
+description: "Source trust judgments kept drifting between sessions, so I built a registry to make them persistent. The two-axis framework behind that design, the author-level extension that strengthened it, and the uncomfortable thing I found in the seed data I'd used to populate it."
 pubDate: 2026-06-19
 lang: en
 tags: [pkm, ai-llm, automation]
@@ -36,9 +36,9 @@ I tested it live on two new sources during an actual ingest session. It worked.
 
 ## The fix had the same problem
 
-Here's where it got uncomfortable. When I first seeded the registry, I filled in 12 starting entries. Ten of those were just my own general knowledge about who's reputable — guesses I'd never actually had confirmed. Calling the file a "registry" didn't make those judgments any more verified than they'd been before. It just looked more authoritative, wrapped in a file that implied it had already been checked.
+Here's where it got uncomfortable. When I first seeded the registry, I filled in 12 starting entries. Ten of those were just my own general knowledge about who's reputable, guesses I'd never actually had confirmed. Calling the file a "registry" didn't make those judgments any more verified than they'd been before. It just looked more authoritative, wrapped in a file that implied it had already been checked.
 
-How I fixed that — reconstructing real evidence from the ingest history — is the subject of the next episode.
+How I fixed that, by reconstructing real evidence from the ingest history, is the subject of the next episode.
 
 ## Extending it to the author level
 
@@ -48,13 +48,13 @@ One real example made that obvious. A writer named Rost Glukhov was already conf
 
 Digging further turned up a second problem: his own byline had been recorded four inconsistent ways across his past summaries, wikilinked, plain text, surname only, and once simply as "Unknown." Before author-level trust could work at all, that naming inconsistency needed cleaning up first.
 
-So I added a separate author layer. Venue is checked first; the author is a fallback only when the venue itself is unresolved. Names are matched exactly, never fuzzily, and a partial match gets flagged as a possible alias for manual confirmation rather than merged automatically, so two different people who happen to share a name never get silently conflated.
+So I added a separate author layer. Venue is checked first. The author is a fallback only when the venue itself is unresolved. Names are matched exactly, never fuzzily, and a partial match gets flagged as a possible alias for manual confirmation rather than merged automatically, so two different people who happen to share a name never get silently conflated.
 
-Re-pooling the historical data by author instead of by venue produced much stronger evidence: Rost Glukhov's sources, spread across 4 venues, totaled 19; Theo James's, across 2 venues, totaled 15. Six authors in total were confirmed this way, each with a tier pattern that fit exactly one value.
+Re-pooling the historical data by author instead of by venue produced much stronger evidence. Rost Glukhov's sources, spread across 4 venues, totaled 19. Theo James's, across 2 venues, totaled 15. Six authors in total were confirmed this way, each with a tier pattern that fit exactly one value.
 
 ## Where this leaves things
 
-Before this work, every session re-derived S-axis judgments from scratch. Now they accumulate. Extending to the author layer made that accumulation much stronger — Rost Glukhov's sources across four venues totaled 19; Theo James's across two venues totaled 15. Six authors confirmed this way, each with a tier pattern that fit exactly one value.
+Before this work, every session re-derived S-axis judgments from scratch. Now they accumulate, and extending to the author layer made that accumulation much stronger, as the Rost Glukhov and Theo James examples above show.
 
 The system gets more precise the more it's used. What's confirmed stays confirmed.
 

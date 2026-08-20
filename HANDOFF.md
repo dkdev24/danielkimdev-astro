@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-06 (session 6)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Local build has uncommitted-but-committed work **not yet pushed**: `ai-memory-tool-removed`, `grues-in-comic-beta` post + portfolio item, `career.md` removal, `content-security` un-featured, Umami Cloud tracker, `writingProcess` blog field. **Deploy pending** (`git push origin main`). Local build is **85 pages**; prod is behind until pushed. afdocs score: 99/100 (A). Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-08-20 (session 7)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped and pushed. Uncommitted: this session's `daniel-writing-style` audit of all 15 blog posts (28 EN/KO files: em-dash removal, slop cleanup, EP8 title rewrite — see WORKLOG 2026-08-20). afdocs score: 99/100 (A). Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -36,8 +36,8 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
-2. **Deploy pending work:** `git push origin main`, then confirm Umami events arrive + no CSP violation on `gateway.umami.is`.
+1. **Commit + push:** stage all pending work (session 6 + this session's blog edits), commit, `git push origin main`. Then confirm Umami events arrive + no CSP violation on `gateway.umami.is`.
+2. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
 3. **Post-deploy Lighthouse** — re-run, verify no regression from `functions/_middleware.ts`.
 4. **P1 stages 28–29:** OG images, authoring docs + content-lint CI. P2 33–36 still one-line scope.
 5. **Agent readiness fast-follows:** KO `.md` endpoints + KO `llms.txt` section; `/about.md` parity.

@@ -52,7 +52,7 @@ AI and cloud, in particular, move fast: information that was true six months ago
 
 I separate whether a piece is stating a **technical fact** or recounting the author's **personal experience**. "Technology A works by doing B" is a fact; "Technology A will win the market" is an opinion. Mixing the two together in storage is exactly what causes confusion down the line.
 
-## Now the System Tells Me "Don't Put This In"
+## Now Claude Tells Me "Don't Put This In"
 
 The biggest change is in how I talk to Claude. It no longer summarizes every link I hand it on reflex.
 
@@ -73,7 +73,7 @@ The wiki isn't just a pile of articles anymore. It's becoming my own verified kn
 
 ## Coming Up Next
 
-Once the right information is in, what comes next? The moment separate domains collide and throw off a spark.
+Once the right information is in, separate domains start to collide and throw off a spark.
 
 Next time, I'll share a real example of **insight synthesis** in action: working through a question like "what business models open up when OTT security technology meets AI agents?"
 

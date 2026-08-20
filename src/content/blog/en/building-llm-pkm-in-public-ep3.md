@@ -27,9 +27,9 @@ Starting from scratch, exactly one technology built a real bridge: **content pro
 
 C2PA is a standard for attaching cryptographically signed proof to content: where it came from, whether AI generated it, and how it may be used going forward. It answers exactly the question an AI agent has to answer every time it acquires, generates, or redistributes content: what is this, and what rights does it carry?
 
-## Why This Isn't Just a Plausible Story
+## Regulation Makes This Mandatory
 
-What makes this connection real, not just plausible, is regulation. Under the EU AI Act, the European Union's AI-specific law, [Article 50](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50) mandates machine-readable marking of AI-generated content, effective August 2, 2026. C2PA v2.3 has already shipped, and OpenAI, Google, and Microsoft are all building [Content Credentials](https://contentcredentials.org/) into their products.
+Under the EU AI Act, the European Union's AI-specific law, [Article 50](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50) mandates machine-readable marking of AI-generated content, effective August 2, 2026. C2PA v2.3 has already shipped, and OpenAI, Google, and Microsoft are all building [Content Credentials](https://contentcredentials.org/) into their products.
 
 AI agents are already producing content at scale, and regulation now requires it to carry proof of origin. Provenance is moving from a nice-to-have to mandatory plumbing in the agent content pipeline.
 
@@ -39,7 +39,7 @@ The standard, as it stands, only covers origin and AI-disclosure. No standard ye
 
 ## What Insight Synthesis Actually Does
 
-Looking back at the whole process, it clarifies what insight synthesis actually does. It isn't stitching two domains together into one tidy conclusion. It's doubting the connection first, discarding most of it, and keeping only the one piece that survives.
+Looking back at the whole process, it clarifies what insight synthesis actually does: doubting the connection first, discarding most of it, and keeping only the one piece that survives.
 
 One more thing came out of this. The cryptographic signing and verification underneath C2PA is generic PKI (public key infrastructure), not something specific to me. The licensing know-how from the OTT/media business side is scarce: how rights, distribution windows (the release-timing strategy that governs when content moves from theaters to streaming), and territories actually work. The real asset I brought to this connection wasn't the cryptography. It was knowing how content rights actually move.
 

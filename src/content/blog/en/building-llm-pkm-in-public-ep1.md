@@ -1,5 +1,5 @@
 ---
-title: "I Started Organizing a Decade of Knowledge with AI — Why and Where to Begin"
+title: "I Started Organizing a Decade of Knowledge with AI: Why, and Where to Begin"
 description: "Starting a public series on building a personal LLM-Wiki out of a decade of OTT and DRM experience. Why AI can summarize but not reflect, and what the system looks like a few weeks in."
 pubDate: 2026-05-05
 lang: en
@@ -38,9 +38,9 @@ The concept is simple:
 - I curate the output into wiki pages: concept definitions, entities (people, companies, technologies), and synthesized insights.
 - As each new source comes in, the AI agent cross-references it against existing wiki pages and surfaces connections. Each session, the knowledge compounds.
 
-Process is what matters, not the tools.
+The process matters more than the tools.
 
-AI handles the mechanical work — summarizing, indexing, cross-referencing. I focus on judgment and reflection. When you can't carve out long stretches of time for this, splitting the roles makes limited time go much further.
+AI handles the mechanical work: summarizing, indexing, cross-referencing. I focus on judgment and reflection. When you can't carve out long stretches of time for this, splitting the roles makes limited time go much further.
 
 ## A Few Weeks In
 
@@ -50,21 +50,15 @@ As of when I'm writing this, the system contains:
 - **24 wiki pages**: concept definitions, entities, synthesized insights
 - **49 sources**: read, analyzed, and registered in the system (I'll call this process "ingesting" throughout this series)
 
-The number that matters most isn't on that list.
+But there's a result that matters more than any number on that list.
 
 Last week someone asked me how to approach key rotation strategy in a multi-DRM environment. I didn't scan my memory. I opened the wiki, pulled up the structured entry, and walked them through my thinking far more clearly than I could have before. The difference between reaching for the wiki and searching your memory seems small. It compounds.
 
 ## Why I'm Documenting This in Public
 
-This isn't just my story.
-
 I see plenty of people around me in the same situation: deep expertise that hasn't been organized. An interest in using AI, but no clear sense of where to connect it.
 
-Two reasons I'm writing this publicly.
-
-First, **accountability.** Writing forces more precise thinking.
-
-Second, **to be useful to someone on a similar path.** The trial and error I've gone through can save someone else time.
+I'm writing this publicly for two reasons. First, **accountability**: writing forces more precise thinking. Second, **to be useful to someone on a similar path**: the trial and error I've gone through can save someone else time.
 
 ## What's Coming in This Series
 
