@@ -83,4 +83,19 @@ const giscusLang = lang === 'ko' ? 'ko' : 'en';
 		margin-top: var(--space-12);
 		max-width: 72ch;
 	}
+
+	/*
+	 * giscus sizes its iframe once, from a JS measurement of this container at
+	 * mount time, then never re-measures. On a slow/cold load (e.g. web fonts
+	 * swapping in after mount) that measurement can land before layout settles,
+	 * locking in a too-narrow width. `min-width: 100%` forces the iframe to
+	 * track the container's actual width via CSS instead of that one-time
+	 * measurement. `:global` is required — giscus injects this iframe at
+	 * runtime, so it never carries this component's scoped-style attribute.
+	 */
+	.comments :global(iframe.giscus-frame) {
+		width: 1px;
+		min-width: 100%;
+		border: none;
+	}
 </style>

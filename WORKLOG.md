@@ -4,6 +4,20 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-21 — Fix Giscus iframe rendering narrow in production
+
+Comments widget worked in local dev but rendered in a ~500px box on danielkimdev.com
+instead of filling the post column, even though CSP was fixed and the widget was
+fully functional (reactions, write box, sign-in all present). giscus sizes its
+`iframe.giscus-frame` once from a JS measurement of its container at mount time and
+never re-measures — on prod, web font swap-in (Pretendard/DM Sans over the network)
+reflows the page shortly after that measurement, locking in a too-narrow width; local
+dev is fast enough that the measurement lands after layout is stable. Fixed with the
+standard giscus workaround in `Comments.astro`: `.comments :global(iframe.giscus-frame)
+{ width: 1px; min-width: 100%; border: none; }` — forces the iframe to track the
+container via CSS instead of the one-time JS measurement. `:global` was required since
+giscus injects the iframe at runtime, so Astro's scoped-style attribute never reaches it.
+
 ## 2026-08-21 — Fix Giscus CSP block in production
 
 Comments worked in local dev (no CSP there) but the widget didn't render on
