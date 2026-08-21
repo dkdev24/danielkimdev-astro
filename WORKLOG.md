@@ -4,6 +4,26 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-21 — New post: "AI-assisted, but where does 'assisted' actually start"
+
+Published a content-final wiki-project post (EN + KO twin, `translationKey:
+ai-assisted-vs-human-written-tags`) straight to `src/content/blog/{en,ko}/`. Voice/content review
+already happened upstream; this session was schema conversion per
+`dev-references/wiki-to-site-publishing.md` — the wiki draft already had a `description` field, so
+the "one gap" in that doc didn't apply here. Footnotes converted from the wiki's inline
+`(참고 N)`/`[N]` citation style to native Markdown `[^N]` refs (this site's blog body already
+supports GFM footnotes per `AUTHORING.md`).
+
+`pubDate: 2026-08-21`, `draft: false`, `tags: [ai-llm, pkm]`. `npx astro check` — 0 errors from the
+new files (4 pre-existing errors in `functions/_middleware.ts` and the two `[slug].md.ts` API
+routes, unrelated). `npm run build` — 87 pages, both new post paths (`/blog/...` and
+`/ko/blog/...`) present in `dist/`. Em-dash grep on the KO file — clean.
+
+**Files touched:** `src/content/blog/en/ai-assisted-vs-human-written-tags.md` (new),
+`src/content/blog/ko/ai-assisted-vs-human-written-tags.md` (new).
+
+**Next:** commit + push to deploy.
+
 ## 2026-08-20 — daniel-writing-style retroactive audit across all 15 blog posts
 
 Daniel updated the `daniel-writing-style` skill (better AI-slop/em-dash detection, corpus-calibrated
