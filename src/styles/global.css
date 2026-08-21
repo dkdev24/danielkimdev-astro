@@ -96,6 +96,9 @@ p {
 .prose p {
 	margin-bottom: var(--space-8);
 }
+.prose [id^="fn"] {
+	scroll-margin-top: calc(64px + 3px + var(--space-4));
+}
 textarea {
 	width: 100%;
 	font-size: var(--text-base);
