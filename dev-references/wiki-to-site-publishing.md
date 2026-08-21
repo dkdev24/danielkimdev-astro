@@ -1,20 +1,24 @@
 # Publishing a wiki-project post to this site
 
-**Audience:** whoever (or whatever) turns a "ready to publish" draft from the LLM-wiki project
-into a live post here — Daniel, or a future Claude Code session in this repo.
+**Audience:** the wiki-project Claude Code session (in `my-llm-wiki`, a sibling repo)
+that performs the publish. **This repo is not where the publish happens** — the wiki
+session writes directly into this repo's `src/content/blog/{en,ko}/`, runs this repo's
+own checks, and commits/pushes from here, all without a separate Claude Code session
+being started in this repo. This doc is kept here (rather than only in the wiki repo)
+so `src/content.config.ts` changes and this doc stay in sync in one PR/commit when the
+schema evolves.
 
 **Scope:** purely mechanical. Voice/content review already happened upstream in the wiki
-project (`daniel-writing-style` + `draft-review-kit`); by the time a draft lands in this repo's
-`content-materials/` folder it is content-final. **Do not re-run `daniel-writing-style` in this
-project** — the job here is schema conversion and formatting, not another editing pass.
+project (`daniel-writing-style` + `draft-review-kit`); by the time a draft is copied here
+it is content-final. **Do not run `daniel-writing-style` in this project** — the job here
+is schema conversion and formatting, not another editing pass.
 
-For the broader cross-project relationship (repo boundary, when a shared/parent-folder session is
-worth it, context-usage guardrails) see [`AGENTS-ROOT.md`](AGENTS-ROOT.md) — that's policy, this
-doc is the actual publishing steps.
+For the broader cross-project relationship (repo boundary, context-usage guardrails) see
+[`AGENTS-ROOT.md`](AGENTS-ROOT.md) — that's policy, this doc is the actual publishing steps.
 
-## Source format (wiki project export)
+## Source format (wiki project's ready-to-publish drafts)
 
-Drafts arrive as a pair of files in `content-materials/`, e.g.
+Drafts are a pair of files in the wiki repo's `story/2.ready-to-publish/`, e.g.
 `<slug>-en.md` / `<slug>-ko.md`, each with YAML frontmatter:
 
 ```yaml
@@ -33,8 +37,7 @@ published_url: ""
 ```
 
 (An older export format exists too — a plain `# Title` + a `> **Series:** / **Published:** /
-**Status:**` metadata block instead of YAML frontmatter, e.g.
-`content-materials/2026-06-0{1,2}-*-agent-readiness.en.md`. That's a pre-YAML draft from before
+**Status:**` metadata block instead of YAML frontmatter. That's a pre-YAML draft from before
 the wiki project's export format settled; if you ever encounter that shape again, do the same
 field mapping by hand — there's no `domain`/`series-slug`/`translation_of` to read mechanically,
 so it needs a judgment pass, not this checklist.)
@@ -150,14 +153,17 @@ After copying the files into `src/content/blog/{en,ko}/`:
 4. If a new series was registered, spot-check `/blog/series/<slug>/` and `/blog/series/` render
    (both locales).
 
-## Delete the source drafts once verified
+## Bookkeeping, commit, push
 
-Once the checklist above passes, **delete both source files from `content-materials/`**
-(`<slug>-en.md` / `<slug>-ko.md`). The wiki project is the source of truth for the draft; once
-it's copied into `src/content/blog/` and verified, the copy in `content-materials/` has no reason
-to exist — git history covers "what did the wiki version look like" if it's ever needed.
+Once the checklist above passes:
 
-This happens **as soon as the post is verified, not gated on deploying the site.**
-`npm run deploy` is a separate, later step — the source files should already be gone by the time
-that runs.
+1. Add a short entry to this repo's `HANDOFF.md` and `WORKLOG.md` for the new post.
+2. Confirm with Daniel before `git push` (visible/shared-state action) — commit first,
+   push on his go-ahead. Pushing `main` triggers the Cloudflare Pages auto-deploy.
+
+There is no local copy to clean up in this repo — the source lives in the wiki project's
+`story/2.ready-to-publish/`, not in a `content-materials/` staging folder here. Once the
+post is confirmed live, the wiki session moves its own source files to
+`story/3.published/` (wiki repo's own bookkeeping — see that project's
+`schema/workflows/post-preparation.md §Stage 4`); nothing to do here for that step.
 

@@ -23,32 +23,40 @@
 
 ## How they work together
 
-The wiki is upstream and produces **voice/content-final** drafts. The website is downstream and
-does a **mechanical** schema conversion, nothing more:
+The wiki is upstream and produces **voice/content-final** drafts. Publishing itself — the
+**mechanical** schema conversion — happens **from the wiki project's own session**, writing
+directly into this repo:
 
 1. Draft gets written and reviewed in the wiki project (voice pass + review already done there).
-2. Wiki exports the "ready to publish" draft as an EN/KO pair into this repo's
-   `content-materials/` (gitignored, disposable).
-3. This repo converts it into the actual blog post — field mapping, tag/series rules, and the
-   full checklist live in
+2. From that same wiki-project session, the agent converts the "ready to publish" EN/KO pair
+   and writes it directly into this repo's `src/content/blog/{en,ko}/` — no separate session
+   started in this repo, no intermediate staging folder. Field mapping, tag/series rules, and
+   the full checklist live in
    [`dev-references/wiki-to-site-publishing.md`](wiki-to-site-publishing.md). **Read that doc
    before publishing anything, not this one** — this file is cross-project policy, not the
    publishing steps.
-4. Once verified, the `content-materials/` source pair is deleted. The wiki project remains the
-   source of truth for what the draft looked like.
+3. That session runs this repo's own `astro check`/build verification, updates this repo's
+   `HANDOFF.md`/`WORKLOG.md`, and commits + pushes here (confirming with Daniel before the
+   push, per this repo's own risk conventions).
+4. Once the post is confirmed live, the wiki project moves its own source pair to
+   `story/3.published/` (its own archive) — nothing is deleted here, since nothing was ever
+   staged here.
 
 ## Locked decisions (do not re-litigate without Daniel)
 
 - **Repos stay separate.** No monorepo merge — the wiki is a private knowledge base, the website
   deploys publicly; merging git histories risks that boundary and blends two unrelated toolchains
   for no real benefit over the alternative below.
-- **Lean pipeline is the default**, not a permanently-open cross-project session. Work each
-  project in its own scoped session/cwd normally.
-- **The shared parent-folder session is opt-in**, used only when a task genuinely needs
-  cross-project reasoning (e.g. "does related wiki content already exist for this post idea").
-  Even then, prefer a forked/sub-agent for the exploratory reads (grepping wiki notes, etc.) so
-  that raw exploration doesn't land in the main thread's context — Daniel is on a Claude Pro plan
-  and is deliberately protecting session/weekly usage against unnecessary context growth.
+- **Publishing (Stage 4) runs from the wiki project's own session**, reading/writing this repo
+  as a sibling directory via normal file tools and `cd`-scoped `git`/`npm` commands — not a new
+  session started in this repo, and not a permanently-open shared parent-folder session either.
+  This is narrower than a general cross-project session: it's one specific, repeatable operation
+  (publish), not open-ended cross-project reasoning.
+- **The shared parent-folder session stays opt-in for everything else** — genuine cross-project
+  reasoning (e.g. "does related wiki content already exist for this post idea"). Prefer a
+  forked/sub-agent for exploratory reads (grepping wiki notes, etc.) so raw exploration doesn't
+  land in the main thread's context — Daniel is on a Claude Pro plan and is deliberately
+  protecting session/weekly usage against unnecessary context growth.
 - **`daniel-writing-style` runs in the wiki project only.** Never re-invoke it in the website
   project — voice/content review already happened upstream; re-running it here risks "improving"
   text that already passed review. (Also stated in `website/AGENTS.md`.)

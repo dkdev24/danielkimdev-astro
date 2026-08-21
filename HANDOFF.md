@@ -47,4 +47,4 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - Dev server: `astro dev --background`.
 - UI testing: Playwright specs in `tests/e2e/*.spec.ts`, run `npm run test:e2e`.
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md`.
-- `content-materials/` holds Daniel-supplied source drafts; untracked. Publishing is a mechanical schema conversion per [`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md).
+- Publishing (as of 2026-08-21) runs from the wiki project's own session, straight into `src/content/blog/`, no `content-materials/` staging — mechanical schema conversion per [`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md).
