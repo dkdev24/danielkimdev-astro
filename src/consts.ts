@@ -62,9 +62,9 @@ export const CF_ANALYTICS_TOKEN = '';
 // "these types have no overlap" TS error.)
 export const UMAMI_WEBSITE_ID: string = '441036e0-3773-44ce-8d76-55b6fc9aeb6b';
 
-// Social profiles (PRD §4 footer). Locked 2026-06-28: LinkedIn + email only —
-// no X (Twitter) or GitHub accounts to show yet, so those are omitted entirely
-// (don't scaffold placeholders). Revisit only if Daniel creates them.
+// Social profiles (PRD §4 footer). Locked 2026-06-28: LinkedIn + email only,
+// no X (Twitter). GitHub added 2026-08-21 (repo went public) — nav + footer.
 export const SOCIAL_LINKS = {
 	linkedin: 'https://www.linkedin.com/in/junhoster/',
+	github: 'https://github.com/dkdev24',
 } as const;

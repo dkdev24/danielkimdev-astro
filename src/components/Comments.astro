@@ -1,0 +1,86 @@
+---
+/**
+ * Comments — Giscus (GitHub Discussions) embed. Stage TBD.
+ *
+ * Loads giscus.app/client.js pinned to the repo's Comments discussion
+ * category, mapped by pathname. The script tag is built in JS (not static
+ * markup) so `data-theme` reads the real <html data-theme> (set by
+ * ThemeScript, no flash) at insert time — a static "light" default would
+ * bake the wrong theme into the iframe on every fresh page load, including
+ * language-switch navigations, since giscus only reads data-theme once,
+ * when the iframe is created. Stays in sync after that via giscus's
+ * postMessage protocol, listening for the same `theme-change` CustomEvent
+ * the toggle in ThemeToggle.astro already dispatches.
+ */
+import type { Lang } from '../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const giscusLang = lang === 'ko' ? 'ko' : 'en';
+---
+
+<section class="comments" aria-label="Comments" data-comments-lang={giscusLang}></section>
+
+<script is:inline>
+	(function () {
+		function giscusTheme() {
+			return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+		}
+
+		var mount = document.currentScript.previousElementSibling;
+		var giscusScript = document.createElement('script');
+		giscusScript.src = 'https://giscus.app/client.js';
+		giscusScript.setAttribute('data-repo', 'dkdev24/danielkimdev-astro');
+		giscusScript.setAttribute('data-repo-id', 'R_kgDOTF3wsA');
+		giscusScript.setAttribute('data-category', 'Comments');
+		giscusScript.setAttribute('data-category-id', 'DIC_kwDOTF3wsM4DD2FO');
+		giscusScript.setAttribute('data-mapping', 'pathname');
+		giscusScript.setAttribute('data-strict', '0');
+		giscusScript.setAttribute('data-reactions-enabled', '1');
+		giscusScript.setAttribute('data-emit-metadata', '0');
+		giscusScript.setAttribute('data-input-position', 'top');
+		giscusScript.setAttribute('data-theme', giscusTheme());
+		giscusScript.setAttribute('data-lang', mount.dataset.commentsLang);
+		giscusScript.setAttribute('data-loading', 'lazy');
+		giscusScript.crossOrigin = 'anonymous';
+		giscusScript.async = true;
+		mount.appendChild(giscusScript);
+
+		function postGiscusTheme() {
+			var iframe = document.querySelector('iframe.giscus-frame');
+			if (!iframe || !iframe.contentWindow) return;
+			iframe.contentWindow.postMessage(
+				{ giscus: { setConfig: { theme: giscusTheme() } } },
+				'https://giscus.app'
+			);
+		}
+
+		// Set immediately if the iframe is already loaded, and again on the
+		// toggle's theme-change event (fired by ThemeToggle.astro).
+		window.addEventListener('theme-change', postGiscusTheme);
+
+		// The giscus iframe loads lazily and asynchronously, so the first
+		// postMessage may race its own init handshake — retry briefly.
+		var attempts = 0;
+		var interval = setInterval(function () {
+			attempts += 1;
+			var iframe = document.querySelector('iframe.giscus-frame');
+			if (iframe) {
+				postGiscusTheme();
+				clearInterval(interval);
+			} else if (attempts > 20) {
+				clearInterval(interval);
+			}
+		}, 250);
+	})();
+</script>
+
+<style>
+	.comments {
+		margin-top: var(--space-12);
+		max-width: 72ch;
+	}
+</style>

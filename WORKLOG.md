@@ -4,6 +4,31 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-21 — Repo public + Giscus comments + GitHub link
+
+Made `dkdev24/danielkimdev-astro` public (was private) to enable Giscus (GitHub Discussions)
+comments. Checked first for tracked secrets/`.env` history/credential patterns — clean; `.gitignore`
+already excludes `.env*` and the personal CV.
+
+Added `src/components/Comments.astro`, mounted at the bottom of every post in `BlogPost.astro`
+(EN + KO). Giscus config: `data-mapping="pathname"`, category "Comments". The giscus `<script>` tag
+is built in JS at insert time (not static markup) — `data-theme` reads the live
+`document.documentElement.dataset.theme` before the script element is appended, and `data-lang`
+follows the post's locale. Static-markup `data-theme="light"` was tried first and looked fine on
+same-page theme toggles (an already-open iframe accepts the later `postMessage` correction), but
+broke on language-switch navigations: those are full page loads that rebuild the iframe straight
+from the static attribute before the postMessage fix can land. Building the script tag in JS fixes
+the theme at iframe-creation time, so no race exists. A `theme-change` listener (dispatched by the
+existing `ThemeToggle.astro`) plus a short interval keep it synced afterward via
+`iframe.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app')`.
+
+Also added a GitHub profile link (`https://github.com/dkdev24`) to the navbar (`Header.astro`,
+icon-only in `nav-actions`) and the footer social row (`Footer.astro`, icon + label, after
+LinkedIn). This overrides the 2026-06-28 locked decision ("LinkedIn + email only, no X/GitHub") —
+confirmed with Daniel before touching the footer, since nav-only would have left the locked comment
+accurate. `SOCIAL_LINKS.github` added to `src/consts.ts`; `footer.github` label added to both
+`en.json`/`ko.json`. HANDOFF's locked-decisions line updated to reflect GitHub now being shown.
+
 ## 2026-08-21 — Fix footnote scroll offset behind sticky header
 
 Footnote jump-to-reference and back-to-content links landed the target line under the sticky

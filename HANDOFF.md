@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-21 (session 9)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped and pushed. Session 8's new post ("AI-assisted, but where does 'assisted' actually start", EN+KO, `ai-assisted-vs-human-written-tags`) and session 9's footnote scroll-offset fix are committed and pushed. afdocs score: 99/100 (A). Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-08-21 (session 10)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. GitHub repo (`dkdev24/danielkimdev-astro`) switched **public** this session to enable Giscus comments; secrets/history checked clean first. Session 10 shipped: Giscus comments on every blog post (theme- and lang-synced, `src/components/Comments.astro`) + GitHub link in navbar and footer. afdocs score: 99/100 (A). Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -31,7 +31,8 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **i18n routing:** `defaultLocale: "en"`, `prefixDefaultLocale: false` — EN at root, KO under `/ko/`.
 - **Design:** [`DESIGN-minimax.md`](dev-references/DESIGN-minimax.md) is visual source of truth. Dark mode required, WCAG AA both themes.
 - **Positioning:** Bridge angle, AI for knowledge work foregrounded. Media-tech/OTT/DRM = career credibility only (About + Portfolio).
-- **Contact/social:** LinkedIn + personal email only. No X/GitHub.
+- **Contact/social:** LinkedIn + email + GitHub (added 2026-08-21, repo public) + RSS. No X.
+- **Repo visibility:** GitHub repo is public (required for Giscus/GitHub Discussions comments).
 - **Naming in content:** blog posts stay generic (no employer name); portfolio keeps employer name. Author via `daniel-writing-style` skill.
 
 ## Next steps (priority order)

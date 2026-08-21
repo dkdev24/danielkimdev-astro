@@ -2,9 +2,9 @@
 // Site footer (Stage 08). MiniMax-style dark footer (DESIGN-minimax §2) — it
 // reads dark in BOTH themes (charcoal bg, light-on-dark text), so its colors
 // are pinned to fixed brand tokens, not the theme-flipping semantic vars.
-// Injected into BaseLayout's `footer` slot. Social row is LinkedIn + email only
-// (locked 2026-06-28 — no X/GitHub); RSS links the current locale's feed
-// (/rss.xml EN, /ko/rss.xml KO — Stage 18).
+// Injected into BaseLayout's `footer` slot. Social row: LinkedIn, GitHub
+// (added 2026-08-21, repo went public), email, RSS — no X (locked 2026-06-28).
+// RSS links the current locale's feed (/rss.xml EN, /ko/rss.xml KO — Stage 18).
 import { CONTACT_EMAIL, SITE_AUTHOR, SOCIAL_LINKS } from '../consts';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import LanguageToggle from './LanguageToggle.astro';
@@ -29,6 +29,15 @@ const year = new Date().getFullYear();
 						></path>
 					</svg>
 					<span>{t('footer.linkedin')}</span>
+				</a>
+				<a href={SOCIAL_LINKS.github} rel="me noopener" target="_blank">
+					<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+						<path
+							fill="currentColor"
+							d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"
+						></path>
+					</svg>
+					<span>{t('footer.github')}</span>
 				</a>
 				<a href={`mailto:${CONTACT_EMAIL}`}>
 					<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
