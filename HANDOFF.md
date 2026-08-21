@@ -22,6 +22,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - AA contrast: reuse semantic tokens (`--color-text-muted`, `--color-btn-primary-bg`), not raw grays.
 - Blog links: always `getPostPath(entry)` (`utils/blog.ts`).
 - Umami CSP needs **both** `cloud.umami.is` (script-src) and `gateway.umami.is` (connect-src).
+- Giscus CSP needs `giscus.app` in **all three** of script-src, frame-src, connect-src (`public/_headers`) — dev server has no CSP, so this only breaks in production.
 - i18n keys: add to both `en.json` and `ko.json` (parity compile-enforced).
 - Don't fabricate `TODO(daniel)` facts — leave the marker for Daniel to fill.
 
@@ -31,8 +32,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **i18n routing:** `defaultLocale: "en"`, `prefixDefaultLocale: false` — EN at root, KO under `/ko/`.
 - **Design:** [`DESIGN-minimax.md`](dev-references/DESIGN-minimax.md) is visual source of truth. Dark mode required, WCAG AA both themes.
 - **Positioning:** Bridge angle, AI for knowledge work foregrounded. Media-tech/OTT/DRM = career credibility only (About + Portfolio).
-- **Contact/social:** LinkedIn + email + GitHub (added 2026-08-21, repo public) + RSS. No X.
-- **Repo visibility:** GitHub repo is public (required for Giscus/GitHub Discussions comments).
+- **Contact/social:** LinkedIn + email + GitHub + RSS. No X. GitHub repo is public (added 2026-08-21, required for Giscus/GitHub Discussions comments).
 - **Naming in content:** blog posts stay generic (no employer name); portfolio keeps employer name. Author via `daniel-writing-style` skill.
 
 ## Next steps (priority order)

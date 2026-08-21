@@ -4,6 +4,16 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-21 — Fix Giscus CSP block in production
+
+Comments worked in local dev (no CSP there) but the widget didn't render on
+danielkimdev.com. Cause: `public/_headers`' `Content-Security-Policy` had no
+`giscus.app` allowance anywhere, and no `frame-src` directive at all (so it fell
+back to `default-src 'self'`, blocking the comments iframe outright). Fixed by
+adding `https://giscus.app` to `script-src` (client.js), a new `frame-src`
+directive for it (the iframe itself), and `connect-src` (giscus's own API calls —
+reactions, posting). Same pattern as the existing Umami/GA4 entries in that file.
+
 ## 2026-08-21 — Repo public + Giscus comments + GitHub link
 
 Made `dkdev24/danielkimdev-astro` public (was private) to enable Giscus (GitHub Discussions)
