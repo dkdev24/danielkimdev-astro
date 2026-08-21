@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-21 (session 8)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped and pushed. Session 7's `daniel-writing-style` audit (28 EN/KO files — WORKLOG 2026-08-20) is committed. Uncommitted: session 8's new post, "AI-assisted, but where does 'assisted' actually start" (EN+KO, `ai-assisted-vs-human-written-tags` — WORKLOG 2026-08-21). afdocs score: 99/100 (A). Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-08-21 (session 9)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped and pushed. Session 8's new post ("AI-assisted, but where does 'assisted' actually start", EN+KO, `ai-assisted-vs-human-written-tags`) and session 9's footnote scroll-offset fix are committed and pushed. afdocs score: 99/100 (A). Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -36,11 +36,10 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Commit + push:** stage session 8's new post, commit, `git push origin main`. Then confirm Umami events arrive + no CSP violation on `gateway.umami.is`.
-2. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
-3. **Post-deploy Lighthouse** — re-run, verify no regression from `functions/_middleware.ts`.
-4. **P1 stages 28–29:** OG images, authoring docs + content-lint CI. P2 33–36 still one-line scope.
-5. **Agent readiness fast-follows:** KO `.md` endpoints + KO `llms.txt` section; `/about.md` parity.
+1. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
+2. **Post-deploy Lighthouse** — re-run, verify no regression from `functions/_middleware.ts`.
+3. **P1 stages 28–29:** OG images, authoring docs + content-lint CI. P2 33–36 still one-line scope.
+4. **Agent readiness fast-follows:** KO `.md` endpoints + KO `llms.txt` section; `/about.md` parity.
 
 ## Conventions / gotchas
 

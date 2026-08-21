@@ -4,6 +4,16 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-21 — Fix footnote scroll offset behind sticky header
+
+Footnote jump-to-reference and back-to-content links landed the target line under the sticky
+header (64px) + reading-progress bar (3px), since neither had `scroll-margin-top`. First attempt
+added `.prose [id^="fn"] { scroll-margin-top: ... }`, but GFM footnote ids are rendered as
+`user-content-fn-N` / `user-content-fnref-N` (prefixed), so `^="fn"` never matched — fixed to
+`[id*="fn"]` in `src/styles/global.css`. Verified against the live "AI-assisted..." post (5
+footnotes) with a new Playwright spec, `tests/e2e/footnote-scroll.spec.ts` (kept for regression
+coverage) — confirms both directions clear the header.
+
 ## 2026-08-21 — New post: "AI-assisted, but where does 'assisted' actually start"
 
 Published a content-final wiki-project post (EN + KO twin, `translationKey:

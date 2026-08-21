@@ -96,7 +96,7 @@ p {
 .prose p {
 	margin-bottom: var(--space-8);
 }
-.prose [id^="fn"] {
+.prose [id*="fn"] {
 	scroll-margin-top: calc(64px + 3px + var(--space-4));
 }
 textarea {
