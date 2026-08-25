@@ -4,6 +4,10 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-25 — Publish "What the 1835 Moon Hoax Teaches Us About Watermarking and C2PA"
+
+New EN/KO post pair added via the wiki project's Stage 4 publish flow: `src/content/blog/{en,ko}/great-moon-hoax-ai-misinformation-warning.md`. First post on the site to use the `heroImage` frontmatter field — downloaded the source lithograph (public domain, Wikimedia Commons) into `src/content/blog/{en,ko}/great-moon-hoax-hero.jpg` (colocated per `AUTHORING.md`'s `heroImage: ./hero.jpg` relative-import convention; needs its own copy per locale folder since Astro resolves the path relative to each content file). `astro build` confirmed it optimizes correctly into responsive webp sizes and the `post__hero` figure renders. `astro check`/`astro build` both clean of new errors (4 pre-existing TS errors in `functions/_middleware.ts` and the `.md.ts` API routes are unrelated to this post). 89 pages built (up from 87).
+
 ## 2026-08-21 — Fix Giscus iframe rendering narrow in production
 
 Comments widget worked in local dev but rendered in a ~500px box on danielkimdev.com

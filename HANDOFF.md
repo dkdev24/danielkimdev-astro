@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-21 (session 10)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. GitHub repo (`dkdev24/danielkimdev-astro`) switched **public** this session to enable Giscus comments; secrets/history checked clean first. Session 10 shipped: Giscus comments on every blog post (theme- and lang-synced, `src/components/Comments.astro`) + GitHub link in navbar and footer. afdocs score: 99/100 (A). Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-08-25 (session 11)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 11: published "What the 1835 Moon Hoax Teaches Us About Watermarking and C2PA" (EN/KO) via the wiki project's Stage 4 flow — first post to use `heroImage`; source image now lives at `src/content/blog/{en,ko}/great-moon-hoax-hero.jpg`. Not yet pushed — awaiting Daniel's go-ahead. afdocs score: 99/100 (A). Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
