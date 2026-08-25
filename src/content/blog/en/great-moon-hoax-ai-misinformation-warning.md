@@ -1,5 +1,5 @@
 ---
-title: "What the 1835 Moon Hoax Teaches Us About Watermarking and C2PA"
+title: "What the Great Moon Hoax in 1835 Teaches Us Living in the AI Era"
 description: "The 1835 Great Moon Hoax fooled New York by borrowing a real astronomer's name. Here's how watermarking and C2PA content provenance are answering that same old problem in the AI era."
 pubDate: 2026-08-25
 lang: en
