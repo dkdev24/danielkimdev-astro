@@ -44,6 +44,13 @@ heroImage: ./hero.jpg                                          # optional, optim
 ogImage: /og/agent-readiness.png                              # optional, social-card override (path string)
 ---
 
+**heroImage: one file per EN/KO pair, not one per locale.** Put the image in the
+`en/` folder only and have the KO twin reference it with a `../en/` relative
+path (`heroImage: ../en/hero.jpg`) — Astro dedupes the identical source into one
+optimized asset either way, so a second copy in `ko/` is pure duplication. Default
+to this for every image added to the site (hero or inline body images) unless
+Daniel specifically asks for different EN/KO images on a given post.
+
 Body in Markdown / MDX. `##`/`###` headings auto-generate a sticky table of
 contents; fenced code blocks get a language label + copy button; GFM tables and
 footnotes[^1] render. In `.mdx` you can import the `Callout` component.

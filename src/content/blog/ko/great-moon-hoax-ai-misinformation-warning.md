@@ -6,7 +6,7 @@ lang: ko
 tags: [ai-llm]
 draft: false
 translationKey: great-moon-hoax-ai-misinformation-warning
-heroImage: ./great-moon-hoax-hero.jpg
+heroImage: ../en/great-moon-hoax-hero.jpg
 ---
 
 오늘 스마트폰으로 접한 뉴스 중 몇 퍼센트를 진실이라고 믿으시나요?
