@@ -6,7 +6,7 @@ lang: ko
 tags: [ai-llm]
 draft: false
 translationKey: great-moon-hoax-ai-misinformation-warning
-heroImage: ../en/great-moon-hoax-hero.jpg
+ogImage: /images/blog/great-moon-hoax-hero.jpg
 ---
 
 오늘 스마트폰으로 접한 뉴스 중 몇 퍼센트를 진실이라고 믿으시나요?
@@ -23,7 +23,7 @@ heroImage: ../en/great-moon-hoax-hero.jpg
 - **기이한 동물들**: 외뿔 염소와 불을 피울 줄 아는 직립보행 비버가 산다.
 - **최고의 발견**: 날개로 하늘을 날며 도시를 건설한 '인간 박쥐'(Vespertilio-homo) 종족이 있다.
 
-![1835년 '더 선'에 실린 삽화. 붉은 협곡과 폭포로 둘러싸인 달 표면의 원형 극장 모습이 그려져 있다.](https://upload.wikimedia.org/wikipedia/commons/f/fb/Great-Moon-Hoax-1835-New-York-Sun-lithograph-298px.jpg)
+![1835년 '더 선'에 실린 삽화. 붉은 협곡과 폭포로 둘러싸인 달 표면의 원형 극장 모습이 그려져 있다.](../en/great-moon-hoax-hero.jpg)
 *'더 선' 1835년 8월 28일자 기사에 실린 달 표면 삽화. 협곡과 폭포로 둘러싸인 '루비 원형극장'을 묘사했다. (출처: 위키미디어 공용, 퍼블릭 도메인)*[^2]
 
 당시를 지켜본 작가 에드거 앨런 포가 "열 명 중 이 기사를 믿지 않은 사람은 한 명도 없었다"고 적을 정도로, 뉴욕 전체가 이 기사를 사실로 받아들였습니다. 예일 대학의 학자들이 원본 관측 기록을 직접 확인하겠다며 신문사를 찾아왔다는 일화도 전해지고, 일부 침례교 목사들은 달 주민들에게 복음을 전할 방법이 있는지 진지하게 문의했습니다.[^3]

@@ -6,7 +6,7 @@ lang: en
 tags: [ai-llm]
 draft: false
 translationKey: great-moon-hoax-ai-misinformation-warning
-heroImage: ./great-moon-hoax-hero.jpg
+ogImage: /images/blog/great-moon-hoax-hero.jpg
 ---
 
 How much of the news you read today do you actually believe is true?
@@ -23,7 +23,7 @@ In August 1835, the New York newspaper *The Sun* began running a series of artic
 - **Strange animals**: single-horned goats and upright, fire-building beavers
 - **The ultimate discovery**: a winged, city-building species called "man-bats" (*Vespertilio-homo*)
 
-![An 1835 illustration published in The Sun, showing a lunar landscape ringed by red cliffs and waterfalls.](https://upload.wikimedia.org/wikipedia/commons/f/fb/Great-Moon-Hoax-1835-New-York-Sun-lithograph-298px.jpg)
+![An 1835 illustration published in The Sun, showing a lunar landscape ringed by red cliffs and waterfalls.](./great-moon-hoax-hero.jpg)
 *A lunar landscape illustration from The Sun's August 28, 1835 installment, depicting a "ruby amphitheater" ringed by cliffs and waterfalls. (Source: Wikimedia Commons, public domain)*[^2]
 
 Edgar Allan Poe, writing about the episode afterward, put it this way: "not one person in ten discredited it." New York took the story at face value. Scholars from Yale reportedly showed up at the newspaper's office demanding to see the original observation records. A group of Baptist ministers went further, earnestly asking whether there was any way to bring the Gospel to the Moon's inhabitants.[^3]
