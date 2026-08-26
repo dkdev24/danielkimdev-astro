@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-25 (session 11)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 11: published "What the 1835 Moon Hoax Teaches Us About Watermarking and C2PA" (EN/KO) via the wiki project's Stage 4 flow — first post to use `heroImage`; source image now lives at `src/content/blog/{en,ko}/great-moon-hoax-hero.jpg`. Not yet pushed — awaiting Daniel's go-ahead. afdocs score: 99/100 (A). Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-08-26 (session 12)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 12: piloted a Cobalt-theme redesign (Hallmark skill) on the **homepage only** — see below, not merged into the live design system. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -15,7 +15,8 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **Shipped (live):** P0 + P1 (22–27) + P2 (30–32), all deployed as of 2026-07-07. Per-stage notes in [`WORKLOG.md`](WORKLOG.md); stage status in [`plans/00-index.md`](dev-references/plans/00-index.md).
 - **Agent readiness:** afdocs 99/100 (A), all 7 signals live (`llms.txt`, robots content-signal, `.md` siblings, body directive, `_headers`, CF Pages middleware). Gap: `/about.md` parity (timeline data, editorial call). Details: [`learning-agent-readiness-updates.md`](learning-agent-readiness-updates.md).
 - **Writing-process field:** blog schema `writingProcess: "ai-assisted" | "human-written"` (default `ai-assisted`, no backfill needed). Badge in `BlogPost.astro`. See WORKLOG 2026-08-06.
-- **Architecture:** every page → `BaseLayout.astro`, thin per-locale wrappers around shared `XPage.astro`. 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`. Tokens in `src/styles/tokens.css`.
+- **Architecture:** every page → `BaseLayout.astro`, thin per-locale wrappers around shared `XPage.astro`. 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`. Tokens in `src/styles/tokens.css` (the *real*, currently-live system — untouched by the pilot below).
+- **Homepage redesign pilot (Cobalt, Hallmark skill):** `HomePage.astro` + new `CobaltHeader.astro` only (`/`, `/ko/`) run a self-contained cobalt-blue/Space-Grotesk/JetBrains-Mono system + working ⌘K palette — every other route still renders the real `Header.astro`/`tokens.css`. **Bug: ignores the dark-mode toggle** (pinned light). See WORKLOG 2026-08-26.
 
 ### Invariants — easy to regress silently
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
@@ -37,14 +38,14 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
-2. **Post-deploy Lighthouse** — re-run, verify no regression from `functions/_middleware.ts`.
-3. **P1 stages 28–29:** OG images, authoring docs + content-lint CI. P2 33–36 still one-line scope.
-4. **Agent readiness fast-follows:** KO `.md` endpoints + KO `llms.txt` section; `/about.md` parity.
+1. **Cobalt pilot → whole site:** fix the pilot's dark-mode gap (cobalt tokens don't swap under `[data-theme="dark"]`), get Daniel's sign-off, then extend Cobalt site-wide. Hallmark's multi-page flow requires a `design.md` at the project root first (locked system every page reads) — don't redesign routes ad hoc.
+2. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
+3. **Post-deploy Lighthouse** — re-run, verify no regression from `functions/_middleware.ts`.
+4. **P1 stages 28–29:** OG images, authoring docs + content-lint CI. P2 33–36 still one-line scope.
+5. **Agent readiness fast-follows:** KO `.md` endpoints + KO `llms.txt` section; `/about.md` parity.
 
 ## Conventions / gotchas
 
-- Dev server: `astro dev --background`.
-- UI testing: Playwright specs in `tests/e2e/*.spec.ts`, run `npm run test:e2e`.
+- Dev server: `astro dev --background`. UI testing: Playwright specs in `tests/e2e/*.spec.ts`, run `npm run test:e2e`.
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md`.
-- Publishing (as of 2026-08-21) runs from the wiki project's own session, straight into `src/content/blog/`, no `content-materials/` staging — mechanical schema conversion per [`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md).
+- Publishing (as of 2026-08-21) runs from the wiki project's own session, straight into `src/content/blog/` — mechanical schema conversion per [`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md).

@@ -1,0 +1,495 @@
+---
+// Cobalt pilot header (2026-08-26) — additive, homepage-only. Injected via
+// BaseLayout's `header` slot from HomePage.astro; does not replace Header.astro,
+// which every other route still uses. Reuses LanguageToggle/ThemeToggle for
+// correct i18n + no-flash-theme behavior, reskinned via :global() overrides
+// below. Ships Cobalt's signature working ⌘K palette (signature move 5).
+import { SITE_TITLE, SOCIAL_LINKS } from '../consts';
+import { getAltLocale, getLangFromUrl, getLocalizedPath, useTranslations } from '../i18n/utils';
+import Button from './Button.astro';
+import LanguageToggle from './LanguageToggle.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const navItems = [
+	{ key: 'nav.home', path: '/' },
+	{ key: 'nav.about', path: '/about/' },
+	{ key: 'nav.portfolio', path: '/portfolio/' },
+	{ key: 'nav.blog', path: '/blog/' },
+] as const;
+
+const currentPath = Astro.url.pathname.replace(/^\/ko(?=\/|$)/, '') || '/';
+function isActive(path: string): boolean {
+	if (path === '/') return currentPath === '/';
+	return currentPath === path || currentPath.startsWith(path);
+}
+
+const cmdk = {
+	en: { label: 'Search or jump to…', placeholder: 'Type a command or search…', empty: 'No matches', theme: 'Toggle theme' },
+	ko: { label: '검색 또는 이동…', placeholder: '명령어를 입력하세요…', empty: '결과 없음', theme: '테마 전환' },
+}[lang];
+
+const portfolioHref = getLocalizedPath('/portfolio/', lang);
+const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
+---
+
+<header class="cobalt-nav">
+	<nav class="cobalt-nav__bar container" aria-label={t('nav.primaryLabel')}>
+		<a class="cobalt-nav__brand" href={getLocalizedPath('/', lang)}>{SITE_TITLE}</a>
+
+		<ul class="cobalt-nav__links">
+			{
+				navItems.map((item) => (
+					<li>
+						<a
+							class:list={['cobalt-nav__link', { 'is-active': isActive(item.path) }]}
+							href={getLocalizedPath(item.path, lang)}
+							aria-current={isActive(item.path) ? 'page' : undefined}
+						>
+							{t(item.key)}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<div class="cobalt-nav__actions">
+			<a
+				class="cobalt-nav__icon"
+				href={SOCIAL_LINKS.github}
+				rel="me noopener"
+				target="_blank"
+				aria-label={t('footer.github')}
+			>
+				<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+					<path
+						fill="currentColor"
+						d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"
+					></path>
+				</svg>
+			</a>
+			<LanguageToggle />
+			<ThemeToggle lang={lang} />
+			<button type="button" class="cobalt-nav__cmdk" data-cmdk-trigger aria-haspopup="dialog">
+				<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+					<circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+					<path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+				</svg>
+				<kbd>⌘K</kbd>
+			</button>
+			<Button variant="primary" size="sm" href={portfolioHref}>{t('home.viewPortfolio')}</Button>
+		</div>
+	</nav>
+</header>
+
+<div class="cobalt-cmdk" data-cmdk-root hidden>
+	<div class="cobalt-cmdk__backdrop" data-cmdk-backdrop></div>
+	<div class="cobalt-cmdk__panel" role="dialog" aria-modal="true" aria-label={cmdk.label}>
+		<div class="cobalt-cmdk__input-row">
+			<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+				<circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+				<path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+			</svg>
+			<input
+				type="text"
+				class="cobalt-cmdk__input"
+				placeholder={cmdk.placeholder}
+				data-cmdk-input
+				autocomplete="off"
+				spellcheck="false"
+			/>
+			<kbd>Esc</kbd>
+		</div>
+		<ul class="cobalt-cmdk__list" data-cmdk-list>
+			{
+				navItems.map((item, i) => (
+					<li>
+						<button
+							type="button"
+							class="cobalt-cmdk__item"
+							data-cmdk-item
+							data-href={getLocalizedPath(item.path, lang)}
+							data-active={i === 0 ? 'true' : undefined}
+						>
+							{t(item.key)}
+						</button>
+					</li>
+				))
+			}
+			<li>
+				<button type="button" class="cobalt-cmdk__item" data-cmdk-item data-href={SOCIAL_LINKS.github} data-external="true">
+					GitHub
+				</button>
+			</li>
+			<li>
+				<button type="button" class="cobalt-cmdk__item" data-cmdk-item data-action="toggle-theme">
+					{cmdk.theme}
+				</button>
+			</li>
+			<li>
+				<button type="button" class="cobalt-cmdk__item" data-cmdk-item data-href={altHref}>
+					{t('lang.switchTo')}
+				</button>
+			</li>
+		</ul>
+		<p class="cobalt-cmdk__empty" data-cmdk-empty hidden>{cmdk.empty}</p>
+	</div>
+</div>
+
+<style>
+	.cobalt-nav {
+		--cb-paper: oklch(98.5% 0.004 250);
+		--cb-ink: oklch(24% 0.02 258);
+		--cb-ink-2: oklch(34% 0.018 257);
+		--cb-rule: oklch(90% 0.008 258);
+		--cb-rule-2: oklch(85% 0.01 258);
+		--cb-accent: oklch(58% 0.2 256);
+		--cb-accent-ink: oklch(99% 0.005 256);
+		--cb-graphite: oklch(22% 0.016 260);
+		--cb-font-body: var(--font-inter), var(--font-body);
+		--cb-font-mono: var(--font-jetbrains-mono), var(--font-data);
+		--cb-font-display: var(--font-space-grotesk), var(--font-display);
+
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: color-mix(in srgb, var(--cb-paper) 88%, transparent);
+		backdrop-filter: saturate(160%) blur(8px);
+		border-bottom: 1px solid var(--cb-rule);
+	}
+	.cobalt-nav__bar {
+		display: flex;
+		align-items: center;
+		gap: var(--space-6);
+		min-height: 60px;
+	}
+	.cobalt-nav__brand {
+		font-family: var(--cb-font-display);
+		font-weight: 600;
+		font-size: var(--text-md);
+		color: var(--cb-ink);
+		text-decoration: none;
+		margin-right: var(--space-2);
+	}
+	.cobalt-nav__links {
+		display: flex;
+		align-items: center;
+		gap: var(--space-1);
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		margin-right: auto;
+	}
+	.cobalt-nav__link {
+		display: inline-flex;
+		align-items: center;
+		min-height: 40px;
+		padding: var(--space-1) var(--space-2);
+		font-family: var(--cb-font-body);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--cb-ink-2);
+		text-decoration: none;
+		background-image: linear-gradient(var(--cb-accent), var(--cb-accent));
+		background-size: 0% 1px;
+		background-repeat: no-repeat;
+		background-position: 0 100%;
+		transition: background-size 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
+	}
+	.cobalt-nav__link:hover {
+		color: var(--cb-ink);
+		background-size: 100% 1px;
+	}
+	.cobalt-nav__link.is-active {
+		color: var(--cb-accent);
+		background-size: 100% 1px;
+	}
+
+	.cobalt-nav__actions {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+	.cobalt-nav__icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border-radius: 6px;
+		color: var(--cb-ink-2);
+		transition: background 0.15s, color 0.15s;
+	}
+	.cobalt-nav__icon:hover {
+		background: var(--cb-rule);
+		color: var(--cb-ink);
+	}
+	.cobalt-nav__cmdk {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-1_5);
+		height: 36px;
+		padding: 0 var(--space-2_5);
+		border: 1px solid var(--cb-rule-2);
+		border-radius: 6px;
+		background: transparent;
+		color: var(--cb-ink-2);
+		cursor: pointer;
+		transition: border-color 0.15s;
+	}
+	.cobalt-nav__cmdk:hover,
+	.cobalt-nav__cmdk:focus-visible {
+		border-color: var(--cb-accent);
+	}
+	.cobalt-nav__cmdk kbd {
+		font-family: var(--cb-font-mono);
+		font-size: var(--text-2xs);
+		letter-spacing: 0.02em;
+		color: var(--cb-ink-2);
+	}
+
+	/* Reskin the shared toggles + primary button to Cobalt's voice. */
+	.cobalt-nav :global(.lang-toggle),
+	.cobalt-nav :global(.theme-toggle) {
+		border-color: var(--cb-rule-2);
+		background: transparent;
+		color: var(--cb-ink-2);
+		border-radius: 6px;
+		width: 36px;
+		min-height: 36px;
+		height: 36px;
+	}
+	.cobalt-nav :global(.lang-toggle) {
+		width: auto;
+	}
+	.cobalt-nav :global(.lang-toggle:hover),
+	.cobalt-nav :global(.theme-toggle:hover) {
+		background: var(--cb-rule);
+		color: var(--cb-ink);
+	}
+	.cobalt-nav :global(.btn) {
+		font-family: var(--cb-font-body);
+		border-radius: 6px;
+	}
+	.cobalt-nav :global(.btn--primary) {
+		background: var(--cb-accent);
+		color: var(--cb-accent-ink);
+	}
+	.cobalt-nav :global(.btn--sm) {
+		min-height: 36px;
+	}
+
+	@media (max-width: 62rem) {
+		.cobalt-nav__links {
+			display: none;
+		}
+	}
+	@media (max-width: 46.25rem) {
+		.cobalt-nav :global(.btn--sm) {
+			display: none;
+		}
+	}
+
+	/* ── Command palette ─────────────────────────────────────────── */
+	.cobalt-cmdk {
+		/* Not a descendant of .cobalt-nav in the DOM, so the tokens don't
+		   inherit — redeclare them here too. */
+		--cb-paper: oklch(98.5% 0.004 250);
+		--cb-ink: oklch(24% 0.02 258);
+		--cb-ink-2: oklch(34% 0.018 257);
+		--cb-rule: oklch(90% 0.008 258);
+		--cb-rule-2: oklch(85% 0.01 258);
+		--cb-accent: oklch(58% 0.2 256);
+		--cb-font-body: var(--font-inter), var(--font-body);
+		--cb-font-mono: var(--font-jetbrains-mono), var(--font-data);
+
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+	}
+	.cobalt-cmdk[hidden] {
+		display: none;
+	}
+	.cobalt-cmdk__backdrop {
+		position: absolute;
+		inset: 0;
+		background: oklch(20% 0.01 258 / 0.45);
+	}
+	.cobalt-cmdk__panel {
+		position: relative;
+		max-width: 34rem;
+		margin: 12vh auto 0;
+		background: var(--cb-paper);
+		border: 1px solid var(--cb-rule-2);
+		border-radius: 10px;
+		box-shadow: 0 12px 32px oklch(20% 0.02 258 / 0.25);
+		overflow: hidden;
+		font-family: var(--cb-font-body);
+	}
+	.cobalt-cmdk__input-row {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-4);
+		border-bottom: 1px solid var(--cb-rule);
+		color: var(--cb-ink-2);
+	}
+	.cobalt-cmdk__input {
+		flex: 1;
+		border: none;
+		outline: none;
+		background: transparent;
+		font-family: var(--cb-font-body);
+		font-size: var(--text-md);
+		color: var(--cb-ink);
+	}
+	.cobalt-cmdk__input-row kbd {
+		font-family: var(--cb-font-mono);
+		font-size: var(--text-2xs);
+		color: var(--cb-ink-2);
+		border: 1px solid var(--cb-rule-2);
+		border-radius: 4px;
+		padding: 0.1em 0.4em;
+	}
+	.cobalt-cmdk__list {
+		list-style: none;
+		margin: 0;
+		padding: var(--space-2);
+		max-height: 18rem;
+		overflow-y: auto;
+	}
+	.cobalt-cmdk__item {
+		display: block;
+		width: 100%;
+		text-align: left;
+		padding: var(--space-2_5) var(--space-3);
+		border: none;
+		border-radius: 6px;
+		background: transparent;
+		color: var(--cb-ink);
+		font-family: var(--cb-font-body);
+		font-size: var(--text-sm);
+		cursor: pointer;
+	}
+	.cobalt-cmdk__item[data-active='true'],
+	.cobalt-cmdk__item:hover {
+		background: var(--cb-rule);
+	}
+	.cobalt-cmdk__empty {
+		padding: var(--space-6);
+		text-align: center;
+		color: var(--cb-ink-2);
+		font-size: var(--text-sm);
+	}
+</style>
+
+<script>
+	const root = document.querySelector<HTMLElement>('[data-cmdk-root]');
+	const trigger = document.querySelector<HTMLButtonElement>('[data-cmdk-trigger]');
+	const backdrop = document.querySelector<HTMLElement>('[data-cmdk-backdrop]');
+	const input = document.querySelector<HTMLInputElement>('[data-cmdk-input]');
+	const list = document.querySelector<HTMLElement>('[data-cmdk-list]');
+	const empty = document.querySelector<HTMLElement>('[data-cmdk-empty]');
+
+	if (root && trigger && backdrop && input && list && empty) {
+		const cmdkRoot = root;
+		const cmdkTrigger = trigger;
+		const cmdkBackdrop = backdrop;
+		const cmdkInput = input;
+		const cmdkList = list;
+		const cmdkEmpty = empty;
+
+		const items = () => Array.from(cmdkList.querySelectorAll<HTMLButtonElement>('[data-cmdk-item]'));
+
+		function setActive(target: HTMLButtonElement) {
+			items().forEach((el) => el.removeAttribute('data-active'));
+			target.setAttribute('data-active', 'true');
+			target.scrollIntoView({ block: 'nearest' });
+		}
+
+		function visibleItems() {
+			return items().filter((el) => el.style.display !== 'none');
+		}
+
+		function open() {
+			cmdkRoot.hidden = false;
+			cmdkInput.value = '';
+			items().forEach((el) => (el.style.display = ''));
+			cmdkEmpty.hidden = true;
+			const first = items()[0];
+			if (first) setActive(first);
+			requestAnimationFrame(() => cmdkInput.focus());
+		}
+		function close() {
+			cmdkRoot.hidden = true;
+			cmdkTrigger.focus();
+		}
+
+		function runItem(el: HTMLButtonElement) {
+			if (el.dataset.action === 'toggle-theme') {
+				document.querySelector<HTMLButtonElement>('.theme-toggle')?.click();
+				close();
+				return;
+			}
+			const href = el.dataset.href;
+			if (!href) return;
+			if (el.dataset.external === 'true') {
+				window.open(href, '_blank', 'noopener');
+				close();
+			} else {
+				window.location.href = href;
+			}
+		}
+
+		function activeItem() {
+			return visibleItems().find((el) => el.dataset.active === 'true');
+		}
+
+		cmdkTrigger.addEventListener('click', open);
+		cmdkBackdrop.addEventListener('click', close);
+
+		items().forEach((el) => el.addEventListener('click', () => runItem(el)));
+
+		cmdkInput.addEventListener('input', () => {
+			const q = cmdkInput.value.trim().toLowerCase();
+			let anyVisible = false;
+			items().forEach((el) => {
+				const match = el.textContent?.toLowerCase().includes(q) ?? true;
+				el.style.display = match ? '' : 'none';
+				if (match) anyVisible = true;
+			});
+			cmdkEmpty.hidden = anyVisible;
+			const firstVisible = visibleItems()[0];
+			if (firstVisible) setActive(firstVisible);
+		});
+
+		document.addEventListener('keydown', (e) => {
+			const isMeta = e.metaKey || e.ctrlKey;
+			if (isMeta && e.key.toLowerCase() === 'k') {
+				e.preventDefault();
+				cmdkRoot.hidden ? open() : close();
+				return;
+			}
+			if (cmdkRoot.hidden) return;
+			if (e.key === 'Escape') {
+				e.preventDefault();
+				close();
+			} else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+				e.preventDefault();
+				const vis = visibleItems();
+				if (vis.length === 0) return;
+				const current = vis.findIndex((el) => el.dataset.active === 'true');
+				const next =
+					e.key === 'ArrowDown'
+						? vis[(current + 1 + vis.length) % vis.length]
+						: vis[(current - 1 + vis.length) % vis.length];
+				setActive(next);
+			} else if (e.key === 'Enter') {
+				const el = activeItem();
+				if (el) runItem(el);
+			}
+		});
+	}
+</script>

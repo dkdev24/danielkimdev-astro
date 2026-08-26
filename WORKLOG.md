@@ -4,6 +4,18 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-26 — Cobalt theme pilot on the homepage (Hallmark)
+
+Piloted a full-site redesign ask (Hallmark skill, Cobalt theme + animations) scoped down to the homepage only, at Daniel's request, before committing to the whole site. Scoped entirely to `HomePage.astro` + new `CobaltHeader.astro` (both `/` and `/ko/`) — no other route, and no shared component (`Header.astro`, `tokens.css`, `global.css`) touched.
+
+**Shipped:** cool-cobalt palette + Space Grotesk/Inter/JetBrains Mono (additive font entries in `astro.config.mjs`, all scoped under a local `.cobalt-pilot`/`.cobalt-nav` token set, not the site's real tokens); left-biased hero with a terminal-style "focus.md" card standing in for Cobalt's code-hero (real `home.ts` focus-area data, no invented stats); hairline-bordered featured/latest cards; a new `CobaltHeader.astro` injected via `BaseLayout`'s `header` slot with underline-grow nav links and a working ⌘K command palette (open via click or Cmd/Ctrl+K, type-to-filter, arrow-key nav, real actions — navigate, toggle theme, switch language); scroll reveal animations gated on `prefers-reduced-motion`. Iterated per Daniel's feedback: removed the About teaser section, and collapsed the hero's two-sentence copy into one short sentence per locale (`src/data/home.ts` — EN rewritten, KO set verbatim to Daniel's wording).
+
+**Known issue (not fixed this session):** the pilot content pins Cobalt's own fixed light palette and does not respond to the site's dark-mode toggle — clicking the toggle changes the header/footer chrome but the hero/cards/nav stay locked light. Daniel wants this fixed next session, then the same Cobalt system extended to the whole site (which per Hallmark's multi-page flow means producing a `design.md` at the project root first, then redesigning every route from it — not per-page ad hoc).
+
+**Verify:** `astro check` clean (only the 4 pre-existing unrelated errors), `astro build` 89 pages, visually checked in Chrome at desktop/375px and both locales.
+
+**Files touched:** `astro.config.mjs`, `src/components/HomePage.astro`, `src/components/CobaltHeader.astro` (new), `src/data/home.ts`, `.gitignore` (added `.claude/skills/hallmark/`, `.agents/` — local tooling, not project source).
+
 ## 2026-08-25 — Publish "What the 1835 Moon Hoax Teaches Us About Watermarking and C2PA"
 
 New EN/KO post pair added via the wiki project's Stage 4 publish flow: `src/content/blog/{en,ko}/great-moon-hoax-ai-misinformation-warning.md`. First post on the site to use the `heroImage` frontmatter field — downloaded the source lithograph (public domain, Wikimedia Commons) into `src/content/blog/{en,ko}/great-moon-hoax-hero.jpg` (colocated per `AUTHORING.md`'s `heroImage: ./hero.jpg` relative-import convention; needs its own copy per locale folder since Astro resolves the path relative to each content file). `astro build` confirmed it optimizes correctly into responsive webp sizes and the `post__hero` figure renders. `astro check`/`astro build` both clean of new errors (4 pre-existing TS errors in `functions/_middleware.ts` and the `.md.ts` API routes are unrelated to this post). 89 pages built (up from 87).

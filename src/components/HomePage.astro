@@ -5,7 +5,9 @@
 // identity strip → featured work → latest writing → about teaser. Chrome
 // (header/footer) comes from BaseLayout.
 import { getCollection } from 'astro:content';
+import { Font } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CobaltHeader from './CobaltHeader.astro';
 import Button from './Button.astro';
 import Card from './Card.astro';
 import Tag from './Tag.astro';
@@ -25,6 +27,13 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const hero = HOME_HERO[lang];
 
+// Cobalt pilot (2026-08-26) — scoped to this page only. Micro-labels, per
+// locale; not translated content claims, just UI chrome.
+const cobaltLabels = {
+	en: { terminal: '~/daniel/focus', cmd: '$ cat focus.md', status: 'DIGITAL GARDEN' },
+	ko: { terminal: '~/daniel/focus', cmd: '$ cat focus.md', status: '디지털 가든' },
+}[lang];
+
 // Featured portfolio for this locale, ordered.
 const featured = (
 	await getCollection('portfolio', (e) => e.data.lang === lang && e.data.featured)
@@ -37,7 +46,6 @@ const latest = (
 
 const portfolioHref = getLocalizedPath('/portfolio/', lang);
 const blogHref = getLocalizedPath('/blog/', lang);
-const aboutHref = getLocalizedPath('/about/', lang);
 
 const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), lang);
 ---
@@ -48,150 +56,320 @@ const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), l
 	lang={lang}
 	jsonLd={jsonLd}
 >
-	<!-- Hero -->
-	<section class="hero container">
-		<h1 class="hero__name">{hero.name}</h1>
-		<p class="hero__tagline">{hero.tagline}</p>
-		<p class="hero__subhead">{hero.subhead}</p>
-		<div class="hero__cta">
-			<Button variant="primary" href={portfolioHref}>{t('home.viewPortfolio')}</Button>
-			<Button variant="secondary" href={blogHref}>{t('home.readTheBlog')}</Button>
-		</div>
-		<ul class="identity" aria-label={t('home.focusHeading')}>
-			{hero.focusAreas.map((area) => <li class="chip">{area}</li>)}
-		</ul>
-	</section>
+	<CobaltHeader slot="header" />
+	<Font cssVariable="--font-space-grotesk" />
+	<Font cssVariable="--font-inter" />
+	<Font cssVariable="--font-jetbrains-mono" />
 
-	<!-- Featured work -->
-	{
-		featured.length > 0 && (
-			<section class="section container">
-				<h2 class="section__title">{t('home.focusHeading')}</h2>
-				<div class="grid">
-					{featured.map((item) => (
-						<Card featured interactive>
-							<h3 class="card-title">
-								<a href={portfolioHref}>{item.data.title}</a>
-							</h3>
-							<p class="card-summary">{item.data.summary}</p>
-							<div class="card-tags">
-								{item.data.tags.slice(0, 3).map((tg) => (
-									<Tag tag={tg} lang={lang} />
-								))}
-							</div>
-						</Card>
-					))}
+	<div class="cobalt-pilot">
+		<!-- Hero — title-left / terminal-card-right, asymmetric -->
+		<section class="hero container reveal">
+			<div class="hero__copy">
+				<p class="eyebrow"><span class="eyebrow__tick" aria-hidden="true"></span>{hero.name}</p>
+				<h1 class="hero__tagline">{hero.tagline}</h1>
+				<div class="hero__cta">
+					<Button variant="primary" href={portfolioHref}>{t('home.viewPortfolio')}</Button>
+					<Button variant="secondary" href={blogHref}>{t('home.readTheBlog')}</Button>
 				</div>
-				<p class="section__more">
-					<a href={portfolioHref}>{t('home.viewPortfolio')} →</a>
-				</p>
-			</section>
-		)
-	}
+			</div>
+			<div class="terminal-card" aria-label={t('home.focusHeading')}>
+				<div class="terminal-card__bar">
+					<span class="terminal-card__dot" aria-hidden="true"></span>
+					<span class="terminal-card__dot" aria-hidden="true"></span>
+					<span class="terminal-card__dot" aria-hidden="true"></span>
+					<span class="terminal-card__filename">{cobaltLabels.terminal}</span>
+				</div>
+				<div class="terminal-card__body">
+					<p class="terminal-card__cmd">{cobaltLabels.cmd}</p>
+					<ul class="terminal-card__list">
+						{hero.focusAreas.map((area) => (
+							<li>
+								<span class="terminal-card__bullet" aria-hidden="true">-</span>
+								{area}
+							</li>
+						))}
+					</ul>
+					<span class="status-chip">{cobaltLabels.status}</span>
+				</div>
+			</div>
+		</section>
 
-	<!-- Latest writing -->
-	<section class="section container">
-		<h2 class="section__title">{t('blog.latestWriting')}</h2>
+		<!-- Featured work -->
 		{
-			latest.length > 0 ? (
-				<div class="grid">
-					{latest.map((post) => (
-						<Card interactive>
-							<p class="card-meta">
-								<time datetime={post.data.pubDate.toISOString()}>
-									{formatDate(post.data.pubDate, lang)}
-								</time>
-								<span aria-hidden="true"> · </span>
-								<span>{formatReadingTime(readingTimeMinutes(post.body, lang), lang)}</span>
-							</p>
-							<h3 class="card-title">
-								<a href={getPostPath(post)}>{post.data.title}</a>
-							</h3>
-							<p class="card-summary">{post.data.description}</p>
-							<div class="card-tags">
-								{post.data.tags.slice(0, 3).map((tg) => (
-									<Tag tag={tg} lang={lang} />
-								))}
-							</div>
-						</Card>
-					))}
-				</div>
-			) : (
-				<p class="empty">{t('blog.noPosts')}</p>
+			featured.length > 0 && (
+				<section class="section container reveal">
+					<p class="section__eyebrow">{t('home.focusHeading')}</p>
+					<div class="grid">
+						{featured.map((item) => (
+							<Card featured interactive>
+								<h3 class="card-title">
+									<a href={portfolioHref}>{item.data.title}</a>
+								</h3>
+								<p class="card-summary">{item.data.summary}</p>
+								<div class="card-tags">
+									{item.data.tags.slice(0, 3).map((tg) => (
+										<Tag tag={tg} lang={lang} />
+									))}
+								</div>
+							</Card>
+						))}
+					</div>
+					<p class="section__more">
+						<a href={portfolioHref}>{t('home.viewPortfolio')} →</a>
+					</p>
+				</section>
 			)
 		}
-		<p class="section__more">
-			<a href={blogHref}>{t('blog.allPosts')} →</a>
-		</p>
-	</section>
 
-	<!-- About teaser -->
-	<section class="section container">
-		<Card>
-			<h2 class="section__title">{t('about.title')}</h2>
-			<p class="card-summary">{hero.subhead}</p>
-			<Button variant="ghost" href={aboutHref}>{t('home.aboutMe')} →</Button>
-		</Card>
-	</section>
+		<!-- Latest writing -->
+		<section class="section container reveal">
+			<p class="section__eyebrow">{t('blog.latestWriting')}</p>
+			{
+				latest.length > 0 ? (
+					<div class="grid">
+						{latest.map((post) => (
+							<Card interactive>
+								<p class="card-meta">
+									<time datetime={post.data.pubDate.toISOString()}>
+										{formatDate(post.data.pubDate, lang)}
+									</time>
+									<span aria-hidden="true"> · </span>
+									<span>{formatReadingTime(readingTimeMinutes(post.body, lang), lang)}</span>
+								</p>
+								<h3 class="card-title">
+									<a href={getPostPath(post)}>{post.data.title}</a>
+								</h3>
+								<p class="card-summary">{post.data.description}</p>
+								<div class="card-tags">
+									{post.data.tags.slice(0, 3).map((tg) => (
+										<Tag tag={tg} lang={lang} />
+									))}
+								</div>
+							</Card>
+						))}
+					</div>
+				) : (
+					<p class="empty">{t('blog.noPosts')}</p>
+				)
+			}
+			<p class="section__more">
+				<a href={blogHref}>{t('blog.allPosts')} →</a>
+			</p>
+		</section>
+	</div>
 </BaseLayout>
 
+<script>
+	// Cobalt pilot reveal — fade + rise on scroll, plays once. Reduced-motion
+	// clients skip the observer entirely and see the static, fully-visible page
+	// (the CSS default is already visible; .reveal only hides once JS confirms
+	// motion is allowed, so no-JS / reduced-motion never lose content).
+	const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (!prefersReduced) {
+		const targets = document.querySelectorAll('.cobalt-pilot .reveal');
+		targets.forEach((el) => el.classList.add('reveal--armed'));
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-in');
+						io.unobserve(entry.target);
+					}
+				}
+			},
+			{ threshold: 0.15 },
+		);
+		targets.forEach((el) => io.observe(el));
+	}
+</script>
+
 <style>
+	/* Hallmark · component: cobalt-pilot (homepage only) · genre: modern-minimal
+	 * theme: Cobalt · display: Space Grotesk · body: Inter · mono: JetBrains Mono
+	 * paper: oklch(98.5% .004 250) · accent: oklch(58% .20 256) · graphite band: oklch(22% .016 260)
+	 * scope: single-page pilot — Header/Footer and every other route stay on the
+	 * locked MiniMax system until this pilot is reviewed.
+	 */
+	.cobalt-pilot {
+		--cb-paper: oklch(98.5% 0.004 250);
+		--cb-ink: oklch(24% 0.02 258);
+		--cb-ink-2: oklch(34% 0.018 257);
+		--cb-rule: oklch(90% 0.008 258);
+		--cb-rule-2: oklch(85% 0.01 258);
+		--cb-accent: oklch(58% 0.2 256);
+		--cb-accent-ink: oklch(99% 0.005 256);
+		--cb-graphite: oklch(22% 0.016 260);
+		--cb-graphite-ink: oklch(94% 0.01 258);
+		--cb-graphite-ink-muted: oklch(74% 0.02 258);
+		--cb-font-display: var(--font-space-grotesk), var(--font-display);
+		--cb-font-body: var(--font-inter), var(--font-body);
+		--cb-font-mono: var(--font-jetbrains-mono), var(--font-data);
+		--cb-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+		background: var(--cb-paper);
+		color: var(--cb-ink-2);
+		font-family: var(--cb-font-body);
+	}
+
+	/* Reveal — the whole motion engine. Static/visible until JS arms it, so
+	   no-JS and reduced-motion clients always see full content. */
+	.reveal.reveal--armed {
+		opacity: 0;
+		transform: translateY(10px);
+		transition:
+			opacity 0.6s var(--cb-ease),
+			transform 0.6s var(--cb-ease);
+	}
+	.reveal.reveal--armed.is-in {
+		opacity: 1;
+		transform: none;
+	}
+
+	.eyebrow {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		font-family: var(--cb-font-mono);
+		font-size: var(--text-xs);
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--cb-ink-2);
+		margin: 0 0 var(--space-4);
+	}
+	.eyebrow__tick {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: var(--cb-accent);
+		flex-shrink: 0;
+	}
+
 	.hero {
-		padding-block: var(--space-20) var(--space-12);
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		align-items: center;
+		gap: var(--space-12);
+		padding-block: var(--space-20) var(--space-16);
 	}
-	.hero__name {
-		font-size: var(--text-display, var(--text-h1));
-		margin-bottom: var(--space-3);
-	}
+	/* Single-sentence headline (2026-08-26) — mid-size per Hallmark's
+	   length-based sizing rule (51-90 chars). */
 	.hero__tagline {
-		font-family: var(--font-display);
-		font-size: var(--text-h3);
-		color: var(--color-text);
-		max-width: 40ch;
-		margin-bottom: var(--space-3);
-	}
-	.hero__subhead {
-		font-size: var(--text-lg);
-		color: var(--color-text-secondary);
-		max-width: 60ch;
-		margin-bottom: var(--space-6);
+		font-family: var(--cb-font-display);
+		font-weight: 600;
+		font-style: normal;
+		font-size: clamp(2rem, 1.5rem + 1.8vw, 3.25rem);
+		line-height: var(--leading-tight);
+		letter-spacing: -0.01em;
+		color: var(--cb-ink);
+		max-width: 28ch;
+		overflow-wrap: anywhere;
+		margin: 0 0 var(--space-6);
 	}
 	.hero__cta {
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-3);
-		margin-bottom: var(--space-8);
 	}
-	.identity {
+
+	/* Terminal card — the code-hero analog: real focus-area data, not fabricated stats. */
+	.terminal-card {
+		background: var(--cb-graphite);
+		border: 1px solid var(--cb-rule-2);
+		border-radius: 10px;
+		box-shadow: 0 1px 2px oklch(24% 0.02 258 / 0.08);
+		overflow: hidden;
+		font-family: var(--cb-font-mono);
+		transition: border-color var(--motion-base-ease, 250ms);
+	}
+	.terminal-card:hover {
+		border-color: var(--cb-accent);
+	}
+	.terminal-card__bar {
 		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-2);
-		list-style: none;
-		margin: 0;
-		padding: 0;
+		align-items: center;
+		gap: var(--space-1_5);
+		padding: var(--space-2_5) var(--space-4);
+		border-bottom: 1px solid oklch(100% 0 0 / 0.08);
 	}
-	.chip {
-		padding: var(--space-1) var(--space-3);
-		border-radius: var(--radius-pill);
-		background: var(--color-bg-subtle);
-		border: 1px solid var(--color-border-subtle);
-		font-family: var(--font-ui);
+	.terminal-card__dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: oklch(100% 0 0 / 0.18);
+	}
+	.terminal-card__filename {
+		margin-left: var(--space-2);
+		font-size: var(--text-xs);
+		color: var(--cb-graphite-ink-muted);
+	}
+	.terminal-card__body {
+		padding: var(--space-6);
+	}
+	.terminal-card__cmd {
+		margin: 0 0 var(--space-3);
 		font-size: var(--text-sm);
-		color: var(--color-text-secondary);
+		color: var(--cb-accent);
+	}
+	.terminal-card__list {
+		list-style: none;
+		margin: 0 0 var(--space-4);
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		font-size: var(--text-sm);
+		color: var(--cb-graphite-ink);
+	}
+	.terminal-card__list li {
+		display: flex;
+		gap: var(--space-2);
+	}
+	.terminal-card__bullet {
+		color: var(--cb-accent);
+	}
+	.status-chip {
+		display: inline-block;
+		font-size: var(--text-2xs);
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--cb-accent);
+		border: 1px solid oklch(58% 0.2 256 / 0.4);
+		border-radius: 6px;
+		padding: var(--space-1) var(--space-2_5);
 	}
 
 	.section {
-		padding-block: var(--space-10);
+		padding-block: var(--space-12);
+		border-top: 1px solid var(--cb-rule);
 	}
-	.section__title {
-		margin-bottom: var(--space-6);
+	.section__eyebrow {
+		font-family: var(--cb-font-mono);
+		font-size: var(--text-xs);
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--cb-ink-2);
+		margin: 0 0 var(--space-6);
 	}
 	.section__more {
 		margin-top: var(--space-6);
 	}
 	.section__more a {
-		font-family: var(--font-ui);
+		font-family: var(--cb-font-mono);
+		font-size: var(--text-sm);
 		font-weight: var(--weight-medium);
+		color: var(--cb-ink);
+		text-decoration: none;
+		background-image: linear-gradient(var(--cb-accent), var(--cb-accent));
+		background-size: 0% 1px;
+		background-repeat: no-repeat;
+		background-position: 0 100%;
+		transition: background-size 0.2s var(--cb-ease);
+	}
+	.section__more a:hover {
+		background-size: 100% 1px;
 	}
 
 	.grid {
@@ -200,26 +378,65 @@ const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), l
 		gap: var(--space-6);
 	}
 
+	/* Reskin the shared Card/Button/Tag primitives — hairlines over shadows,
+	   tighter radius, cobalt as the one signal — scoped to this page only. */
+	.cobalt-pilot :global(.card) {
+		background: var(--cb-paper);
+		border: 1px solid var(--cb-rule);
+		border-radius: 10px;
+		box-shadow: none;
+	}
+	.cobalt-pilot :global(.card--featured) {
+		border-color: var(--cb-accent);
+		box-shadow: none;
+	}
+	.cobalt-pilot :global(.card--interactive:hover),
+	.cobalt-pilot :global(.card--interactive:focus-within) {
+		border-color: var(--cb-accent);
+		box-shadow: none;
+		transform: none;
+	}
+	.cobalt-pilot :global(.btn) {
+		font-family: var(--cb-font-body);
+		border-radius: 6px;
+	}
+	.cobalt-pilot :global(.btn--primary) {
+		background: var(--cb-accent);
+		color: var(--cb-accent-ink);
+	}
+	.cobalt-pilot :global(.btn--secondary) {
+		background: transparent;
+		border-color: var(--cb-rule-2);
+		color: var(--cb-ink-2);
+	}
+	.cobalt-pilot :global(.btn--secondary:hover) {
+		border-color: var(--cb-accent);
+		background: transparent;
+	}
+
 	.card-meta {
 		margin: 0 0 var(--space-2);
-		font-family: var(--font-data);
-		font-size: var(--text-sm);
-		color: var(--color-text-muted);
+		font-family: var(--cb-font-mono);
+		font-size: var(--text-xs);
+		letter-spacing: 0.02em;
+		color: oklch(55% 0.015 258);
 	}
 	.card-title {
 		margin: 0 0 var(--space-2);
+		font-family: var(--cb-font-display);
+		font-weight: 600;
 		font-size: var(--text-h4);
 	}
 	.card-title a {
-		color: var(--color-text-heading);
+		color: var(--cb-ink);
 		text-decoration: none;
 	}
 	.card-title a:hover {
-		color: var(--color-link);
+		color: var(--cb-accent);
 	}
 	.card-summary {
 		margin: 0 0 var(--space-4);
-		color: var(--color-text-secondary);
+		color: var(--cb-ink-2);
 	}
 	.card-tags {
 		display: flex;
@@ -227,6 +444,20 @@ const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), l
 		gap: var(--space-1_5);
 	}
 	.empty {
-		color: var(--color-text-secondary);
+		color: var(--cb-ink-2);
+	}
+
+	@media (max-width: 46.25rem) {
+		.hero {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.reveal.reveal--armed {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
 	}
 </style>

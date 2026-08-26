@@ -109,5 +109,38 @@ export default defineConfig({
 			fallbacks: ['Noto Sans KR', 'sans-serif'],
 			display: 'swap',
 		},
+		// Cobalt pilot (homepage only, 2026-08-26): Space Grotesk / Inter / JetBrains
+		// Mono. Scoped to the homepage's .cobalt-pilot wrapper — additive, does not
+		// replace the locked font system above.
+		{
+			provider: fontProviders.google(),
+			name: 'Space Grotesk',
+			cssVariable: '--font-space-grotesk',
+			weights: [500, 600],
+			subsets: ['latin'],
+			fallbacks: ['sans-serif'],
+			optimizedFallbacks: true,
+			display: 'swap',
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'Inter',
+			cssVariable: '--font-inter',
+			weights: [400, 500],
+			subsets: ['latin'],
+			fallbacks: ['sans-serif'],
+			optimizedFallbacks: true,
+			display: 'swap',
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'JetBrains Mono',
+			cssVariable: '--font-jetbrains-mono',
+			weights: [400, 500],
+			subsets: ['latin'],
+			fallbacks: ['monospace'],
+			optimizedFallbacks: true,
+			display: 'swap',
+		},
 	],
 });
