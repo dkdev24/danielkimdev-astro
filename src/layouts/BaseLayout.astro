@@ -9,7 +9,7 @@
 // named slots; otherwise empty landmark elements keep the document well-formed.
 import type { ImageMetadata } from 'astro';
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
+import CobaltHeader from '../components/CobaltHeader.astro';
 import Footer from '../components/Footer.astro';
 import type { Lang } from '../i18n/utils';
 import { getLocalizedPath, useTranslations } from '../i18n/utils';
@@ -98,7 +98,7 @@ const resolvedAlternates =
 		</a>
 
 		<slot name="header">
-			<Header />
+			<CobaltHeader />
 		</slot>
 
 		<main id="main" class="site-main">

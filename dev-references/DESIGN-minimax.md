@@ -1,3 +1,5 @@
+> **Superseded (2026-08-26):** `src/styles/tokens.css` no longer implements this palette/type system. The live tokens are now Hallmark's Cobalt (light) / Aurora (dark) catalog themes — same token *names*, new values. This doc is kept as a historical record of the original brief; see HANDOFF.md and WORKLOG.md 2026-08-26 for the current system.
+
 # Design System Inspired by MiniMax
 
 ## 1. Visual Theme & Atmosphere

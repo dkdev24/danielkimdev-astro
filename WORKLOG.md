@@ -4,6 +4,26 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-26 — Cobalt/Aurora sitewide reskin (Hallmark)
+
+Extended the previous session's homepage-only Cobalt pilot to the whole site, per Daniel's request ("apply two Hallmark themes, one for light mode and the other for dark? … apply Aurora theme for the site's dark mode"), confirmed as a full palette/font replacement (not blended with the old MiniMax brand colors) via `AskUserQuestion`.
+
+**Token layer:** rewrote `src/styles/tokens.css` `:root` (light) to Cobalt's OKLCH palette (cool-white paper, cobalt-blue accent) and `[data-theme="dark"]` to Aurora's (dark cyan-bloom canvas, cyan accent) — same semantic variable names throughout (`--color-brand`, `--color-ink`, `--font-display`, etc.), so every component restyled with no per-component changes. Tightened radii (6/10px) and near-invisible hairline shadows to match Cobalt's "ruler-drawn" register. Added Fraunces (Google Fonts) to `astro.config.mjs` as Aurora's serif — Sentient itself is Fontshare-exclusive and unavailable via the project's font providers. Added a two-bloom fixed radial-gradient to `body` in `global.css`, dark-mode only (Hallmark slop-test gate 29: ≤~30% footprint, no animation).
+
+**Bugs found and fixed while verifying in-browser (Chrome via claude-in-chrome), not caught by `astro build`:**
+1. The `.cobalt-pilot`/`.cobalt-nav`/`.cobalt-cmdk` components hold their own hardcoded `--cb-*` OKLCH literals (a separate token set from the global `--color-*` ones, predating this session) — the global tokens.css dark rewrite never reached them. Added matching `[data-theme="dark"]` overrides for each `--cb-*` block in `HomePage.astro`/`CobaltHeader.astro`.
+2. Astro auto-scopes component `<style>` selectors by appending the component's own `data-astro-cid` attribute to *every* compound selector in a rule — including `[data-theme="dark"]`, which lives on `<html>` outside any component's scope. That silently made the selector unmatchable. Fixed by wrapping the ancestor part in `:global(...)`.
+3. Astro's font system only emits a font's `@font-face`/CSS var if a `<Font cssVariable="...">` is actually rendered somewhere on the page — Space Grotesk/Inter/JetBrains Mono were only rendered in `HomePage.astro`, so every other route silently fell back to Helvetica despite the token change. Moved those three plus the new Fraunces into `BaseHead.astro` so they load on every page.
+4. `CobaltHeader.astro` was still homepage-only (`BaseLayout`'s `header` slot only got overridden from `HomePage.astro`); every other route rendered the old `Header.astro`, so the nav looked inconsistent site-wide. Made `CobaltHeader` `BaseLayout`'s default (`Header.astro` now unused, left on disk pending explicit deletion).
+
+**Follow-up per Daniel's feedback:** removed the header's "View portfolio" button (`Button`/`portfolioHref` + dead `.btn` CSS overrides) — redundant with the "Portfolio" nav link already present.
+
+**Verify:** `astro build` clean, 89 pages, both themes. Visually verified `/`, `/about/`, `/blog/` in light + dark via Chrome (claude-in-chrome), including computed-style checks (`--color-bg`, `--cb-paper`, font-family) to catch the cascade bugs above, which a build-only check would have missed.
+
+**Files touched:** `astro.config.mjs` (Fraunces), `src/styles/tokens.css` (Cobalt/Aurora rewrite), `src/styles/global.css` (Aurora bloom bg), `src/components/HomePage.astro` (dark `--cb-*` overrides, removed per-page `<Font>`/header slot/unused imports), `src/components/CobaltHeader.astro` (dark `--cb-*` overrides, removed portfolio button), `src/components/BaseHead.astro` (sitewide `<Font>` loads), `src/layouts/BaseLayout.astro` (CobaltHeader as default header), `dev-references/DESIGN-minimax.md` (superseded notice).
+
+**Known gap:** no locked Hallmark token spec exists for Aurora in this install (only Cobalt/Lumen ship `.md` theme files) — its palette/fonts were reconstructed from scattered cross-references (`cobalt.md`'s comparison table, `structure.md`'s archetype row) rather than a canonical source. Worth a design pass to confirm the exact hues/type read as intended.
+
 ## 2026-08-26 — Cobalt theme pilot on the homepage (Hallmark)
 
 Piloted a full-site redesign ask (Hallmark skill, Cobalt theme + animations) scoped down to the homepage only, at Daniel's request, before committing to the whole site. Scoped entirely to `HomePage.astro` + new `CobaltHeader.astro` (both `/` and `/ko/`) — no other route, and no shared component (`Header.astro`, `tokens.css`, `global.css`) touched.

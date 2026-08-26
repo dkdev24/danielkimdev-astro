@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-26 (session 12)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 12: piloted a Cobalt-theme redesign (Hallmark skill) on the **homepage only** — see below, not merged into the live design system. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-08-26 (session 13)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 13: extended the Cobalt pilot to a **sitewide** Hallmark reskin — Cobalt (light) / Aurora (dark), `CobaltHeader` is now the default header on every route. See below. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -15,8 +15,8 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **Shipped (live):** P0 + P1 (22–27) + P2 (30–32), all deployed as of 2026-07-07. Per-stage notes in [`WORKLOG.md`](WORKLOG.md); stage status in [`plans/00-index.md`](dev-references/plans/00-index.md).
 - **Agent readiness:** afdocs 99/100 (A), all 7 signals live (`llms.txt`, robots content-signal, `.md` siblings, body directive, `_headers`, CF Pages middleware). Gap: `/about.md` parity (timeline data, editorial call). Details: [`learning-agent-readiness-updates.md`](learning-agent-readiness-updates.md).
 - **Writing-process field:** blog schema `writingProcess: "ai-assisted" | "human-written"` (default `ai-assisted`, no backfill needed). Badge in `BlogPost.astro`. See WORKLOG 2026-08-06.
-- **Architecture:** every page → `BaseLayout.astro`, thin per-locale wrappers around shared `XPage.astro`. 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`. Tokens in `src/styles/tokens.css` (the *real*, currently-live system — untouched by the pilot below).
-- **Homepage redesign pilot (Cobalt, Hallmark skill):** `HomePage.astro` + new `CobaltHeader.astro` only (`/`, `/ko/`) run a self-contained cobalt-blue/Space-Grotesk/JetBrains-Mono system + working ⌘K palette — every other route still renders the real `Header.astro`/`tokens.css`. **Bug: ignores the dark-mode toggle** (pinned light). See WORKLOG 2026-08-26.
+- **Architecture:** every page → `BaseLayout.astro`, thin per-locale wrappers around shared `XPage.astro`. 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`. Tokens in `src/styles/tokens.css` — same semantic variable names as always, values now Cobalt (light)/Aurora (dark).
+- **Sitewide theme (Cobalt/Aurora, Hallmark skill):** the former homepage-only pilot is now the whole site. Light = Cobalt (cool-white, cobalt-blue accent, Space Grotesk/Inter/JetBrains Mono). Dark = Aurora (dark cyan-bloom, Fraunces serif — Sentient stand-in, cyan accent). `CobaltHeader.astro` is `BaseLayout`'s default header on every route now; `Header.astro` unused, kept pending explicit deletion. Font components moved to `BaseHead.astro` so every page loads them, not just `/`. Old MiniMax brand blue/pink/DM Sans-Outfit-Poppins retired from the token layer.
 
 ### Invariants — easy to regress silently
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
@@ -31,14 +31,14 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 - **Domain/deploy:** `danielkimdev.com` on Cloudflare Pages, static `dist/`. Default deploy = `git push origin main`. Fallback: `npm run deploy` (wrangler, `DEPLOY_ALLOW_DIRTY=1`) — never both in one session.
 - **i18n routing:** `defaultLocale: "en"`, `prefixDefaultLocale: false` — EN at root, KO under `/ko/`.
-- **Design:** [`DESIGN-minimax.md`](dev-references/DESIGN-minimax.md) is visual source of truth. Dark mode required, WCAG AA both themes.
+- **Design:** [`DESIGN-minimax.md`](dev-references/DESIGN-minimax.md) is superseded (2026-08-26) — kept as historical record only. Live system is Hallmark's Cobalt (light) / Aurora (dark), same token names in `tokens.css`. Dark mode required, WCAG AA both themes.
 - **Positioning:** Bridge angle, AI for knowledge work foregrounded. Media-tech/OTT/DRM = career credibility only (About + Portfolio).
 - **Contact/social:** LinkedIn + email + GitHub + RSS. No X. GitHub repo is public (added 2026-08-21, required for Giscus/GitHub Discussions comments).
 - **Naming in content:** blog posts stay generic (no employer name); portfolio keeps employer name. Author via `daniel-writing-style` skill.
 
 ## Next steps (priority order)
 
-1. **Cobalt pilot → whole site:** fix the pilot's dark-mode gap (cobalt tokens don't swap under `[data-theme="dark"]`), get Daniel's sign-off, then extend Cobalt site-wide. Hallmark's multi-page flow requires a `design.md` at the project root first (locked system every page reads) — don't redesign routes ad hoc.
+1. **Cobalt/Aurora polish:** no locked Hallmark token spec exists for Aurora in this install (only Cobalt/Lumen have `.md` theme files) — its palette/fonts were reconstructed from scattered references and Fraunces subs for the Fontshare-exclusive Sentient. Worth a design pass to confirm exact hues/type read as intended. Consider producing a `design.md` at the project root to lock the now-sitewide system (Hallmark's convention for system-managed projects) and formally retire `Header.astro`/`DESIGN-minimax.md`.
 2. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
 3. **Post-deploy Lighthouse** — re-run, verify no regression from `functions/_middleware.ts`.
 4. **P1 stages 28–29:** OG images, authoring docs + content-lint CI. P2 33–36 still one-line scope.

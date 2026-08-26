@@ -1,11 +1,13 @@
 /*
   Design tokens — the single source of truth for the visual system.
   Every component reads from these CSS custom properties; no raw color / space
-  literals downstream (Daniel may re-skin later, so keep everything swappable).
+  literals downstream.
 
-  Values trace to dev-references/DESIGN-minimax.md — section refs noted per group.
-  LIGHT THEME ONLY (Stage 02). The dark token set lands in Stage 03 via a
-  [data-theme="dark"] override of these same variable names.
+  Hallmark · theme: Cobalt (light) / Aurora (dark) · genre: modern-minimal / atmospheric
+  · light: paper oklch(98.5% .004 250) · accent oklch(58% .20 256) · Space Grotesk + Inter + JetBrains Mono
+  · dark:  bg    oklch(16%   .02  240) · accent oklch(75% .14 195) · Fraunces (Sentient stand-in) + JetBrains Mono
+  Sitewide reskin (2026-08-26), replacing the prior MiniMax brand palette (§2 refs
+  below are historical). [data-theme="dark"] re-binds the same variable names for Aurora.
 */
 
 :root {
@@ -13,33 +15,36 @@
 	   COLOR — DESIGN-minimax §2
 	   ============================================================ */
 
-	/* --- Brand --- */
-	--color-brand: #1456f0; /* §2 Brand Blue (--brand-6), primary brand identity */
-	--color-brand-deep: #17437d; /* §2 Brand Deep (--brand-3), deep-blue emphasis */
-	--color-sky: #3daeff; /* §2 Sky Blue, lighter brand accent */
-	--color-pink: #ea5ec1; /* §2 Brand Pink — DECORATIVE / LOGO ONLY. Never text or buttons (§7 Don't). */
+	/* --- Brand — Hallmark Cobalt catalog theme (2026-08-26) ---
+	   Cool engineered paper + one electric-cobalt signal. Replaces the prior
+	   MiniMax brand blue/pink identity sitewide (see [data-theme='dark'] below
+	   for the Aurora dark counterpart). */
+	--color-brand: oklch(58% 0.2 256); /* Cobalt accent — the one signal */
+	--color-brand-deep: oklch(46% 0.18 256); /* deep-accent emphasis */
+	--color-sky: oklch(70% 0.14 240); /* lighter accent tint */
+	--color-pink: oklch(70% 0.12 256); /* decorative/logo — kept in the accent family, not a second signal (§7 Don't) */
 
-	/* --- Blue scale (primary action ramp) §2 --- */
-	--color-primary-200: #bfdbfe; /* light blue backgrounds */
-	--color-primary-light: #60a5fa; /* active states, highlights */
-	--color-primary-500: #3b82f6; /* standard blue actions */
-	--color-primary-600: #2563eb; /* hover */
-	--color-primary-700: #1d4ed8; /* pressed / active */
+	/* --- Accent scale (primary action ramp), cobalt hue ~256 --- */
+	--color-primary-200: oklch(90% 0.03 256); /* light accent backgrounds */
+	--color-primary-light: oklch(70% 0.14 256); /* active states, highlights */
+	--color-primary-500: oklch(58% 0.2 256); /* standard accent actions */
+	--color-primary-600: oklch(52% 0.19 256); /* hover */
+	--color-primary-700: oklch(46% 0.18 256); /* pressed / active */
 
-	/* --- Neutral / gray ramp §2 (named swatches; ramp interpolated for fills/borders) --- */
-	--color-ink: #222222; /* §2 Near Black (--col-text00), primary text */
-	--color-ink-strong: #18181b; /* §2 Dark, headings & button text */
-	--color-charcoal: #181e25; /* §2 Charcoal, dark surfaces / footer bg */
-	--gray-900: #181e25;
-	--gray-800: #222222;
-	--gray-700: #45515e; /* §2 Dark Gray (--col-text04), secondary text */
-	--gray-500: #5f5f5f; /* §2 Light Gray (--brand-2), helper text */
-	--gray-400: #8e8e93; /* §2 Mid Gray, tertiary / muted labels */
-	--gray-300: #e5e7eb; /* §2 Border Gray, component borders */
-	--gray-200: #f2f3f5; /* §2 Border Light, subtle section dividers */
-	--gray-100: #f0f0f0; /* §2 Light Gray, secondary button backgrounds */
-	--gray-050: #f7f8fa; /* interpolated — faint surface tint */
-	--color-white: #ffffff; /* §2 Pure White (--col-bg13) */
+	/* --- Neutral / gray ramp — cool charcoal-on-paper, hue ~257-260 (Cobalt) --- */
+	--color-ink: oklch(34% 0.018 257); /* Cobalt body ink, primary text */
+	--color-ink-strong: oklch(24% 0.02 258); /* Cobalt headline ink, headings & button text */
+	--color-charcoal: oklch(22% 0.016 260); /* Cobalt graphite, dark surfaces / footer bg */
+	--gray-900: oklch(22% 0.016 260);
+	--gray-800: oklch(28% 0.018 258);
+	--gray-700: oklch(40% 0.018 257); /* secondary text */
+	--gray-500: oklch(52% 0.016 257); /* helper text */
+	--gray-400: oklch(64% 0.012 257); /* tertiary / muted labels */
+	--gray-300: oklch(90% 0.008 258); /* Cobalt hairline rule, component borders */
+	--gray-200: oklch(94% 0.006 255); /* subtle section dividers */
+	--gray-100: oklch(96% 0.005 253); /* secondary button backgrounds */
+	--gray-050: oklch(97.5% 0.004 251); /* faint surface tint */
+	--color-white: oklch(98.5% 0.004 250); /* Cobalt cool-engineered paper (never pure #fff) */
 
 	/* --- Semantic surface & text roles (light) --- */
 	--color-bg: var(--color-white); /* §2 white is structural background (§7 Do) */
@@ -100,30 +105,31 @@
 	   RADIUS — DESIGN-minimax §5 (Border Radius Scale)
 	   ============================================================ */
 	--radius-xs: 4px; /* small tags, micro badges */
-	--radius-sm: 8px; /* buttons, small cards (standard UI) */
-	--radius-md: 12px; /* medium cards / panels */
-	--radius-lg: 16px; /* large product cards */
-	--radius-xl: 20px; /* generous product cards */
-	--radius-2xl: 24px; /* hero cards, major containers */
+	--radius-sm: 6px; /* Cobalt: buttons/inputs drawn with a ruler, not soft pills */
+	--radius-md: 10px; /* Cobalt: code/content cards */
+	--radius-lg: 14px; /* large product cards */
+	--radius-xl: 16px; /* generous product cards */
+	--radius-2xl: 20px; /* hero cards, major containers */
 	--radius-pill: 9999px; /* pill buttons & nav tabs */
 
 	/* ============================================================
-	   ELEVATION / SHADOWS — DESIGN-minimax §6 (≤0.16 opacity; keep it airy)
+	   ELEVATION / SHADOWS — Cobalt: hairlines carry depth, not blur.
+	   Kept near-invisible; borders (--color-border) do the real work.
 	   ============================================================ */
-	--shadow-sm: rgba(0, 0, 0, 0.08) 0px 4px 6px; /* Level 1 Subtle — standard cards */
-	--shadow-ambient: rgba(0, 0, 0, 0.08) 0px 0px 22.576px; /* Level 2 Ambient — soft glow */
-	--shadow-brand-glow: rgba(44, 30, 116, 0.16) 0px 0px 15px; /* Level 3 Brand Glow — featured cards */
-	--shadow-brand-glow-offset: rgba(44, 30, 116, 0.11) 6.5px 2px 17.5px; /* §6 directional brand glow */
-	--shadow-lg: rgba(36, 36, 36, 0.08) 0px 12px 16px -4px; /* Level 4 Elevated — lifted / hover */
+	--shadow-sm: oklch(24% 0.02 258 / 0.06) 0px 1px 2px; /* Level 1 — barely-there card lift */
+	--shadow-ambient: oklch(24% 0.02 258 / 0.05) 0px 0px 16px; /* Level 2 Ambient */
+	--shadow-brand-glow: oklch(58% 0.2 256 / 0.16) 0px 0px 15px; /* Level 3 — featured cards */
+	--shadow-brand-glow-offset: oklch(58% 0.2 256 / 0.11) 6.5px 2px 17.5px; /* directional accent glow */
+	--shadow-lg: oklch(24% 0.02 258 / 0.08) 0px 8px 16px -4px; /* Level 4 Elevated — lifted / hover */
 
 	/* ============================================================
 	   TYPOGRAPHY — DESIGN-minimax §3
 	   Font-family roles map to the --font-* CSS vars from astro.config.mjs.
 	   ============================================================ */
-	--font-ui: var(--font-dm-sans), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* DM Sans — UI workhorse */
-	--font-display: var(--font-outfit), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Outfit — display headings */
-	--font-heading: var(--font-poppins), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Poppins — mid-tier headings */
-	--font-data: var(--font-roboto), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Roboto — data/technical */
+	--font-ui: var(--font-inter), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Cobalt: Inter — UI workhorse */
+	--font-display: var(--font-space-grotesk), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Cobalt: Space Grotesk — display headings */
+	--font-heading: var(--font-space-grotesk), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Cobalt: one display face, no separate mid-tier */
+	--font-data: var(--font-jetbrains-mono), 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Cobalt: JetBrains Mono — code/eyebrows/labels */
 	--font-korean: var(--font-pretendard), 'Noto Sans KR', sans-serif; /* Pretendard — Korean */
 	--font-body: var(--font-ui); /* default body alias */
 
@@ -175,9 +181,11 @@
 }
 
 /* ============================================================
-   DARK THEME — Stage 03. Derived from the MiniMax palette (DESIGN-minimax
-   specifies light only; §8 source-of-truth note). Re-binds the SAME semantic
-   variable names so every component that reads tokens restyles automatically,
+   DARK THEME — Hallmark Aurora catalog theme (2026-08-26).
+   Genre: atmospheric. Dark cyan-bloom canvas + a warm serif body (Fraunces —
+   the closest free stand-in for Aurora's Sentient), replacing the prior
+   MiniMax-derived dark palette. Re-binds the SAME semantic variable names as
+   the Cobalt light theme above so every component restyles automatically,
    with no per-component dark CSS.
 
    Resolution order (see src/components/ThemeScript.astro):
@@ -185,7 +193,7 @@
      2. With no attribute, the inline no-flash script falls back to
         `prefers-color-scheme` and writes the result to the attribute before
         first paint — so only the explicit-dark selector needs CSS here.
-   No-JS clients degrade to the light :root defaults (acceptable).
+   No-JS clients degrade to the light :root (Cobalt) defaults (acceptable).
 
    Toggle contract for Stage 07 (visible UI):
      • storage key   → localStorage `theme` = 'light' | 'dark'
@@ -196,50 +204,61 @@
 [data-theme='dark'] {
 	color-scheme: dark;
 
-	/* Surfaces — near-black #181e25 / #18181b family (§2), layered by depth */
-	--color-bg: #15181d; /* page bg, a touch below charcoal so surfaces lift */
-	--color-bg-subtle: #1b1f26;
-	--color-bg-muted: #232a33; /* inline code / chip fills */
-	--color-surface: #1c2129; /* cards sit above page bg */
-	--color-border: #2e353f;
-	--color-border-subtle: #262c34;
+	/* Surfaces — Aurora's dark cyan-blue canvas, layered by depth */
+	--color-bg: oklch(16% 0.02 240); /* page bg */
+	--color-bg-subtle: oklch(19% 0.02 235);
+	--color-bg-muted: oklch(23% 0.02 232); /* inline code / chip fills */
+	--color-surface: oklch(20% 0.02 235); /* cards sit above page bg */
+	--color-border: oklch(30% 0.02 230);
+	--color-border-subtle: oklch(26% 0.02 232);
 
-	/* Text — inverted ramp, kept ≥AA on the dark surfaces above */
-	--color-text: #e6e8eb; /* primary body */
-	--color-text-heading: #f4f5f7;
-	--color-text-secondary: #aab2bd;
-	--color-text-muted: #828b96;
-	/* --color-text-on-brand stays #ffffff — brand fills remain saturated */
+	/* Text — cool-white ramp on the dark canvas, kept ≥AA */
+	--color-text: oklch(90% 0.01 220); /* primary body */
+	--color-text-heading: oklch(96% 0.008 215);
+	--color-text-secondary: oklch(74% 0.02 220);
+	--color-text-muted: oklch(58% 0.02 220);
+	/* --color-text-on-brand stays --color-white — accent fills remain saturated */
 
-	/* Brand / interactive — lighten so blue stays legible on near-black.
-	   Links use primary-light, not the darker 600 used in light mode. */
-	--color-brand: #3b82f6; /* primary-500 reads better than deep #1456f0 here */
-	/* CTA fill is a notch darker than --color-brand so white text clears AA:
-	   white on #3b82f6 is only 3.67, on primary-600 #2563eb it's 5.17 (Stage 19). */
+	/* Brand / interactive — Aurora's cyan bloom accent, replacing Cobalt's blue */
+	--color-brand: oklch(75% 0.14 195); /* cyan bloom — the one signal, dark register */
+	--color-brand-deep: oklch(55% 0.13 195);
+	--color-pink: oklch(75% 0.12 195); /* decorative/logo — accent family, not a second signal */
+	--color-primary-200: oklch(30% 0.05 200);
+	--color-primary-light: oklch(80% 0.11 195);
+	--color-primary-500: oklch(75% 0.14 195);
+	--color-primary-600: oklch(68% 0.15 195); /* CTA fill — a notch deeper so ink text clears AA */
+	--color-primary-700: oklch(60% 0.14 195);
 	--color-btn-primary-bg: var(--color-primary-600);
-	--color-link: #60a5fa; /* primary-light */
-	--color-link-hover: #93c5fd;
-	--color-focus-ring: #60a5fa;
+	--color-link: oklch(78% 0.13 195);
+	--color-link-hover: oklch(86% 0.1 195);
+	--color-focus-ring: oklch(78% 0.13 195);
 
 	/* Glass overlay flips to a dark translucent */
-	--color-glass-white: hsla(220, 16%, 8%, 0.5);
+	--color-glass-white: hsla(220, 30%, 10%, 0.5);
 
 	/* Status — desaturated dark tints for bg, brighter fg for legibility */
-	--color-success: #4ade80;
-	--color-success-bg: #0f2a1a;
-	--color-warning: #fbbf24;
-	--color-warning-bg: #2c2410;
-	--color-error: #f87171;
-	--color-error-bg: #2c1517;
-	--color-info: #60a5fa;
-	--color-info-bg: #14233a;
+	--color-success: oklch(75% 0.15 150);
+	--color-success-bg: oklch(22% 0.04 150);
+	--color-warning: oklch(80% 0.15 85);
+	--color-warning-bg: oklch(24% 0.05 85);
+	--color-error: oklch(72% 0.18 25);
+	--color-error-bg: oklch(24% 0.06 25);
+	--color-info: oklch(75% 0.14 195);
+	--color-info-bg: oklch(22% 0.05 210);
+
+	/* Fonts — Aurora's warm serif body/display; mono stays JetBrains Mono for
+	   eyebrows/labels/code (already loaded for Cobalt, reused here). */
+	--font-ui: var(--font-fraunces), Georgia, serif;
+	--font-display: var(--font-fraunces), Georgia, serif;
+	--font-heading: var(--font-fraunces), Georgia, serif;
+	--font-data: var(--font-jetbrains-mono), 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 	/* Elevation — black shadows read poorly on dark; deepen them and lean on
-	   borders for separation. Brand glow shifts blue (purple barely registers). */
+	   borders for separation. Brand glow shifts to the cyan bloom accent. */
 	--shadow-sm: rgba(0, 0, 0, 0.45) 0px 4px 6px;
 	--shadow-ambient: rgba(0, 0, 0, 0.4) 0px 0px 22.576px;
-	--shadow-brand-glow: rgba(96, 165, 250, 0.22) 0px 0px 15px;
-	--shadow-brand-glow-offset: rgba(96, 165, 250, 0.16) 6.5px 2px 17.5px;
+	--shadow-brand-glow: oklch(75% 0.14 195 / 0.25) 0px 0px 20px;
+	--shadow-brand-glow-offset: oklch(75% 0.14 195 / 0.18) 6.5px 2px 20px;
 	--shadow-lg: rgba(0, 0, 0, 0.55) 0px 12px 16px -4px;
 }
 

@@ -142,5 +142,19 @@ export default defineConfig({
 			optimizedFallbacks: true,
 			display: 'swap',
 		},
+		// Aurora dark theme (2026-08-26): Sentient is Fontshare-only and can't be
+		// self-served via the Google/Fontsource providers wired here, so Fraunces
+		// stands in as the closest free warm contemporary serif for display + body.
+		{
+			provider: fontProviders.google(),
+			name: 'Fraunces',
+			cssVariable: '--font-fraunces',
+			weights: [400, 500, 600],
+			styles: ['normal'],
+			subsets: ['latin'],
+			fallbacks: ['Georgia', 'serif'],
+			optimizedFallbacks: true,
+			display: 'swap',
+		},
 	],
 });

@@ -116,6 +116,13 @@ const showUmami = import.meta.env.PROD && UMAMI_WEBSITE_ID !== '';
 <Font cssVariable="--font-outfit" />
 <Font cssVariable="--font-poppins" />
 <Font cssVariable="--font-roboto" />
+<!-- Cobalt (light) / Aurora (dark) sitewide reskin (2026-08-26). Loaded here
+     (not just on the homepage) so every route gets the correct --font-*
+     role vars — see tokens.css :root / [data-theme="dark"]. -->
+{lang === 'en' ? <Font cssVariable="--font-inter" preload /> : <Font cssVariable="--font-inter" />}
+<Font cssVariable="--font-space-grotesk" />
+<Font cssVariable="--font-jetbrains-mono" />
+<Font cssVariable="--font-fraunces" />
 
 <!-- Canonical + hreflang alternates (only where counterparts are declared). -->
 <link rel="canonical" href={canonicalURL} />

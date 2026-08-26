@@ -1,12 +1,11 @@
 ---
-// Cobalt pilot header (2026-08-26) — additive, homepage-only. Injected via
-// BaseLayout's `header` slot from HomePage.astro; does not replace Header.astro,
-// which every other route still uses. Reuses LanguageToggle/ThemeToggle for
-// correct i18n + no-flash-theme behavior, reskinned via :global() overrides
-// below. Ships Cobalt's signature working ⌘K palette (signature move 5).
+// Sitewide header (2026-08-26) — Cobalt (light) / Aurora (dark). BaseLayout's
+// `header` slot default; every route uses it now (Header.astro is unused,
+// kept on disk pending explicit deletion). Reuses LanguageToggle/ThemeToggle
+// for correct i18n + no-flash-theme behavior, reskinned via :global()
+// overrides below. Ships Cobalt's signature working ⌘K palette (signature move 5).
 import { SITE_TITLE, SOCIAL_LINKS } from '../consts';
 import { getAltLocale, getLangFromUrl, getLocalizedPath, useTranslations } from '../i18n/utils';
-import Button from './Button.astro';
 import LanguageToggle from './LanguageToggle.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
@@ -31,7 +30,6 @@ const cmdk = {
 	ko: { label: '검색 또는 이동…', placeholder: '명령어를 입력하세요…', empty: '결과 없음', theme: '테마 전환' },
 }[lang];
 
-const portfolioHref = getLocalizedPath('/portfolio/', lang);
 const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
 ---
 
@@ -79,7 +77,6 @@ const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
 				</svg>
 				<kbd>⌘K</kbd>
 			</button>
-			<Button variant="primary" size="sm" href={portfolioHref}>{t('home.viewPortfolio')}</Button>
 		</div>
 	</nav>
 </header>
@@ -158,6 +155,21 @@ const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
 		background: color-mix(in srgb, var(--cb-paper) 88%, transparent);
 		backdrop-filter: saturate(160%) blur(8px);
 		border-bottom: 1px solid var(--cb-rule);
+	}
+	/* Aurora dark theme (2026-08-26) — the --cb-* tokens above are hardcoded
+	   Cobalt literals, not the global --color-* tokens, so they need their own
+	   dark override rather than inheriting from tokens.css [data-theme='dark']. */
+	:global([data-theme='dark']) .cobalt-nav {
+		--cb-paper: oklch(16% 0.02 240);
+		--cb-ink: oklch(96% 0.008 215);
+		--cb-ink-2: oklch(90% 0.01 220);
+		--cb-rule: oklch(30% 0.02 230);
+		--cb-rule-2: oklch(36% 0.02 228);
+		--cb-accent: oklch(75% 0.14 195);
+		--cb-accent-ink: oklch(14% 0.02 235);
+		--cb-graphite: oklch(23% 0.02 235);
+		--cb-font-body: var(--font-fraunces), var(--font-body);
+		--cb-font-display: var(--font-fraunces), var(--font-display);
 	}
 	.cobalt-nav__bar {
 		display: flex;
@@ -269,25 +281,8 @@ const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
 		background: var(--cb-rule);
 		color: var(--cb-ink);
 	}
-	.cobalt-nav :global(.btn) {
-		font-family: var(--cb-font-body);
-		border-radius: 6px;
-	}
-	.cobalt-nav :global(.btn--primary) {
-		background: var(--cb-accent);
-		color: var(--cb-accent-ink);
-	}
-	.cobalt-nav :global(.btn--sm) {
-		min-height: 36px;
-	}
-
 	@media (max-width: 62rem) {
 		.cobalt-nav__links {
-			display: none;
-		}
-	}
-	@media (max-width: 46.25rem) {
-		.cobalt-nav :global(.btn--sm) {
 			display: none;
 		}
 	}
@@ -308,6 +303,16 @@ const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
 		position: fixed;
 		inset: 0;
 		z-index: 100;
+	}
+	/* Aurora dark theme (2026-08-26) — see the matching .cobalt-nav override above. */
+	:global([data-theme='dark']) .cobalt-cmdk {
+		--cb-paper: oklch(20% 0.02 235);
+		--cb-ink: oklch(96% 0.008 215);
+		--cb-ink-2: oklch(90% 0.01 220);
+		--cb-rule: oklch(30% 0.02 230);
+		--cb-rule-2: oklch(36% 0.02 228);
+		--cb-accent: oklch(75% 0.14 195);
+		--cb-font-body: var(--font-fraunces), var(--font-body);
 	}
 	.cobalt-cmdk[hidden] {
 		display: none;
