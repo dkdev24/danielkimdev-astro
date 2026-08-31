@@ -98,6 +98,27 @@
 		"aboutMe": "About me",
 		"viewPortfolio": "View portfolio"
 	},
+	"process": {
+		"eyebrow": "How this blog gets written",
+		"lede": "Every post here starts as a private note, not a blank page. This is the pipeline that turns what I read into what I publish.",
+		"step1": {
+			"label": "Ingest",
+			"body": "Articles, docs, and notes come in — tagged, checked for duplicates, logged."
+		},
+		"step2": {
+			"label": "Private Wiki",
+			"body": "Sources build a cross-linked knowledge base that keeps growing over time."
+		},
+		"step3": {
+			"label": "Story Scouting",
+			"body": "A synthesis, milestone, or hard-won lesson gets flagged as a post idea."
+		},
+		"step4": {
+			"label": "Draft → Review → Publish",
+			"body": "Written in my voice, passed through editorial review, then published here."
+		},
+		"footnote": "Everything upstream stays private. Only finished, reviewed writing becomes a post."
+	},
 	"about": {
 		"title": "About",
 		"contact": "Get in touch",

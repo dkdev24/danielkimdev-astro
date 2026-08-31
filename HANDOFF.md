@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-26 (session 13)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 13: extended the Cobalt pilot to a **sitewide** Hallmark reskin — Cobalt (light) / Aurora (dark), `CobaltHeader` is now the default header on every route. See below. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-08-31 (session 14)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 14: added a "How this blog gets written" homepage section (terminal-panel treatment) — not yet visually verified by Daniel. Sitewide Hallmark reskin (Cobalt/Aurora, session 13) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -22,8 +22,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
 - AA contrast: reuse semantic tokens (`--color-text-muted`, `--color-btn-primary-bg`), not raw grays.
 - Blog links: always `getPostPath(entry)` (`utils/blog.ts`).
-- Umami CSP needs **both** `cloud.umami.is` (script-src) and `gateway.umami.is` (connect-src).
-- Giscus CSP needs `giscus.app` in **all three** of script-src, frame-src, connect-src (`public/_headers`) — dev server has no CSP, so this only breaks in production.
+- CSP (`public/_headers`, only breaks in production, dev server has none): Umami needs **both** `cloud.umami.is` (script-src) and `gateway.umami.is` (connect-src); Giscus needs `giscus.app` in **all three** of script-src, frame-src, connect-src.
 - i18n keys: add to both `en.json` and `ko.json` (parity compile-enforced).
 - Don't fabricate `TODO(daniel)` facts — leave the marker for Daniel to fill.
 
@@ -38,11 +37,11 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Cobalt/Aurora polish:** no locked Hallmark token spec exists for Aurora in this install (only Cobalt/Lumen have `.md` theme files) — its palette/fonts were reconstructed from scattered references and Fraunces subs for the Fontshare-exclusive Sentient. Worth a design pass to confirm exact hues/type read as intended. Consider producing a `design.md` at the project root to lock the now-sitewide system (Hallmark's convention for system-managed projects) and formally retire `Header.astro`/`DESIGN-minimax.md`.
-2. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
-3. **Post-deploy Lighthouse** — re-run, verify no regression from `functions/_middleware.ts`.
-4. **P1 stages 28–29:** OG images, authoring docs + content-lint CI. P2 33–36 still one-line scope.
-5. **Agent readiness fast-follows:** KO `.md` endpoints + KO `llms.txt` section; `/about.md` parity.
+1. **Verify the new pipeline section:** `npm run dev`, check `/` and `/ko/` in light + dark. Built and `astro check`-clean but never opened in a browser this session (agent-browser hung on `--version`; worth checking its install/permissions before next attempt).
+2. **Cobalt/Aurora polish:** no locked Hallmark token spec exists for Aurora in this install (only Cobalt/Lumen have `.md` theme files) — its palette/fonts were reconstructed from scattered references and Fraunces subs for the Fontshare-exclusive Sentient. Worth a design pass to confirm exact hues/type read as intended. Consider producing a `design.md` at the project root to lock the now-sitewide system (Hallmark's convention for system-managed projects) and formally retire `Header.astro`/`DESIGN-minimax.md`.
+3. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
+4. **Post-deploy Lighthouse** — re-run, verify no regression from `functions/_middleware.ts`.
+5. **P1 stages 28–29:** OG images, authoring docs + content-lint CI. P2 33–36 still one-line scope.
 
 ## Conventions / gotchas
 

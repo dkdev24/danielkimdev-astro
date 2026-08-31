@@ -4,6 +4,20 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-08-31 — Homepage "How this blog gets written" pipeline section
+
+Added a new homepage section, between Featured work and Latest writing, explaining the wiki-to-post pipeline to blog visitors. Requested from the sibling LLM-wiki project's session (cross-repo — Daniel was there discussing his wiki workflow, decided it belonged on the site's homepage as a public explainer). Scoped to Ingest → Private Wiki → Story Scouting → Draft/Review/Publish only (Daniel isn't running Kit or Weekly Review yet, so those layers are omitted).
+
+First pass reused the `Card`/`.grid` primitives (same pattern as Featured work and Latest writing). Daniel flagged that all three sections under the hero then read the same — too repetitive. Redesigned as a terminal panel (`.pipeline-panel`, reusing `.terminal-card__bar/__dot/__filename/__body/__cmd` from the hero's existing terminal card) showing the 4 stages as a numbered `→`-connected sequence (`↓` under 740px). This makes the page alternate hero(terminal) → cards → terminal → cards instead of three lookalike grids in a row.
+
+**i18n:** added a `process` key to both `en.json`/`ko.json` (eyebrow, lede, 4 `stepN.label`/`stepN.body`, footnote) — real translated content. The panel's terminal chrome (`~/daniel/pipeline.sh`, `$ ./ingest.sh | tee wiki.log`) followed the existing `cobaltLabels` convention (UI chrome, not translated content — same string both locales, like the hero's `terminal`/`cmd` fields).
+
+**Verify:** `npx astro check` — same 4 pre-existing unrelated errors, no new ones; both key sets pass the `ko satisfies typeof en` parity check. Confirmed via `curl` that `/` and `/ko/` both render the new markup and correct-locale copy. Did **not** get a visual/browser check — agent-browser hung indefinitely trying to launch a browser on this machine (`--version` alone didn't return); Daniel should eyeball `npm run dev` before/after deploy.
+
+**Files touched:** `src/components/HomePage.astro`, `src/i18n/en.json`, `src/i18n/ko.json`.
+
+**Next:** Daniel to visually confirm the pipeline panel in both themes/locales. If agent-browser keeps hanging on this machine, worth checking whether it needs its `install` step re-run or a permission grant.
+
 ## 2026-08-26 — Cobalt/Aurora sitewide reskin (Hallmark)
 
 Extended the previous session's homepage-only Cobalt pilot to the whole site, per Daniel's request ("apply two Hallmark themes, one for light mode and the other for dark? … apply Aurora theme for the site's dark mode"), confirmed as a full palette/font replacement (not blended with the old MiniMax brand colors) via `AskUserQuestion`.
