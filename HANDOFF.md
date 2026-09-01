@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-09-01 (session 15)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 15: `toonstrip` demo embed + two upstream hydration bugs fixed in `../toonstrip` (unpublished — see Current state and Next steps #1). Session 14's homepage pipeline section still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora, session 13) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-09-01 (session 16)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 16: `../toonstrip` fixes published (`@toonstrip/astro@0.1.4`/`@toonstrip/schema@0.1.2`), this repo re-pinned via clean `npm install`; fixed EN/KO toonstrip demo panel-size mismatch (own prose CSS bug, see Current state). Session 14's homepage pipeline section still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora, session 13) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -17,6 +17,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **Writing-process field:** blog schema `writingProcess: "ai-assisted" | "human-written"` (default `ai-assisted`, no backfill needed). Badge in `BlogPost.astro`. See WORKLOG 2026-08-06.
 - **Architecture:** every page → `BaseLayout.astro`, thin per-locale wrappers around shared `XPage.astro`. 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`. Tokens in `src/styles/tokens.css` — same semantic variable names as always, values now Cobalt (light)/Aurora (dark).
 - **Sitewide theme (Cobalt/Aurora, Hallmark skill):** the former homepage-only pilot is now the whole site. Light = Cobalt (cool-white, cobalt-blue accent, Space Grotesk/Inter/JetBrains Mono). Dark = Aurora (dark cyan-bloom, Fraunces serif — Sentient stand-in, cyan accent). `CobaltHeader.astro` is `BaseLayout`'s default header on every route now; `Header.astro` unused, kept pending explicit deletion. Font components moved to `BaseHead.astro` so every page loads them, not just `/`. Old MiniMax brand blue/pink/DM Sans-Outfit-Poppins retired from the token layer.
+- **`toonstrip` now pinned to real npm releases:** `package.json`/lockfile point at `@toonstrip/astro@0.1.4`/`@toonstrip/schema@0.1.2` (published this session from `../toonstrip`), no more manual `dist/` copy in `node_modules`. New `.prose-breakout` utility (`src/styles/global.css`) wraps the `grues-in-comic-beta` demo (both EN/KO mdx) at a fixed 46rem width — `max-width: 72ch` resolves to a different px width per body font (Pretendard vs Latin), which had pushed the Korean strip under toonstrip's 2-column threshold while English cleared it. The column-flex responsive algorithm itself (`layoutStrip` in toonstrip's `packages/core`) was verified correct, not a bug.
 
 ### Invariants — easy to regress silently
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
@@ -37,11 +38,10 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Publish `../toonstrip` fixes, then re-pin here:** once `@toonstrip/astro`/`@toonstrip/schema` publish with the session-15 fixes (see that repo's HANDOFF), bump this repo's `package.json` to the new versions, `npm install` for real, and re-verify the `grues-in-comic-beta` demo still hydrates — the current `node_modules` state (manual `dist/` copy) doesn't survive a clean install.
-2. **Verify the pipeline section + toonstrip demo in a real browser:** `npm run dev`, check `/`, `/ko/`, and `/blog/grues-in-comic-beta/` in light + dark. Both built and `astro check`-clean but not opened in a real (non-automated) browser this session.
-3. **Cobalt/Aurora polish:** no locked Hallmark token spec exists for Aurora in this install (only Cobalt/Lumen have `.md` theme files) — its palette/fonts were reconstructed from scattered references and Fraunces subs for the Fontshare-exclusive Sentient. Worth a design pass to confirm exact hues/type read as intended. Consider producing a `design.md` at the project root to lock the now-sitewide system (Hallmark's convention for system-managed projects) and formally retire `Header.astro`/`DESIGN-minimax.md`.
-4. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
-5. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run (verify no `functions/_middleware.ts` regression); OG images, authoring docs + content-lint CI; P2 stages still one-line scope.
+1. **Verify the pipeline section + toonstrip demo in a real (non-automated) browser:** `npm run dev`, check `/`, `/ko/`, and `/blog/grues-in-comic-beta/` in light + dark. `client:visible` hydration and the two-column breakout were only verified via manual DOM/JS assignment this session — the automated browser tab's `document.visibilityState` stays `"hidden"`, which Chromium never fires `IntersectionObserver` callbacks for, so the real user-facing hydration trigger is still unconfirmed.
+2. **Cobalt/Aurora polish:** no locked Hallmark token spec exists for Aurora in this install (only Cobalt/Lumen have `.md` theme files) — its palette/fonts were reconstructed from scattered references and Fraunces subs for the Fontshare-exclusive Sentient. Worth a design pass to confirm exact hues/type read as intended. Consider producing a `design.md` at the project root to lock the now-sitewide system (Hallmark's convention for system-managed projects) and formally retire `Header.astro`/`DESIGN-minimax.md`.
+3. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
+4. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run (verify no `functions/_middleware.ts` regression); OG images, authoring docs + content-lint CI; P2 stages still one-line scope.
 
 ## Conventions / gotchas
 

@@ -4,6 +4,50 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-09-01 — Fix EN/KO toonstrip panel mismatch; publish and re-pin toonstrip
+
+Daniel reported two issues with the live `<ComicStrip>` demo embedded in
+`grues-in-comic-beta` (previous session): the Korean version's panels were a different
+size/column-count than English's, and the two-column layout looked fixed rather than
+responsive on narrow screens.
+
+**Root cause of the mismatch:** `.post__body`'s `max-width: 72ch` reading measure
+resolves to a different pixel width per body font — Korean pages switch to Pretendard,
+whose `ch` glyph is narrower than the Latin font's. At a 1280px viewport this measured
+639px for Korean vs 727px for English, landing Korean just under toonstrip's 2-column
+width threshold while English cleared it. Not a toonstrip bug — its `layoutStrip`
+column math (verified directly: fresh mount in a 320px container renders 1 column with
+zero overflow) is correctly deriving columns from measured width in both cases.
+
+**Fix:** added a `.prose-breakout` utility (`src/styles/global.css`) — width: 46rem,
+max-width: 100vw minus page padding, centered via a symmetric negative `margin-inline`
+past the parent's own rendered width — so the embed always gets a fixed,
+language-invariant width regardless of which font shrank its `ch`-based column.
+Wrapped `<ComicStrip>` in it in both EN/KO mdx files. Verified in-browser (manual
+`document`/`packs` assignment, since `client:visible`'s `IntersectionObserver` doesn't
+fire in this automated tab — `document.visibilityState` stays `"hidden"`): both
+languages now render identical 2-column, 363px-panel layouts.
+
+**Also resolved the standing "not yet published" gap from last session:** bumped and
+published `@toonstrip/schema` (0.1.1→0.1.2) and `@toonstrip/astro` (0.1.3→0.1.4) from
+`../toonstrip` (58 tests + build clean first; `astro` published via `pnpm publish` so
+its `workspace:*` deps resolve to real semver, confirmed via `pnpm pack` before
+publishing — `npm publish` would have shipped the literal string `"workspace:*"`).
+Re-pinned this repo: `npm install @toonstrip/astro@^0.1.4` bumped `package.json`, then a
+full `rm -rf node_modules package-lock.json && npm install` (a targeted `npm install`
+alone left a stale `@toonstrip/schema@0.1.1` in the tree despite `astro@0.1.4`
+requiring exactly `0.1.2` — npm's targeted-install path didn't re-resolve the whole
+graph) to get a real, from-registry `node_modules`, replacing the manual `dist/` copy
+that a clean install would have silently wiped. `astro check`/`astro build` both clean
+(89 pages); built HTML confirmed carrying both toonstrip fixes (non-zero placeholder
+`min-height`, `ajv` in `vite.optimizeDeps.include`).
+
+**Files touched:** `src/content/blog/{en,ko}/grues-in-comic-beta.mdx`,
+`src/styles/global.css`, `package.json`, `package-lock.json`. (`../toonstrip`: version
+bumps + publish, see its own WORKLOG v0.7.3.)
+
+---
+
 ## 2026-09-01 — Embed live `toonstrip` demo in the Grues in Comic beta post; fix upstream hydration bugs
 
 Converted `grues-in-comic-beta.md` (EN/KO) to `.mdx` and embedded a live 4-panel

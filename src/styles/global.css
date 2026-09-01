@@ -109,6 +109,24 @@ p {
 .prose [id*="fn"] {
 	scroll-margin-top: calc(64px + 3px + var(--space-4));
 }
+/* Widens a prose child to a fixed pixel measure regardless of the prose
+   column's own rendered width, symmetrically. `max-width: Nch` (used for the
+   reading measure) resolves to a different pixel width per body font, so a
+   width-sensitive embed like a responsive grid can land on a different
+   column count between languages sharing the same `.prose p ch` cap; this
+   breaks it out to a language-invariant width instead. Falls back to filling
+   the column (no breakout) once that column is already narrower than the
+   target. */
+.prose-breakout {
+	--prose-breakout-width: 46rem;
+}
+@media (min-width: 640px) {
+	.prose-breakout {
+		width: var(--prose-breakout-width);
+		max-width: calc(100vw - 2 * var(--space-4));
+		margin-inline: calc((var(--prose-breakout-width) - 100%) / -2);
+	}
+}
 textarea {
 	width: 100%;
 	font-size: var(--text-base);

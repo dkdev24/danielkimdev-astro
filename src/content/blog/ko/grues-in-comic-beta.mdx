@@ -120,7 +120,9 @@ IR을 읽어 실제로 게임을 실행하는 런타임으로, 월드 상태 관
 
 그루스 인 코믹의 Comic Chat 스타일 렌더링 부분은 굳이 Zork 엔진에 묶여 있을 필요가 없었습니다. 이 부분만 따로 떼어내 오픈소스 라이브러리 [toonstrip](https://www.npmjs.com/package/@toonstrip/core)으로 만들었습니다. 게임 로직이나 AI 콘텐츠 생성 없이, 넘겨받은 데이터로 패널과 캐릭터, 포즈, 말풍선을 그려주는 프레임워크 임베드용 위젯입니다. 아래는 `@toonstrip/astro`로 이 글에 직접 임베드한 실제 렌더링으로, 위 스크린샷과 같은 기본 캐릭터 팩을 사용합니다.
 
-<ComicStrip document={toonstripDemoDoc} packs={['comic-chat']} client:visible />
+<div class="prose-breakout">
+	<ComicStrip document={toonstripDemoDoc} packs={['comic-chat']} client:visible />
+</div>
 
 ## 마치며
 

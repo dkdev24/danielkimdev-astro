@@ -119,7 +119,9 @@ The repository isn't public yet. I'm planning to tag 1.0 when the repo goes publ
 
 Grues in Comic's Comic Chat-style rendering half doesn't have to stay coupled to a Zork engine. I pulled it out into its own open-source library, [toonstrip](https://www.npmjs.com/package/@toonstrip/core): a framework-embeddable widget that draws panels, characters, poses, and speech balloons from data you supply, with no game logic or AI content generation built in. This post embeds it live via `@toonstrip/astro`, using the same default character pack as the panel above:
 
-<ComicStrip document={toonstripDemoDoc} packs={['comic-chat']} client:visible />
+<div class="prose-breakout">
+	<ComicStrip document={toonstripDemoDoc} packs={['comic-chat']} client:visible />
+</div>
 
 ## Closing thoughts
 
