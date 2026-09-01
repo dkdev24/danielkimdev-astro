@@ -1,6 +1,6 @@
 ## Project
 
-Daniel Kim's personal site and blog — an Astro static site, bilingual (EN/KO), serving as a personal-brand hub and public digital garden for media-tech / OTT / DRM / AI topics.
+Daniel Kim's personal site and blog — an Astro static site, bilingual (EN/KO), serving as a personal-brand hub and public digital garden for media-tech / OTT / DRM / AI topics. The `<ComicStrip>` demo on one blog post depends on `@toonstrip/astro` (npm); before bumping it, read [`dev-references/toonstrip-sync.md`](dev-references/toonstrip-sync.md).
 
 The full build brief lives in [`dev-references/astro-site-prd.md`](dev-references/astro-site-prd.md). **Read it before doing substantive work** — it covers goals, information architecture, i18n model, design system, content schemas (Astro content collections + Zod), tech stack, and priority tags (P0 → P1 → P2). When a decision is ambiguous, prefer the simplest Astro-native approach and leave a `TODO(daniel):` comment rather than inventing facts.
 

@@ -4,6 +4,34 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-09-01 — Session 18: two toonstrip fixes picked up; cross-repo sync process written
+
+Daniel flagged a rendering issue on the `grues-in-comic-beta` post's live demo: the left
+character's balloon used only about half the panel's width in most panels, wrapping to
+extra lines and pushing the right character's balloon into their own head. Traced upstream
+to `toonstrip`'s `getCloudEstimate` (`packages/core/src/balloon-layout.ts`) — fixed there,
+published as `@toonstrip/core@0.1.3`/`element@0.1.4`/`astro@0.1.7`, picked up here.
+
+A follow-up sweep of `toonstrip` against its origin repo `grues-in-comic` (both carry
+independent copies of the comic-rendering engine) found one more divergence — toonstrip's
+`panelSeed` used a plain-space delimiter instead of grues-in-comic's collision-proof
+NUL/SOH bytes, lost during toonstrip's extraction since both render identically in any
+normal view. Fixed there too, published as `core@0.1.4`/`element@0.1.5`/`astro@0.1.8`,
+picked up here. Both bumps verified with a local `astro preview` screenshot before pushing,
+then re-verified on the live domain after — the second check caught a false alarm:
+`<ComicStrip>` is `client:visible`, so a screenshot taken without first
+`scrollIntoView`-ing it into a headless tab's viewport shows a genuinely-working deploy as
+blank (`customElements.get('comic-strip')` still `undefined`, nothing had intersected).
+
+Daniel asked for this three-repo relationship (grues-in-comic ↔ toonstrip manual sync,
+toonstrip → this repo via npm) to have a documented process so future sessions in any of
+the three don't have to rediscover it. Wrote `dev-references/toonstrip-sync.md` here (the
+consumer-side checklist, including the `client:visible` verification caveat above),
+`../toonstrip/UPSTREAM_SYNC.md` (the canonical, fullest version — toonstrip sits in the
+middle of the chain), and `../grues-in-comic/docs/TOONSTRIP_SYNC.md` (the origin-side
+process, tied into its ADR 0008 named-divergence and pixel-gate discipline). Each repo's
+`AGENTS.md`/`PITFALLS.md` now points at its own copy before the relevant code is touched.
+
 ## 2026-09-01 — Fix deployed toonstrip demo rendering blank (CSP `unsafe-eval`)
 
 Daniel reported that the `grues-in-comic-beta` post's `<ComicStrip>` demo, which
