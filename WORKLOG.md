@@ -4,6 +4,56 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-09-01 — Fix deployed toonstrip demo rendering blank (CSP `unsafe-eval`)
+
+Daniel reported that the `grues-in-comic-beta` post's `<ComicStrip>` demo, which
+rendered correctly in `astro dev`, was blank on the live deployed site
+(danielkimdev.com) — only the SSR placeholder box showed, no panels.
+
+**Diagnosis.** Inspected `@toonstrip/astro`'s published tarball (`npm pack` +
+extract) and its dependency chain rather than guessing: `@toonstrip/schema`'s
+`validateDocument()` (called synchronously by `@toonstrip/element`'s `<comic-strip>`
+whenever its `.document` property is set — the exact call `@toonstrip/astro`'s client
+renderer makes on hydration) used `ajv.compile()` at runtime, which generates and
+executes a validator function via `new Function(...)`. That needs `'unsafe-eval'` in
+the page's CSP. This repo's `public/_headers` CSP (`script-src ... 'unsafe-inline'`,
+no `'unsafe-eval'`) doesn't grant it; `astro dev` never sends a CSP header at all, so
+the bug was invisible there. Confirmed empirically rather than just in theory: served
+this repo's real `dist/` build through `wrangler pages dev` (applies the actual
+`_headers` CSP) and drove it with a headless Playwright script — reproduced the exact
+browser error, `Evaluating a string as JavaScript violates the following Content
+Security Policy directive... 'unsafe-eval' is not an allowed source`.
+
+**Fix, upstream in `../toonstrip`** (its own WORKLOG v0.7.4/v0.7.5 has the full
+writeup — not duplicated here per this repo's own convention of routing
+`@toonstrip/*` bugs to that repo, same as the v0.7.2 hydration fixes):
+`@toonstrip/schema` now precompiles the validator at build time (ajv "standalone"
+mode, bundled through esbuild so the one runtime helper standalone mode still leaves
+as a bare CJS `require()` gets inlined) — zero `eval`/`new Function`/`require()` in
+the shipped code. First publish (`schema@0.1.3`/`astro@0.1.5`) missed that
+`@toonstrip/element` — the actual runtime caller — was still on npm pinned to the old
+buggy `schema@0.1.1` (`workspace:*` resolves at each package's own publish time, not
+retroactively); needed a follow-up `element@0.1.3`/`astro@0.1.6` publish so the whole
+chain resolves to the fix.
+
+**This repo:** re-pinned `package.json` to `@toonstrip/astro@^0.1.6` (was `^0.1.4`),
+clean `rm -rf node_modules package-lock.json && npm install` (targeted installs don't
+reliably re-resolve a whole dependency graph — same npm quirk noted in the prior
+toonstrip re-pin session). Verified via `wrangler pages dev` + headless Playwright
+against the real published packages: zero CSP/eval errors, all 4 panel canvases paint
+with real non-zero dimensions (363×309 each). `astro build`/`astro check` clean (89
+pages; the 4 pre-existing `[slug].md.ts` type errors are unrelated, not touched).
+
+**Not yet deployed** — this session verified the fix locally (build + `wrangler pages
+dev`, matching production's CSP exactly) but did not push or run `npm run deploy`.
+Next session should ship it and do one final check on the real domain.
+
+**Files touched:** `package.json`, `package-lock.json`, `.gitignore` (added
+`.wrangler/`). No content or component files changed in this repo — the bug and its
+fix were entirely upstream.
+
+---
+
 ## 2026-09-01 — Fix EN/KO toonstrip panel mismatch; publish and re-pin toonstrip
 
 Daniel reported two issues with the live `<ComicStrip>` demo embedded in

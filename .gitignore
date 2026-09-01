@@ -2,6 +2,8 @@
 dist/
 # generated types
 .astro/
+# wrangler local dev cache
+.wrangler/
 # toonstrip pack assets, copied at build time by @toonstrip/astro
 public/_toonstrip/
 
