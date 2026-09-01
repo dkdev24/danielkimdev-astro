@@ -8,6 +8,62 @@ draft: false
 translationKey: grues-in-comic-beta
 ---
 
+import { ComicStrip } from '@toonstrip/astro';
+
+export const toonstripDemoDoc = {
+	version: 1,
+	panels: [
+		{
+			backdrop: 'room8bs',
+			camera: 'establishing',
+			bodies: [
+				{ character: 'dan', emotion: { angle: 0, intensity: 0.8 } },
+				{ character: 'tiki', emotion: { angle: 0.79, intensity: 0.5 } },
+			],
+			speakers: [
+				{ speaker: 'dan', balloon: 'speech', text: '마이크로소프트가 Zork랑 Comic Chat을 오픈소스로 풀었어. 몇 달 간격으로, 둘 다 완전 옛날 프로젝트인데.' },
+				{ speaker: 'tiki', balloon: 'thought', text: '설마... 이 둘을 합칠 생각이야?' },
+			],
+		},
+		{
+			backdrop: 'field',
+			camera: 'medium',
+			bodies: [
+				{ character: 'dan', emotion: { angle: 0, intensity: 0.6 }, pose: 'point' },
+				{ character: 'tiki', emotion: { angle: 0, intensity: 0.3 } },
+			],
+			speakers: [
+				{ speaker: 'dan', balloon: 'speech', text: '정확해. Zork의 파서가 스토리를 이끌고, Comic Chat이 그걸 텍스트 대신 만화 패널로 그려주는 거지.' },
+				{ speaker: 'tiki', balloon: 'speech', text: '그래서 게임 로직을 이식 가능하게 만들려고 중간 표현 계층까지 따로 만든 거야?' },
+			],
+		},
+		{
+			backdrop: 'pastoral',
+			camera: 'wide',
+			bodies: [
+				{ character: 'dan', emotion: { angle: 5.5, intensity: 0.7 }, pose: 'wave' },
+				{ character: 'tiki', emotion: { angle: 0, intensity: 0.6 } },
+			],
+			speakers: [
+				{ speaker: 'dan', balloon: 'speech', text: '맞아, 근데 코드는 한 줄도 내가 안 짰어. AI 에이전트가 다 했어. 심지어 엔딩까지 클리어하고 던전 마스터 캐릭터도 추가했지.' },
+				{ speaker: 'tiki', balloon: 'speech', text: '그루 잡는 AI 고스트라이터라. 뭐, 못 할 것도 없지.' },
+			],
+		},
+		{
+			backdrop: 'room8bs',
+			camera: 'close-up',
+			bodies: [
+				{ character: 'dan', emotion: { angle: 0, intensity: 0.9 } },
+				{ character: 'tiki', emotion: { angle: 5.5, intensity: 0.6 } },
+			],
+			speakers: [
+				{ speaker: 'dan', balloon: 'speech', text: '퍼블릭 베타도 공개했고, 만화 렌더링 부분은 toonstrip이라는 별도 라이브러리로 떼어냈어.' },
+				{ speaker: 'tiki', balloon: 'speech', text: '그리고 그게 바로 지금 우리를 그리고 있는 거잖아.' },
+			],
+		},
+	],
+};
+
 제가 구독 중인 뉴스레터들 중에 [GeekNews](https://news.hada.io/)라는 개발/기술/스타트업 관련 뉴스 서비스가 있습니다.
 작년 말(2025년 11월) 쯤에 [해당 뉴스레터](https://news.hada.io/topic?id=24510)로 마이크로소프트가 [Zork](https://github.com/historicalsource/zork1)라는 1980년대 텍스트 어드벤처 게임을 MIT 라이선스로 공개했다는 소식을 들었습니다. 90년대에 NetHack 류의 텍스트 로그라이크 게임들을 플레이해 본 적도 있고, PC 게임 초기에 시에라(Leisure Suit Larry), 루카스아츠(원숭이 섬 시리즈) 등의 그래픽 어드벤처 게임들도 즐겨 했지만, 50이 넘은 아재에게도 Zork와 같은 텍스트 어드벤처는 경험해보지 못한 클래식 장르입니다.
 
@@ -59,6 +115,12 @@ IR을 읽어 실제로 게임을 실행하는 런타임으로, 월드 상태 관
 ![그루스 인 코믹 플레이 화면. 왼쪽은 West of House 시작 장면을 네 컷의 Comic Chat 패널로 그린 모습(Hero와 Dungeon Master 캐릭터 등장), 오른쪽은 look, open mailbox, get leaflet 같은 명령을 입력한 고전 Zork 텍스트 출력](/images/blog/grues-in-comic-beta.png)
 
 다만 아직은 저장소를 공개하지 않은 단계입니다. 정식 1.0 버전은 저장소 공개와 웹사이트 정식 오픈이 함께 이루어질 때 붙일 계획이며, 그전까지는 베타로 계속 다듬어갈 예정입니다.
+
+## 만화 렌더링 엔진을 따로 떼어내다
+
+그루스 인 코믹의 Comic Chat 스타일 렌더링 부분은 굳이 Zork 엔진에 묶여 있을 필요가 없었습니다. 이 부분만 따로 떼어내 오픈소스 라이브러리 [toonstrip](https://www.npmjs.com/package/@toonstrip/core)으로 만들었습니다. 게임 로직이나 AI 콘텐츠 생성 없이, 넘겨받은 데이터로 패널과 캐릭터, 포즈, 말풍선을 그려주는 프레임워크 임베드용 위젯입니다. 아래는 `@toonstrip/astro`로 이 글에 직접 임베드한 실제 렌더링으로, 위 스크린샷과 같은 기본 캐릭터 팩을 사용합니다.
+
+<ComicStrip document={toonstripDemoDoc} packs={['comic-chat']} client:visible />
 
 ## 마치며
 

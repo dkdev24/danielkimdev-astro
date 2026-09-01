@@ -2,6 +2,7 @@
 
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import { toonstrip } from '@toonstrip/astro';
 import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
@@ -44,6 +45,8 @@ export default defineConfig({
 
 	integrations: [
 		mdx(),
+		// Embeds a live toonstrip <ComicStrip> in the grues-in-comic-beta post.
+		toonstrip({ packs: ['@toonstrip/pack-comic-chat'] }),
 		// Emit hreflang alternates so EN/KO pages cross-reference each other for SEO.
 		sitemap({
 			i18n: {

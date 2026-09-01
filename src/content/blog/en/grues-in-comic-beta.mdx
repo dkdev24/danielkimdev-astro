@@ -8,6 +8,62 @@ draft: false
 translationKey: grues-in-comic-beta
 ---
 
+import { ComicStrip } from '@toonstrip/astro';
+
+export const toonstripDemoDoc = {
+	version: 1,
+	panels: [
+		{
+			backdrop: 'room8bs',
+			camera: 'establishing',
+			bodies: [
+				{ character: 'dan', emotion: { angle: 0, intensity: 0.8 } },
+				{ character: 'tiki', emotion: { angle: 0.79, intensity: 0.5 } },
+			],
+			speakers: [
+				{ speaker: 'dan', balloon: 'speech', text: 'Microsoft open-sourced Zork AND Comic Chat. Two ancient projects, dropped months apart.' },
+				{ speaker: 'tiki', balloon: 'thought', text: 'Let me guess. You want to smash them together.' },
+			],
+		},
+		{
+			backdrop: 'field',
+			camera: 'medium',
+			bodies: [
+				{ character: 'dan', emotion: { angle: 0, intensity: 0.6 }, pose: 'point' },
+				{ character: 'tiki', emotion: { angle: 0, intensity: 0.3 } },
+			],
+			speakers: [
+				{ speaker: 'dan', balloon: 'speech', text: "Exactly. Zork's parser drives the story, Comic Chat draws it as panels instead of a wall of text." },
+				{ speaker: 'tiki', balloon: 'speech', text: 'So you built a whole intermediate layer just to keep the game logic portable?' },
+			],
+		},
+		{
+			backdrop: 'pastoral',
+			camera: 'wide',
+			bodies: [
+				{ character: 'dan', emotion: { angle: 5.5, intensity: 0.7 }, pose: 'wave' },
+				{ character: 'tiki', emotion: { angle: 0, intensity: 0.6 } },
+			],
+			speakers: [
+				{ speaker: 'dan', balloon: 'speech', text: 'Yep, and I never wrote a line of it myself, an AI agent did. It even beat the game and added a Dungeon Master character.' },
+				{ speaker: 'tiki', balloon: 'speech', text: 'A grue-fighting AI ghostwriter. Sure, why not.' },
+			],
+		},
+		{
+			backdrop: 'room8bs',
+			camera: 'close-up',
+			bodies: [
+				{ character: 'dan', emotion: { angle: 0, intensity: 0.9 } },
+				{ character: 'tiki', emotion: { angle: 5.5, intensity: 0.6 } },
+			],
+			speakers: [
+				{ speaker: 'dan', balloon: 'speech', text: "Public beta's live, and I even spun the comic renderer out into its own library, toonstrip." },
+				{ speaker: 'tiki', balloon: 'speech', text: "Which is exactly what's drawing us right now." },
+			],
+		},
+	],
+};
+
 I subscribe to a few developer newsletters, and one of them is [GeekNews](https://news.hada.io/), a Korean service covering dev, tech, and startup news. Late last November, [a GeekNews item](https://news.hada.io/topic?id=24510) caught my eye: Microsoft had released [Zork](https://github.com/historicalsource/zork1), the 1980s text adventure game, under the MIT license. I played plenty of NetHack-style text roguelikes in the '90s, and grew up on graphical adventure games from Sierra (Leisure Suit Larry) and LucasArts (the Monkey Island series), but even at 50-plus, I'd never actually played a text adventure like Zork, a classic genre I somehow skipped entirely.
 
 I filed that away as "huh, interesting" and mostly forgot about it. Then last month, [another GeekNews post](https://news.hada.io/topic?id=31503) grabbed my attention. Microsoft had done the same thing again, this time open-sourcing [Comic Chat](https://github.com/microsoft/comic-chat), a 1990s IRC client. Like Zork, I'd never even heard of Comic Chat before that post, but at the bottom of the article, under "related reading," sat a link back to the Zork release. Seeing the two together got me thinking about combining them.
@@ -58,6 +114,12 @@ The result is live on a subdomain: **[grues.danielkimdev.com](https://grues.dani
 ![Grues in Comic gameplay screenshot: the West of House opening scene rendered as four Comic Chat panels on the left, with the Hero and Dungeon Master characters, alongside the classic Zork text output (look, open mailbox, get leaflet) on the right](/images/blog/grues-in-comic-beta.png)
 
 The repository isn't public yet. I'm planning to tag 1.0 when the repo goes public alongside the site's official launch. Until then, it stays in beta and keeps getting polished.
+
+## The comic renderer, extracted
+
+Grues in Comic's Comic Chat-style rendering half doesn't have to stay coupled to a Zork engine. I pulled it out into its own open-source library, [toonstrip](https://www.npmjs.com/package/@toonstrip/core): a framework-embeddable widget that draws panels, characters, poses, and speech balloons from data you supply, with no game logic or AI content generation built in. This post embeds it live via `@toonstrip/astro`, using the same default character pack as the panel above:
+
+<ComicStrip document={toonstripDemoDoc} packs={['comic-chat']} client:visible />
 
 ## Closing thoughts
 

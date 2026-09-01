@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-08-31 (session 14)
-**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 14: added a "How this blog gets written" homepage section (terminal-panel treatment) — not yet visually verified by Daniel. Sitewide Hallmark reskin (Cobalt/Aurora, session 13) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-09-01 (session 15)
+**Status:** **LIVE** at https://danielkimdev.com. All P0 (01–21) + P1 (22–27) + P2 (30–32) shipped. Session 15: `toonstrip` demo embed + two upstream hydration bugs fixed in `../toonstrip` (unpublished — see Current state and Next steps #1). Session 14's homepage pipeline section still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora, session 13) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -37,11 +37,11 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Verify the new pipeline section:** `npm run dev`, check `/` and `/ko/` in light + dark. Built and `astro check`-clean but never opened in a browser this session (agent-browser hung on `--version`; worth checking its install/permissions before next attempt).
-2. **Cobalt/Aurora polish:** no locked Hallmark token spec exists for Aurora in this install (only Cobalt/Lumen have `.md` theme files) — its palette/fonts were reconstructed from scattered references and Fraunces subs for the Fontshare-exclusive Sentient. Worth a design pass to confirm exact hues/type read as intended. Consider producing a `design.md` at the project root to lock the now-sitewide system (Hallmark's convention for system-managed projects) and formally retire `Header.astro`/`DESIGN-minimax.md`.
-3. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
-4. **Post-deploy Lighthouse** — re-run, verify no regression from `functions/_middleware.ts`.
-5. **P1 stages 28–29:** OG images, authoring docs + content-lint CI. P2 33–36 still one-line scope.
+1. **Publish `../toonstrip` fixes, then re-pin here:** once `@toonstrip/astro`/`@toonstrip/schema` publish with the session-15 fixes (see that repo's HANDOFF), bump this repo's `package.json` to the new versions, `npm install` for real, and re-verify the `grues-in-comic-beta` demo still hydrates — the current `node_modules` state (manual `dist/` copy) doesn't survive a clean install.
+2. **Verify the pipeline section + toonstrip demo in a real browser:** `npm run dev`, check `/`, `/ko/`, and `/blog/grues-in-comic-beta/` in light + dark. Both built and `astro check`-clean but not opened in a real (non-automated) browser this session.
+3. **Cobalt/Aurora polish:** no locked Hallmark token spec exists for Aurora in this install (only Cobalt/Lumen have `.md` theme files) — its palette/fonts were reconstructed from scattered references and Fraunces subs for the Fontshare-exclusive Sentient. Worth a design pass to confirm exact hues/type read as intended. Consider producing a `design.md` at the project root to lock the now-sitewide system (Hallmark's convention for system-managed projects) and formally retire `Header.astro`/`DESIGN-minimax.md`.
+4. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post. Remind him to set that field explicitly; draft manually, not via `daniel-writing-style`.
+5. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run (verify no `functions/_middleware.ts` regression); OG images, authoring docs + content-lint CI; P2 stages still one-line scope.
 
 ## Conventions / gotchas
 

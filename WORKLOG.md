@@ -4,6 +4,53 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-09-01 — Embed live `toonstrip` demo in the Grues in Comic beta post; fix upstream hydration bugs
+
+Converted `grues-in-comic-beta.md` (EN/KO) to `.mdx` and embedded a live 4-panel
+`<ComicStrip>` from Daniel's own `toonstrip` npm package (`../toonstrip`, sibling repo)
+as a "the comic renderer, extracted" section — a witty in-universe dialogue between the
+demo's `dan`/`tiki` characters summarizing the post itself (GeekNews find → IR pitch →
+vibe-coded engine → public beta + toonstrip spun out), translated (not machine-translated)
+for the KO post. `astro.config.mjs` gained the `toonstrip({ packs: ['@toonstrip/pack-comic-chat'] })`
+integration; `package.json` gained `@toonstrip/astro`/`@toonstrip/pack-comic-chat`;
+`.gitignore` gained `public/_toonstrip/` (pack assets the integration copies in at build
+time).
+
+**Bug: the strip didn't render at all in `npm run dev`.** Diagnosed two independent bugs,
+both upstream in `@toonstrip/astro`/`@toonstrip/schema` (fixed in `../toonstrip`, its own
+WORKLOG v0.7.2 — not this repo's problem to route around, so no lasting workaround lives
+here):
+
+1. `client:visible`'s SSR placeholder (`<comic-strip></comic-strip>`) was zero-size,
+   and Chromium never reports a zero-area `IntersectionObserver` target as intersecting
+   — the hydration trigger could never fire, on any page. Fixed upstream with a
+   non-zero inline `min-height` on the placeholder.
+2. `@toonstrip/schema`'s CJS `ajv` dependency got served unbundled by Vite dev (its
+   dependency crawl can't discover anything reachable only through an astro-island's
+   runtime-computed `import(url)`) and threw on the CJS/ESM interop. Fixed upstream by
+   having the integration add `ajv` to `vite.optimizeDeps.include` automatically.
+
+Verified end-to-end via Chrome (claude-in-chrome): built `../toonstrip`'s `packages/schema`
+and `packages/astro`, copied `dist/` into this repo's `node_modules` (this repo's own
+`package.json`/`package-lock.json` still pin the unfixed npm-published versions,
+`@toonstrip/astro@0.1.3`/`@toonstrip/schema@0.1.1` — **the manual `dist/` copy is not
+persisted by git and will be silently lost on the next real `npm install`**), confirmed
+`ajv` auto-pre-bundles and the strip hydrates cleanly with a populated shadow root and no
+console errors. One caveat: couldn't fire `client:visible`'s real intersection trigger in
+the automated test browser tab itself (it stays backgrounded — `document.visibilityState`
+stuck `"hidden"`, which suspends `IntersectionObserver` callbacks regardless of element
+size) — cross-checked instead with `client:load` (not visibility-gated), which hydrated
+cleanly, plus independent confirmation the placeholder box and `ajv` pre-bundling are both
+correctly in place for `client:visible` as shipped. Worth a real manual browser check.
+
+**Files touched:** `src/content/blog/{en,ko}/grues-in-comic-beta.{md→mdx}`,
+`astro.config.mjs`, `package.json`, `package-lock.json`, `.gitignore`.
+
+**Next:** once `../toonstrip` publishes `@toonstrip/astro`/`@toonstrip/schema` with the
+v0.7.2 fixes, bump this repo's `package.json` to those versions and re-verify — this repo
+is currently relying on an unpublished, uncommitted-here `dist/` copy in `node_modules`
+to work at all.
+
 ## 2026-08-31 — Homepage "How this blog gets written" pipeline section
 
 Added a new homepage section, between Featured work and Latest writing, explaining the wiki-to-post pipeline to blog visitors. Requested from the sibling LLM-wiki project's session (cross-repo — Daniel was there discussing his wiki workflow, decided it belonged on the site's homepage as a public explainer). Scoped to Ingest → Private Wiki → Story Scouting → Draft/Review/Publish only (Daniel isn't running Kit or Weekly Review yet, so those layers are omitted).
