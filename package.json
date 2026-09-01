@@ -19,7 +19,7 @@
     "@astrojs/mdx": "^7.0.0",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
-    "@toonstrip/astro": "^0.1.8",
+    "@toonstrip/astro": "^0.1.9",
     "@toonstrip/pack-comic-chat": "^0.1.1",
     "astro": "^7.2.4",
     "sharp": "^0.34.3"

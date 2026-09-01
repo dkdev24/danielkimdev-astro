@@ -4,6 +4,27 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-09-01 — Session 18 continued: the balloon-overlap fix needed a second round
+
+The first round of this session (below) shipped `@toonstrip/astro@0.1.7`, believed to fix
+the balloon/head overlap Daniel had flagged. He checked the live post and reported it
+still looked "random and mostly narrow." Re-investigated by reading the actual production
+canvas size off the live page (`363×309`, via `comic-strip`'s shadow-root canvas
+`.width`/`.height`) instead of trusting a local preview screenshot at whatever width the
+terminal window happened to be. At that real size, toonstrip's multi-balloon layout
+driver (the code `0.1.7` fixed) refuses most panels of this post's real content and falls
+back to a separate, older renderer — untouched by `0.1.7`, and confirmed (by toggling the
+fix on/off against the real content) to have made one panel slightly worse. Real fix
+landed upstream as `@toonstrip/core@0.1.5`/`element@0.1.6`/`astro@0.1.9` (toonstrip's
+`WORKLOG.md` v0.7.8; also ported to `grues-in-comic`, its v0.33.6). Bumped here, rebuilt,
+re-verified EN and KO at the real 363×309 size — every panel now wider, no overlap
+anywhere, confirmed by screenshot this time, not just by reading the diff.
+
+Added the missing step to `dev-references/toonstrip-sync.md`: verify at the *real*
+production canvas size, not a wide preview window or the upstream renderer's own test
+fixture size — this is exactly the gap that let `0.1.7`'s incomplete fix look correct
+during the first round's own checklist.
+
 ## 2026-09-01 — Session 18: two toonstrip fixes picked up; cross-repo sync process written
 
 Daniel flagged a rendering issue on the `grues-in-comic-beta` post's live demo: the left
