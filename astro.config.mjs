@@ -112,6 +112,21 @@ export default defineConfig({
 			fallbacks: ['Noto Sans KR', 'sans-serif'],
 			display: 'swap',
 		},
+		{
+			// Hangul inside <ComicStrip> balloons. @toonstrip/core's canvas font
+			// stack names "Noto Sans KR" ahead of the platform Korean faces, and
+			// @toonstrip/element (0.1.8+) waits for document.fonts before painting.
+			// Declared only, never preloaded: the Korean unicode-range subsets are
+			// fetched only when a strip actually draws Hangul. Page prose stays
+			// Pretendard.
+			provider: fontProviders.google(),
+			name: 'Noto Sans KR',
+			cssVariable: '--font-noto-sans-kr',
+			weights: [400, 700],
+			subsets: ['korean'],
+			fallbacks: ['Apple SD Gothic Neo', 'Malgun Gothic', 'sans-serif'],
+			display: 'swap',
+		},
 		// Cobalt pilot (homepage only, 2026-08-26): Space Grotesk / Inter / JetBrains
 		// Mono. Scoped to the homepage's .cobalt-pilot wrapper — additive, does not
 		// replace the locked font system above.

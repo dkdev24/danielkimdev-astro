@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-09-02 (session 19)
-**Status:** **LIVE** at https://danielkimdev.com. Session 19 bumped `@toonstrip/astro` `0.1.9 → 0.1.10`, verified locally then pushed with Daniel's confirmation and re-verified on the live domain (EN/KO, real 363×309 canvas, all 4 panels clean, including panel 1 of the originally reported bug). All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-09-02 (session 20)
+**Status:** **LIVE** at https://danielkimdev.com. Session 20 bumped `@toonstrip/astro` `0.1.10 → 0.1.11` (Korean balloon text: core's canvas font stack now names Noto Sans KR + platform Korean faces instead of falling to `cursive`/Gungseo; element waits for `document.fonts`) and declared Noto Sans KR (google provider, `korean` subset, on-demand, never preloaded) in `astro.config.mjs`/`BaseHead` so the KO post's strip draws Hangul in it. Verified locally at the real 363×309 size, 4 panels, `document.fonts.check` true. All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 

@@ -4,6 +4,26 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-09-02 — Session 20: `@toonstrip/astro` 0.1.11 + Noto Sans KR for comic balloons
+
+Daniel reported Korean balloon text rendering in Gungseo on Windows and in random
+fallbacks on macOS/Android. Root cause upstream (toonstrip WORKLOG v0.8.9): core's canvas
+font stack was `Comic Sans MS, Comic Neue, ui-rounded, cursive` — no Korean face, so every
+Hangul glyph resolved through the generic `cursive`; and the element painted before any
+page webfont had loaded, so even a declared face was missed. Fixed upstream in
+`core@0.1.7` (stack: comic faces, then Noto Sans KR, Apple SD Gothic Neo, Malgun Gothic,
+Noto Sans CJK KR, then generics) and `element@0.1.8` (awaits `document.fonts.load` with
+the document's text, repaints on `loadingdone`).
+
+Here: bumped `@toonstrip/astro` to 0.1.11 (`npm ls` single clean chain); added a
+`Noto Sans KR` font entry (google provider, `korean` subset, weights 400/700, no preload)
+and `<Font cssVariable="--font-noto-sans-kr" />` in `BaseHead`. Prose stays Pretendard;
+only the canvas asks for Noto, and its unicode-range subsets download only when a strip
+draws Hangul. Local verify on `/ko/blog/grues-in-comic-beta/` (scrolled into view, real
+363×309 canvas): 4 panels, Hangul in Noto Sans KR, Latin in Comic Sans, no overlap.
+Local build logged a fontsource cert error for Pretendard (corporate proxy, local only;
+Pages builds are unaffected).
+
 ## 2026-09-02 — Session 19: `@toonstrip/astro` bumped to 0.1.10 (three more upstream fixes)
 
 Picked up three more toonstrip fixes: `@toonstrip/astro` `0.1.9 → 0.1.10` (`core@0.1.6`,

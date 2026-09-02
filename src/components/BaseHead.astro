@@ -116,6 +116,8 @@ const showUmami = import.meta.env.PROD && UMAMI_WEBSITE_ID !== '';
 <Font cssVariable="--font-outfit" />
 <Font cssVariable="--font-poppins" />
 <Font cssVariable="--font-roboto" />
+<!-- Hangul in <ComicStrip> canvases (toonstrip 0.8.9 font fix); on-demand only. -->
+<Font cssVariable="--font-noto-sans-kr" />
 <!-- Cobalt (light) / Aurora (dark) sitewide reskin (2026-08-26). Loaded here
      (not just on the homepage) so every route gets the correct --font-*
      role vars — see tokens.css :root / [data-theme="dark"]. -->
