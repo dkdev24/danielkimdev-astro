@@ -4,7 +4,7 @@
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
 **Last updated:** 2026-09-02 (session 19)
-**Status:** Session 19 bumped `@toonstrip/astro` `0.1.9 → 0.1.10`, verified locally (EN/KO, real 363×309 canvas, all 4 panels clean), committed — **not yet pushed**, pending Daniel's confirmation (Next steps #1). Prior: **LIVE** at https://danielkimdev.com, all P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
+**Status:** **LIVE** at https://danielkimdev.com. Session 19 bumped `@toonstrip/astro` `0.1.9 → 0.1.10`, verified locally then pushed with Daniel's confirmation and re-verified on the live domain (EN/KO, real 363×309 canvas, all 4 panels clean, including panel 1 of the originally reported bug). All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -37,11 +37,10 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Confirm the push with Daniel, then push `main`** — `astro@0.1.10` committed, not deployed. Re-verify on the live domain after (scroll-into-view caveat, `dev-references/toonstrip-sync.md`).
-2. **Homepage pipeline section (`/`, `/ko/`) light+dark** — still unconfirmed since session 14.
-3. **Cobalt/Aurora polish:** no locked Hallmark token spec for Aurora in this install — palette/fonts reconstructed from scattered refs + a Fraunces sub for Sentient. Worth a design pass; consider a `design.md` to lock it and retire `Header.astro`/`DESIGN-minimax.md`.
-4. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post — remind him to set the field; draft manually, not via `daniel-writing-style`.
-5. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope.
+1. **Homepage pipeline section (`/`, `/ko/`) light+dark** — still unconfirmed since session 14.
+2. **Cobalt/Aurora polish:** no locked Hallmark token spec for Aurora in this install — palette/fonts reconstructed from scattered refs + a Fraunces sub for Sentient. Worth a design pass; consider a `design.md` to lock it and retire `Header.astro`/`DESIGN-minimax.md`.
+3. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post — remind him to set the field; draft manually, not via `daniel-writing-style`.
+4. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope.
 
 ## Conventions / gotchas
 

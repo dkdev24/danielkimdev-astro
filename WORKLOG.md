@@ -26,8 +26,9 @@ same real embed size as prior rounds — not a wider preview-window artifact), s
 `scrollIntoView`, which did not reliably trigger hydration this time), waited for
 hydration, then screenshotted. All 4 panels clean in both locales — no balloon over a
 head, no tail crossing another balloon, including panel 1, the original reported bug.
-Committed; **not yet pushed** — confirming with Daniel first (production deploys on push
-to `main`).
+Committed, pushed with Daniel's confirmation, and re-verified live at
+https://danielkimdev.com/blog/grues-in-comic-beta/ (real 363×309 canvas, same clean result)
+minutes after the push.
 
 ## 2026-09-01 — Session 18 continued: the balloon-overlap fix needed a second round
 
