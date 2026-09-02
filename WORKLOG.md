@@ -4,6 +4,31 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-09-02 — Session 19: `@toonstrip/astro` bumped to 0.1.10 (three more upstream fixes)
+
+Picked up three more toonstrip fixes: `@toonstrip/astro` `0.1.9 → 0.1.10` (`core@0.1.6`,
+`element@0.1.7`). Upstream root-caused *why* this post's real 363×309 embed kept landing
+on the older fallback renderer in the first place (not just patched the fallback's own
+bugs, as `0.1.9` did) — a straddling balloon could still overlap a *different* character's
+head/tail (not just its own), and the multi-balloon driver's first-balloon width estimate
+was unbounded, routinely blocking a second speaker's balloon entirely; both fixed. Also
+found every layout constant (font size, line height, margins) was fixed CSS px at
+toonstrip's own native test size regardless of the panel actually rendered — scaled to the
+real panel size now, which matters here specifically since this post's `.prose-breakout`
+wrapper renders at 363×309, below that native size. Full upstream reasoning: toonstrip's
+`WORKLOG.md` v0.7.9–v0.7.11.
+
+`npm ls` — clean single chain, no duplicate resolutions. `npm run build` clean, 89 pages.
+Verified locally with `npm run preview`: EN and KO `/blog/grues-in-comic-beta/`, read the
+real canvas size off the page first (`363×309` CSS, both locales, confirming this is the
+same real embed size as prior rounds — not a wider preview-window artifact), scrolled the
+`client:visible` element into view for real (mouse-wheel scroll, not programmatic
+`scrollIntoView`, which did not reliably trigger hydration this time), waited for
+hydration, then screenshotted. All 4 panels clean in both locales — no balloon over a
+head, no tail crossing another balloon, including panel 1, the original reported bug.
+Committed; **not yet pushed** — confirming with Daniel first (production deploys on push
+to `main`).
+
 ## 2026-09-01 — Session 18 continued: the balloon-overlap fix needed a second round
 
 The first round of this session (below) shipped `@toonstrip/astro@0.1.7`, believed to fix
