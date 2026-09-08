@@ -36,7 +36,14 @@ export const GET: APIRoute = async () => {
 	if (timeline.length > 0) {
 		lines.push('## Career timeline', '');
 		for (const entry of timeline) {
-			lines.push(`### ${entry.data.role} — ${entry.data.org} (${entry.data.start} – ${entry.data.end})`, '', entry.data.summary, '');
+			lines.push(
+				`### ${entry.data.role} · ${entry.data.org}`,
+				'',
+				`${entry.data.start} – ${entry.data.end}`,
+				'',
+				entry.data.summary,
+				''
+			);
 		}
 	}
 
