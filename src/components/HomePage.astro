@@ -112,7 +112,7 @@ const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), l
 		{
 			featured.length > 0 && (
 				<section class="section container reveal">
-					<p class="section__eyebrow">{t('home.focusHeading')}</p>
+					<h2 class="section__eyebrow">{t('home.focusHeading')}</h2>
 					<div class="grid">
 						{featured.map((item) => (
 							<Card featured interactive>
@@ -139,7 +139,7 @@ const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), l
 		     card grids above/below (terminal panel, echoing the hero), so the
 		     three sections under the hero don't all read the same. -->
 		<section class="section container reveal">
-			<p class="section__eyebrow">{t('process.eyebrow')}</p>
+			<h2 class="section__eyebrow">{t('process.eyebrow')}</h2>
 			<div class="terminal-card pipeline-panel">
 				<div class="terminal-card__bar">
 					<span class="terminal-card__dot" aria-hidden="true"></span>
@@ -168,7 +168,7 @@ const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), l
 
 		<!-- Latest writing -->
 		<section class="section container reveal">
-			<p class="section__eyebrow">{t('blog.latestWriting')}</p>
+			<h2 class="section__eyebrow">{t('blog.latestWriting')}</h2>
 			{
 				latest.length > 0 ? (
 					<div class="grid">

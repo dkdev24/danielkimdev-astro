@@ -6,6 +6,7 @@
 // "en/item-slug" → strip "en/" prefix + extension to get the route param.
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
+import { smartQuotes } from '../../utils/smartquotes';
 
 export async function getStaticPaths() {
 	const entries = await getCollection('portfolio');
@@ -40,7 +41,7 @@ export const GET: APIRoute = async ({ props }) => {
 	const directive =
 		'> For the complete index of all posts and pages, see [llms.txt](/llms.txt).\n\n';
 
-	return new Response(frontmatter + directive + (doc.body ?? ''), {
+	return new Response(frontmatter + directive + smartQuotes(doc.body ?? ''), {
 		status: 200,
 		headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
 	});

@@ -1,36 +1,59 @@
 // src/pages/about.md.ts
-// Plain-markdown sibling of the About page for AI agents.
+// Plain-markdown sibling of the About page for AI agents. Built from the same
+// data (ABOUT / ABOUT_SKILLS / timeline collection) as AboutPage.astro so the
+// two can't drift out of parity.
+import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
+import { ABOUT, ABOUT_SKILLS } from '../data/about';
+import { CONTACT_EMAIL, SOCIAL_LINKS } from '../consts';
 
-export const GET: APIRoute = () => {
-	const content = `---
-title: "About — Daniel Kim"
-description: "Background, career, and what Daniel Kim works on — AI for knowledge work, media tech, and building in public."
----
-> For the complete index of all posts and pages, see [llms.txt](/llms.txt).
+export const GET: APIRoute = async () => {
+	const bio = ABOUT.en.bio;
+	const skills = ABOUT_SKILLS.en;
+	const timeline = (
+		await getCollection('timeline', (e) => e.data.lang === 'en')
+	).sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 
-# About Daniel Kim
+	const lines: string[] = [
+		'---',
+		'title: "About — Daniel Kim"',
+		'description: "Background, career, and what Daniel Kim works on — AI for knowledge work, media tech, and building in public."',
+		'---',
+		'> For the complete index of all posts and pages, see [llms.txt](/llms.txt).',
+		'',
+		'# About Daniel Kim',
+		'',
+		...bio,
+		'',
+		'## Skills & focus',
+		'',
+	];
 
-11+ years in media tech — from C/C++ and Java development to product management and developer relations in the OTT and DRM space. Now an independent researcher and builder focused on AI for knowledge work.
+	for (const g of skills) {
+		lines.push(`### ${g.group}`, '', ...g.items.map((item) => `- ${item}`), '');
+	}
 
-## Background
+	if (timeline.length > 0) {
+		lines.push('## Career timeline', '');
+		for (const entry of timeline) {
+			lines.push(`### ${entry.data.role} — ${entry.data.org} (${entry.data.start} – ${entry.data.end})`, '', entry.data.summary, '');
+		}
+	}
 
-- Owned multi-DRM and forensic-watermarking products (PallyCon SaaS) at DoveRunner for global OTT customers
-- Developer-facing technical writing, documentation, and conference talks in media tech
-- Currently exploring AI-assisted personal knowledge management and agent-ready documentation
+	lines.push(
+		'## Get in touch',
+		'',
+		`- Email: ${CONTACT_EMAIL}`,
+		`- LinkedIn: ${SOCIAL_LINKS.linkedin}`,
+		'',
+		'## Links',
+		'',
+		'- [Blog](/blog/) — writing and series',
+		'- [Portfolio](/portfolio/) — work history',
+		'- [llms.txt](/llms.txt) — complete site index',
+	);
 
-## What I'm building now
-
-A public experiment in using AI to organise a decade of domain knowledge — documented in the [Building LLM-PKM in Public](/blog/series/building-llm-pkm-in-public/) series.
-
-## Links
-
-- [Blog](/blog/) — writing and series
-- [Portfolio](/portfolio/) — work history
-- [llms.txt](/llms.txt) — complete site index
-`;
-
-	return new Response(content, {
+	return new Response(lines.join('\n') + '\n', {
 		status: 200,
 		headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
 	});
