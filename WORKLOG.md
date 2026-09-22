@@ -4,6 +4,45 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-09-22 — Session 21: migrated npm → pnpm
+
+Daniel is migrating npm-based projects under `~/Projects` to pnpm for shared
+content-addressable storage across projects (per the `project-init` skill's pnpm
+requirements). Here: `pnpm import` converted `package-lock.json` into
+`pnpm-lock.yaml` (preserving the exact resolved versions, including
+`astro@7.2.10`), then `package-lock.json` and `node_modules` were removed and
+reinstalled fresh via `pnpm install`. Pinned `"packageManager": "pnpm@11.1.1"`
+in `package.json`. pnpm blocks postinstall scripts by default; approved
+`esbuild`, `sharp`, and `workerd` via `pnpm approve-builds`, which wrote
+`pnpm-workspace.yaml` (`allowBuilds`) — that file is new and should stay
+committed. Updated `npm run` → `pnpm run` references in README.md, AGENTS.md,
+playwright.config.ts, and scripts/predeploy-guard.mjs. `node_modules/` was
+already gitignored, no change needed there.
+
+`corepack enable` initially failed (`EPERM` writing shims into
+`C:\Program Files\nodejs\`) — needed an elevated shell. Daniel re-ran it as
+Administrator, then `corepack prepare pnpm@11.1.1 --activate` pinned the exact
+version so `pnpm` now resolves through corepack's shim and matches
+`packageManager`.
+
+`pnpm run build` verified clean (89 pages) both before and after the corepack
+activation. `pnpm run test:e2e` fails with "Process from config.webServer
+exited early" — root cause is Astro 7.2.10's dev server now backgrounding
+itself by default (confirmed via `astro dev status` showing a detached daemon
+even without `--background`), not a pnpm regression: `astro@7.2.10` was already
+the version pinned in the old `package-lock.json` before this migration.
+`pnpm run dev`/`build`/`preview` all work standalone; only Playwright's
+`webServer` auto-start assumption (foreground process, not a daemon) is
+broken. Left unfixed — out of scope for the package-manager migration, and
+pre-existing.
+
+Cloudflare Pages: the git-integration build command in the dashboard was
+`npm run build`; Daniel updated it to `pnpm run build` manually (no `wrangler
+pages project` subcommand exists to edit build settings — only
+`list`/`create`/`delete`; that setting is dashboard/API-only). Cloudflare
+auto-detects the package manager from the lockfile, so the install step
+already picked up pnpm once `pnpm-lock.yaml` was pushed.
+
 ## 2026-09-02 — Session 20: `@toonstrip/astro` 0.1.11 + Noto Sans KR for comic balloons
 
 Daniel reported Korean balloon text rendering in Gungseo on Windows and in random

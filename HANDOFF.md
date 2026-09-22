@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-09-02 (session 20)
-**Status:** **LIVE** at https://danielkimdev.com. Session 20 bumped `@toonstrip/astro` `0.1.10 → 0.1.11` (Korean balloon text: core's canvas font stack now names Noto Sans KR + platform Korean faces instead of falling to `cursive`/Gungseo; element waits for `document.fonts`) and declared Noto Sans KR (google provider, `korean` subset, on-demand, never preloaded) in `astro.config.mjs`/`BaseHead` so the KO post's strip draws Hangul in it. Verified locally at the real 363×309 size, 4 panels, `document.fonts.check` true. All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-09-22 (session 21)
+**Status:** **LIVE** at https://danielkimdev.com. Session 21 migrated the repo from npm to pnpm (shared content-addressable store across projects): `pnpm-lock.yaml` replaces `package-lock.json`, `packageManager` pinned to `pnpm@11.1.1` in `package.json`, corepack activated (admin-elevated), `pnpm-workspace.yaml` added (approved native builds: esbuild/sharp/workerd), docs/scripts updated to `pnpm run …`, Cloudflare Pages dashboard build command updated to `pnpm run build`. `pnpm run build`/`dev`/`preview` all verified working. `pnpm run test:e2e` is broken — pre-existing, unrelated to pnpm (Astro 7.2.10's dev server now daemonizes itself by default, breaking Playwright's `webServer` foreground assumption). Session 20 bumped `@toonstrip/astro` `0.1.10 → 0.1.11` (Korean balloon text: core's canvas font stack now names Noto Sans KR + platform Korean faces instead of falling to `cursive`/Gungseo; element waits for `document.fonts`) and declared Noto Sans KR (google provider, `korean` subset, on-demand, never preloaded) in `astro.config.mjs`/`BaseHead` so the KO post's strip draws Hangul in it. Verified locally at the real 363×309 size, 4 panels, `document.fonts.check` true. All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -28,7 +28,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Locked decisions (do not re-litigate without Daniel)
 
-- **Domain/deploy:** `danielkimdev.com` on Cloudflare Pages, static `dist/`. Default deploy = `git push origin main`. Fallback: `npm run deploy` (wrangler, `DEPLOY_ALLOW_DIRTY=1`) — never both in one session.
+- **Domain/deploy:** `danielkimdev.com` on Cloudflare Pages, static `dist/`. Default deploy = `git push origin main`. Fallback: `pnpm run deploy` (wrangler, `DEPLOY_ALLOW_DIRTY=1`) — never both in one session.
 - **i18n routing:** `defaultLocale: "en"`, `prefixDefaultLocale: false` — EN at root, KO under `/ko/`.
 - **Design:** [`DESIGN-minimax.md`](dev-references/DESIGN-minimax.md) is superseded (2026-08-26) — kept as historical record only. Live system is Hallmark's Cobalt (light) / Aurora (dark), same token names in `tokens.css`. Dark mode required, WCAG AA both themes.
 - **Positioning:** Bridge angle, AI for knowledge work foregrounded. Media-tech/OTT/DRM = career credibility only (About + Portfolio).
@@ -41,9 +41,10 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 2. **Cobalt/Aurora polish:** no locked Hallmark token spec for Aurora in this install — palette/fonts reconstructed from scattered refs + a Fraunces sub for Sentient. Worth a design pass; consider a `design.md` to lock it and retire `Header.astro`/`DESIGN-minimax.md`.
 3. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post — remind him to set the field; draft manually, not via `daniel-writing-style`.
 4. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope.
+5. **Fix `pnpm run test:e2e`:** Astro 7.2.10 dev server now daemonizes by default, breaking Playwright's `webServer` foreground assumption — needs either an Astro flag/downgrade or a Playwright config change (e.g. `reuseExistingServer` + manual pre-start).
 
 ## Conventions / gotchas
 
-- Dev server: `astro dev --background`. UI testing: Playwright specs in `tests/e2e/*.spec.ts`, run `npm run test:e2e`.
+- Dev server: `astro dev --background`. UI testing: Playwright specs in `tests/e2e/*.spec.ts`, run `pnpm run test:e2e` — currently broken (Astro 7.2.10 dev server self-daemonizes; Playwright's `webServer` expects a foreground process). Use `astro dev --background` + manual checks until fixed.
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md`.
 - Publishing (as of 2026-08-21) runs from the wiki project's own session, straight into `src/content/blog/` — mechanical schema conversion per [`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md). Picking up a new `@toonstrip/astro` release: [`dev-references/toonstrip-sync.md`](dev-references/toonstrip-sync.md).
