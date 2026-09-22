@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
  * Minimal Playwright config for local UI/smoke testing of the Astro site.
  *
  * Workflow (see dev-references/web-browswer-test.md): run standalone specs
- * locally with `npm run test:e2e` instead of driving a browser live via MCP.
+ * locally with `pnpm run test:e2e` instead of driving a browser live via MCP.
  * Claude only reads the spec code + terminal logs — no continuous DOM/a11y
  * snapshots — which keeps token usage low.
  *
@@ -26,7 +26,7 @@ export default defineConfig({
 		{ name: 'chromium', use: { ...devices['Desktop Chrome'] } },
 	],
 	webServer: {
-		command: 'npm run dev',
+		command: 'pnpm run dev',
 		url: 'http://localhost:4321',
 		reuseExistingServer: !process.env.CI,
 		timeout: 120_000,

@@ -36,8 +36,8 @@ The Playwright **MCP server is intentionally removed** — driving a browser liv
 **Rule: never test UIs by agentic browser driving. Write standalone Playwright specs and run them locally.**
 
 - Specs live in `tests/e2e/*.spec.ts`; config is `playwright.config.ts` (chromium, `baseURL` `http://localhost:4321`, auto-starts/reuses `astro dev`).
-- Run with `npm run test:e2e` (compact `line` reporter) or `npm run test:e2e:ui` for the interactive runner.
-- Only read the spec code and filtered terminal logs — e.g. `npm run test:e2e 2>&1 | grep -A 5 -i error`. Don't pull raw DOM/HTML into context.
+- Run with `pnpm run test:e2e` (compact `line` reporter) or `pnpm run test:e2e:ui` for the interactive runner.
+- Only read the spec code and filtered terminal logs — e.g. `pnpm run test:e2e 2>&1 | grep -A 5 -i error`. Don't pull raw DOM/HTML into context.
 - For visual/layout checks, prefer native Computer Use (screenshots) over sifting CSS/HTML; browsers are granted at "read" tier, so use the claude-in-chrome MCP for any clicking/typing.
 - Keep assertions generic (status + title + visible heading) for smoke coverage; tighten per-page when testing a specific feature.
 - Run `/clear` or `/compact` when switching between unrelated UI tasks so stale browser snapshots aren't resubmitted.

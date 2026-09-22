@@ -17,11 +17,11 @@ OTT / DRM topics.
 Requires Node `>=22.12.0` (see [`.nvmrc`](.nvmrc)).
 
 ```sh
-npm install
-npm run dev        # local dev server at http://localhost:4321
-npm run build      # static build → ./dist
-npm run preview    # serve the production build locally
-npx astro check    # type-check + content schema validation
+pnpm install
+pnpm run dev        # local dev server at http://localhost:4321
+pnpm run build      # static build → ./dist
+pnpm run preview    # serve the production build locally
+pnpm exec astro check    # type-check + content schema validation
 ```
 
 ## Project structure
@@ -53,9 +53,9 @@ The site is a static build deployed to **Cloudflare Pages** at the apex domain
 `danielkimdev.com` (Cloudflare Registrar), no base path.
 
 - **Git integration (recommended):** connect the repo in the Cloudflare dashboard,
-  framework preset **Astro** — build command `npm run build`, output dir `dist`.
+  framework preset **Astro** — build command `pnpm run build`, output dir `dist`.
   Pushes to the default branch deploy automatically.
-- **Direct (manual):** `npm run build && npx wrangler pages deploy ./dist`
+- **Direct (manual):** `pnpm run build && pnpm exec wrangler pages deploy ./dist`
   (requires `wrangler login`).
 
 Config lives in [`wrangler.toml`](wrangler.toml) (`pages_build_output_dir = "./dist"`).

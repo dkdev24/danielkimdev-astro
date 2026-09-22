@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Pre-deploy guardrail for the manual direct-upload flow (`npm run deploy`).
+// Pre-deploy guardrail for the manual direct-upload flow (`ppnpm run deploy`).
 //
 // This is a *warning* gate, not a hard block — Daniel's workflow sometimes
 // ships a quick uncommitted tweak on purpose (see HANDOFF "Redeploy"). It
@@ -15,7 +15,7 @@
 // `git` itself resolves fine. Node is already a hard requirement (astro/npm),
 // so this runs identically on Windows, macOS, and Linux.
 //
-// Override the prompt non-interactively with:  DEPLOY_ALLOW_DIRTY=1 npm run deploy
+// Override the prompt non-interactively with:  DEPLOY_ALLOW_DIRTY=1 ppnpm run deploy
 
 import { execFileSync } from 'node:child_process';
 import { createInterface } from 'node:readline';
@@ -42,7 +42,7 @@ let issues = 0;
 // 1. Branch check — production deploys ship to --branch main.
 const branch = git(['rev-parse', '--abbrev-ref', 'HEAD']) || '?';
 if (branch !== 'main') {
-	warn(`On branch '${branch}', not 'main' — \`npm run deploy\` ships this as production (--branch main).`);
+	warn(`On branch '${branch}', not 'main' — \`pnpm run deploy\` ships this as production (--branch main).`);
 	issues += 1;
 }
 
