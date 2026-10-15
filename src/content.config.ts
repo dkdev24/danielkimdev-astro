@@ -33,7 +33,7 @@ export const PORTFOLIO_TAGS = [
 	...BLOG_TAGS,
 ] as const;
 
-export const PORTFOLIO_CATEGORIES = ['product', 'talk-writing', 'side-ai', 'career'] as const;
+export const PORTFOLIO_CATEGORIES = ['product', 'talk-writing', 'devrel', 'side-ai', 'career'] as const;
 
 // Personal provenance note (not reader-verifiable, kept for the author's own
 // record-keeping): was this post written with AI assist or by hand.

@@ -6,6 +6,16 @@
 // the cross-language counterpart is just the same slug in the other locale.
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { getLocalizedPath, type Lang } from '../i18n/utils';
+import type { PortfolioCategory } from '../content.config';
+
+/** Portfolio page sections: day-job work vs. personal side projects. */
+export type PortfolioGroup = 'career' | 'side';
+export const PORTFOLIO_GROUPS: readonly PortfolioGroup[] = ['career', 'side'];
+
+/** Which section a category belongs to — every category except `side-ai` is career work. */
+export function getPortfolioGroup(category: PortfolioCategory): PortfolioGroup {
+	return category === 'side-ai' ? 'side' : 'career';
+}
 
 /** Strip the leading locale folder from a portfolio entry id → the route slug. */
 export function getPortfolioSlug(id: string): string {

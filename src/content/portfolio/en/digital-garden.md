@@ -4,10 +4,10 @@ role: Builder
 period: 2025–present
 summary: The personal-knowledge-management system and AI tooling behind this very site — a Karpathy-style digital garden.
 category: side-ai
-tags: [ai-llm, pkm, solopreneur]
+tags: [ai-knowledge-mgmt, ai-llm, pkm, solopreneur]
 lang: en
 featured: true
-order: 2
+order: 7
 translationKey: digital-garden
 ---
 

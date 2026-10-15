@@ -75,7 +75,13 @@
 	},
 	"portfolio": {
 		"title": "Portfolio",
-		"intro": "Selected work across media-tech, streaming, and cloud.",
+		"intro": "Career work in content security, developer relations, and agent-ready docs — and the side projects I build on my own time.",
+		"groups": {
+			"career": "Career work",
+			"careerIntro": "Products, docs, and developer programs I’ve owned at DoveRunner (formerly PallyCon).",
+			"side": "Side projects",
+			"sideIntro": "Personal builds — experiments in AI, knowledge management, and games, made in public."
+		},
 		"filterByTag": "Filter by area",
 		"allTags": "All",
 		"viewProject": "View details",
@@ -88,6 +94,7 @@
 		"categories": {
 			"product": "Product",
 			"talk-writing": "Talks & Writing",
+			"devrel": "Developer Relations",
 			"side-ai": "AI side project",
 			"career": "Career"
 		}

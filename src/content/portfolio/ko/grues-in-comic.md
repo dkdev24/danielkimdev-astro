@@ -7,7 +7,7 @@ category: side-ai
 tags: [ai-llm, solopreneur]
 lang: ko
 featured: true
-order: 4
+order: 6
 translationKey: grues-in-comic
 links:
   - label: grues.danielkimdev.com

@@ -1,6 +1,8 @@
 ---
 // Shared Portfolio page (Stage 15), fed by `lang`. Collection-driven grid with
 // a client-side tag filter (progressive enhancement — full list without JS).
+// Entries are split into Career work and Side projects by category
+// (`getPortfolioGroup`); the tag filter spans both sections.
 // Each card summarizes an entry and links to its detail page (Stage 27,
 // `/portfolio/[slug]`), which owns the full body + links. Adding a portfolio
 // entry = one file, no edits.
@@ -11,7 +13,7 @@ import Tag from './Tag.astro';
 import type { Lang } from '../i18n/utils';
 import { useTranslations } from '../i18n/utils';
 import { getTagPath } from '../utils/tags';
-import { getPortfolioPath } from '../utils/portfolio';
+import { getPortfolioPath, getPortfolioGroup, PORTFOLIO_GROUPS } from '../utils/portfolio';
 import { SITE_DESCRIPTION_BY_LOCALE } from '../consts';
 
 interface Props {
@@ -24,6 +26,11 @@ const t = useTranslations(lang);
 const entries = (
 	await getCollection('portfolio', (e) => e.data.lang === lang)
 ).sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+const groups = PORTFOLIO_GROUPS.map((group) => ({
+	group,
+	items: entries.filter((e) => getPortfolioGroup(e.data.category) === group),
+})).filter((g) => g.items.length > 0);
 
 // Distinct tags across this locale's items, in first-seen order — drives the filter.
 const filterTags: string[] = [];
@@ -47,31 +54,39 @@ for (const entry of entries) {
 
 		{
 			entries.length > 0 ? (
-				<ul class="pf-grid">
-					{entries.map((entry) => (
-						<li class="pf-card" data-tags={entry.data.tags.join(' ')}>
-							<Card as="article" interactive>
-								<h2 class="pf-card__title">
-									<a href={getPortfolioPath(entry)}>{entry.data.title}</a>
-								</h2>
-								<p class="pf-card__meta">
-									{[entry.data.role, entry.data.org, entry.data.period]
-										.filter(Boolean)
-										.join(' · ')}
-								</p>
-								<p class="pf-card__summary">{entry.data.summary}</p>
-								<div class="pf-card__tags">
-									{entry.data.tags.map((tg) => (
-										<Tag tag={tg} lang={lang} href={getTagPath('portfolio', tg, lang)} />
-									))}
-								</div>
-								<p class="pf-card__more">
-									<a href={getPortfolioPath(entry)}>{t('portfolio.viewProject')} →</a>
-								</p>
-							</Card>
-						</li>
-					))}
-				</ul>
+				groups.map(({ group, items }) => (
+					<section class="pf-group" aria-labelledby={`pf-group-${group}`}>
+						<header class="pf-group__head">
+							<h2 id={`pf-group-${group}`}>{t(`portfolio.groups.${group}`)}</h2>
+							<p class="pf-group__intro">{t(`portfolio.groups.${group}Intro`)}</p>
+						</header>
+						<ul class="pf-grid">
+							{items.map((entry) => (
+								<li class="pf-card" data-tags={entry.data.tags.join(' ')}>
+									<Card as="article" interactive>
+										<h3 class="pf-card__title">
+											<a href={getPortfolioPath(entry)}>{entry.data.title}</a>
+										</h3>
+										<p class="pf-card__meta">
+											{[entry.data.role, entry.data.org, entry.data.period]
+												.filter(Boolean)
+												.join(' · ')}
+										</p>
+										<p class="pf-card__summary">{entry.data.summary}</p>
+										<div class="pf-card__tags">
+											{entry.data.tags.map((tg) => (
+												<Tag tag={tg} lang={lang} href={getTagPath('portfolio', tg, lang)} />
+											))}
+										</div>
+										<p class="pf-card__more">
+											<a href={getPortfolioPath(entry)}>{t('portfolio.viewProject')} →</a>
+										</p>
+									</Card>
+								</li>
+							))}
+						</ul>
+					</section>
+				))
 			) : (
 				<p class="pf-empty">{t('portfolio.noItems')}</p>
 			)
@@ -97,6 +112,25 @@ for (const entry of entries) {
 		flex-wrap: wrap;
 		gap: var(--space-2);
 		margin-bottom: var(--space-8);
+	}
+
+	.pf-group + .pf-group {
+		margin-top: var(--space-12);
+	}
+	.pf-group__head {
+		margin-bottom: var(--space-6);
+	}
+	.pf-group__head h2 {
+		margin: 0 0 var(--space-1);
+	}
+	.pf-group__intro {
+		margin: 0;
+		color: var(--color-text-secondary);
+		max-width: 60ch;
+	}
+	/* A section whose cards are all filtered out (JS sets [hidden]). */
+	.pf-group[hidden] {
+		display: none;
 	}
 
 	.pf-grid {
@@ -152,11 +186,15 @@ for (const entry of entries) {
 <script>
 	const filters = Array.from(document.querySelectorAll<HTMLElement>('.pf-filters [data-filter]'));
 	const cards = Array.from(document.querySelectorAll<HTMLElement>('.pf-card'));
+	const groups = Array.from(document.querySelectorAll<HTMLElement>('.pf-group'));
 
 	function apply(tag: string) {
 		cards.forEach((card) => {
 			const tags = (card.getAttribute('data-tags') ?? '').split(' ');
 			card.hidden = tag !== 'all' && !tags.includes(tag);
+		});
+		groups.forEach((group) => {
+			group.hidden = !group.querySelector('.pf-card:not([hidden])');
 		});
 		filters.forEach((f) =>
 			f.setAttribute('aria-pressed', String(f.getAttribute('data-filter') === tag)),

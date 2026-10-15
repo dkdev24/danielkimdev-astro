@@ -75,7 +75,13 @@
 	},
 	"portfolio": {
 		"title": "포트폴리오",
-		"intro": "미디어테크, 스트리밍, 클라우드 분야의 주요 작업입니다.",
+		"intro": "콘텐츠 보안, DevRel, 에이전트 친화 문서까지 이어진 커리어 작업과, 개인적으로 만들어 온 사이드 프로젝트를 정리했습니다.",
+		"groups": {
+			"career": "커리어",
+			"careerIntro": "DoveRunner(구 PallyCon)에서 맡아 온 제품, 문서, 개발자 프로그램입니다.",
+			"side": "사이드 프로젝트",
+			"sideIntro": "AI, 지식 관리, 게임을 주제로 공개적으로 만들어 가는 개인 프로젝트입니다."
+		},
 		"filterByTag": "분야로 필터",
 		"allTags": "전체",
 		"viewProject": "자세히 보기",
@@ -88,6 +94,7 @@
 		"categories": {
 			"product": "제품",
 			"talk-writing": "발표·집필",
+			"devrel": "DevRel",
 			"side-ai": "AI 사이드 프로젝트",
 			"career": "커리어"
 		}

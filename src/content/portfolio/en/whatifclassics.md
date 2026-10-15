@@ -7,7 +7,7 @@ category: side-ai
 tags: [automation, ai-llm, solopreneur]
 lang: en
 featured: false
-order: 3
+order: 8
 translationKey: whatifclassics
 links:
   - label: whatifclassics.com

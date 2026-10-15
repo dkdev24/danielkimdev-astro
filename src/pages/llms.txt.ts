@@ -5,6 +5,7 @@
 // Format: H1 title + blockquote summary + grouped markdown links.
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
+import { getPortfolioGroup } from '../utils/portfolio';
 
 // Strip leading locale prefix (e.g. "en/post-slug" → "post-slug")
 // The blog content collection uses folder-by-locale so every ID starts with "en/" or "ko/".
@@ -67,13 +68,17 @@ export const GET: APIRoute = async ({ site }) => {
 		lines.push(`- [${post.data.title}](${url})${desc}`);
 	}
 
-	lines.push('', '## Portfolio', '');
-
-	for (const item of portfolioItems) {
-		const slug = stripLocale(item.id).replace(/\.mdx?$/, '');
-		const url = new URL(`/portfolio/${slug}.md`, site).href;
-		const desc = item.data.summary ? `: ${item.data.summary}` : '';
-		lines.push(`- [${item.data.title}](${url})${desc}`);
+	for (const [group, heading] of [
+		['career', '## Portfolio — career work'],
+		['side', '## Portfolio — side projects'],
+	] as const) {
+		lines.push('', heading, '');
+		for (const item of portfolioItems.filter((p) => getPortfolioGroup(p.data.category) === group)) {
+			const slug = stripLocale(item.id).replace(/\.mdx?$/, '');
+			const url = new URL(`/portfolio/${slug}.md`, site).href;
+			const desc = item.data.summary ? `: ${item.data.summary}` : '';
+			lines.push(`- [${item.data.title}](${url})${desc}`);
+		}
 	}
 
 	return new Response(lines.join('\n') + '\n', {

@@ -4,10 +4,10 @@ role: 제작
 period: 2025–현재
 summary: "이 사이트를 움직이는 개인 지식 관리(PKM) 시스템과 AI 도구를 직접 만들어 운영합니다. 카파시(Karpathy)식 디지털 가든입니다."
 category: side-ai
-tags: [ai-llm, pkm, solopreneur]
+tags: [ai-knowledge-mgmt, ai-llm, pkm, solopreneur]
 lang: ko
 featured: true
-order: 2
+order: 7
 translationKey: digital-garden
 ---
 
