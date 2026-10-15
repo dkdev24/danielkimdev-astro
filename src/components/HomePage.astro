@@ -15,6 +15,7 @@ import { SITE_DESCRIPTION_BY_LOCALE, SITE_TITLE_HOME } from '../consts';
 import { HOME_HERO } from '../data/home';
 import { readingTimeMinutes } from '../utils/readingTime';
 import { getPostPath } from '../utils/blog';
+import { getPortfolioPath } from '../utils/portfolio';
 import { personJsonLd } from '../utils/seo';
 
 interface Props {
@@ -117,7 +118,7 @@ const jsonLd = personJsonLd(Astro.site ?? new URL('https://danielkimdev.com'), l
 						{featured.map((item) => (
 							<Card featured interactive>
 								<h3 class="card-title">
-									<a href={portfolioHref}>{item.data.title}</a>
+									<a href={getPortfolioPath(item)}>{item.data.title}</a>
 								</h3>
 								<p class="card-summary">{item.data.summary}</p>
 								<div class="card-tags">

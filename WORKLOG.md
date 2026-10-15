@@ -4,6 +4,12 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-15 — Home portfolio cards link to their detail pages
+
+"What I'm working on" card titles linked to the `/portfolio/` list; they now use
+`getPortfolioPath(item)` (EN `/portfolio/<slug>/`, KO `/ko/portfolio/<slug>/`). The section's
+"View portfolio" link still goes to the list.
+
 ## 2026-10-15 — Portfolio titles: colon instead of em dash
 
 Daniel's style bans em dashes and middle dots, so every portfolio title now uses "Name: descriptor"
