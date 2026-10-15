@@ -4,6 +4,58 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-15 — New post: DoveRunner Lab + tutorial videos (AI-assisted workflow)
+
+Published `src/content/blog/{en,ko}/doverunner-lab-ai-workflow.md` from the wiki project
+(`my-llm-wiki`, Post Preparation Stage 4; drafted with `daniel-writing-style`, reviewed with
+draft-review-kit dev-edit/eli5/guardrails + line-edit). Tags `ai-llm`, `automation`; no series.
+**Names DoveRunner** — a one-off exception to the "blog posts stay generic" rule, approved by
+Daniel for this post only (the Lab is public and the portfolio already names it). Verified:
+`pnpm run build` 92 → 94 pages, KO em-dash count 0. `astro check` reports 4 errors, all
+pre-existing and in untouched files (`functions/_middleware.ts` `PagesFunction`, implicit `any`
+in `src/pages/{blog,portfolio}/[slug].md.ts`).
+
+## 2026-10-15 — Session 22: Portfolio split into Career work / Side projects
+
+Daniel asked for the Portfolio to clearly separate career work (Content Security, Technical
+Writing & DevRel, Agent-Ready Docs) from side projects (Digital Garden, What If Classics,
+Grues in Comic).
+
+- **Grouping:** `PortfolioPage.astro` now renders two sections (`h2` per group, cards
+  demoted to `h3`). Group is derived from `category` via `getPortfolioGroup()` in
+  `utils/portfolio.ts` — `side-ai` → Side projects, everything else → Career work. The tag
+  filter spans both sections; a section whose cards are all filtered out is hidden.
+- **New category `devrel`** ("Developer Relations" / "DevRel") added to
+  `PORTFOLIO_CATEGORIES` + both i18n files.
+- **`ai-knowledge-work` → `agent-ready-docs`:** the mixed "AI for Knowledge Work &
+  Agent-Ready Docs" side item became the career item "Agent-Ready Docs" (DoveRunner,
+  2026–present, category `devrel`, still featured). Body rewritten EN/KO from the
+  agent-readiness-assessment / siteready work, kept public-safe: no scores, KPIs or internal
+  links (the infra-fixes blog part is still in marketing review). The Jira-MCP onboarding
+  paragraph was kept as a closing note. Links: the Agent Readiness post, siteready on GitHub,
+  docs.doverunner.com. Old URLs 301 via new `public/_redirects` (EN, KO, `.md`).
+- **Digital Garden** picked up the `ai-knowledge-mgmt` tag (that theme no longer lives in a
+  separate item).
+- **Order:** career 1–3 (Content Security, DevRel, Agent-Ready Docs), side 4–6 (Digital Garden,
+  What If Classics, Grues in Comic). Home "Featured work" is now Agent-Ready Docs, Digital
+  Garden, Grues in Comic.
+- **Agent surfaces:** `/portfolio/index.md` is now collection-driven with the same two
+  sections; `llms.txt` splits Portfolio into "career work" / "side projects".
+- **Two more career items** (same session, from reviewing `../doverunner-lab` and
+  `../doverunner-hyperframes`, both private repos): `doverunner-lab` ("DoveRunner Lab — An
+  Onboarding Site for Security Products", links lab.doverunner.com + Academy) and
+  `tutorial-videos` ("Tutorial Videos as Code — HyperFrames & Claude", links Lab Academy +
+  HyperFrames upstream). Both `devrel`, not featured, EN/KO. Claims checked against the live
+  Lab: Mobile App Security course is already live; AWS-based DRM packaging videos
+  (MediaConvert, MediaLive/MediaPackage) are published (confirmed by Daniel).
+- **Ordering rule: newest first** (Daniel), by start date, within each section. Career 1–5:
+  Lab, Tutorial Videos, Agent-Ready Docs, DevRel, Content Security. Side 6–8: Grues in Comic,
+  Digital Garden, What If Classics. Home "Featured work" follows the same order
+  (Agent-Ready Docs, Grues in Comic, Digital Garden).
+- **Verified:** `pnpm run build` clean; `astro preview` + browser check of `/portfolio/`
+  (both sections, PKM filter hides the empty Career section) and
+  `/ko/portfolio/agent-ready-docs/`. Not checked: dark theme, mobile width.
+
 ## 2026-09-22 — Session 21: migrated npm → pnpm
 
 Daniel is migrating npm-based projects under `~/Projects` to pnpm for shared

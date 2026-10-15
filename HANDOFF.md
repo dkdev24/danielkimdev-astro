@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-09-22 (session 21)
-**Status:** **LIVE** at https://danielkimdev.com. Session 21 migrated the repo from npm to pnpm (shared content-addressable store across projects): `pnpm-lock.yaml` replaces `package-lock.json`, `packageManager` pinned to `pnpm@11.1.1` in `package.json`, corepack activated (admin-elevated), `pnpm-workspace.yaml` added (approved native builds: esbuild/sharp/workerd), docs/scripts updated to `pnpm run …`, Cloudflare Pages dashboard build command updated to `pnpm run build`. `pnpm run build`/`dev`/`preview` all verified working. `pnpm run test:e2e` is broken — pre-existing, unrelated to pnpm (Astro 7.2.10's dev server now daemonizes itself by default, breaking Playwright's `webServer` foreground assumption). Session 20 bumped `@toonstrip/astro` `0.1.10 → 0.1.11` (Korean balloon text: core's canvas font stack now names Noto Sans KR + platform Korean faces instead of falling to `cursive`/Gungseo; element waits for `document.fonts`) and declared Noto Sans KR (google provider, `korean` subset, on-demand, never preloaded) in `astro.config.mjs`/`BaseHead` so the KO post's strip draws Hangul in it. Verified locally at the real 363×309 size, 4 panels, `document.fonts.check` true. All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. Sitewide Hallmark reskin (Cobalt/Aurora) live. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-10-15 (session 22)
+**Status:** **LIVE** at https://danielkimdev.com. Session 22 split the Portfolio into **Career work / Side projects** (group derived from `category`; new `devrel` category; `ai-knowledge-work` → career item `agent-ready-docs` with 301s in `public/_redirects`; new career items `tutorial-videos`, `doverunner-lab`) — deployed 2026-10-15 with the new post `doverunner-lab-ai-workflow` (names DoveRunner, one-off exception approved by Daniel), see WORKLOG 2026-10-15. Session 21 migrated npm → pnpm (`pnpm@11.1.1`). `pnpm run test:e2e` is broken (Astro 7 dev server self-daemonizes; Playwright `webServer` expects foreground). All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -31,7 +31,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **Domain/deploy:** `danielkimdev.com` on Cloudflare Pages, static `dist/`. Default deploy = `git push origin main`. Fallback: `pnpm run deploy` (wrangler, `DEPLOY_ALLOW_DIRTY=1`) — never both in one session.
 - **i18n routing:** `defaultLocale: "en"`, `prefixDefaultLocale: false` — EN at root, KO under `/ko/`.
 - **Design:** [`DESIGN-minimax.md`](dev-references/DESIGN-minimax.md) is superseded (2026-08-26) — kept as historical record only. Live system is Hallmark's Cobalt (light) / Aurora (dark), same token names in `tokens.css`. Dark mode required, WCAG AA both themes.
-- **Positioning:** Bridge angle, AI for knowledge work foregrounded. Media-tech/OTT/DRM = career credibility only (About + Portfolio).
+- **Positioning:** Bridge angle, AI for knowledge work foregrounded. Media-tech/OTT/DRM = career credibility only (About + Portfolio). Portfolio = Career work (any non-`side-ai` category) vs Side projects (`side-ai`), **newest first** via `order`, 2026-10-15.
 - **Contact/social:** LinkedIn + email + GitHub + RSS. No X. GitHub repo is public (added 2026-08-21, required for Giscus/GitHub Discussions comments).
 - **Naming in content:** blog posts stay generic (no employer name); portfolio keeps employer name. Author via `daniel-writing-style` skill.
 
