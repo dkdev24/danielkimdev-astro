@@ -1,5 +1,5 @@
 ---
-title: Content Security — Multi-DRM & Forensic Watermarking
+title: "Content Security: Multi-DRM and Forensic Watermarking"
 role: Product Owner / Product Manager
 org: DoveRunner / PallyCon
 period: "2015–2025"

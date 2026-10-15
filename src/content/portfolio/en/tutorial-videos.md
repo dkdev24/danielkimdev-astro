@@ -1,5 +1,5 @@
 ---
-title: Tutorial Videos as Code — HyperFrames & Claude
+title: "Tutorial Videos as Code with HyperFrames and Claude"
 role: Developer Advocate
 org: DoveRunner
 period: 2026–present

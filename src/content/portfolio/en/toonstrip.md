@@ -1,5 +1,5 @@
 ---
-title: "toonstrip — Comic Strips from Data, Drawn Live on Your Page"
+title: "toonstrip: Comic Strips from Data, Drawn Live on Your Page"
 role: Solo builder (side project)
 period: "2026–present"
 startDate: 2026-09-01

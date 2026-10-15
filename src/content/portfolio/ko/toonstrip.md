@@ -1,5 +1,5 @@
 ---
-title: "toonstrip — 데이터로 그리는 실시간 만화 위젯"
+title: "toonstrip: 데이터로 그리는 실시간 만화 위젯"
 role: 사이드 프로젝트 (1인 개발)
 period: "2026–현재"
 startDate: 2026-09-01

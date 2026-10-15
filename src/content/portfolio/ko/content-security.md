@@ -1,5 +1,5 @@
 ---
-title: "콘텐츠 보안: Multi-DRM·포렌식 워터마킹"
+title: "콘텐츠 보안: Multi-DRM과 포렌식 워터마킹"
 role: 프로덕트 오너 / 프로덕트 매니저
 org: DoveRunner / PallyCon
 period: "2015–2025"

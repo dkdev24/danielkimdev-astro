@@ -1,5 +1,5 @@
 ---
-title: 기술 문서·DevRel·제품
+title: "기술 문서, DevRel, 제품"
 role: 디벨로퍼 애드보킷 & 프로덕트 오너
 org: DoveRunner / PallyCon
 period: "2020–현재"

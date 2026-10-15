@@ -4,6 +4,13 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-15 — Portfolio titles: colon instead of em dash
+
+Daniel's style bans em dashes and middle dots, so every portfolio title now uses "Name: descriptor"
+(EN/KO), the tutorial-video titles read as one phrase ("Tutorial Videos as Code with HyperFrames
+and Claude" / "HyperFrames와 Claude로 만드는 튜토리얼 영상"), "&" became "and" in descriptors, and
+"기술 문서·DevRel·제품" became "기술 문서, DevRel, 제품". Use this pattern for new items.
+
 ## 2026-10-15 — Portfolio: toonstrip side-project item
 
 New side item `toonstrip` (EN/KO), derived from Grues in Comic: links the toonstrip site, the

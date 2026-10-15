@@ -1,5 +1,5 @@
 ---
-title: 코드로 만드는 튜토리얼 영상 — HyperFrames와 Claude
+title: "HyperFrames와 Claude로 만드는 튜토리얼 영상"
 role: 디벨로퍼 애드보킷
 org: DoveRunner
 period: 2026–현재

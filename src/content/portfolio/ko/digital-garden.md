@@ -1,5 +1,5 @@
 ---
-title: 이 디지털 가든 — LLM 위키와 PKM
+title: "이 디지털 가든: LLM 위키와 PKM"
 role: 제작
 period: 2025–현재
 startDate: 2026-04-20
