@@ -8,7 +8,7 @@ category: side-ai
 tags: [ai-knowledge-mgmt, ai-llm, pkm, solopreneur]
 lang: en
 featured: true
-order: 7
+order: 8
 translationKey: digital-garden
 ---
 

@@ -4,6 +4,13 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-15 — Portfolio: toonstrip side-project item
+
+New side item `toonstrip` (EN/KO), derived from Grues in Comic: links the toonstrip site, the
+`@toonstrip/element` npm package and the Grues post's live demo (repo is private, not linked).
+`startDate` 2026-09-01 (first commit). Side order now toonstrip 6, Grues 7, Digital Garden 8,
+What If Classics 9. Home's 3 newest became Lab, Tutorial Videos, toonstrip (Grues drops off).
+
 ## 2026-10-15 — Home "What I'm working on" shows the 3 newest portfolio items
 
 Daniel asked for recent items first on Home too. Chose (Daniel): drop the `featured` gate and show

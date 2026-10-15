@@ -8,7 +8,7 @@ category: side-ai
 tags: [automation, ai-llm, solopreneur]
 lang: ko
 featured: false
-order: 8
+order: 9
 translationKey: whatifclassics
 links:
   - label: whatifclassics.com
