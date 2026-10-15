@@ -1,5 +1,5 @@
 ---
-title: "DoveRunner Lab: An Onboarding Site for Security Products"
+title: "DoveRunner Lab, an Onboarding Site for Security Products"
 role: Product Owner & builder
 org: DoveRunner
 period: 2026–present

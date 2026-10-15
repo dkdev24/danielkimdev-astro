@@ -1,5 +1,5 @@
 ---
-title: "DoveRunner Lab: 보안 제품 온보딩 사이트"
+title: "보안 제품 온보딩 사이트 DoveRunner Lab"
 role: 프로덕트 오너 & 개발
 org: DoveRunner
 period: 2026–현재

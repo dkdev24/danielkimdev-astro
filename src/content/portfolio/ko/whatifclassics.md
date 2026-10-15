@@ -1,5 +1,5 @@
 ---
-title: "What If Classics: 인터랙티브 소설과 생성형 AI 파이프라인"
+title: "생성형 AI로 만드는 인터랙티브 소설 What If Classics"
 role: 사이드 프로젝트 (1인 개발)
 period: "2025–2026"
 startDate: 2025-10-27

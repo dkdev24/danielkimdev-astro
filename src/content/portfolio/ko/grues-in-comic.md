@@ -1,5 +1,5 @@
 ---
-title: "그루스 인 코믹: Zork × Comic Chat 매시업"
+title: "Zork와 Comic Chat을 하나로 엮은 그루스 인 코믹"
 role: 사이드 프로젝트 (1인 개발)
 period: "2026–현재"
 startDate: 2026-07-18

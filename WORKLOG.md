@@ -9,7 +9,11 @@
 Daniel's style bans em dashes and middle dots, so every portfolio title now uses "Name: descriptor"
 (EN/KO), the tutorial-video titles read as one phrase ("Tutorial Videos as Code with HyperFrames
 and Claude" / "HyperFrames와 Claude로 만드는 튜토리얼 영상"), "&" became "and" in descriptors, and
-"기술 문서·DevRel·제품" became "기술 문서, DevRel, 제품". Use this pattern for new items.
+"기술 문서·DevRel·제품" became "기술 문서, DevRel, 제품". **Superseded the same day:** Daniel found the
+colon unnatural. Titles are now plain phrases: KO puts the name last ("보안 제품 온보딩 사이트
+DoveRunner Lab"), EN uses a comma appositive ("DoveRunner Lab, an Onboarding Site for Security
+Products"). Rule for new items: avoid em dashes and colons in titles unless one genuinely reads
+better than the phrase without it.
 
 ## 2026-10-15 — Portfolio: toonstrip side-project item
 

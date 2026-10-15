@@ -1,5 +1,5 @@
 ---
-title: "What If Classics: Interactive Fiction and Generative AI Pipelines"
+title: "What If Classics, Interactive Fiction Made with Generative AI"
 role: Solo builder (side project)
 period: "2025–2026"
 startDate: 2025-10-27

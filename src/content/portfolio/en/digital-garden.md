@@ -1,5 +1,5 @@
 ---
-title: "This Digital Garden: An LLM Wiki and PKM"
+title: "The LLM Wiki and PKM Behind This Digital Garden"
 role: Builder
 period: 2025–present
 startDate: 2026-04-20

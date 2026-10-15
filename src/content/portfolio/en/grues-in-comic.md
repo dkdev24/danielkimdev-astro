@@ -1,5 +1,5 @@
 ---
-title: "Grues in Comic: A Zork × Comic Chat Mashup"
+title: "Grues in Comic, a Zork and Comic Chat Mashup"
 role: Solo builder (side project)
 period: "2026–present"
 startDate: 2026-07-18
