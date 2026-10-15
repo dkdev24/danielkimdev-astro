@@ -2,6 +2,7 @@
 title: This Digital Garden — an LLM-wiki & PKM
 role: Builder
 period: 2025–present
+startDate: 2026-04-20
 summary: The personal-knowledge-management system and AI tooling behind this very site — a Karpathy-style digital garden.
 category: side-ai
 tags: [ai-knowledge-mgmt, ai-llm, pkm, solopreneur]

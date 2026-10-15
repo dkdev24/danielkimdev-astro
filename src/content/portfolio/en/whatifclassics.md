@@ -2,6 +2,7 @@
 title: What If Classics — Interactive Fiction & Generative AI Pipelines
 role: Solo builder (side project)
 period: "2025–2026"
+startDate: 2025-10-27
 summary: A "choose your story" library of public-domain classics — branching endings and MBTI character cards — and the text-and-image generation pipeline behind it.
 category: side-ai
 tags: [automation, ai-llm, solopreneur]

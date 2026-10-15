@@ -3,6 +3,7 @@ title: Agent-Ready Docs
 role: Developer Advocate
 org: DoveRunner
 period: 2026–present
+startDate: 2026-05-28
 summary: Making DoveRunner's developer documentation usable by AI coding agents, not just people — a docs audit, agent-ready site infrastructure, and an open-source tool that turns the method into something any team can run.
 category: devrel
 tags: [ai-ready-docs, ai-llm]

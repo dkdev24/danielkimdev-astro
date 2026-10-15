@@ -2,6 +2,7 @@
 title: 이 디지털 가든 — LLM 위키와 PKM
 role: 제작
 period: 2025–현재
+startDate: 2026-04-20
 summary: "이 사이트를 움직이는 개인 지식 관리(PKM) 시스템과 AI 도구를 직접 만들어 운영합니다. 카파시(Karpathy)식 디지털 가든입니다."
 category: side-ai
 tags: [ai-knowledge-mgmt, ai-llm, pkm, solopreneur]

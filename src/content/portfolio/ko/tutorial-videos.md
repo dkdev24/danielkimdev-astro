@@ -3,6 +3,7 @@ title: 코드로 만드는 튜토리얼 영상 — HyperFrames와 Claude
 role: 디벨로퍼 애드보킷
 org: DoveRunner
 period: 2026–현재
+startDate: 2026-09-16
 summary: "DoveRunner 제품 튜토리얼 영상을 코드로 다시 만들고 있습니다. HyperFrames 컴포지션, 실제 콘솔 캡처, 합성 내레이션과 자막을 Claude와 함께 작성하고 관리해서, UI나 문서가 바뀌면 다시 촬영하지 않고 다시 렌더링하면 됩니다."
 category: devrel
 tags: [drm-content-security, automation, ai-llm]

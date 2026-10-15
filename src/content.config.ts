@@ -83,6 +83,8 @@ const portfolio = defineCollection({
 			role: z.string(),
 			org: z.string().optional(),
 			period: z.string(), // e.g. "2023–present"
+			// When the work started; sorts Home's "What I'm working on" newest first.
+			startDate: z.coerce.date().optional(),
 			summary: z.string(),
 			category: z.enum(PORTFOLIO_CATEGORIES),
 			tags: z.array(z.enum(PORTFOLIO_TAGS)).default([]),
@@ -98,7 +100,7 @@ const portfolio = defineCollection({
 				)
 				.optional(),
 			thumbnail: image().optional(),
-			featured: z.boolean().default(false), // surfaces on Home
+			featured: z.boolean().default(false), // no longer drives Home (2026-10-15: newest by startDate)
 			order: z.number().optional(),
 		}),
 });

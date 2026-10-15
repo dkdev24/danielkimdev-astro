@@ -3,6 +3,7 @@ title: DoveRunner Lab — An Onboarding Site for Security Products
 role: Product Owner & builder
 org: DoveRunner
 period: 2026–present
+startDate: 2026-09-23
 summary: A public developer site where customers and DoveRunner's own teams see content protection working — a reference player with a live DRM/watermark inspector, plus short tutorial courses — built with Claude Code and live at lab.doverunner.com.
 category: devrel
 tags: [drm-content-security, ott-streaming, ai-llm]

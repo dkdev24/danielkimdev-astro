@@ -3,6 +3,7 @@ title: "콘텐츠 보안: Multi-DRM·포렌식 워터마킹"
 role: 프로덕트 오너 / 프로덕트 매니저
 org: DoveRunner / PallyCon
 period: "2015–2025"
+startDate: 2015-01-01
 summary: "글로벌 OTT·스트리밍 고객을 위한 Multi-DRM과 포렌식 워터마킹 콘텐츠 보호 제품(PallyCon SaaS)을 총괄했습니다."
 category: product
 tags: [drm-content-security, ott-streaming]

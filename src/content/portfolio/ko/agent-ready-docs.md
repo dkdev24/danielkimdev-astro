@@ -3,6 +3,7 @@ title: 에이전트 친화 문서 (Agent-Ready Docs)
 role: 디벨로퍼 애드보킷
 org: DoveRunner
 period: 2026–현재
+startDate: 2026-05-28
 summary: "사람뿐 아니라 AI 코딩 에이전트도 DoveRunner 개발자 문서를 제대로 활용할 수 있도록 만드는 작업입니다. 문서 감사와 에이전트 친화 인프라 구축, 그리고 이 방법을 누구나 쓸 수 있게 만든 오픈소스 도구까지 이어집니다."
 category: devrel
 tags: [ai-ready-docs, ai-llm]

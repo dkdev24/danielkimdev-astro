@@ -2,6 +2,7 @@
 title: "What If Classics: 인터랙티브 소설과 생성형 AI 파이프라인"
 role: 사이드 프로젝트 (1인 개발)
 period: "2025–2026"
+startDate: 2025-10-27
 summary: "퍼블릭 도메인 고전을 '내가 고르는 이야기'로 만든 라이브러리. 분기 결말과 MBTI 캐릭터 카드, 그리고 그 뒤의 텍스트·이미지 생성 파이프라인입니다."
 category: side-ai
 tags: [automation, ai-llm, solopreneur]

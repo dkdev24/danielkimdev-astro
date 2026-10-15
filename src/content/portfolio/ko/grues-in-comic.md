@@ -2,6 +2,7 @@
 title: "그루스 인 코믹 — Zork × Comic Chat 매시업"
 role: 사이드 프로젝트 (1인 개발)
 period: "2026–현재"
+startDate: 2026-07-18
 summary: "Zork I의 파서 기반 텍스트 어드벤처를 Comic Chat 스타일 만화 패널로 재생하는 퍼블릭 베타. 1980·90년대에 나온 두 마이크로소프트 오픈소스 프로젝트를, 독립적인 중간 표현(IR) 계층을 통해 하나의 브라우저 게임으로 엮었습니다."
 category: side-ai
 tags: [ai-llm, solopreneur]

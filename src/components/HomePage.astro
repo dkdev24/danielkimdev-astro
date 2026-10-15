@@ -44,10 +44,10 @@ const cobaltLabels = {
 	},
 }[lang];
 
-// Featured portfolio for this locale, ordered.
-const featured = (
-	await getCollection('portfolio', (e) => e.data.lang === lang && e.data.featured)
-).sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)).slice(0, 3);
+// Most recent portfolio items for this locale (newest startDate first), career and side alike.
+const featured = (await getCollection('portfolio', (e) => e.data.lang === lang))
+	.sort((a, b) => (b.data.startDate?.valueOf() ?? 0) - (a.data.startDate?.valueOf() ?? 0))
+	.slice(0, 3);
 
 // Latest non-draft posts for this locale.
 const latest = (

@@ -3,6 +3,7 @@ title: DoveRunner Lab — 보안 제품 온보딩 사이트
 role: 프로덕트 오너 & 개발
 org: DoveRunner
 period: 2026–현재
+startDate: 2026-09-23
 summary: "고객과 사내 구성원 모두가 콘텐츠 보안이 실제로 동작하는 모습을 직접 확인하는 공개 개발자 사이트입니다. 실시간 DRM·워터마크 인스펙터가 붙은 레퍼런스 플레이어와 짧은 튜토리얼 코스로 구성했고, Claude Code로 만들어 lab.doverunner.com에서 운영 중입니다."
 category: devrel
 tags: [drm-content-security, ott-streaming, ai-llm]

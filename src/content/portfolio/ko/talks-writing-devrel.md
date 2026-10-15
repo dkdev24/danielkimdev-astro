@@ -3,6 +3,7 @@ title: 기술 문서·DevRel·제품
 role: 디벨로퍼 애드보킷 & 프로덕트 오너
 org: DoveRunner / PallyCon
 period: "2020–현재"
+startDate: 2020-01-01
 summary: "미디어테크 분야의 개발자 대상 글과 문서 작업, 콘퍼런스 발표. 동시에 DoveRunner 플랫폼 옵스 팀의 프로덕트 오너로서 DRM·워터마킹·앱 보안에 걸친 통합 콘솔의 요구사항과 릴리스 계획을 관리합니다."
 category: talk-writing
 tags: [ott-streaming, ai-ready-docs]

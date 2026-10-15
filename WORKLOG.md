@@ -4,6 +4,16 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-15 — Home "What I'm working on" shows the 3 newest portfolio items
+
+Daniel asked for recent items first on Home too. Chose (Daniel): drop the `featured` gate and show
+the 3 newest items by a new optional portfolio field `startDate` (`z.coerce.date()`), career and
+side alike. Now: DoveRunner Lab, Tutorial Videos, Grues in Comic. `startDate` values come from each
+project's first commit; `talks-writing-devrel` (2020-01-01) and `content-security` (2015-01-01) are
+year-only approximations. `featured` stays in the schema but no longer drives Home. Portfolio page
+ordering still uses `order`. Also in this session: `f62d408` fixed bold/tilde rendering in the Lab
+post and added a bottom margin to `.prose table`.
+
 ## 2026-10-15 — New post: DoveRunner Lab + tutorial videos (AI-assisted workflow)
 
 Published `src/content/blog/{en,ko}/doverunner-lab-ai-workflow.md` from the wiki project

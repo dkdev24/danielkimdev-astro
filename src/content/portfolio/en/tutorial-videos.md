@@ -3,6 +3,7 @@ title: Tutorial Videos as Code — HyperFrames & Claude
 role: Developer Advocate
 org: DoveRunner
 period: 2026–present
+startDate: 2026-09-16
 summary: Rebuilding DoveRunner's product tutorial videos as code — HyperFrames compositions, real Console captures, synthesized narration and captions, written and maintained with Claude — so a UI or docs change means a re-render, not a re-shoot.
 category: devrel
 tags: [drm-content-security, automation, ai-llm]

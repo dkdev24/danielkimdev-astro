@@ -3,6 +3,7 @@ title: Content Security — Multi-DRM & Forensic Watermarking
 role: Product Owner / Product Manager
 org: DoveRunner / PallyCon
 period: "2015–2025"
+startDate: 2015-01-01
 summary: Owned the multi-DRM and forensic-watermarking content-protection products (PallyCon SaaS) for global OTT and streaming customers.
 category: product
 tags: [drm-content-security, ott-streaming]

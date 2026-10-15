@@ -2,6 +2,7 @@
 title: "Grues in Comic — A Zork × Comic Chat Mashup"
 role: Solo builder (side project)
 period: "2026–present"
+startDate: 2026-07-18
 summary: A public beta that replays Zork I's parser-driven text adventure as Comic Chat-style comic panels — two 1980s/90s Microsoft open-source releases fused into one browser game via an independent intermediate representation (IR).
 category: side-ai
 tags: [ai-llm, solopreneur]

@@ -3,6 +3,7 @@ title: Technical Writing, Developer Relations & Product
 role: Developer Advocate & Product Owner
 org: DoveRunner / PallyCon
 period: "2020–present"
+startDate: 2020-01-01
 summary: Developer-facing writing, documentation, and conference talks in media-tech — plus Product Owner for DoveRunner's Platform Ops team, driving requirements across DRM, Watermarking, App Security, and the consolidated customer console.
 category: talk-writing
 tags: [ott-streaming, ai-ready-docs]

@@ -31,7 +31,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **Domain/deploy:** `danielkimdev.com` on Cloudflare Pages, static `dist/`. Default deploy = `git push origin main`. Fallback: `pnpm run deploy` (wrangler, `DEPLOY_ALLOW_DIRTY=1`) — never both in one session.
 - **i18n routing:** `defaultLocale: "en"`, `prefixDefaultLocale: false` — EN at root, KO under `/ko/`.
 - **Design:** [`DESIGN-minimax.md`](dev-references/DESIGN-minimax.md) is superseded (2026-08-26) — kept as historical record only. Live system is Hallmark's Cobalt (light) / Aurora (dark), same token names in `tokens.css`. Dark mode required, WCAG AA both themes.
-- **Positioning:** Bridge angle, AI for knowledge work foregrounded. Media-tech/OTT/DRM = career credibility only (About + Portfolio). Portfolio = Career work (any non-`side-ai` category) vs Side projects (`side-ai`), **newest first** via `order`, 2026-10-15.
+- **Positioning:** Bridge angle, AI for knowledge work foregrounded. Media-tech/OTT/DRM = career credibility only (About + Portfolio). Portfolio = Career work (any non-`side-ai` category) vs Side projects (`side-ai`), **newest first** via `order`; Home shows the 3 newest by `startDate` (`featured` unused), 2026-10-15.
 - **Contact/social:** LinkedIn + email + GitHub + RSS. No X. GitHub repo is public (added 2026-08-21, required for Giscus/GitHub Discussions comments).
 - **Naming in content:** blog posts stay generic (no employer name); portfolio keeps employer name. Author via `daniel-writing-style` skill.
 
