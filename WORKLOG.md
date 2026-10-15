@@ -4,6 +4,20 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-15 — Email signup (Buttondown), built but hidden
+
+Context: side-project review (wiki `solopreneur-strategy-daniel`, Session Update 2026-10-15) found
+the site had analytics but no owned-audience capture (RSS only). Daniel picked Buttondown.
+- New `src/components/Subscribe.astro`: plain HTML POST to
+  `buttondown.com/api/emails/embed-subscribe/<username>` (no JS), opens confirmation in a new tab,
+  hidden `tag=lang-en|lang-ko`. Placed in `BlogPost.astro` after pagination, before "Back to all posts".
+- `BUTTONDOWN_USERNAME` in `consts.ts` (empty = form not rendered, same gate as Umami), with
+  `TODO(daniel)`. i18n `subscribe.*` keys in `en.json` + `ko.json` (KO 합쇼체, no em dash).
+- CSP `form-action` now `'self' https://buttondown.com` (`public/_headers`).
+- Verified: `pnpm run build` OK (97 pages); with a temporary username the form rendered in EN and KO
+  dist output, then reverted to `''`. `astro check`: no new errors (4 pre-existing:
+  `functions/_middleware.ts` ×2, `[slug].md.ts` ×2). Not visually checked; not committed/deployed.
+
 ## 2026-10-15 — Home portfolio cards link to their detail pages
 
 "What I'm working on" card titles linked to the `/portfolio/` list; they now use

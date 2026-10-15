@@ -22,7 +22,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 ### Invariants — easy to regress silently
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
 - AA contrast: reuse semantic tokens (`--color-text-muted`, `--color-btn-primary-bg`), not raw grays.
-- Blog links: always `getPostPath(entry)` (`utils/blog.ts`). CSP (`public/_headers`, only breaks in production): Umami needs **both** `cloud.umami.is`/`gateway.umami.is`; Giscus needs `giscus.app` in all three of script/frame/connect-src.
+- Blog links: always `getPostPath(entry)` (`utils/blog.ts`). CSP (`public/_headers`, only breaks in production): Umami needs **both** `cloud.umami.is`/`gateway.umami.is`; Giscus needs `giscus.app` in all three of script/frame/connect-src. Buttondown signup needs `https://buttondown.com` in `form-action`.
 - i18n keys: add to both `en.json` and `ko.json` (parity compile-enforced).
 - Don't fabricate `TODO(daniel)` facts — leave the marker for Daniel to fill.
 

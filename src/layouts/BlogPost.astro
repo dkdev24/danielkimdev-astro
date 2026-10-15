@@ -15,6 +15,7 @@ import TOC from '../components/TOC.astro';
 import CodeCopy from '../components/CodeCopy.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import Comments from '../components/Comments.astro';
+import Subscribe from '../components/Subscribe.astro';
 import Tag from '../components/Tag.astro';
 import Card from '../components/Card.astro';
 import type { Lang } from '../i18n/utils';
@@ -285,6 +286,8 @@ const jsonLd = blogPostingJsonLd({
 					</nav>
 				)
 			}
+
+			<Subscribe lang={lang} />
 
 			<p class="post__back">
 				<a href={blogHref}>← {t('blog.backToBlog')}</a>

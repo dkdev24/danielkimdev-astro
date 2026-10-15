@@ -159,5 +159,13 @@
 		"drm-content-security": "DRM & Content Security",
 		"ott-streaming": "OTT & Streaming",
 		"cloud-saas": "Cloud & SaaS"
+	},
+	"subscribe": {
+		"title": "Get new posts by email",
+		"body": "Notes on AI for knowledge work and agent-ready docs, about every two weeks.",
+		"emailLabel": "Email address",
+		"placeholder": "you@example.com",
+		"button": "Subscribe",
+		"note": "No spam. Unsubscribe anytime."
 	}
 }

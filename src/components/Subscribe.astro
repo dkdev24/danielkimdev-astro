@@ -1,0 +1,111 @@
+---
+/**
+ * Subscribe — Buttondown email signup (2026-10-15). Owned-audience capture at
+ * the end of every blog post: post → visit → signup is the metric, not views.
+ *
+ * Plain HTML form POST to Buttondown's embed endpoint, no JS. Opens Buttondown's
+ * confirmation page in a new tab so the reader keeps their place in the post.
+ * Renders nothing while BUTTONDOWN_USERNAME is '' (same gate as UMAMI_WEBSITE_ID).
+ * CSP: `form-action` in public/_headers must allow https://buttondown.com.
+ */
+import { BUTTONDOWN_USERNAME } from '../consts';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const action = `https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USERNAME}`;
+const inputId = `subscribe-email-${lang}`;
+---
+
+{
+	BUTTONDOWN_USERNAME !== '' && (
+		<section class="subscribe" aria-labelledby="subscribe-title">
+			<h2 id="subscribe-title" class="subscribe__title">{t('subscribe.title')}</h2>
+			<p class="subscribe__body">{t('subscribe.body')}</p>
+			<form class="subscribe__form" action={action} method="post" target="_blank">
+				<label class="subscribe__label" for={inputId}>{t('subscribe.emailLabel')}</label>
+				<input
+					class="subscribe__input"
+					id={inputId}
+					type="email"
+					name="email"
+					required
+					autocomplete="email"
+					placeholder={t('subscribe.placeholder')}
+				/>
+				<input type="hidden" name="embed" value="1" />
+				<input type="hidden" name="tag" value={`lang-${lang}`} />
+				<button class="subscribe__button" type="submit">{t('subscribe.button')}</button>
+			</form>
+			<p class="subscribe__note">{t('subscribe.note')}</p>
+		</section>
+	)
+}
+
+<style>
+	.subscribe {
+		margin-block: var(--space-12) var(--space-8);
+		padding: var(--space-6);
+		border: var(--space-px) solid var(--color-border);
+		border-radius: var(--radius-md);
+		background: var(--color-surface);
+	}
+	.subscribe__title {
+		margin: 0 0 var(--space-2);
+		font-size: 1.25rem;
+		color: var(--color-text-heading);
+	}
+	.subscribe__body,
+	.subscribe__note {
+		margin: 0;
+		color: var(--color-text-secondary);
+	}
+	.subscribe__note {
+		margin-top: var(--space-3);
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+	}
+	.subscribe__form {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-top: var(--space-4);
+	}
+	.subscribe__label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+	.subscribe__input {
+		flex: 1 1 14rem;
+		min-width: 0;
+		padding: var(--space-2_5) var(--space-3_5);
+		border: var(--space-px) solid var(--color-border);
+		border-radius: var(--radius-sm);
+		background: var(--color-bg);
+		color: var(--color-text);
+		font: inherit;
+	}
+	.subscribe__button {
+		padding: var(--space-2_5) var(--space-4);
+		border: 0;
+		border-radius: var(--radius-sm);
+		background: var(--color-btn-primary-bg);
+		color: var(--color-text-on-brand);
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+	}
+	.subscribe__input:focus-visible,
+	.subscribe__button:focus-visible {
+		outline: 2px solid var(--color-btn-primary-bg);
+		outline-offset: 2px;
+	}
+</style>
