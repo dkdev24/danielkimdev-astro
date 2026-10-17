@@ -36,4 +36,4 @@ links:
 
 같은 맥락이 일상 업무로도 이어집니다. 새 프로덕트 오너로 합류했을 때 Claude와 Jira MCP로
 흩어진 티켓을 쓸 수 있는 맥락으로 정리해 빠르게 적응했고, 그 과정을
-[Medium에 정리](https://medium.com/@daniel-inka)했습니다.
+[Medium에 정리](https://medium.com/@danielkim-dev)했습니다.

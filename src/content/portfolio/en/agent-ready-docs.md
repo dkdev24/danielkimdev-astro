@@ -36,4 +36,4 @@ working integration? — and then fixes what the answer exposes.
 
 The same thread runs into everyday AI-assisted work: I used Claude with the Jira MCP to get
 up to speed as a new product owner, turning scattered tickets into usable context
-([write-up on Medium](https://medium.com/@daniel-inka)).
+([write-up on Medium](https://medium.com/@danielkim-dev)).

@@ -13,7 +13,7 @@ order: 4
 translationKey: talks-writing-devrel
 links:
   - label: 기술 블로그 (Medium)
-    url: https://medium.com/@daniel-inka
+    url: https://medium.com/@danielkim-dev
   - label: DoveRunner 개발자 문서
     url: https://docs.doverunner.com
 ---
