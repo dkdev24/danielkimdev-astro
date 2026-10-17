@@ -31,7 +31,7 @@ export const GET: APIRoute = async ({ props }) => {
 		`period: "${doc.data.period}"`,
 		`summary: "${doc.data.summary.replace(/"/g, '\\"')}"`,
 		`category: "${doc.data.category}"`,
-		doc.data.tags.length ? `tags: [${doc.data.tags.map((t) => `"${t}"`).join(', ')}]` : null,
+		doc.data.tags.length ? `tags: [${doc.data.tags.map((t: string) => `"${t}"`).join(', ')}]` : null,
 		'---',
 		'',
 	]

@@ -36,7 +36,7 @@ export const GET: APIRoute = async ({ props }) => {
 		`description: "${(doc.data.description ?? '').replace(/"/g, '\\"')}"`,
 		`pubDate: "${doc.data.pubDate.toISOString().slice(0, 10)}"${updatedLine}`,
 		`lang: "${doc.data.lang}"`,
-		doc.data.tags.length ? `tags: [${doc.data.tags.map((t) => `"${t}"`).join(', ')}]` : null,
+		doc.data.tags.length ? `tags: [${doc.data.tags.map((t: string) => `"${t}"`).join(', ')}]` : null,
 		'---',
 		'',
 	]

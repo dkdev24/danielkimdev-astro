@@ -4,6 +4,13 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-17 — `astro check` back to 0 errors
+
+The 4 long-standing errors are fixed: `functions/_middleware.ts` gets a minimal local
+`PagesFunction` type (request / env.ASSETS.fetch / next only, no new dependency), and the
+`tags.map` callbacks in `src/pages/{blog,portfolio}/[slug].md.ts` are typed `(t: string)`.
+Type-only changes; build output unchanged.
+
 ## 2026-10-17 — Korean `.md` siblings for blog posts
 
 New `src/pages/ko/blog/[slug].md.ts` (re-exports `GET` from the EN route, KO filter in

@@ -16,6 +16,14 @@
 // The middleware tries <base>.md first, then <base>/index.md as a fallback,
 // so both cases are covered without special-casing individual routes.
 
+// Minimal local slice of Cloudflare's PagesFunction type (only what this file uses),
+// so `astro check` passes without adding @cloudflare/workers-types.
+type PagesFunction = (context: {
+	request: Request;
+	env: { ASSETS: { fetch: (request: Request) => Promise<Response> } };
+	next: () => Promise<Response>;
+}) => Promise<Response>;
+
 export const onRequest: PagesFunction = async (context) => {
 	const { request, env } = context;
 	const accept = request.headers.get('Accept') ?? '';
