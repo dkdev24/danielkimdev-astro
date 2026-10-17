@@ -1,6 +1,6 @@
 // src/pages/portfolio/[slug].md.ts
 // Pre-generates a plain-markdown sibling of every EN portfolio item at /portfolio/<slug>.md.
-// KO items are excluded (fast-follow: src/pages/ko/portfolio/[slug].md.ts).
+// KO items get theirs from src/pages/ko/portfolio/[slug].md.ts, which re-exports GET.
 //
 // Portfolio entry IDs follow the same folder-by-locale convention as blog:
 // "en/item-slug" → strip "en/" prefix + extension to get the route param.

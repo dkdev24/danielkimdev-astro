@@ -1,7 +1,7 @@
 // src/pages/llms.txt.ts
-// Agent-readable index of danielkimdev.com: all English content, plus Korean blog posts.
+// Agent-readable index of danielkimdev.com: English content first, then the Korean versions.
 // Spec: https://llmstxt.org/
-// Scope: EN pages, posts and portfolio + KO blog posts (KO portfolio/static pages not indexed).
+// Scope: EN and KO static pages, blog posts and portfolio items (all have .md siblings).
 // Format: H1 title + blockquote summary + grouped markdown links.
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
@@ -32,12 +32,16 @@ export const GET: APIRoute = async ({ site }) => {
 		.filter((p) => p.data.lang === 'en')
 		.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 
+	const koPortfolioItems = portfolioEntries
+		.filter((p) => p.data.lang === 'ko')
+		.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
 	const lines: string[] = [
 		'# Daniel Kim',
 		'',
 		'> Personal site and blog by Daniel Kim — AI for knowledge work, media tech (OTT/DRM/streaming),',
-		'> and building in public. Bilingual EN/KO. This index covers the English content and the',
-		'> Korean versions of blog posts.',
+		'> and building in public. Bilingual EN/KO. English content comes first, followed',
+		'> by the Korean (한국어) versions of the same pages, posts and portfolio items.',
 		'',
 		'## When to use this',
 		'',
@@ -74,15 +78,6 @@ export const GET: APIRoute = async ({ site }) => {
 		lines.push(`- [${post.data.title}](${url})${desc}`);
 	}
 
-	lines.push('', '## Blog posts (Korean / 한국어)', '');
-
-	for (const post of koPosts) {
-		const slug = stripLocale(post.id).replace(/\.mdx?$/, '');
-		const url = new URL(`/ko/blog/${slug}.md`, site).href;
-		const desc = post.data.description ? `: ${post.data.description}` : '';
-		lines.push(`- [${post.data.title}](${url})${desc}`);
-	}
-
 	for (const [group, heading] of [
 		['career', '## Portfolio — career work'],
 		['side', '## Portfolio — side projects'],
@@ -94,6 +89,34 @@ export const GET: APIRoute = async ({ site }) => {
 			const desc = item.data.summary ? `: ${item.data.summary}` : '';
 			lines.push(`- [${item.data.title}](${url})${desc}`);
 		}
+	}
+
+	lines.push('', '## Static pages (Korean / 한국어)', '');
+	for (const page of [
+		{ title: '홈', path: '/ko/index.md' },
+		{ title: '소개', path: '/ko/about.md' },
+		{ title: '블로그', path: '/ko/blog/index.md' },
+		{ title: '포트폴리오', path: '/ko/portfolio/index.md' },
+	]) {
+		lines.push(`- [${page.title}](${new URL(page.path, site).href})`);
+	}
+
+	lines.push('', '## Blog posts (Korean / 한국어)', '');
+
+	for (const post of koPosts) {
+		const slug = stripLocale(post.id).replace(/\.mdx?$/, '');
+		const url = new URL(`/ko/blog/${slug}.md`, site).href;
+		const desc = post.data.description ? `: ${post.data.description}` : '';
+		lines.push(`- [${post.data.title}](${url})${desc}`);
+	}
+
+	lines.push('', '## Portfolio (Korean / 한국어)', '');
+
+	for (const item of koPortfolioItems) {
+		const slug = stripLocale(item.id).replace(/\.mdx?$/, '');
+		const url = new URL(`/ko/portfolio/${slug}.md`, site).href;
+		const desc = item.data.summary ? `: ${item.data.summary}` : '';
+		lines.push(`- [${item.data.title}](${url})${desc}`);
 	}
 
 	return new Response(lines.join('\n') + '\n', {

@@ -12,6 +12,14 @@ New `src/pages/ko/blog/[slug].md.ts` (re-exports `GET` from the EN route, KO fil
 `/ko/blog/<slug>/` with `Accept: text/markdown` now finds the sibling. KO portfolio/static pages
 still have no `.md`. `astro check`: same 4 pre-existing errors.
 
+Same day, extended to every KO page: `/ko/index.md`, `/ko/about.md`, `/ko/blog/index.md`,
+`/ko/portfolio/index.md` and `/ko/portfolio/<slug>.md` (9 items). `about.md.ts` and
+`portfolio/index.md.ts` now export `aboutMarkdown(lang)` / `portfolioIndexMarkdown(lang, site)`
+with per-locale labels (KO strings from ko.json and the existing data files); the KO routes call
+them, the KO portfolio item route re-exports `GET`. `llms.txt` lists EN first, then KO static pages,
+KO posts and KO portfolio (64 links). EN outputs unchanged except `about.md`, which now has blank
+lines between bio paragraphs (they ran together before).
+
 ## 2026-10-17 — Blog table styling
 
 `.prose table` in `src/styles/global.css` had no borders, padding or header styling. Added: outer
