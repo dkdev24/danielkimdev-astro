@@ -4,6 +4,14 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-17 — Blog table styling
+
+`.prose table` in `src/styles/global.css` had no borders, padding or header styling. Added: outer
+border + radius, cell padding and dividers, muted header row, zebra rows, `text-sm` + tabular
+numbers, `code` in cells kept on one line, and `display: block; overflow-x: auto; width:
+fit-content` so wide tables scroll inside the column on phones. Tokens only, so Cobalt/Aurora both
+follow. Checked by screenshot (desktop light/dark, 390px mobile) on the agent-ready-docs post.
+
 ## 2026-10-17 — New post: agent-ready docs, real-world test
 
 Published `src/content/blog/{en,ko}/agent-ready-docs-real-world-test.md` from the wiki project

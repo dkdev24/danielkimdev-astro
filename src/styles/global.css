@@ -106,8 +106,47 @@ p {
 .prose p {
 	margin-bottom: var(--space-8);
 }
+/* `display: block` + overflow lets wide tables scroll inside the prose
+   column on phones instead of overflowing the page. */
 .prose table {
+	display: block;
+	overflow-x: auto;
+	width: fit-content;
+	max-width: 100%;
 	margin-bottom: var(--space-8);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: var(--text-sm);
+	line-height: var(--leading-normal);
+	font-variant-numeric: tabular-nums;
+}
+.prose th,
+.prose td {
+	padding: var(--space-2) var(--space-3);
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid var(--color-border-subtle);
+}
+.prose th + th,
+.prose td + td {
+	border-left: 1px solid var(--color-border-subtle);
+}
+.prose th {
+	background-color: var(--color-bg-muted);
+	color: var(--color-text-heading);
+	font-weight: var(--weight-semibold);
+	border-bottom-color: var(--color-border);
+}
+.prose tbody tr:nth-child(even) td {
+	background-color: var(--color-bg-subtle);
+}
+.prose tbody tr:last-child td {
+	border-bottom: none;
+}
+.prose td code {
+	white-space: nowrap;
 }
 .prose [id*="fn"] {
 	scroll-margin-top: calc(64px + 3px + var(--space-4));
