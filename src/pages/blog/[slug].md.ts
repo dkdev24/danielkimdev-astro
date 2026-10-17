@@ -1,7 +1,6 @@
 // src/pages/blog/[slug].md.ts
 // Pre-generates a plain-markdown sibling of every EN blog post at /blog/<slug>.md.
-// KO posts are excluded from this endpoint (they live at /ko/blog/<slug>/ and would
-// need a separate endpoint at src/pages/ko/blog/[slug].md.ts as a fast-follow).
+// KO posts get theirs from src/pages/ko/blog/[slug].md.ts, which re-exports GET.
 //
 // SLUG NOTE: blog entry IDs are "en/post-slug" (folder-by-locale convention).
 // We strip the "en/" prefix and the file extension to get the route param.

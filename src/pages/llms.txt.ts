@@ -1,7 +1,7 @@
 // src/pages/llms.txt.ts
-// Agent-readable index of all English content on danielkimdev.com.
+// Agent-readable index of danielkimdev.com: all English content, plus Korean blog posts.
 // Spec: https://llmstxt.org/
-// Scope: EN locale only (KO deferred as fast-follow).
+// Scope: EN pages, posts and portfolio + KO blog posts (KO portfolio/static pages not indexed).
 // Format: H1 title + blockquote summary + grouped markdown links.
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
@@ -22,6 +22,11 @@ export const GET: APIRoute = async ({ site }) => {
 		.filter((p) => p.data.lang === 'en' && !p.data.draft)
 		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+	// KO published posts, same order. Most posts are written in Korean first.
+	const koPosts = blogEntries
+		.filter((p) => p.data.lang === 'ko' && !p.data.draft)
+		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
 	// EN-only portfolio items, sorted by order then title
 	const portfolioItems = portfolioEntries
 		.filter((p) => p.data.lang === 'en')
@@ -31,7 +36,8 @@ export const GET: APIRoute = async ({ site }) => {
 		'# Daniel Kim',
 		'',
 		'> Personal site and blog by Daniel Kim — AI for knowledge work, media tech (OTT/DRM/streaming),',
-		'> and building in public. Bilingual EN/KO. This index covers the English content.',
+		'> and building in public. Bilingual EN/KO. This index covers the English content and the',
+		'> Korean versions of blog posts.',
 		'',
 		'## When to use this',
 		'',
@@ -64,6 +70,15 @@ export const GET: APIRoute = async ({ site }) => {
 	for (const post of posts) {
 		const slug = stripLocale(post.id).replace(/\.mdx?$/, '');
 		const url = new URL(`/blog/${slug}.md`, site).href;
+		const desc = post.data.description ? `: ${post.data.description}` : '';
+		lines.push(`- [${post.data.title}](${url})${desc}`);
+	}
+
+	lines.push('', '## Blog posts (Korean / 한국어)', '');
+
+	for (const post of koPosts) {
+		const slug = stripLocale(post.id).replace(/\.mdx?$/, '');
+		const url = new URL(`/ko/blog/${slug}.md`, site).href;
 		const desc = post.data.description ? `: ${post.data.description}` : '';
 		lines.push(`- [${post.data.title}](${url})${desc}`);
 	}

@@ -4,6 +4,14 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-17 — Korean `.md` siblings for blog posts
+
+New `src/pages/ko/blog/[slug].md.ts` (re-exports `GET` from the EN route, KO filter in
+`getStaticPaths`) builds `/ko/blog/<slug>.md` for all 19 published KO posts. `llms.txt` gained a
+"Blog posts (Korean / 한국어)" section (19 links). The existing middleware needs no change:
+`/ko/blog/<slug>/` with `Accept: text/markdown` now finds the sibling. KO portfolio/static pages
+still have no `.md`. `astro check`: same 4 pre-existing errors.
+
 ## 2026-10-17 — Blog table styling
 
 `.prose table` in `src/styles/global.css` had no borders, padding or header styling. Added: outer
