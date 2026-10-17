@@ -4,6 +4,14 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-17 — New post: agent-ready docs, real-world test
+
+Published `src/content/blog/{en,ko}/agent-ready-docs-real-world-test.md` from the wiki project
+(`my-llm-wiki`, Post Preparation Stage 4; reviewed with draft-review-kit dev-edit/eli5/guardrails
++ line-edit). Tags `ai-ready-docs`, `ai-llm`; no series. **Names DoveRunner** (and Lab, siteready),
+approved by Daniel for this post. Verified: `pnpm run build` 99 pages incl. both new routes, em-dash
+count 0 in both files. `astro check` still reports the same 4 pre-existing errors in untouched files.
+
 ## 2026-10-15 — Email signup (Buttondown), built but hidden
 
 Context: side-project review (wiki `solopreneur-strategy-daniel`, Session Update 2026-10-15) found
