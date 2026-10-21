@@ -4,6 +4,10 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-21 — Post-summary card restyled (flat ruled panel)
+
+Daniel found the first card (accent-tinted fill with a thick left border) read as generic AI styling. `.prose .post-summary` in `global.css` is now a flat panel: 4% accent wash, hairline border all round, `--radius-sm`, a mono uppercase eyebrow for the bold label, accent bullet markers, and the "Good fit / Not for you / Keep in mind" lines as a smaller muted footer under a hairline rule. Tint still mixes from `--color-brand`, so it follows Cobalt and Aurora. Pushed as `5a71f58`. Dark-mode contrast of the eyebrow (`--color-brand-deep` on Aurora) was not measured.
+
 ## 2026-10-21 — Post-summary card + consistent prose heading spacing
 
 New `src/plugins/remark-post-summary.mjs` (registered in `astro.config.mjs`) wraps a post's "What you'll get" opener (bold label through the closing "Keep in mind"/"유의할 점" line) in `<div class="post-summary">`, styled in `global.css` as an accent-tinted card (follows Cobalt/Aurora). Warns at build if the closing label is missing. Rule + verification step added to `dev-references/wiki-to-site-publishing.md`. Also: `.prose` h2/h3 get a top margin and lists a bottom margin, so the gap above H2 is the same after a list as after a paragraph (affects all posts).
