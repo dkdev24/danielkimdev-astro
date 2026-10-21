@@ -4,6 +4,10 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-21 — Published Building LLM-PKM in Public ep11 and ep12 (EN/KO)
+
+Published from the my-llm-wiki session: `building-llm-pkm-in-public-ep11` (local hybrid search for a 2M-word wiki) and `-ep12` (measuring search quality), EN + KO, `pubDate` 2026-10-21. Both open with a "what you'll get from this post" block. ep12 links back to ep11 (`/blog/...-ep11/`, `/ko/blog/...-ep11/`). `astro check` 0 errors, build 103 pages, no `—` in the KO files.
+
 ## 2026-10-17 — `astro check` back to 0 errors
 
 The 4 long-standing errors are fixed: `functions/_middleware.ts` gets a minimal local
