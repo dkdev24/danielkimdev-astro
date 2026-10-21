@@ -342,20 +342,47 @@ html[data-theme='dark'] .astro-code span {
 	}
 }
 
-/* Highlighted "what you'll get" opener on blog posts: a tinted card with an
-   accent edge. Tint is mixed from the accent so it follows Cobalt and Aurora. */
+/* "What you'll get" opener on blog posts. A flat, ruled panel rather than a
+   callout: faint accent wash, hairline border all round, a mono eyebrow label,
+   accent bullet markers, and the fit/caveat lines set as a quiet footer.
+   Tint is mixed from the accent so it follows Cobalt and Aurora. */
 .prose .post-summary {
 	margin-block: var(--space-8);
 	padding: var(--space-6) var(--space-8);
-	background: color-mix(in oklch, var(--color-brand) 8%, var(--color-bg));
-	border: 1px solid color-mix(in oklch, var(--color-brand) 30%, var(--color-border));
-	border-left: 4px solid var(--color-brand);
-	border-radius: var(--radius-md, 0.5rem);
+	background: color-mix(in oklch, var(--color-brand) 4%, var(--color-bg));
+	border: 1px solid color-mix(in oklch, var(--color-brand) 22%, var(--color-border));
+	border-radius: var(--radius-sm);
 }
-.prose .post-summary > :first-child {
-	margin-top: 0;
+.prose .post-summary > p:first-child {
+	margin-bottom: var(--space-4);
+	font-family: var(--font-data);
+	font-size: var(--text-xs, 0.75rem);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--color-brand-deep);
 }
-.prose .post-summary > :last-child,
-.prose .post-summary p:last-child {
+.prose .post-summary > p:first-child strong {
+	font-weight: var(--weight-semibold);
+}
+.prose .post-summary ul {
+	margin-bottom: var(--space-4);
+	padding-left: var(--space-4);
+}
+.prose .post-summary li::marker {
+	color: var(--color-brand);
+}
+.prose .post-summary ul ~ p {
+	margin-bottom: var(--space-2);
+	font-size: var(--text-sm);
+	color: var(--color-text-secondary);
+}
+.prose .post-summary ul + p {
+	padding-top: var(--space-4);
+	border-top: 1px solid var(--color-border-subtle);
+}
+.prose .post-summary ul ~ p strong {
+	color: var(--color-text-heading);
+}
+.prose .post-summary > :last-child {
 	margin-bottom: 0;
 }
