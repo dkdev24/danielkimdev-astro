@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { toonstrip } from '@toonstrip/astro';
 import { defineConfig, fontProviders } from 'astro/config';
+import remarkPostSummary from './src/plugins/remark-post-summary.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,6 +30,7 @@ export default defineConfig({
 	// transformer stamps each <pre> with `data-language` so the CodeCopy enhancer
 	// can show a language label.
 	markdown: {
+		remarkPlugins: [remarkPostSummary],
 		shikiConfig: {
 			themes: { light: 'github-light', dark: 'github-dark' },
 			wrap: true,

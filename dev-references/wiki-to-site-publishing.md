@@ -123,6 +123,11 @@ authored:
 - **Remove** a trailing italic "next episode" teaser line if it just repeats content already
   covered in a "What's coming" section in the body — keep the section, drop the redundant
   one-liner.
+- **Keep** the "What you'll get" opener as plain markdown (bold label `**What you'll get from this post**` /
+  `**이 글에서 얻을 수 있는 것**`, bullets, and the closing `**Keep in mind:**` / `**유의할 점:**` line). Don't
+  hand-write HTML: `src/plugins/remark-post-summary.mjs` wraps that span in the highlighted
+  `.post-summary` card (`global.css`) at build. If the labels are reworded the card silently
+  won't appear; a missing closing label logs a `[remark-post-summary]` build warning.
 - **Do not** rewrite, retitle, or otherwise "improve" the remaining prose. It already passed the
   wiki project's own review.
 
@@ -152,6 +157,8 @@ After copying the files into `src/content/blog/{en,ko}/`:
    judgment call.
 4. If a new series was registered, spot-check `/blog/series/<slug>/` and `/blog/series/` render
    (both locales).
+5. For a post with the opener: `grep -c 'class="post-summary"' dist/blog/<slug>/index.html` (and `dist/ko/...`)
+   returns 1, and the build output has no `[remark-post-summary]` warning.
 
 ## Bookkeeping, commit, push
 

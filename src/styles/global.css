@@ -103,6 +103,19 @@ a:hover {
 p {
 	margin-bottom: var(--space-4);
 }
+/* Headings carry their own top margin so the gap above them is the same whether
+   the previous block is a paragraph, list or table (lists have no bottom margin
+   of their own, so the old gap came only from paragraph margins). */
+.prose h2 {
+	margin-top: var(--space-12);
+}
+.prose h3 {
+	margin-top: var(--space-8);
+}
+.prose ul,
+.prose ol {
+	margin-bottom: var(--space-8);
+}
 .prose p {
 	margin-bottom: var(--space-8);
 }
@@ -327,4 +340,22 @@ html[data-theme='dark'] .astro-code span {
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
 	}
+}
+
+/* Highlighted "what you'll get" opener on blog posts: a tinted card with an
+   accent edge. Tint is mixed from the accent so it follows Cobalt and Aurora. */
+.prose .post-summary {
+	margin-block: var(--space-8);
+	padding: var(--space-6) var(--space-8);
+	background: color-mix(in oklch, var(--color-brand) 8%, var(--color-bg));
+	border: 1px solid color-mix(in oklch, var(--color-brand) 30%, var(--color-border));
+	border-left: 4px solid var(--color-brand);
+	border-radius: var(--radius-md, 0.5rem);
+}
+.prose .post-summary > :first-child {
+	margin-top: 0;
+}
+.prose .post-summary > :last-child,
+.prose .post-summary p:last-child {
+	margin-bottom: 0;
 }
