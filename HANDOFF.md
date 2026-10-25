@@ -23,9 +23,8 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
 - AA contrast: reuse semantic tokens (`--color-text-muted`, `--color-btn-primary-bg`), not raw grays.
 - Blog links: always `getPostPath(entry)` (`utils/blog.ts`). CSP (`public/_headers`, only breaks in production): Umami needs **both** `cloud.umami.is`/`gateway.umami.is`; Giscus needs `giscus.app` in all three of script/frame/connect-src. Buttondown signup needs `https://buttondown.com` in `form-action`.
-- i18n keys: add to both `en.json` and `ko.json` (parity compile-enforced).
+- i18n keys: add to both `en.json` and `ko.json` (parity compile-enforced). Don't fabricate `TODO(daniel)` facts: leave the marker.
 - Analytics: GA (`G-JL3PJ65QL3`) is injected by `Consent.astro` after Accept, never in `BaseLayout`. A new tool that sets cookies goes behind the same gate and into `src/data/privacy.ts` (both languages).
-- Don't fabricate `TODO(daniel)` facts — leave the marker for Daniel to fill.
 
 ## Locked decisions (do not re-litigate without Daniel)
 
