@@ -1,0 +1,61 @@
+---
+// Shared privacy page (EN/KO), fed by `lang`. Copy lives in data/privacy.ts.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from './Button.astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { SITE_AUTHOR, SITE_DESCRIPTION_BY_LOCALE } from '../consts';
+import { PRIVACY } from '../data/privacy';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const page = PRIVACY[lang];
+---
+
+<BaseLayout title={`${t('privacy.title')} — ${SITE_AUTHOR}`} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
+	<article class="privacy container">
+		<h1>{t('privacy.title')}</h1>
+		<p class="privacy__updated">{page.updated}</p>
+		{page.intro.map((p) => <p>{p}</p>)}
+		{
+			page.sections.map((s) => (
+				<section>
+					<h2>{s.heading}</h2>
+					{s.body.map((p) => <p>{p}</p>)}
+					{s.bullets && <ul>{s.bullets.map((b) => <li>{b}</li>)}</ul>}
+					{s.reset && (
+						<p>
+							<Button variant="secondary" size="sm" data-consent-reset>
+								{t('privacy.resetCookies')}
+							</Button>
+						</p>
+					)}
+				</section>
+			))
+		}
+	</article>
+</BaseLayout>
+
+<style>
+	.privacy {
+		padding-block: var(--space-12) var(--space-16);
+		max-width: var(--container-prose);
+	}
+	.privacy__updated {
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+	}
+	.privacy h2 {
+		margin-top: var(--space-10);
+	}
+	.privacy ul {
+		padding-left: 1.25rem;
+	}
+	.privacy li {
+		margin-block: var(--space-2);
+	}
+</style>

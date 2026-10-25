@@ -3,8 +3,8 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-10-21 (session 24)
-**Status:** **LIVE** at https://danielkimdev.com. 2026-10-21: published building-llm-pkm-in-public ep11 + ep12 (EN/KO); added `remark-post-summary` card for the "what you'll get" opener + consistent prose heading spacing, see WORKLOG. 2026-10-17: new post `agent-ready-docs-real-world-test` (names DoveRunner, approved by Daniel), see WORKLOG. Session 22 split the Portfolio into **Career work / Side projects** (group derived from `category`; new `devrel` category; `ai-knowledge-work` → career item `agent-ready-docs` with 301s in `public/_redirects`; new career items `tutorial-videos`, `doverunner-lab`) — deployed 2026-10-15 with the new post `doverunner-lab-ai-workflow` (names DoveRunner, one-off exception approved by Daniel), see WORKLOG 2026-10-15. Session 21 migrated npm → pnpm (`pnpm@11.1.1`). `pnpm run test:e2e` is broken (Astro 7 dev server self-daemonizes; Playwright `webServer` expects foreground). All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
+**Last updated:** 2026-10-25 (session 25)
+**Status:** **LIVE** at https://danielkimdev.com. 2026-10-25: GA now loads only after Accept in a cookie banner (`Consent.astro`, `dk-consent`, prod host only) and `/privacy/` + `/ko/privacy/` are live, see WORKLOG. 2026-10-21: published building-llm-pkm-in-public ep11 + ep12 (EN/KO); added `remark-post-summary` card for the "what you'll get" opener + consistent prose heading spacing, see WORKLOG. 2026-10-17: new post `agent-ready-docs-real-world-test` (names DoveRunner, approved by Daniel), see WORKLOG. Session 22 split the Portfolio into **Career work / Side projects** (group derived from `category`; new `devrel` category; `ai-knowledge-work` → career item `agent-ready-docs` with 301s in `public/_redirects`; new career items `tutorial-videos`, `doverunner-lab`) — deployed 2026-10-15 with the new post `doverunner-lab-ai-workflow` (names DoveRunner, one-off exception approved by Daniel), see WORKLOG 2026-10-15. Session 21 migrated npm → pnpm (`pnpm@11.1.1`). `pnpm run test:e2e` is broken (Astro 7 dev server self-daemonizes; Playwright `webServer` expects foreground). All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
 
@@ -17,13 +17,14 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **Writing-process field:** blog schema `writingProcess: "ai-assisted" | "human-written"` (default `ai-assisted`, no backfill needed). Badge in `BlogPost.astro`. See WORKLOG 2026-08-06.
 - **Architecture:** every page → `BaseLayout.astro`, thin per-locale wrappers around shared `XPage.astro`. 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`. Tokens in `src/styles/tokens.css` — same semantic variable names as always, values now Cobalt (light)/Aurora (dark).
 - **Sitewide theme (Cobalt/Aurora, Hallmark skill):** the former homepage-only pilot is now the whole site. Light = Cobalt (cool-white, cobalt-blue accent, Space Grotesk/Inter/JetBrains Mono). Dark = Aurora (dark cyan-bloom, Fraunces serif — Sentient stand-in, cyan accent). `CobaltHeader.astro` is `BaseLayout`'s default header on every route now; `Header.astro` unused, kept pending explicit deletion. Font components moved to `BaseHead.astro` so every page loads them, not just `/`. Old MiniMax brand blue/pink/DM Sans-Outfit-Poppins retired from the token layer.
-- **`toonstrip` balloon-overlap took three rounds (17–19):** blank-render fix (`0.1.6`) → width fix that missed the real 363×309 embed size (`0.1.7`/`0.1.8`) → actual fix (`0.1.9`) → root-caused why panels hit the fallback at all + a neighbour-overlap fix (`0.1.10`, EN+KO re-verified clean). Checklist: `dev-references/toonstrip-sync.md`. `.prose-breakout` fixes the demo at 46rem, pushing Korean under toonstrip's 2-column threshold.
+- **`toonstrip` balloon overlap:** fixed in `0.1.10` after three rounds; checklist in `dev-references/toonstrip-sync.md`; history in WORKLOG.
 
 ### Invariants — easy to regress silently
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
 - AA contrast: reuse semantic tokens (`--color-text-muted`, `--color-btn-primary-bg`), not raw grays.
 - Blog links: always `getPostPath(entry)` (`utils/blog.ts`). CSP (`public/_headers`, only breaks in production): Umami needs **both** `cloud.umami.is`/`gateway.umami.is`; Giscus needs `giscus.app` in all three of script/frame/connect-src. Buttondown signup needs `https://buttondown.com` in `form-action`.
 - i18n keys: add to both `en.json` and `ko.json` (parity compile-enforced).
+- Analytics: GA (`G-JL3PJ65QL3`) is injected by `Consent.astro` after Accept, never in `BaseLayout`. A new tool that sets cookies goes behind the same gate and into `src/data/privacy.ts` (both languages).
 - Don't fabricate `TODO(daniel)` facts — leave the marker for Daniel to fill.
 
 ## Locked decisions (do not re-litigate without Daniel)
@@ -45,6 +46,6 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Conventions / gotchas
 
-- Dev server: `astro dev --background`. UI testing: Playwright specs in `tests/e2e/*.spec.ts`, run `pnpm run test:e2e` — currently broken (Astro 7.2.10 dev server self-daemonizes; Playwright's `webServer` expects a foreground process). Use `astro dev --background` + manual checks until fixed.
+- Dev server: `astro dev --background`. UI testing: Playwright specs in `tests/e2e/*.spec.ts` (`pnpm run test:e2e` is broken, see Next steps 5); until fixed, drive a standalone script against `dist/` (`astro preview` rejects other Host headers).
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md`.
 - Publishing (as of 2026-08-21) runs from the wiki project's own session, straight into `src/content/blog/` — mechanical schema conversion per [`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md). Picking up a new `@toonstrip/astro` release: [`dev-references/toonstrip-sync.md`](dev-references/toonstrip-sync.md).

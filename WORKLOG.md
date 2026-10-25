@@ -4,6 +4,12 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-25 — Privacy page and Google Analytics consent banner
+
+The unconditional gtag in `BaseLayout.astro` (property `G-JL3PJ65QL3`, shared with grues.danielkimdev.com; Daniel keeps it shared) is replaced by `src/components/Consent.astro`: an Accept/Decline banner (strings in `consent.*` of `en.json`/`ko.json`) whose script injects gtag only after Accept, only on `danielkimdev.com` / `www.danielkimdev.com`. Choice in `localStorage` `dk-consent`. Pattern from doverunner-lab's `Consent.tsx` (no Lab identifiers copied). The CSP in `public/_headers` already allows the GA hosts, so no header change. New `/privacy/` and `/ko/privacy/` (`PrivacyPage.astro`, copy in `src/data/privacy.ts`, thin page wrappers) with a "Change cookie settings" button; footer link added. Covers GA, Cloudflare (Pages logs, edge-injected Web Analytics), Giscus comments, Buttondown signup, localStorage keys (`theme`, `lang`, `dk-consent`). Umami is in the CSP but not loaded anywhere in `src/`, so it is not listed. Korean copy written directly (not via `daniel-writing-style`), not legally reviewed.
+
+Checked: `astro check` 0 errors, `astro build` 105 pages; a standalone Playwright script (system Chrome, request routing so the real hostname was served from `dist/`, since `astro preview` blocks other Host headers) confirmed banner shown, Accept loads the tag and survives reload, Decline loads nothing, reset clears the choice (EN home, KO privacy). Not checked: the live domain, GA Realtime, phone width. `pnpm run test:e2e` is still broken (see HANDOFF).
+
 ## 2026-10-21 — Post-summary card restyled (flat ruled panel)
 
 Daniel found the first card (accent-tinted fill with a thick left border) read as generic AI styling. `.prose .post-summary` in `global.css` is now a flat panel: 4% accent wash, hairline border all round, `--radius-sm`, a mono uppercase eyebrow for the bold label, accent bullet markers, and the "Good fit / Not for you / Keep in mind" lines as a smaller muted footer under a hairline rule. Tint still mixes from `--color-brand`, so it follows Cobalt and Aurora. Pushed as `5a71f58`. Dark-mode contrast of the eyebrow (`--color-brand-deep` on Aurora) was not measured.

@@ -1,0 +1,112 @@
+---
+// Cookie consent for Google Analytics. GA loads only after Accept, only on the production host
+// (previews and localhost send nothing). The choice lives in localStorage `dk-consent`; the privacy
+// page's [data-consent-reset] button clears it so the banner asks again. Cloudflare Web Analytics
+// is edge-injected and cookieless, so it is not gated here.
+import { getLangFromUrl, getLocalizedPath, useTranslations } from '../i18n/utils';
+import Button from './Button.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="consent" role="region" aria-label={t('consent.label')} hidden>
+	<p>{t('consent.text')} <a href={getLocalizedPath('/privacy/', lang)}>{t('consent.policy')}</a></p>
+	<div class="consent__actions">
+		<Button variant="secondary" size="sm" data-consent="denied">{t('consent.decline')}</Button>
+		<Button size="sm" data-consent="granted">{t('consent.accept')}</Button>
+	</div>
+</div>
+
+<script>
+	const KEY = 'dk-consent';
+	const GA_ID = 'G-JL3PJ65QL3';
+	const HOSTS = ['danielkimdev.com', 'www.danielkimdev.com'];
+	const banner = document.querySelector<HTMLElement>('.consent');
+
+	function load() {
+		const w = window as unknown as { dataLayer: unknown[] };
+		w.dataLayer = w.dataLayer || [];
+		// gtag.js needs the `arguments` object itself, so a plain function, not an arrow
+		function gtag(..._: unknown[]) {
+			w.dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+		gtag('config', GA_ID);
+		const s = document.createElement('script');
+		s.async = true;
+		s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+		document.head.append(s);
+	}
+
+	let stored: string | null = null;
+	let usable = true;
+	try {
+		stored = localStorage.getItem(KEY);
+	} catch {
+		usable = false; // storage blocked: no banner on every page, no tag
+	}
+
+	if (HOSTS.includes(location.hostname) && usable) {
+		if (stored === 'granted') load();
+		else if (stored !== 'denied' && banner) banner.hidden = false;
+	}
+
+	banner?.addEventListener('click', (e) => {
+		const choice = (e.target as HTMLElement).closest<HTMLElement>('[data-consent]')?.dataset.consent;
+		if (choice !== 'granted' && choice !== 'denied') return;
+		try {
+			localStorage.setItem(KEY, choice);
+		} catch {}
+		banner.hidden = true;
+		if (choice === 'granted') load();
+	});
+
+	// Privacy page: forget the choice (a reload drops an already-loaded tag).
+	document.querySelectorAll('[data-consent-reset]').forEach((b) =>
+		b.addEventListener('click', () => {
+			try {
+				localStorage.removeItem(KEY);
+			} catch {}
+			location.reload();
+		}),
+	);
+</script>
+
+<style>
+	.consent {
+		position: fixed;
+		right: var(--space-4);
+		bottom: var(--space-4);
+		left: var(--space-4);
+		z-index: 90;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+		max-width: 720px;
+		margin: 0 auto;
+		padding: var(--space-4) var(--space-5);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		background: var(--color-surface);
+		color: var(--color-text);
+		box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.3);
+		font-size: 0.9rem;
+	}
+	.consent[hidden] {
+		display: none;
+	}
+	.consent p {
+		flex: 1 1 280px;
+		margin: 0;
+	}
+	.consent a {
+		text-decoration: underline;
+	}
+	.consent__actions {
+		display: flex;
+		gap: var(--space-2);
+	}
+</style>

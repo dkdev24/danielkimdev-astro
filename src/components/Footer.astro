@@ -6,7 +6,7 @@
 // (added 2026-08-21, repo went public), email, RSS — no X (locked 2026-06-28).
 // RSS links the current locale's feed (/rss.xml EN, /ko/rss.xml KO — Stage 18).
 import { CONTACT_EMAIL, SITE_AUTHOR, SOCIAL_LINKS } from '../consts';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, getLocalizedPath, useTranslations } from '../i18n/utils';
 import LanguageToggle from './LanguageToggle.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
@@ -66,6 +66,7 @@ const year = new Date().getFullYear();
 			<p class="footer-meta">
 				<span>&copy; {year} {SITE_AUTHOR}. {t('footer.rights')}</span>
 				<span class="footer-built">{t('footer.builtWith')}</span>
+				<a href={getLocalizedPath('/privacy/', lang)}>{t('footer.privacy')}</a>
 			</p>
 			<div class="footer-actions">
 				<LanguageToggle />
@@ -145,6 +146,11 @@ const year = new Date().getFullYear();
 		margin: 0;
 		font-size: var(--text-sm);
 		color: rgba(255, 255, 255, 0.6);
+	}
+
+	.footer-meta a {
+		color: inherit;
+		text-decoration: underline;
 	}
 
 	.footer-actions {

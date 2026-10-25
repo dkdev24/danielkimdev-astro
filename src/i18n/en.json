@@ -29,7 +29,8 @@
 		"github": "GitHub",
 		"email": "Email",
 		"rss": "RSS feed",
-		"backToTop": "Back to top"
+		"backToTop": "Back to top",
+		"privacy": "Privacy"
 	},
 	"blog": {
 		"title": "Blog",
@@ -167,5 +168,16 @@
 		"placeholder": "you@example.com",
 		"button": "Subscribe",
 		"note": "No spam. Unsubscribe anytime."
+	},
+	"consent": {
+		"label": "Cookie consent",
+		"text": "This site uses Google Analytics cookies to see which pages are read, only if you accept.",
+		"policy": "Privacy policy",
+		"accept": "Accept",
+		"decline": "Decline"
+	},
+	"privacy": {
+		"title": "Privacy policy",
+		"resetCookies": "Change cookie settings"
 	}
 }
