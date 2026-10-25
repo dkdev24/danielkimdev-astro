@@ -4,6 +4,12 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-26 — Portfolio: pele-animate side project
+
+Added `src/content/portfolio/{en,ko}/pele-animate.md` (category `side-ai`, tags `ai-llm` + `solopreneur`, `startDate` 2026-10-21 = the repo's first commit, `order: 5` so it sorts newest in Side projects, `translationKey: pele-animate`). Links: the site (the KO entry links `/ko/`), npm, GitHub. Written in the toonstrip entry's shape; KO via `daniel-writing-style`. It names DoveRunner docs as the first consumer (portfolio keeps employer names); no claim about which docs diagrams it animates.
+
+Home needed no code change: "What I'm working on" takes the 3 newest by `startDate`, so pele-animate replaced toonstrip (now DoveRunner Lab, pele-animate, Tutorial videos, EN and KO). Checked: `astro check` 0 errors, `astro build` 107 pages, both portfolio pages and index entries present. pele-animate itself gained a Korean site (`/ko/`) the same day, see that repo's HANDOFF.
+
 ## 2026-10-25 — Privacy page and Google Analytics consent banner
 
 The unconditional gtag in `BaseLayout.astro` (property `G-JL3PJ65QL3`, shared with grues.danielkimdev.com; Daniel keeps it shared) is replaced by `src/components/Consent.astro`: an Accept/Decline banner (strings in `consent.*` of `en.json`/`ko.json`) whose script injects gtag only after Accept, only on `danielkimdev.com` / `www.danielkimdev.com`. Choice in `localStorage` `dk-consent`. Pattern from doverunner-lab's `Consent.tsx` (no Lab identifiers copied). The CSP in `public/_headers` already allows the GA hosts, so no header change. New `/privacy/` and `/ko/privacy/` (`PrivacyPage.astro`, copy in `src/data/privacy.ts`, thin page wrappers) with a "Change cookie settings" button; footer link added. Covers GA, Cloudflare (Pages logs, edge-injected Web Analytics), Giscus comments, Buttondown signup, localStorage keys (`theme`, `lang`, `dk-consent`). Umami is in the CSP but not loaded anywhere in `src/`, so it is not listed. Korean copy written directly (not via `daniel-writing-style`), not legally reviewed.
