@@ -20,12 +20,12 @@ export const PRIVACY: Record<Lang, { updated: string; intro: string[]; sections:
 			{
 				heading: 'Google Analytics',
 				body: [
-					'The site uses Google Analytics 4 (tag G-JL3PJ65QL3) to see which pages are read and how people arrive. It loads only after you press Accept in the cookie banner, and only on the live site. If you decline, no analytics tag loads and no analytics cookies are set. Declining after accepting stops the tag from the next page load; cookies already set stay until they expire.',
+					'The site uses Google Analytics 4 to see which pages are read and how people arrive. It loads only after you press Accept in the cookie banner, and only on the live site. If you decline, no analytics tag loads and no analytics cookies are set. Declining after accepting stops the tag from the next page load; cookies already set stay until they expire.',
 					'The same Google Analytics property also receives data from grues.danielkimdev.com, another site of mine, so reports mix the two.',
 				],
 				bullets: [
 					'Collected: pages viewed (the full address, including any query string), referrer, approximate location, browser, device and screen size, language, and interaction events such as outbound clicks and scrolls.',
-					'Cookies: _ga and _ga_JL3PJ65QL3, which identify a browser anonymously across visits.',
+					'Cookies: _ga and a second cookie starting with _ga_, which identify a browser anonymously across visits.',
 					'IP address: Google Analytics 4 does not log or store IP addresses; Google receives it with the request that delivers the tag.',
 					'Processor: Google, under Google’s privacy policy (policies.google.com/privacy). Data may be processed outside your country.',
 					'Opting out: press Decline, or use a content blocker, your browser’s tracking protection, or the Google Analytics opt-out add-on (tools.google.com/dlpage/gaoptout).',
@@ -76,12 +76,12 @@ export const PRIVACY: Record<Lang, { updated: string; intro: string[]; sections:
 			{
 				heading: 'Google Analytics',
 				body: [
-					'어떤 페이지가 읽히고 방문자가 어떻게 유입되는지 파악하려고 Google Analytics 4(태그 G-JL3PJ65QL3)를 사용합니다. 쿠키 배너에서 ‘동의’를 누른 뒤에만, 그리고 실제 운영 사이트에서만 로드됩니다. ‘거부’하면 분석 태그가 로드되지 않고 분석 쿠키도 설정되지 않습니다. 동의 후에 거부로 바꾸면 다음 페이지부터 태그가 로드되지 않으며, 이미 설정된 쿠키는 만료될 때까지 남습니다.',
+					'어떤 페이지가 읽히고 방문자가 어떻게 유입되는지 파악하려고 Google Analytics 4를 사용합니다. 쿠키 배너에서 ‘동의’를 누른 뒤에만, 그리고 실제 운영 사이트에서만 로드됩니다. ‘거부’하면 분석 태그가 로드되지 않고 분석 쿠키도 설정되지 않습니다. 동의 후에 거부로 바꾸면 다음 페이지부터 태그가 로드되지 않으며, 이미 설정된 쿠키는 만료될 때까지 남습니다.',
 					'같은 Google Analytics 속성이 제 다른 사이트인 grues.danielkimdev.com의 데이터도 받기 때문에, 보고서에는 두 사이트가 함께 집계됩니다.',
 				],
 				bullets: [
 					'수집 항목: 방문한 페이지(쿼리 문자열을 포함한 전체 주소), 유입 경로, 대략적인 위치, 브라우저, 기기와 화면 크기, 언어, 외부 링크 클릭·스크롤 같은 상호작용 이벤트.',
-					'쿠키: _ga, _ga_JL3PJ65QL3. 방문 사이에 브라우저를 익명으로 구분합니다.',
+					'쿠키: _ga와 _ga_로 시작하는 두 번째 쿠키. 방문 사이에 브라우저를 익명으로 구분합니다.',
 					'IP 주소: Google Analytics 4는 IP 주소를 기록하거나 저장하지 않습니다. 다만 태그를 전달하는 요청에는 Google이 IP를 받습니다.',
 					'처리자: Google (Google 개인정보처리방침: policies.google.com/privacy). 데이터는 거주 국가 밖에서 처리될 수 있습니다.',
 					'거부 방법: ‘거부’ 버튼을 누르거나, 콘텐츠 차단 프로그램, 브라우저의 추적 방지 기능, Google Analytics 차단 부가기능(tools.google.com/dlpage/gaoptout)을 사용하세요.',
