@@ -39,7 +39,7 @@ export const DEFAULT_OG_IMAGE = '/og-default.png';
 // Public contact email — the site's contact address (PRD §4). Personal Gmail by
 // design (this is a personal blog/portfolio); the company-domain work email is
 // intentionally NOT used here.
-export const CONTACT_EMAIL = 'danielkimdev24@gmail.com';
+export const CONTACT_EMAIL = 'contact@danielkimdev.com';
 
 // Cloudflare Web Analytics — cookieless, privacy-friendly traffic measurement
 // (P1, Stage 22). DECISION (2026-06-29): Daniel enabled CF "Automatic Setup"

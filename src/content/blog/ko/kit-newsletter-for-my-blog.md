@@ -35,7 +35,7 @@ draft: false
 
 ## 첫 테스트에서 확인 메일이 스팸함과 반송으로 갔습니다
 
-폼을 붙이고 직접 가입해 보니, Google Workspace 계정에서는 확인 메일이 스팸함으로 들어갔고 Daum 메일에서는 반송되었습니다. 메일 원본 헤더의 `Authentication-Results`를 보니 원인은 발신 주소였습니다. Kit의 기본 발신 주소가 제 Gmail 주소(`danielkimdev24@gmail.com`)였고, `header.from=gmail.com`에 대한 `dmarc=fail`이 찍혀 있었습니다. **DMARC**는 메일의 발신 주소 도메인과 실제로 보낸 서버가 맞는지 받는 쪽이 검사하는 방식입니다. Kit의 서버가 `gmail.com` 주소로 메일을 보냈으니 이 검사를 통과하지 못했습니다.
+폼을 붙이고 직접 가입해 보니, Google Workspace 계정에서는 확인 메일이 스팸함으로 들어갔고 Daum 메일에서는 반송되었습니다. 메일 원본 헤더의 `Authentication-Results`를 보니 원인은 발신 주소였습니다. Kit의 기본 발신 주소가 제 개인 Gmail 주소였고, `header.from=gmail.com`에 대한 `dmarc=fail`이 찍혀 있었습니다. **DMARC**는 메일의 발신 주소 도메인과 실제로 보낸 서버가 맞는지 받는 쪽이 검사하는 방식입니다. Kit의 서버가 `gmail.com` 주소로 메일을 보냈으니 이 검사를 통과하지 못했습니다.
 
 해결은 제 도메인에서 보내는 것이었고, 세 단계로 진행했습니다.
 

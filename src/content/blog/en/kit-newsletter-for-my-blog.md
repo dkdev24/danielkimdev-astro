@@ -35,7 +35,7 @@ I looked at Buttondown, [EmailOctopus](https://emailoctopus.com), and Kit, and t
 
 ## The confirmation emails went to spam and bounced
 
-After adding the form, I signed up myself. The confirmation email landed in the spam folder of my Google Workspace account and bounced on Daum Mail. The `Authentication-Results` header in the raw message showed the cause. Kit's default sender was my Gmail address (`danielkimdev24@gmail.com`), and the header said `dmarc=fail` for `header.from=gmail.com`. **DMARC** is the check where the receiving side confirms that the server that sent a message matches the domain in its From address. Kit's servers were sending as a `gmail.com` address, so the check failed.
+After adding the form, I signed up myself. The confirmation email landed in the spam folder of my Google Workspace account and bounced on Daum Mail. The `Authentication-Results` header in the raw message showed the cause. Kit's default sender was my personal Gmail address, and the header said `dmarc=fail` for `header.from=gmail.com`. **DMARC** is the check where the receiving side confirms that the server that sent a message matches the domain in its From address. Kit's servers were sending as a `gmail.com` address, so the check failed.
 
 The fix was to send from my own domain. It took three steps.
 
