@@ -4,6 +4,10 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-26 — Published the Kit newsletter post
+
+`kit-newsletter-for-my-blog` (EN/KO, tags `automation`, `solopreneur`, no series) copied from the wiki's `story/2.ready-to-publish/` per `wiki-to-site-publishing.md`: dropped `slug`/`status`/`daniel_reviewed`, removed the `# Title` line and the `---` after the opening block, `draft: false`, `pubDate: 2026-10-26`. `astro check` 0 errors, build 109 pages, `post-summary` card renders in both languages, no em-dash or middle dot. Unconfirmed at publish time: the Worker's first draft on a real post (stated in the post's "Keep in mind").
+
 ## 2026-10-26 — Kit RSS → draft broadcast Worker
 
 Free Kit plan blocks the MCP but the v4 API works (reads + `POST /v4/broadcasts`).
