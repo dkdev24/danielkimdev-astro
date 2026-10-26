@@ -17,7 +17,6 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 - **Writing-process field:** blog schema `writingProcess: "ai-assisted" | "human-written"` (default `ai-assisted`, no backfill needed). Badge in `BlogPost.astro`. See WORKLOG 2026-08-06.
 - **Architecture:** every page → `BaseLayout.astro`, thin per-locale wrappers around shared `XPage.astro`. 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`. Tokens in `src/styles/tokens.css` — same semantic variable names as always, values now Cobalt (light)/Aurora (dark).
 - **Sitewide theme (Cobalt/Aurora, Hallmark skill):** the former homepage-only pilot is now the whole site. Light = Cobalt (cool-white, cobalt-blue accent, Space Grotesk/Inter/JetBrains Mono). Dark = Aurora (dark cyan-bloom, Fraunces serif — Sentient stand-in, cyan accent). `CobaltHeader.astro` is `BaseLayout`'s default header on every route now; `Header.astro` unused, kept pending explicit deletion. Font components moved to `BaseHead.astro` so every page loads them, not just `/`. Old MiniMax brand blue/pink/DM Sans-Outfit-Poppins retired from the token layer.
-- **`toonstrip` balloon overlap:** fixed in `0.1.10` after three rounds; checklist in `dev-references/toonstrip-sync.md`; history in WORKLOG.
 
 ### Invariants — easy to regress silently
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
@@ -37,11 +36,12 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 
 ## Next steps (priority order)
 
-1. **Homepage pipeline section (`/`, `/ko/`) light+dark** — still unconfirmed since session 14.
-2. **Cobalt/Aurora polish:** no locked Hallmark token spec for Aurora in this install — palette/fonts reconstructed from scattered refs + a Fraunces sub for Sentient. Worth a design pass; consider a `design.md` to lock it and retire `Header.astro`/`DESIGN-minimax.md`.
-3. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post — remind him to set the field; draft manually, not via `daniel-writing-style`.
-4. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope. **Kit:** create custom field `language` (form posts `fields[language]`).
-5. **Fix `pnpm run test:e2e`:** Astro 7.2.10 dev server now daemonizes by default, breaking Playwright's `webServer` foreground assumption — needs either an Astro flag/downgrade or a Playwright config change (e.g. `reuseExistingServer` + manual pre-start).
+1. **Newsletter (next session):** Daniel writes a post on setting up Kit on this blog + fixing the email-delivery problem (gmail From → DMARC fail, Daum bounce; fixed via CF Email Routing `hello@` + Kit sending-domain CNAMEs/DMARC; see WORKLOG 2026-10-26). Then configure the first newsletter/broadcast in Kit, create custom field `language`, test signup (Workspace + Daum). Publish via the wiki session. Unchecked: header Subscribe button at phone width.
+2. **Homepage pipeline section (`/`, `/ko/`) light+dark** — still unconfirmed since session 14.
+3. **Cobalt/Aurora polish:** no locked Hallmark token spec for Aurora in this install — palette/fonts reconstructed from scattered refs + a Fraunces sub for Sentient. Worth a design pass; consider a `design.md` to lock it and retire `Header.astro`/`DESIGN-minimax.md`.
+4. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post — remind him to set the field; draft manually, not via `daniel-writing-style`.
+5. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope.
+6. **Fix `pnpm run test:e2e`:** Astro 7.2.10 dev server now daemonizes by default, breaking Playwright's `webServer` foreground assumption — needs either an Astro flag/downgrade or a Playwright config change (e.g. `reuseExistingServer` + manual pre-start).
 
 ## Conventions / gotchas
 
