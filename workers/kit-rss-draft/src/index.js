@@ -2,6 +2,7 @@
 import TEMPLATE from './email-template.js';
 
 const KIT = 'https://api.kit.com/v4/broadcasts';
+const TAG = { en: 25037510, ko: 25037511 }; // Kit tags lang-en / lang-ko, applied at signup by functions/api/subscribe.ts
 
 const unesc = (s) =>
 	s.replace(/^<!\[CDATA\[|\]\]>$/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
@@ -39,6 +40,7 @@ async function draft(env, p, lang) {
 			subject: p.title,
 			content: buildEmail(p, lang, image),
 			public: false,
+			subscriber_filter: [{ all: [{ type: 'tag', ids: [TAG[lang]] }] }], // only that language's subscribers
 			email_template_id: 5639223, // My Escape (saved copy of Escape; the stock one 422s until migrated)
 			thumbnail_url: image,
 			thumbnail_alt: p.title,
