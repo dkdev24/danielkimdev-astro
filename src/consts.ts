@@ -65,6 +65,9 @@ export const UMAMI_WEBSITE_ID: string = '441036e0-3773-44ce-8d76-55b6fc9aeb6b';
 // Kit form ID (2026-10-26) — powers the end-of-post signup in Subscribe.astro.
 // Empty string hides the form entirely. Public by design (it's in the form's action URL).
 export const KIT_FORM_ID: string = '10097710';
+// One Kit form per language, so each gets its own confirmation email. The Worker in
+// workers/kit-rss-draft tags subscribers lang-en / lang-ko by the form they joined.
+export const KIT_FORM_IDS = { en: '10097710', ko: '10098381' } as const;
 
 // Social profiles (PRD §4 footer). Locked 2026-06-28: LinkedIn + email only,
 // no X (Twitter). GitHub added 2026-08-21 (repo went public) — nav + footer.

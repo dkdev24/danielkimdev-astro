@@ -2,7 +2,8 @@
 import TEMPLATE from './email-template.js';
 
 const KIT = 'https://api.kit.com/v4/broadcasts';
-const TAG = { en: 25037510, ko: 25037511 }; // Kit tags lang-en / lang-ko, applied at signup by functions/api/subscribe.ts
+const TAG = { en: 25037510, ko: 25037511 }; // Kit tags lang-en / lang-ko
+const FORM = { en: 10097710, ko: 10098381 }; // one Kit form per language; the form a subscriber joined decides the tag
 
 const unesc = (s) =>
 	s.replace(/^<!\[CDATA\[|\]\]>$/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
@@ -31,6 +32,32 @@ export function buildEmail(p, lang, image) {
 		.replace('%%IMAGE%%', () => img).replace('%%BODY%%', () => body);
 }
 
+async function kitIds(env, path) {
+	const ids = [];
+	for (let after = ''; ; ) {
+		const res = await fetch(`https://api.kit.com${path}&per_page=500${after}`, { headers: { 'X-Kit-Api-Key': env.KIT_API_KEY } });
+		if (!res.ok) throw new Error(`Kit ${res.status} ${path}`);
+		const { subscribers, pagination } = await res.json();
+		ids.push(...subscribers.map((s) => s.id));
+		if (!pagination.has_next_page) return ids;
+		after = `&after=${pagination.end_cursor}`;
+	}
+}
+
+// Free Kit plans have no automations, so tag here: whoever joined the KO form gets lang-ko, the EN form lang-en.
+// Subscribers who already have either tag are left alone (manual choices win). Unconfirmed ones appear once they confirm.
+export async function tagByForm(env) {
+	const tagged = new Set((await Promise.all(Object.values(TAG).map((t) => kitIds(env, `/v4/tags/${t}/subscribers?status=all`)))).flat());
+	for (const lang of Object.keys(FORM)) {
+		for (const id of await kitIds(env, `/v4/forms/${FORM[lang]}/subscribers?status=all`)) {
+			if (tagged.has(id)) continue;
+			const res = await fetch(`https://api.kit.com/v4/tags/${TAG[lang]}/subscribers/${id}`, { method: 'POST', headers: { 'X-Kit-Api-Key': env.KIT_API_KEY } });
+			if (!res.ok) throw new Error(`Kit tag ${res.status} for ${id}`);
+			tagged.add(id);
+		}
+	}
+}
+
 async function draft(env, p, lang) {
 	const image = p.image || env.DEFAULT_THUMB;
 	const res = await fetch(KIT, {
@@ -51,6 +78,7 @@ async function draft(env, p, lang) {
 
 export default {
 	async scheduled(_event, env) {
+		try { await tagByForm(env); } catch (e) { console.error(`tagByForm: ${e.message}`); } // never block drafting
 		for (const feed of env.FEEDS.split(',')) {
 			const res = await fetch(feed);
 			if (!res.ok) { console.error(`feed ${feed}: ${res.status}`); continue; }

@@ -167,10 +167,7 @@
 		"emailLabel": "Email address",
 		"placeholder": "you@example.com",
 		"button": "Subscribe",
-		"note": "No spam. Unsubscribe anytime.",
-		"sending": "Subscribing...",
-		"success": "Almost done. Check your inbox and confirm your email address.",
-		"error": "Something went wrong. Please try again."
+		"note": "No spam. Unsubscribe anytime."
 	},
 	"consent": {
 		"label": "Cookie consent",
