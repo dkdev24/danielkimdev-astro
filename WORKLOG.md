@@ -4,6 +4,13 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-26 — Newsletter form on homepage + header button
+
+Form visibility: bottom-of-post only was easy to miss.
+- `HomePage.astro` renders `<Subscribe>` below "Latest writing" (`/`, `/ko/`); `Subscribe.astro` section now has `id="subscribe"`.
+- `CobaltHeader.astro`: primary `sm` Button "Subscribe" (EN label on both locales, gated on `KIT_FORM_ID`) linking to `<home>#subscribe`.
+- `pnpm run build` OK. Not visually checked (mobile header width, dark mode).
+
 ## 2026-10-26 — Kit deliverability fix (sender domain)
 
 First live test: confirmation email went to spam (Workspace) / bounced (Daum). Cause: default sender was

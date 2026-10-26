@@ -24,7 +24,7 @@ const inputId = `subscribe-email-${lang}`;
 
 {
 	KIT_FORM_ID !== '' && (
-		<section class="subscribe" aria-labelledby="subscribe-title">
+		<section id="subscribe" class="subscribe" aria-labelledby="subscribe-title">
 			<h2 id="subscribe-title" class="subscribe__title">{t('subscribe.title')}</h2>
 			<p class="subscribe__body">{t('subscribe.body')}</p>
 			<form class="subscribe__form" action={action} method="post" target="_blank">

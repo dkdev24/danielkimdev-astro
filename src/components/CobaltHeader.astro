@@ -4,8 +4,9 @@
 // kept on disk pending explicit deletion). Reuses LanguageToggle/ThemeToggle
 // for correct i18n + no-flash-theme behavior, reskinned via :global()
 // overrides below. Ships Cobalt's signature working ⌘K palette (signature move 5).
-import { SITE_TITLE, SOCIAL_LINKS } from '../consts';
+import { KIT_FORM_ID, SITE_TITLE, SOCIAL_LINKS } from '../consts';
 import { getAltLocale, getLangFromUrl, getLocalizedPath, useTranslations } from '../i18n/utils';
+import Button from './Button.astro';
 import LanguageToggle from './LanguageToggle.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
@@ -70,6 +71,13 @@ const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
 			</a>
 			<LanguageToggle />
 			<ThemeToggle lang={lang} />
+			{
+				KIT_FORM_ID !== '' && (
+					<Button variant="primary" size="sm" href={`${getLocalizedPath('/', lang)}#subscribe`}>
+						{useTranslations('en')('subscribe.button')}
+					</Button>
+				)
+			}
 			<button type="button" class="cobalt-nav__cmdk" data-cmdk-trigger aria-haspopup="dialog">
 				<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
 					<circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
