@@ -4,6 +4,16 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-26 — Kit deliverability fix (sender domain)
+
+First live test: confirmation email went to spam (Workspace) / bounced (Daum). Cause: default sender was
+`danielkimdev24@gmail.com` sent via Kit, so `dmarc=fail` for `header.from=gmail.com`.
+- Cloudflare Email Routing enabled on danielkimdev.com (MX + SPF `include:_spf.mx.cloudflare.net`);
+  `hello@danielkimdev.com` forwards to Daniel's Gmail; verified and set as Kit default sender.
+- Kit sending domain authenticated: CNAMEs `ckespa`, `cka._domainkey`, `cka2._domainkey` (DNS only) and
+  TXT `_dmarc` = `v=DMARC1; p=none;` added via `cf dns records create`. Kit validated.
+- Result: confirmation now reaches Daum. Not yet re-checked: Workspace spam folder placement.
+
 ## 2026-10-26 — Email signup switched Buttondown → Kit
 
 Daniel chose Kit over Buttondown/EmailOctopus (free tier up to 10k subscribers; Buttondown free is 100).

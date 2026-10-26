@@ -22,7 +22,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 ### Invariants — easy to regress silently
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
 - AA contrast: reuse semantic tokens (`--color-text-muted`, `--color-btn-primary-bg`), not raw grays.
-- Blog links: always `getPostPath(entry)` (`utils/blog.ts`). CSP (`public/_headers`, only breaks in production): Umami needs **both** `cloud.umami.is`/`gateway.umami.is`; Giscus needs `giscus.app` in all three of script/frame/connect-src. Kit signup needs `https://app.kit.com` in `form-action`. Newsletter: Kit form `10097710` (`KIT_FORM_ID`, `Subscribe.astro`), EN copy on KO pages for now.
+- Blog links: always `getPostPath(entry)` (`utils/blog.ts`). CSP (`public/_headers`, only breaks in production): Umami needs **both** `cloud.umami.is`/`gateway.umami.is`; Giscus needs `giscus.app` in all three of script/frame/connect-src. Kit signup needs `https://app.kit.com` in `form-action`. Newsletter: Kit form `10097710` (`KIT_FORM_ID`, `Subscribe.astro`), EN copy on KO pages for now. Sender `hello@danielkimdev.com` (CF Email Routing → Gmail); domain authenticated in Kit (DKIM/DMARC CNAMEs in CF DNS), Daum delivery verified.
 - i18n keys: add to both `en.json` and `ko.json` (parity compile-enforced). Don't fabricate `TODO(daniel)` facts: leave the marker.
 - Analytics: GA (`G-JL3PJ65QL3`) is injected by `Consent.astro` after Accept, never in `BaseLayout`. A new tool that sets cookies goes behind the same gate and into `src/data/privacy.ts` (both languages).
 
@@ -40,7 +40,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 1. **Homepage pipeline section (`/`, `/ko/`) light+dark** — still unconfirmed since session 14.
 2. **Cobalt/Aurora polish:** no locked Hallmark token spec for Aurora in this install — palette/fonts reconstructed from scattered refs + a Fraunces sub for Sentient. Worth a design pass; consider a `design.md` to lock it and retire `Header.astro`/`DESIGN-minimax.md`.
 3. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post — remind him to set the field; draft manually, not via `daniel-writing-style`.
-4. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope. **Kit:** create custom field `language` (form posts `fields[language]`), test a live signup.
+4. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope. **Kit:** create custom field `language` (form posts `fields[language]`).
 5. **Fix `pnpm run test:e2e`:** Astro 7.2.10 dev server now daemonizes by default, breaking Playwright's `webServer` foreground assumption — needs either an Astro flag/downgrade or a Playwright config change (e.g. `reuseExistingServer` + manual pre-start).
 
 ## Conventions / gotchas
