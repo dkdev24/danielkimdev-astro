@@ -42,7 +42,7 @@ export const PRIVACY: Record<Lang, { updated: string; intro: string[]; sections:
 				heading: 'Comments and newsletter',
 				body: [
 					'Comments on blog posts use Giscus, which stores comments in GitHub Discussions. Loading the comment box contacts giscus.app and GitHub, and posting a comment needs a GitHub account; GitHub’s privacy statement applies.',
-					'The newsletter signup form sends the email address you enter to Buttondown, which sends the newsletter. Nothing is sent until you submit the form, and you can unsubscribe from any email.',
+					'The newsletter signup form sends the email address you enter to Kit, which sends the newsletter. Nothing is sent until you submit the form, and you can unsubscribe from any email.',
 				],
 			},
 			{
@@ -98,7 +98,7 @@ export const PRIVACY: Record<Lang, { updated: string; intro: string[]; sections:
 				heading: '댓글과 뉴스레터',
 				body: [
 					'블로그 댓글은 Giscus를 사용하며 GitHub Discussions에 저장됩니다. 댓글창을 불러오면 giscus.app과 GitHub에 접속하고, 댓글을 쓰려면 GitHub 계정이 필요합니다. 이 경우 GitHub의 개인정보 처리 방침이 적용됩니다.',
-					'뉴스레터 가입 양식은 입력한 이메일 주소를 뉴스레터를 발송하는 Buttondown으로 전송합니다. 양식을 제출하기 전에는 아무것도 전송되지 않으며, 모든 메일에서 구독을 해지할 수 있습니다.',
+					'뉴스레터 가입 양식은 입력한 이메일 주소를 뉴스레터를 발송하는 Kit으로 전송합니다. 양식을 제출하기 전에는 아무것도 전송되지 않으며, 모든 메일에서 구독을 해지할 수 있습니다.',
 				],
 			},
 			{

@@ -1,14 +1,14 @@
 ---
 /**
- * Subscribe — Buttondown email signup (2026-10-15). Owned-audience capture at
+ * Subscribe — Kit email signup (Buttondown 2026-10-15, switched to Kit). Owned-audience capture at
  * the end of every blog post: post → visit → signup is the metric, not views.
  *
- * Plain HTML form POST to Buttondown's embed endpoint, no JS. Opens Buttondown's
- * confirmation page in a new tab so the reader keeps their place in the post.
- * Renders nothing while BUTTONDOWN_USERNAME is '' (same gate as UMAMI_WEBSITE_ID).
- * CSP: `form-action` in public/_headers must allow https://buttondown.com.
+ * Plain HTML form POST to Kit's form endpoint, no JS. Opens Kit's confirmation
+ * page in a new tab so the reader keeps their place in the post.
+ * Renders nothing while KIT_FORM_ID is '' (same gate as UMAMI_WEBSITE_ID).
+ * CSP: `form-action` in public/_headers must allow https://app.kit.com.
  */
-import { BUTTONDOWN_USERNAME } from '../consts';
+import { KIT_FORM_ID } from '../consts';
 import { useTranslations, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -16,13 +16,14 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang);
-const action = `https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USERNAME}`;
+// English copy on KO pages too (Daniel, 2026-10-26) until a KO list exists.
+const t = useTranslations('en');
+const action = `https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`;
 const inputId = `subscribe-email-${lang}`;
 ---
 
 {
-	BUTTONDOWN_USERNAME !== '' && (
+	KIT_FORM_ID !== '' && (
 		<section class="subscribe" aria-labelledby="subscribe-title">
 			<h2 id="subscribe-title" class="subscribe__title">{t('subscribe.title')}</h2>
 			<p class="subscribe__body">{t('subscribe.body')}</p>
@@ -32,7 +33,7 @@ const inputId = `subscribe-email-${lang}`;
 					class="subscribe__input"
 					id={inputId}
 					type="email"
-					name="email"
+					name="email_address"
 					required
 					autocomplete="email"
 					placeholder={t('subscribe.placeholder')}

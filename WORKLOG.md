@@ -4,6 +4,17 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-26 — Email signup switched Buttondown → Kit
+
+Daniel chose Kit over Buttondown/EmailOctopus (free tier up to 10k subscribers; Buttondown free is 100).
+- `Subscribe.astro` now POSTs to `https://app.kit.com/forms/10097710/subscriptions` (field `email_address`,
+  hidden `fields[language]=en|ko`; Kit forms have no tag field). `KIT_FORM_ID` in `consts.ts` replaces
+  `BUTTONDOWN_USERNAME` (form ID found in the JS embed's `index.js`).
+- CSP `form-action` → `'self' https://app.kit.com`; privacy copy (`privacy.ts`) says Kit.
+- KO pages show the English form copy for now (`useTranslations('en')`); `subscribe.*` keys in `ko.json` unused.
+- `pnpm run build` OK (107 pages, form on 42 post pages). Open: create custom field `language` in Kit
+  (else ignored), test live signup.
+
 ## 2026-10-26 — Node 24 toolchain (tag 0.9)
 
 - `.nvmrc` 22.23.2 -> 24.22.1, `engines.node` `>=22.13.0` -> `>=24`. `pnpm build` passes on Node 24.22.1 (107 pages); Cloudflare Pages has no `NODE_VERSION` override and the deploy of `5aa5638` succeeded. Trigger: Node2Shell (CVE-2026-111497, Brotli decoder); plan in basecamp `NODE24-MIGRATION.md`.

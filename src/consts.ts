@@ -62,11 +62,9 @@ export const CF_ANALYTICS_TOKEN = '';
 // "these types have no overlap" TS error.)
 export const UMAMI_WEBSITE_ID: string = '441036e0-3773-44ce-8d76-55b6fc9aeb6b';
 
-// Buttondown newsletter username (2026-10-15) — powers the end-of-post signup in
-// Subscribe.astro. Empty string hides the form entirely, so this is safe to deploy
-// before the account exists. Public by design (it's in the form's action URL).
-// TODO(daniel): create the Buttondown account and paste the username here.
-export const BUTTONDOWN_USERNAME: string = '';
+// Kit form ID (2026-10-26) — powers the end-of-post signup in Subscribe.astro.
+// Empty string hides the form entirely. Public by design (it's in the form's action URL).
+export const KIT_FORM_ID: string = '10097710';
 
 // Social profiles (PRD §4 footer). Locked 2026-06-28: LinkedIn + email only,
 // no X (Twitter). GitHub added 2026-08-21 (repo went public) — nav + footer.

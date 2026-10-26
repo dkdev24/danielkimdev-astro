@@ -3,7 +3,7 @@
 > **Purpose:** the one place a new session reads first — present state, not history. Full detail in [`WORKLOG.md`](WORKLOG.md).
 > **Max 50 lines.** Edit in place, replace don't append, prune as you add (see AGENTS.md → Session continuity). **Update at the end of every session.**
 
-**Last updated:** 2026-10-26 (session 27)
+**Last updated:** 2026-10-26 (session 28)
 **Status:** **LIVE** at https://danielkimdev.com. Node 24 (`.nvmrc` 24.22.1), tag `0.9`. 2026-10-26: new side-project portfolio item `pele-animate` (EN/KO, `startDate` 2026-10-21, `order: 5`); it now takes toonstrip's slot in Home's newest-three, see WORKLOG. 2026-10-25: GA now loads only after Accept in a cookie banner (`Consent.astro`, `dk-consent`, prod host only) and `/privacy/` + `/ko/privacy/` are live, see WORKLOG. 2026-10-21: published building-llm-pkm-in-public ep11 + ep12 (EN/KO); added `remark-post-summary` card for the "what you'll get" opener + consistent prose heading spacing, see WORKLOG. 2026-10-17: new post `agent-ready-docs-real-world-test` (names DoveRunner, approved by Daniel), see WORKLOG. Session 22 split the Portfolio into **Career work / Side projects** (group derived from `category`; new `devrel` category; `ai-knowledge-work` → career item `agent-ready-docs` with 301s in `public/_redirects`; new career items `tutorial-videos`, `doverunner-lab`) — deployed 2026-10-15 with the new post `doverunner-lab-ai-workflow` (names DoveRunner, one-off exception approved by Daniel), see WORKLOG 2026-10-15. Session 21 migrated npm → pnpm (`pnpm@11.1.1`). `pnpm run test:e2e` is broken (Astro 7 dev server self-daemonizes; Playwright `webServer` expects foreground). All P0/P1/P2 shipped. Session 14's homepage pipeline still not visually verified. afdocs 99/100 (A); Lighthouse not re-run since 2026-07-01.
 
 ## Project in one line
@@ -22,7 +22,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 ### Invariants — easy to regress silently
 - Font preload is locale-specific: DM Sans EN, Pretendard KO. Never preload Pretendard on EN.
 - AA contrast: reuse semantic tokens (`--color-text-muted`, `--color-btn-primary-bg`), not raw grays.
-- Blog links: always `getPostPath(entry)` (`utils/blog.ts`). CSP (`public/_headers`, only breaks in production): Umami needs **both** `cloud.umami.is`/`gateway.umami.is`; Giscus needs `giscus.app` in all three of script/frame/connect-src. Buttondown signup needs `https://buttondown.com` in `form-action`.
+- Blog links: always `getPostPath(entry)` (`utils/blog.ts`). CSP (`public/_headers`, only breaks in production): Umami needs **both** `cloud.umami.is`/`gateway.umami.is`; Giscus needs `giscus.app` in all three of script/frame/connect-src. Kit signup needs `https://app.kit.com` in `form-action`. Newsletter: Kit form `10097710` (`KIT_FORM_ID`, `Subscribe.astro`), EN copy on KO pages for now.
 - i18n keys: add to both `en.json` and `ko.json` (parity compile-enforced). Don't fabricate `TODO(daniel)` facts: leave the marker.
 - Analytics: GA (`G-JL3PJ65QL3`) is injected by `Consent.astro` after Accept, never in `BaseLayout`. A new tool that sets cookies goes behind the same gate and into `src/data/privacy.ts` (both languages).
 
@@ -40,7 +40,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 1. **Homepage pipeline section (`/`, `/ko/`) light+dark** — still unconfirmed since session 14.
 2. **Cobalt/Aurora polish:** no locked Hallmark token spec for Aurora in this install — palette/fonts reconstructed from scattered refs + a Fraunces sub for Sentient. Worth a design pass; consider a `design.md` to lock it and retire `Header.astro`/`DESIGN-minimax.md`.
 3. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post — remind him to set the field; draft manually, not via `daniel-writing-style`.
-4. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope.
+4. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope. **Kit:** create custom field `language` (form posts `fields[language]`), test a live signup.
 5. **Fix `pnpm run test:e2e`:** Astro 7.2.10 dev server now daemonizes by default, breaking Playwright's `webServer` foreground assumption — needs either an Astro flag/downgrade or a Playwright config change (e.g. `reuseExistingServer` + manual pre-start).
 
 ## Conventions / gotchas
