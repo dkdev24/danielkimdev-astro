@@ -15,13 +15,13 @@ draft: false
 - 무료 한도를 기준으로 이메일 서비스를 고른 과정입니다. 2026년 10월 기준으로 [Buttondown](https://buttondown.com) 무료 플랜은 구독자 100명까지, [Kit](https://kit.com)은 계정 정보상 10,000명까지였습니다.
 - 확인 메일이 스팸함으로 가고 반송된 원인과 해결 순서입니다. Kit이 제 Gmail 주소로 메일을 보내서 [DMARC](https://www.rfc-editor.org/rfc/rfc7489)(받는 쪽이 발신 주소의 도메인과 실제로 보낸 서버가 맞는지 확인하는 검사)가 실패했고, Cloudflare Email Routing과 DNS 레코드 설정으로 해결했습니다.
 - Kit 무료 플랜에서 막힌 것(MCP 커넥터, RSS 자동 발송)과 열려 있는 것(REST API v4로 초안 생성)을 정리한 표입니다.
-- Cloudflare Worker가 새 글마다 Kit 초안을 만드는 구조와 핵심 API 호출 코드입니다. wrangler 버전 때문에 배포가 한 번 막혔던 과정도 담았습니다.
+- Cloudflare Worker가 새 글마다 Kit 초안을 만드는 구조와 핵심 API 호출 코드, 초안에 구독 해지 링크와 푸터가 빠졌던 문제입니다.
 
 **이런 분께 맞습니다:** 정적 사이트나 개인 블로그에 무료로 이메일 구독을 붙이면서 새 글 알림을 자동화하고 싶은 경우입니다.
 
 **맞지 않는 경우:** 새 글이 한 달에 한두 편이라면 Worker 없이 브로드캐스트를 직접 만드는 쪽이 더 간단합니다. 유료 플랜에서 RSS 자동 발송을 쓸 수 있다면 Worker도 필요 없습니다.
 
-**유의할 점:** 한 개인 블로그가 2026년 10월에 겪은 일이고, Worker가 실제 새 글에서 초안을 만드는지는 아직 확인하지 못했습니다.
+**유의할 점:** 한 개인 블로그가 2026년 10월에 겪은 일입니다. Worker는 저장해 둔 상태를 제가 직접 고친 뒤에야 이 글로 첫 초안을 만들었고, 아무 도움 없이 새 글의 초안을 만드는 경우는 아직 보지 못했습니다.
 
 이 블로그에는 오랫동안 RSS 피드밖에 없었습니다. 분석 도구는 붙어 있었지만 독자와 직접 이어지는 채널은 없었기 때문에, 새 글을 알릴 방법이 사실상 없는 셈이었습니다. 그래서 이메일 구독을 붙이기로 했습니다. 10월 15일에 Buttondown으로 한 번 만들었다가 숨겨 두었고, 10월 26일 하루 동안 Kit으로 갈아타서 메일 전달 문제를 풀고 새 글 알림 자동화까지 붙였습니다.
 
@@ -64,30 +64,29 @@ RSS 자동 발송을 쓸 수 없으니, 새 글이 올라올 때마다 Kit에 �
 [Cron Trigger](https://developers.cloudflare.com/workers/configuration/cron-triggers/)로 매시 정각에 Worker가 영어와 한국어 RSS 피드(`/rss.xml`, `/ko/rss.xml`)를 읽고, Workers KV(Cloudflare의 키-값 저장소)에 기록해 둔 링크와 비교해 새 글만 골라 Kit [API v4](https://developers.kit.com/)로 초안을 만듭니다. 메일 템플릿은 Kit의 'Escape'를 복사해 저장한 'My Escape'를 씁니다. 핵심 호출은 아래와 같습니다.
 
 ```js
+const image = p.image || env.DEFAULT_THUMB;
 const res = await fetch('https://api.kit.com/v4/broadcasts', {
 	method: 'POST',
 	headers: { 'X-Kit-Api-Key': env.KIT_API_KEY, 'Content-Type': 'application/json' },
 	body: JSON.stringify({
 		subject: p.title,
-		content: `<p>${esc(p.description)}</p><p><a href="${esc(p.link)}">${esc(p.title)}</a></p>`,
+		content: buildEmail(p, lang, image), // 이메일 전체 HTML, 푸터와 {{ unsubscribe_url }} 포함
 		public: false,
 		email_template_id: 5639223, // My Escape
-		thumbnail_url: p.image || env.DEFAULT_THUMB,
+		thumbnail_url: image,
 		thumbnail_alt: p.title,
 	}),
 });
 ```
 
+`content`에는 이메일 전체가 HTML로 들어갑니다. 처음에는 `<p>` 두 개만 보냈더니 Kit 편집기에 구독 해지 링크가 없다는 경고가 떴고, 템플릿의 헤더와 푸터도 보이지 않았습니다. 제 경우에는 템플릿 ID가 초안에 이름표만 붙일 뿐 레이아웃은 입히지 않았습니다. 그래서 API로 'My Escape'의 HTML을 가져와 제목, 날짜, 이미지, 본문 자리만 비워 두고, Worker가 글마다 채우게 했습니다. 푸터의 `{{ unsubscribe_url }}`과 `{{ address }}`는 그대로 둡니다.
+
 첫 실행에서는 기존 글의 링크를 기록만 하고 초안은 만들지 않습니다. 그렇지 않으면 지금까지 쓴 글 전체가 초안으로 쏟아집니다. 또 링크는 초안 생성이 성공한 뒤에만 기록하므로, Kit 쪽 오류로 실패한 글은 다음 정각에 다시 시도됩니다.
 
-Kit의 브로드캐스트 목록 화면에는 글마다 썸네일 자리가 있는데, API로 만든 초안은 비어 있으면 회색 이미지 아이콘으로 보입니다. 그래서 RSS 항목에 `<enclosure>`로 글의 대표 이미지(`ogImage`, 없으면 `heroImage`)를 넣고, Worker가 이것을 썸네일로 넘기게 했습니다. 이미지가 없는 글은 사이트 기본 OG 이미지가 들어갑니다.
-
-배포에서는 한 번 돌아갔습니다. `cf deploy`가 프로젝트 안에 wrangler 4.136 이상과 `cloudflare.config.ts`를 요구했는데, 이 저장소에는 4.127.1과 `wrangler.toml`뿐이었습니다. `cf migrate`로 설정을 변환하고 wrangler를 4.152.0으로 올려서 Worker 폴더와 한 버전으로 맞췄습니다.
-
-Worker 코드, RSS 수정, 배포는 Claude Code가 작성하고 실행했습니다. 저는 초안만 만들게 한다는 방향, 템플릿과 썸네일 같은 결과물의 모양, 그리고 Kit 화면에서 확인하는 부분을 맡았습니다. 코드는 [저장소의 `workers/kit-rss-draft`](https://github.com/dkdev24/danielkimdev-astro/tree/main/workers/kit-rss-draft)에 공개되어 있습니다.
+Kit의 브로드캐스트 목록 화면에는 글마다 썸네일 자리가 있는데, API로 만든 초안은 비어 있으면 회색 이미지 아이콘으로 보입니다. 그래서 RSS 항목에 `<enclosure>`로 글의 대표 이미지(`ogImage`, 없으면 `heroImage`)를 넣고, Worker가 이것을 썸네일로 넘기게 했습니다. 이미지가 없는 글은 사이트 기본 OG 이미지가 들어가고, 같은 이미지가 이메일 본문 맨 위에도 들어갑니다.
 
 ## 마치며
 
 무료 플랜으로도 블로그의 이메일 구독, 도메인 인증이 된 발신 주소, 새 글 초안 자동화까지 갖출 수 있었습니다. 대신 Kit의 AI 커넥터와 RSS 자동 발송은 유료 기능이어서 쓸 수 없었고, 그 빈자리를 API와 Worker로 직접 채워야 했습니다. 새 글이 한 달에 한두 편이라면 Worker 없이 브로드캐스트를 직접 만드는 쪽이 더 간단할 수도 있습니다.
 
-앞으로는 첫 실제 초안이 제대로 만들어지는지 확인하고, 한국어와 영어 구독자를 나누는 방법을 정할 예정입니다. 구독 폼은 이 블로그 첫 화면 아래쪽에 있습니다. 새 글이 올라올 때 메일로 받아보고 싶으시다면 구독해 주시기 바랍니다.
+한국어와 영어 구독자를 나누는 방법은 별도의 글에서 자세히 알아보도록 하겠습니다. 구독 폼은 이 블로그 첫 화면 아래쪽에 있습니다. 새 글이 올라올 때 메일로 받아보고 싶으시다면 구독해 주시기 바랍니다.
