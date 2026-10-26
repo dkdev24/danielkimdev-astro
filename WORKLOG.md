@@ -4,6 +4,14 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-26 — Kit RSS → draft broadcast Worker
+
+Free Kit plan blocks the MCP but the v4 API works (reads + `POST /v4/broadcasts`).
+- `workers/kit-rss-draft/`: hourly cron Worker; polls `/rss.xml` + `/ko/rss.xml`, drafts one Kit broadcast per new post (never auto-sends). First run only seeds KV (`SEEN`). Template `My Escape` (id 5639223; stock Escape 422s until saved/migrated in the Kit editor). Thumbnail = post image, else `og-default.png` (`DEFAULT_THUMB`).
+- `src/utils/rss.ts`: items carry `<enclosure>` (ogImage, else heroImage).
+- Deployed with `cf deploy` (needs local wrangler >= 4.136 + `cloudflare.config.ts` from `cf migrate`); secret `KIT_API_KEY` via `--secrets-file`. Worker URL `kit-rss-draft.knowledgebuilderkim.workers.dev`.
+- Not verified end-to-end: first real draft after the next published post.
+
 ## 2026-10-26 — Newsletter form on homepage + header button
 
 Form visibility: bottom-of-post only was easy to miss.
