@@ -10,8 +10,8 @@ type PagesFunction = (context: { request: Request; env: { KIT_API_KEY?: string }
 
 type Lang = 'en' | 'ko';
 
-// TODO(daniel): create a Korean Kit form (Korean confirmation email), then put its id in `ko`.
-const FORM_ID: Record<Lang, number> = { en: 10097710, ko: 10097710 };
+// Separate forms so each language gets its own confirmation email. KO form uid b17854fea3.
+const FORM_ID: Record<Lang, number> = { en: 10097710, ko: 10098381 };
 const TAG_ID: Record<Lang, number> = { en: 25037510, ko: 25037511 }; // lang-en, lang-ko
 const ALLOWED_ORIGINS = new Set(['https://danielkimdev.com', 'https://www.danielkimdev.com']);
 
