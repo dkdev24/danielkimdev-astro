@@ -74,7 +74,7 @@ const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
 			{
 				KIT_FORM_ID !== '' && (
 					<Button variant="primary" size="sm" href={`${getLocalizedPath('/', lang)}#subscribe`}>
-						{useTranslations('en')('subscribe.button')}
+						{useTranslations(lang)('subscribe.button')}
 					</Button>
 				)
 			}

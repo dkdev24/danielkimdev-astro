@@ -3,10 +3,10 @@
  * Subscribe — Kit email signup (Buttondown 2026-10-15, switched to Kit). Owned-audience capture at
  * the end of every blog post: post → visit → signup is the metric, not views.
  *
- * Plain HTML form POST to Kit's form endpoint, no JS. Opens Kit's confirmation
- * page in a new tab so the reader keeps their place in the post.
+ * Posts to our own /api/subscribe (functions/api/subscribe.ts), which signs the reader up through
+ * Kit's form endpoint and tags them lang-en / lang-ko. A small script submits it in place and shows
+ * the result without leaving the post. Copy follows the page language.
  * Renders nothing while KIT_FORM_ID is '' (same gate as UMAMI_WEBSITE_ID).
- * CSP: `form-action` in public/_headers must allow https://app.kit.com.
  */
 import { KIT_FORM_ID } from '../consts';
 import { useTranslations, type Lang } from '../i18n/utils';
@@ -16,9 +16,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-// English copy on KO pages too (Daniel, 2026-10-26) until a KO list exists.
-const t = useTranslations('en');
-const action = `https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`;
+const t = useTranslations(lang);
 const inputId = `subscribe-email-${lang}`;
 ---
 
@@ -27,7 +25,7 @@ const inputId = `subscribe-email-${lang}`;
 		<section id="subscribe" class="subscribe" aria-labelledby="subscribe-title">
 			<h2 id="subscribe-title" class="subscribe__title">{t('subscribe.title')}</h2>
 			<p class="subscribe__body">{t('subscribe.body')}</p>
-			<form class="subscribe__form" action={action} method="post" target="_blank">
+			<form class="subscribe__form" action="/api/subscribe" method="post" data-sending={t('subscribe.sending')} data-success={t('subscribe.success')} data-error={t('subscribe.error')}>
 				<label class="subscribe__label" for={inputId}>{t('subscribe.emailLabel')}</label>
 				<input
 					class="subscribe__input"
@@ -38,14 +36,34 @@ const inputId = `subscribe-email-${lang}`;
 					autocomplete="email"
 					placeholder={t('subscribe.placeholder')}
 				/>
-				<input type="hidden" name="embed" value="1" />
-				<input type="hidden" name="tag" value={`lang-${lang}`} />
+				<input type="hidden" name="lang" value={lang} />
+				<input class="subscribe__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 				<button class="subscribe__button" type="submit">{t('subscribe.button')}</button>
 			</form>
+			<p class="subscribe__status" role="status" aria-live="polite"></p>
 			<p class="subscribe__note">{t('subscribe.note')}</p>
 		</section>
 	)
 }
+
+<script>
+	document.querySelectorAll<HTMLFormElement>('.subscribe__form').forEach((form) => {
+		const status = form.parentElement!.querySelector<HTMLElement>('.subscribe__status')!;
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const { sending, success, error } = form.dataset;
+			status.textContent = sending ?? '';
+			try {
+				const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+				if (!res.ok) throw new Error(String(res.status));
+				form.reset();
+				status.textContent = success ?? '';
+			} catch {
+				status.textContent = error ?? '';
+			}
+		});
+	});
+</script>
 
 <style>
 	.subscribe {
@@ -69,6 +87,14 @@ const inputId = `subscribe-email-${lang}`;
 		margin-top: var(--space-3);
 		font-size: 0.875rem;
 		color: var(--color-text-muted);
+	}
+	.subscribe__hp {
+		position: absolute;
+		left: -9999px;
+	}
+	.subscribe__status {
+		margin: var(--space-3) 0 0;
+		color: var(--color-text-secondary);
 	}
 	.subscribe__form {
 		display: flex;
