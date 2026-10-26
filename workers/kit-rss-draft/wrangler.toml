@@ -1,0 +1,16 @@
+# Cron Worker: new RSS posts -> Kit draft broadcasts. Deploy: `pnpm dlx wrangler deploy` in this folder.
+# Setup: `wrangler kv namespace create SEEN` (paste id below), `wrangler secret put KIT_API_KEY`.
+name = "kit-rss-draft"
+main = "src/index.js"
+compatibility_date = "2026-06-26"
+
+[triggers]
+crons = ["0 * * * *"]
+
+[[kv_namespaces]]
+binding = "SEEN"
+id = "REPLACE_WITH_KV_ID"
+
+[vars]
+FEEDS = "https://danielkimdev.com/rss.xml,https://danielkimdev.com/ko/rss.xml"
+DEFAULT_THUMB = "https://danielkimdev.com/og-default.png"
