@@ -4,6 +4,11 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-26 — Node 24 toolchain (tag 0.9)
+
+- `.nvmrc` 22.23.2 -> 24.22.1, `engines.node` `>=22.13.0` -> `>=24`. `pnpm build` passes on Node 24.22.1 (107 pages); Cloudflare Pages has no `NODE_VERSION` override and the deploy of `5aa5638` succeeded. Trigger: Node2Shell (CVE-2026-111497, Brotli decoder); plan in basecamp `NODE24-MIGRATION.md`.
+- Tagged `0.9` and a GitHub release (same tag style as `0.7`/`0.8`). Playwright e2e (`pnpm test:e2e`) not re-run.
+
 ## 2026-10-26 — Portfolio: pele-animate side project
 
 Added `src/content/portfolio/{en,ko}/pele-animate.md` (category `side-ai`, tags `ai-llm` + `solopreneur`, `startDate` 2026-10-21 = the repo's first commit, `order: 5` so it sorts newest in Side projects, `translationKey: pele-animate`). Links: the site (the KO entry links `/ko/`), npm, GitHub. Written in the toonstrip entry's shape; KO via `daniel-writing-style`. It names DoveRunner docs as the first consumer (portfolio keeps employer names); no claim about which docs diagrams it animates.
