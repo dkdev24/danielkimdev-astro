@@ -12,7 +12,7 @@ export interface PrivacySection {
 
 export const PRIVACY: Record<Lang, { updated: string; intro: string[]; sections: PrivacySection[] }> = {
 	en: {
-		updated: 'Last updated 2026-10-25',
+		updated: 'Last updated 2026-10-26',
 		intro: [
 			'This is a personal site run by Daniel Kim. There are no accounts or ads, and nothing here is sold. This page lists what is collected, and by whom.',
 		],
@@ -42,7 +42,8 @@ export const PRIVACY: Record<Lang, { updated: string; intro: string[]; sections:
 				heading: 'Comments and newsletter',
 				body: [
 					'Comments on blog posts use Giscus, which stores comments in GitHub Discussions. Loading the comment box contacts giscus.app and GitHub, and posting a comment needs a GitHub account; GitHub’s privacy statement applies.',
-					'The newsletter signup form sends the email address you enter to Kit, which sends the newsletter. Nothing is sent until you submit the form, and you can unsubscribe from any email.',
+					'The newsletter signup form sends the email address you enter to this site, which passes it on to Kit, the service that sends the newsletter. This site doesn’t store the address itself, and nothing is sent until you submit the form.',
+					'Kit emails you a confirmation link, and you’re subscribed only after you click it. The language of the page you signed up on (English or Korean) is recorded as a tag on your subscription so you receive posts in that language. You can unsubscribe from any email. See Kit’s privacy policy (kit.com/privacy).',
 				],
 			},
 			{
@@ -68,7 +69,7 @@ export const PRIVACY: Record<Lang, { updated: string; intro: string[]; sections:
 		],
 	},
 	ko: {
-		updated: '최종 수정일 2026-10-25',
+		updated: '최종 수정일 2026-10-26',
 		intro: [
 			'이 사이트는 Daniel Kim이 운영하는 개인 사이트입니다. 회원가입이나 광고는 없고, 수집한 정보를 판매하지 않습니다. 이 페이지는 어떤 정보를 누가 수집하는지 정리한 것입니다.',
 		],
@@ -98,7 +99,8 @@ export const PRIVACY: Record<Lang, { updated: string; intro: string[]; sections:
 				heading: '댓글과 뉴스레터',
 				body: [
 					'블로그 댓글은 Giscus를 사용하며 GitHub Discussions에 저장됩니다. 댓글창을 불러오면 giscus.app과 GitHub에 접속하고, 댓글을 쓰려면 GitHub 계정이 필요합니다. 이 경우 GitHub의 개인정보 처리 방침이 적용됩니다.',
-					'뉴스레터 가입 양식은 입력한 이메일 주소를 뉴스레터를 발송하는 Kit으로 전송합니다. 양식을 제출하기 전에는 아무것도 전송되지 않으며, 모든 메일에서 구독을 해지할 수 있습니다.',
+					'뉴스레터 가입 양식은 입력한 이메일 주소를 이 사이트로 보내고, 사이트가 이 주소를 뉴스레터를 발송하는 Kit으로 전달합니다. 이 사이트는 이메일 주소를 따로 저장하지 않으며, 양식을 제출하기 전에는 아무것도 전송되지 않습니다.',
+					'Kit이 확인 링크가 담긴 메일을 보내며, 링크를 눌러야 구독이 완료됩니다. 가입한 페이지의 언어(영어 또는 한국어)가 구독 정보에 태그로 기록되어 해당 언어의 글을 받게 됩니다. 모든 메일에서 구독을 해지할 수 있으며, Kit의 개인정보 처리 방침은 kit.com/privacy에서 확인할 수 있습니다.',
 				],
 			},
 			{

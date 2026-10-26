@@ -55,6 +55,13 @@ const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
 		</ul>
 
 		<div class="cobalt-nav__actions">
+			<button type="button" class="cobalt-nav__cmdk" data-cmdk-trigger aria-haspopup="dialog">
+				<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+					<circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+					<path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+				</svg>
+				<kbd>⌘K</kbd>
+			</button>
 			<a
 				class="cobalt-nav__icon"
 				href={SOCIAL_LINKS.github}
@@ -78,13 +85,6 @@ const altHref = getLocalizedPath(currentPath, getAltLocale(lang));
 					</Button>
 				)
 			}
-			<button type="button" class="cobalt-nav__cmdk" data-cmdk-trigger aria-haspopup="dialog">
-				<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-					<circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
-					<path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-				</svg>
-				<kbd>⌘K</kbd>
-			</button>
 		</div>
 	</nav>
 </header>
