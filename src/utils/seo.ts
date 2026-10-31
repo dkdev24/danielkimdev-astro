@@ -19,6 +19,23 @@ export function personJsonLd(siteUrl: URL, lang: Lang): JsonLd {
 	};
 }
 
+/** schema.org Blog for the blog index page (/blog/, /ko/blog/). */
+export function blogJsonLd(opts: { siteUrl: URL; url: URL; name: string; lang: Lang }): JsonLd {
+	const { siteUrl, url, name, lang } = opts;
+	return {
+		'@context': 'https://schema.org',
+		'@type': 'Blog',
+		name,
+		url: url.href,
+		inLanguage: lang === 'en' ? 'en-US' : 'ko-KR',
+		author: {
+			'@type': 'Person',
+			name: SITE_AUTHOR,
+			url: new URL('/', siteUrl).href,
+		},
+	};
+}
+
 /** schema.org BlogPosting for a single post. */
 export function blogPostingJsonLd(opts: {
 	siteUrl: URL;
@@ -32,6 +49,13 @@ export function blogPostingJsonLd(opts: {
 	tags?: string[];
 }): JsonLd {
 	const { siteUrl, url, title, description, datePublished, dateModified, image, lang, tags } = opts;
+	// Google recommends a publisher for article rich results; the site is a
+	// one-author blog, so the author Person doubles as publisher.
+	const authorPerson = {
+		'@type': 'Person',
+		name: SITE_AUTHOR,
+		url: new URL('/', siteUrl).href,
+	};
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
@@ -44,10 +68,7 @@ export function blogPostingJsonLd(opts: {
 		url: url.href,
 		...(image ? { image } : {}),
 		...(tags && tags.length > 0 ? { keywords: tags.join(', ') } : {}),
-		author: {
-			'@type': 'Person',
-			name: SITE_AUTHOR,
-			url: new URL('/', siteUrl).href,
-		},
+		author: authorPerson,
+		publisher: authorPerson,
 	};
 }

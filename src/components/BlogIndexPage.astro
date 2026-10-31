@@ -16,6 +16,7 @@ import { readingTimeMinutes } from '../utils/readingTime';
 import { getPostPath } from '../utils/blog';
 import { getTagPath } from '../utils/tags';
 import { getSeriesIndexPath } from '../utils/series';
+import { blogJsonLd } from '../utils/seo';
 
 interface Props {
 	lang: Lang;
@@ -23,6 +24,15 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// Collection-level structured data for the blog index.
+const siteUrl = Astro.site ?? new URL('https://danielkimdev.com');
+const jsonLd = blogJsonLd({
+	siteUrl,
+	url: new URL(Astro.url.pathname, siteUrl),
+	name: `${t('blog.title')} — Daniel Kim`,
+	lang,
+});
 
 // Current-locale posts, reverse-chron. `import.meta.env.PROD` drops drafts in
 // production builds but keeps them visible during `astro dev`.
@@ -47,7 +57,7 @@ for (const post of posts) {
 
 ---
 
-<BaseLayout title={`${t('blog.title')} — Daniel Kim`} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang}>
+<BaseLayout title={`${t('blog.title')} — Daniel Kim`} description={SITE_DESCRIPTION_BY_LOCALE[lang]} lang={lang} jsonLd={jsonLd}>
 	<section class="container blog">
 		<header class="blog__head">
 			<h1>{t('blog.title')}</h1>

@@ -4,6 +4,10 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-10-31 — SEO fixes (BlogPosting publisher, Blog JSON-LD, hero alt)
+
+Three small SEO items from the 2026-10-31 site audit: (1) `src/utils/seo.ts` `blogPostingJsonLd()` now includes `publisher` (reuses the author Person object) per Google's article rich-result guidance; (2) new `blogJsonLd()` builder emits a `Blog` JSON-LD entity on `/blog/` and `/ko/blog/` via the existing `jsonLd` prop plumbing in `BaseHead`/`BaseLayout`; (3) `src/layouts/BlogPost.astro` hero image `alt=""` → `alt={title}` (no new frontmatter field, so the wiki publishing pipeline is untouched; no current posts set `heroImage`, so it applies going forward). `pnpm run build` green, 111 pages; JSON-LD verified in `dist/` (Blog on both index pages, publisher on posts). Committed locally, not pushed. Skipped: `public/og-default.png` placeholder artwork (needs design — Daniel's call).
+
 ## 2026-10-26 — Published the Mermaid-to-Pele post
 
 `mermaid-to-pele-docs-diagrams` (EN/KO, tags `ai-ready-docs`, `ai-llm`, no series) copied from the wiki's `story/2.ready-to-publish/` per `wiki-to-site-publishing.md`: dropped `slug`/`status`/`daniel_reviewed`/`translation_of`, removed the `# Title` line and `---` dividers, `draft: false`, `pubDate: 2026-10-26`. Two 375px screenshots live in `src/content/blog/en/` only; the KO file references them as `../en/`. The post names DoveRunner (Daniel's call), so the HANDOFF "Naming in content" decision was loosened. `astro check` 0 errors; `pnpm run build` 111 pages, KO file has no em dash.
