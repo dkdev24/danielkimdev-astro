@@ -6,7 +6,7 @@
 
 ## 2026-11-10 — A안: .md 형제 페이지에 X-Robots-Tag noindex
 
-Search Console 신규 알림 2건 중 "사용자가 선택한 canonical 없이 중복됨" 대응 (다른 1건 "noindex로 제외됨"은 404 페이지 의도 동작이라 조치 없음). 사이트맵 110 URL은 깨끗하고, 원인은 빌드 시 생성되는 에이전트용 `.md` 형제 페이지 74개가 canonical 신호 없이 HTML과 중복되는 것. A안 선택 (다니엘): `public/_headers`의 기존 `/*.md` 블록에 `X-Robots-Tag: noindex` 한 줄 추가 — 에이전트는 .md를 그대로 읽고 Google만 인덱스에서 뺀다. `astro build` green, 111 pages, `dist/_headers`에 규칙 확인. 로컬 커밋 `25a6bc0`, 푸시 대기 (push = 프로덕션 배포).
+Search Console 신규 알림 2건 중 "사용자가 선택한 canonical 없이 중복됨" 대응 (다른 1건 "noindex로 제외됨"은 404 페이지 의도 동작이라 조치 없음). 사이트맵 110 URL은 깨끗하고, 원인은 빌드 시 생성되는 에이전트용 `.md` 형제 페이지 74개가 canonical 신호 없이 HTML과 중복되는 것. A안 선택 (다니엘): `public/_headers`의 기존 `/*.md` 블록에 `X-Robots-Tag: noindex` 한 줄 추가 — 에이전트는 .md를 그대로 읽고 Google만 인덱스에서 뺀다. `astro build` green, 111 pages, `dist/_headers`에 규칙 확인. 로컬 커밋 `25a6bc0`, 다니엘 승인으로 푸시 완료 (`a8eb042..e692fdb`, Cloudflare Pages 배포). 배포 후 Search Console에서 중복 버킷이 줄어드는지 확인 필요.
 
 ## 2026-10-31 — SEO fixes (BlogPosting publisher, Blog JSON-LD, hero alt)
 
