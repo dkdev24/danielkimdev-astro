@@ -32,8 +32,12 @@
 
 # Markdown siblings: explicit Content-Type for pre-built .md files.
 # (Middleware also sets this for Accept-negotiated responses at pretty URLs.)
+# X-Robots-Tag: noindex keeps the agent-facing .md siblings out of Google's
+# index (they duplicate the HTML pages; 2026-11-10 Search Console "duplicate
+# without user-selected canonical"). Agents still read them as before.
 /*.md
   Content-Type: text/markdown; charset=utf-8
+  X-Robots-Tag: noindex
   Vary: Accept
 
 # Astro emits content-hashed assets under /_astro/* — safe to cache forever (immutable).
