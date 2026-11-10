@@ -4,6 +4,10 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-11-10 — A안: .md 형제 페이지에 X-Robots-Tag noindex
+
+Search Console 신규 알림 2건 중 "사용자가 선택한 canonical 없이 중복됨" 대응 (다른 1건 "noindex로 제외됨"은 404 페이지 의도 동작이라 조치 없음). 사이트맵 110 URL은 깨끗하고, 원인은 빌드 시 생성되는 에이전트용 `.md` 형제 페이지 74개가 canonical 신호 없이 HTML과 중복되는 것. A안 선택 (다니엘): `public/_headers`의 기존 `/*.md` 블록에 `X-Robots-Tag: noindex` 한 줄 추가 — 에이전트는 .md를 그대로 읽고 Google만 인덱스에서 뺀다. `astro build` green, 111 pages, `dist/_headers`에 규칙 확인. 로컬 커밋 `25a6bc0`, 푸시 대기 (push = 프로덕션 배포).
+
 ## 2026-10-31 — SEO fixes (BlogPosting publisher, Blog JSON-LD, hero alt)
 
 Three small SEO items from the 2026-10-31 site audit: (1) `src/utils/seo.ts` `blogPostingJsonLd()` now includes `publisher` (reuses the author Person object) per Google's article rich-result guidance; (2) new `blogJsonLd()` builder emits a `Blog` JSON-LD entity on `/blog/` and `/ko/blog/` via the existing `jsonLd` prop plumbing in `BaseHead`/`BaseLayout`; (3) `src/layouts/BlogPost.astro` hero image `alt=""` → `alt={title}` (no new frontmatter field, so the wiki publishing pipeline is untouched; no current posts set `heroImage`, so it applies going forward). `pnpm run build` green, 111 pages; JSON-LD verified in `dist/` (Blog on both index pages, publisher on posts). Committed locally, not pushed. Skipped: `public/og-default.png` placeholder artwork (needs design — Daniel's call).
