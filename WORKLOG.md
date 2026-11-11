@@ -4,6 +4,12 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-11-12 — Code scanning 알림 수정 (보안, 사이트 출력 변경 없음)
+
+- 알림 11건(high 8, medium 3). `src/pages/blog/[slug].md.ts`, `src/pages/portfolio/[slug].md.ts`: frontmatter 값에서 따옴표를 이스케이프하기 전에 백슬래시를 먼저 이스케이프(`js/incomplete-sanitization`).
+- `workers/kit-rss-draft/src/index.js`: `<item>`과 `<enclosure url=>` 정규식을 `indexOf` 스캔(`items()`, `enclosureUrl()`)으로 교체(`js/polynomial-redos`), `esc()`가 `"`와 `'`도 이스케이프(`js/incomplete-html-attribute-sanitization`, `&`가 먼저).
+- 검증: `pnpm build` 111페이지 출력이 변경 전과 byte 단위로 동일, `astro check` 오류 0. 유닛 테스트는 없음. 알림은 push 후 CodeQL 재스캔에서 닫힘.
+
 ## 2026-11-11 — Dependabot 취약점 56건 해결 (보안 bump)
 
 열린 Dependabot 알림 56건 전부 패치 버전이 있어 일괄 bump. astro 7.2.10→7.4.8, vite 8.2.2→8.3.7, undici 8.10.1→8.12.4 + 7.29.1→7.30.1, sharp 0.34.5→0.35.5 (package.json `^0.34.3`→`^0.35.5`), zod 4.5.4/4.6.5→4.6.6/4.6.7, devalue 5.9.2→6.0.3 (astro 7.4.8이 요구하는 6.x), fast-uri 3.1.6→3.1.9, fast-xml-parser 5.11.1→5.12.0, smol-toml 1.8.0→1.9.1, source-map-js 1.2.1→1.2.2, wrangler 4.152.0→4.159.0, cf 1.0.0-beta.21→beta.29 (workers/kit-rss-draft). pnpm은 transitive bump을 depth 0에서 안 올려줘서(`pnpm update --depth Infinity`도 부모 버전이 안 바뀌면 locked 유지) fast-uri/fast-xml-parser/zod 4.5.4/smol-toml 1.8.0은 lockfile에서 해당 구버전 항목을 지우고 `pnpm install --lockfile-only`로 재해석했고, zod 4.6.5·undici 7.29.1은 cf beta.29 업데이트로 해결. 주의: 이 VM은 user namespace에 uid/gid 0만 매핑돼 있어 pnpm이 lockfile을 쓸 때 chown(0:65534)에서 EPERM으로 실패한다 — lockfile·package.json을 `chown root:root` 한 뒤에야 pnpm update/install이 동작했다. `pnpm` 바이너리 자체도 없어서 `npx -y pnpm@11.1.1`로 실행. `astro build` green, 111 pages. 커밋·푸시 완료 (main = 프로덕션 배포; 테스트 통과한 보안 bump이라 다니엘 승인 하에 푸시).
