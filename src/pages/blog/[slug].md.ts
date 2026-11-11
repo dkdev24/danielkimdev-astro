@@ -32,8 +32,8 @@ export const GET: APIRoute = async ({ props }) => {
 
 	const frontmatter = [
 		'---',
-		`title: "${doc.data.title.replace(/"/g, '\\"')}"`,
-		`description: "${(doc.data.description ?? '').replace(/"/g, '\\"')}"`,
+		`title: "${doc.data.title.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`,
+		`description: "${(doc.data.description ?? '').replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`,
 		`pubDate: "${doc.data.pubDate.toISOString().slice(0, 10)}"${updatedLine}`,
 		`lang: "${doc.data.lang}"`,
 		doc.data.tags.length ? `tags: [${doc.data.tags.map((t: string) => `"${t}"`).join(', ')}]` : null,

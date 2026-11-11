@@ -25,11 +25,11 @@ export const GET: APIRoute = async ({ props }) => {
 
 	const frontmatter = [
 		'---',
-		`title: "${doc.data.title.replace(/"/g, '\\"')}"`,
-		`role: "${doc.data.role.replace(/"/g, '\\"')}"`,
-		doc.data.org ? `org: "${doc.data.org.replace(/"/g, '\\"')}"` : null,
+		`title: "${doc.data.title.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`,
+		`role: "${doc.data.role.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`,
+		doc.data.org ? `org: "${doc.data.org.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"` : null,
 		`period: "${doc.data.period}"`,
-		`summary: "${doc.data.summary.replace(/"/g, '\\"')}"`,
+		`summary: "${doc.data.summary.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`,
 		`category: "${doc.data.category}"`,
 		doc.data.tags.length ? `tags: [${doc.data.tags.map((t: string) => `"${t}"`).join(', ')}]` : null,
 		'---',

@@ -8,13 +8,30 @@ const FORM = { en: 10097710, ko: 10098381 }; // one Kit form per language; the f
 const unesc = (s) =>
 	s.replace(/^<!\[CDATA\[|\]\]>$/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
 		.replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, '&');
-const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+	.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+// Manual scans instead of lazy-quantifier regexes (polynomial ReDoS on crafted feeds).
+function* items(xml) {
+	for (let i = xml.indexOf('<item>'); i >= 0; i = xml.indexOf('<item>', i)) {
+		const s = i + 6, e = xml.indexOf('</item>', s);
+		if (e < 0) return;
+		yield xml.slice(s, e);
+		i = e + 7;
+	}
+}
+const enclosureUrl = (b) => {
+	const i = b.indexOf('<enclosure');
+	if (i < 0) return '';
+	const j = b.indexOf('>', i);
+	return (b.slice(i, j < 0 ? undefined : j).match(/url="([^"]+)"/) || [, ''])[1];
+};
 
 export function parseItems(xml) {
-	return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(([, b]) => {
+	return [...items(xml)].map((b) => {
 		const tag = (t) => unesc((b.match(new RegExp(`<${t}[^>]*>([\\s\\S]*?)</${t}>`)) || [, ''])[1].trim());
 		return { title: tag('title'), link: tag('link'), description: tag('description'), pubDate: tag('pubDate'),
-			image: unesc((b.match(/<enclosure[^>]*url="([^"]+)"/) || [, ''])[1]) };
+			image: unesc(enclosureUrl(b)) };
 	}).filter((i) => i.title && i.link);
 }
 
