@@ -27,4 +27,4 @@ You pin the order with one comment line (`%% pa: 1=A 2=B,C`), and readers click 
 - **Icons.** 4,368 Tabler line icons in 36 categories, loaded only for the categories you import, plus a way to register your own.
 - **Agent-ready.** The package ships a skill that wires it into a project and checks the result in a browser, and every docs page is also served as Markdown.
 
-The first consumer is the DoveRunner docs site, where it animates the diagrams. The site and docs are available in English and Korean. Like my other side projects, it was built through AI-agent pair-programming, and the package is published on npm.
+The first consumer is the Doverunner docs site, where it animates the diagrams. The site and docs are available in English and Korean. Like my other side projects, it was built through AI-agent pair-programming, and the package is published on npm.

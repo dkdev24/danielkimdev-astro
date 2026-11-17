@@ -14,7 +14,7 @@ const LABELS = {
 		description: 'Career work in content security, developer relations, and agent-ready docs — plus personal side projects.',
 		h1: 'Portfolio',
 		career: 'Career work',
-		careerIntro: 'Products, docs, and developer programs owned at DoveRunner (formerly PallyCon).',
+		careerIntro: 'Products, docs, and developer programs owned at Doverunner (formerly PallyCon).',
 		side: 'Side projects',
 		sideIntro: 'Personal builds — experiments in AI, knowledge management, and games, made in public.',
 	},

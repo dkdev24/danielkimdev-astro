@@ -1,23 +1,23 @@
 ---
 title: "HyperFrames와 Claude로 만드는 튜토리얼 영상"
 role: 디벨로퍼 애드보킷
-org: DoveRunner
+org: Doverunner
 period: 2026–현재
 startDate: 2026-09-16
-summary: "DoveRunner 제품 튜토리얼 영상을 코드로 다시 만들고 있습니다. HyperFrames 컴포지션, 실제 콘솔 캡처, 합성 내레이션과 자막을 Claude와 함께 작성하고 관리해서, UI나 문서가 바뀌면 다시 촬영하지 않고 다시 렌더링하면 됩니다."
+summary: "Doverunner 제품 튜토리얼 영상을 코드로 다시 만들고 있습니다. HyperFrames 컴포지션, 실제 콘솔 캡처, 합성 내레이션과 자막을 Claude와 함께 작성하고 관리해서, UI나 문서가 바뀌면 다시 촬영하지 않고 다시 렌더링하면 됩니다."
 category: devrel
 tags: [drm-content-security, automation, ai-llm]
 lang: ko
 featured: false
 order: 2
 links:
-  - label: DoveRunner Lab 아카데미의 영상
+  - label: Doverunner Lab 아카데미의 영상
     url: https://lab.doverunner.com/ko/academy
   - label: HyperFrames
     url: https://github.com/heygen-com/hyperframes
 ---
 
-YouTube에 올라가 있던 DoveRunner 연동 튜토리얼은 PallyCon에서 리브랜딩하기 전에 만든
+YouTube에 올라가 있던 Doverunner 연동 튜토리얼은 PallyCon에서 리브랜딩하기 전에 만든
 영상이라, 화면 속 콘솔도 이미 지금과 달랐습니다. 제품이 바뀔 때마다 영상을 다시 녹화하고
 편집하고 녹음하는 방식은 오래 갈 수 없습니다. 그래서 이 문제를 제작이 아니라 유지보수의
 문제로 보고 접근했습니다.
@@ -33,4 +33,4 @@ YouTube에 올라가 있던 DoveRunner 연동 튜토리얼은 PallyCon에서 리
 2026년 9월 영상 한 편짜리 개념 검증으로 시작해 지금은 실제 제작 방식이 되었습니다. CLI
 패키징, 라이선스 토큰, 재생 테스트, AWS Elemental MediaConvert와 MediaLive·MediaPackage를
 이용한 DRM 패키징, 트랜스코딩·패키징, 포렌식 워터마킹 튜토리얼을
-[DoveRunner Lab](https://lab.doverunner.com/ko/academy)의 레슨으로 공개하고 있습니다.
+[Doverunner Lab](https://lab.doverunner.com/ko/academy)의 레슨으로 공개하고 있습니다.

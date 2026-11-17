@@ -12,7 +12,7 @@
 
 ## 1. Context & Background
 
-Daniel's current focus — and the focus of this site — is **AI for knowledge work: AI-driven knowledge management, automation, and the AI-readiness ("Agent Readiness") of technical documentation.** He comes to this from a deep technical career: 11+ years as a C/C++ and Java developer, now working across Product Owner, Product Management, and Developer Relations in media/entertainment technology (OTT/streaming, DRM/content security, cloud/SaaS) on DoveRunner / PallyCon products.
+Daniel's current focus — and the focus of this site — is **AI for knowledge work: AI-driven knowledge management, automation, and the AI-readiness ("Agent Readiness") of technical documentation.** He comes to this from a deep technical career: 11+ years as a C/C++ and Java developer, now working across Product Owner, Product Management, and Developer Relations in media/entertainment technology (OTT/streaming, DRM/content security, cloud/SaaS) on Doverunner / PallyCon products.
 
 **Positioning (locked 2026-06-27) — career as credibility substrate, not a second topic.** The media-tech career is *why* his AI take is worth reading, not a parallel content track. The throughline: someone who has shipped and explained complex technical products and documentation in a hard domain, now working out how AI changes knowledge work. Media-tech depth makes the AI writing non-generic; the blog leads on AI, and the career provides proof, lived examples (most defensibly, agent-ready technical docs), and credibility. Media-tech surfaces in the blog only when it serves an AI point — otherwise it lives in About/Portfolio.
 
@@ -107,7 +107,7 @@ Keep the two sets separate in the schema (§9) so media-tech tags don't surface 
 - Grid/list of portfolio items rendered from a **content collection** (§9.2), each with: title, role, period, summary, tags, optional links (case study/post, external), optional thumbnail.
 - **Filter by tag/topic** (client-side, progressive-enhancement; works without JS as a full list).
 - Item detail: either an in-page expandable card or a dedicated `/portfolio/[slug]` page (P1) — v1 may render rich cards inline.
-- Cover the four content buckets Daniel selected: **Product impact** (DoveRunner/PallyCon), **Talks / writing / DevRel**, **Side projects / AI experiments**, **Technical & career timeline** (the timeline lives primarily on About; cross-link).
+- Cover the four content buckets Daniel selected: **Product impact** (Doverunner/PallyCon), **Talks / writing / DevRel**, **Side projects / AI experiments**, **Technical & career timeline** (the timeline lives primarily on About; cross-link).
 - *Acceptance:* Adding a portfolio entry = adding one markdown/data file; no component edits required.
 
 ### 6.4 Blog index — P0
@@ -226,7 +226,7 @@ ogImage: string?
 ```
 title: string
 role: string                  # e.g., "Product Owner", "DevRel"
-org: string?                  # DoveRunner / PallyCon / independent
+org: string?                  # Doverunner / PallyCon / independent
 period: string                # e.g., "2023–present"
 summary: string
 category: "product" | "talk-writing" | "side-ai" | "career"
@@ -321,10 +321,10 @@ order: number?
 > **Throughline for all §13 copy (locked 2026-06-27):** lead with AI for knowledge work; the media-tech/DevRel career is *proof*, not a second topic. Every bio/positioning line should leave the reader knowing one thing — "AI for knowledge work, from someone with real technical-docs/DevRel chops."
 
 ### 13.1 About — English draft
-> I'm Daniel Kim. I work on AI for knowledge work — how AI reshapes the way we manage knowledge, automate the busywork, and write technical documentation that machines, not just people, can use. I come at this from a deep technical career: 11+ years building in C/C++ and Java, then moving from writing code to shaping products across Product Ownership, Product Management, and Developer Relations in media & entertainment technology — OTT/streaming and DRM/content security, most recently with DoveRunner / PallyCon. That background is the point: years of shipping and explaining complex systems and documentation in a hard domain are exactly what keep my take on AI concrete rather than generic. This site is my digital garden — notes, essays, and experiments from that work, and a record of building toward an independent, solopreneur future.
+> I'm Daniel Kim. I work on AI for knowledge work — how AI reshapes the way we manage knowledge, automate the busywork, and write technical documentation that machines, not just people, can use. I come at this from a deep technical career: 11+ years building in C/C++ and Java, then moving from writing code to shaping products across Product Ownership, Product Management, and Developer Relations in media & entertainment technology — OTT/streaming and DRM/content security, most recently with Doverunner / PallyCon. That background is the point: years of shipping and explaining complex systems and documentation in a hard domain are exactly what keep my take on AI concrete rather than generic. This site is my digital garden — notes, essays, and experiments from that work, and a record of building toward an independent, solopreneur future.
 
 ### 13.2 About — 한국어 초안 (네이티브 보이스로 다듬기)
-> `TODO(daniel):` 다니엘 문체 스킬로 직접 집필. 핵심 줄기: **메인은 AI 기반 지식 작업**(지식 관리, 자동화, 기술 문서의 에이전트 준비도(Agent Readiness)). **경력은 신뢰의 토대로** 배치: 11년+ C/C++·Java 개발자에서 PO/PM/DevRel로, 미디어·OTT·DRM/콘텐츠 보안 경험(DoveRunner/PallyCon)이 AI 관점을 일반론이 아닌 구체적인 이야기로 만들어 준다는 점. 솔로프리너 지향. (영문 직역 금지, 합쇼체, 한국어 본문에는 em-dash 금지.)
+> `TODO(daniel):` 다니엘 문체 스킬로 직접 집필. 핵심 줄기: **메인은 AI 기반 지식 작업**(지식 관리, 자동화, 기술 문서의 에이전트 준비도(Agent Readiness)). **경력은 신뢰의 토대로** 배치: 11년+ C/C++·Java 개발자에서 PO/PM/DevRel로, 미디어·OTT·DRM/콘텐츠 보안 경험(Doverunner/PallyCon)이 AI 관점을 일반론이 아닌 구체적인 이야기로 만들어 준다는 점. 솔로프리너 지향. (영문 직역 금지, 합쇼체, 한국어 본문에는 em-dash 금지.)
 
 ### 13.3 Positioning one-liners (pick/refine for hero)
 - (EN, locked tagline) "An engineer-turned-product person exploring AI knowledge management, automation, and AI-ready technical docs."
@@ -338,7 +338,7 @@ order: number?
 - **AI for knowledge work / agent-ready docs (lead item)** · category: side-ai · tags: ai-ready-docs, ai-knowledge-mgmt, ai-llm. Experiments + writing on AI knowledge management, automation, and making technical documentation AI/agent-ready. `TODO(daniel)`: specific projects/results.
 - **Side / AI experiments — this LLM-wiki / digital garden** · category: side-ai · tags: ai-llm, pkm, solopreneur. The Karpathy-style PKM and AI tooling behind this very site.
 - **Talks / writing / DevRel** · category: talk-writing · tags: ott-streaming, ai-ready-docs. Notable talks, articles, and developer docs — foreground the technical-documentation work that bridges to agent-readiness. `TODO(daniel)`.
-- **Product impact — DoveRunner / PallyCon Multi-DRM** · role: Product Owner/PM · category: product · tags: drm-content-security, ott-streaming. Summary + measurable impact `TODO(daniel)`.
+- **Product impact — Doverunner / PallyCon Multi-DRM** · role: Product Owner/PM · category: product · tags: drm-content-security, ott-streaming. Summary + measurable impact `TODO(daniel)`.
 - **Product impact — Forensic / Distributor Watermarking & Anti-Piracy** · category: product · tags: drm-content-security. `TODO(daniel)`.
 - **Career timeline** · category: career · tags: cloud-saas. 11+ yrs dev (C/C++, Java) → PO/PM/DevRel; map roles/orgs/dates `TODO(daniel)`.
 

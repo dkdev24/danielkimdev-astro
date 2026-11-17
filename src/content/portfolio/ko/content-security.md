@@ -1,7 +1,7 @@
 ---
 title: "콘텐츠 보안을 위한 Multi-DRM과 포렌식 워터마킹"
 role: 프로덕트 오너 / 프로덕트 매니저
-org: DoveRunner / PallyCon
+org: Doverunner / PallyCon
 period: "2015–2025"
 startDate: 2015-01-01
 summary: "글로벌 OTT·스트리밍 고객을 위한 Multi-DRM과 포렌식 워터마킹 콘텐츠 보호 제품(PallyCon SaaS)을 총괄했습니다."
@@ -13,7 +13,7 @@ order: 5
 translationKey: content-security
 ---
 
-전 세계 미디어·엔터테인먼트 고객의 프리미엄 OTT·스트리밍 콘텐츠를 보호하는 클라우드 SaaS, PallyCon(DoveRunner)의 콘텐츠 보호 제품을 담당했습니다.
+전 세계 미디어·엔터테인먼트 고객의 프리미엄 OTT·스트리밍 콘텐츠를 보호하는 클라우드 SaaS, PallyCon(Doverunner)의 콘텐츠 보호 제품을 담당했습니다.
 
 크게 두 축으로 운영했습니다.
 
