@@ -36,10 +36,9 @@ test('cross-language link navigates EN → KO at the same slug', async ({ page }
 	await expect(page.locator('.pfd__title')).toBeVisible();
 });
 
-test('KO career detail has a localized back link and the About-timeline link', async ({ page }) => {
-	await page.goto('/ko/portfolio/career/');
+test('KO detail has a localized back link', async ({ page }) => {
+	await page.goto('/ko/portfolio/doverunner-lab/');
 
 	await expect(page.locator('.pfd__back a')).toHaveAttribute('href', '/ko/portfolio/');
-	// `category: career` entries surface a link into the About timeline.
-	await expect(page.locator('.pfd__timeline a')).toBeVisible();
+	// The About-timeline link only renders for `category: career`; no entry uses it today.
 });

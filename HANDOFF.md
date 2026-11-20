@@ -13,7 +13,7 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 ## Current state
 
 - **Shipped (live):** P0 + P1 (22–27) + P2 (30–32), all deployed as of 2026-07-07. 2026-11-12: code-scanning fixes (`.md` frontmatter escaping, `workers/kit-rss-draft` regexes), build output unchanged. Per-stage notes in [`WORKLOG.md`](WORKLOG.md); stage status in [`plans/00-index.md`](dev-references/plans/00-index.md).
-- **Agent readiness:** afdocs 99/100 (A), all 7 signals live (`llms.txt`, robots content-signal, `.md` siblings, body directive, `_headers`, CF Pages middleware). Gap: `/about.md` parity (timeline data, editorial call). Details: [`learning-agent-readiness-updates.md`](learning-agent-readiness-updates.md).
+- **Agent readiness:** afdocs 99/100 (A), all 7 signals live (`llms.txt`, robots content-signal, `.md` siblings, body directive, `_headers`, CF Pages middleware). Gap: `/about.md` parity (timeline data, editorial call). Details: [`dev-references/archive/learning-agent-readiness-updates.md`](learning-agent-readiness-updates.md).
 - **Writing-process field:** blog schema `writingProcess: "ai-assisted" | "human-written"` (default `ai-assisted`, no backfill needed). Badge in `BlogPost.astro`. See WORKLOG 2026-08-06.
 - **Architecture:** every page → `BaseLayout.astro`, thin per-locale wrappers around shared `XPage.astro`. 3 collections (`blog`, `portfolio`, `timeline`) under `src/content/`, EN/KO paired by `translationKey`. Tokens in `src/styles/tokens.css` — same semantic variable names as always, values now Cobalt (light)/Aurora (dark).
 - **Sitewide theme (Cobalt/Aurora, Hallmark skill):** the former homepage-only pilot is now the whole site. Light = Cobalt (cool-white, cobalt-blue accent, Space Grotesk/Inter/JetBrains Mono). Dark = Aurora (dark cyan-bloom, Fraunces serif — Sentient stand-in, cyan accent). `CobaltHeader.astro` is `BaseLayout`'s default header on every route now; `Header.astro` unused, kept pending explicit deletion. Font components moved to `BaseHead.astro` so every page loads them, not just `/`. Old MiniMax brand blue/pink/DM Sans-Outfit-Poppins retired from the token layer.
@@ -41,10 +41,9 @@ Daniel Kim's bilingual (EN/KO) personal site & blog — Astro static site on Clo
 3. **Cobalt/Aurora polish:** no locked Hallmark token spec for Aurora in this install — palette/fonts reconstructed from scattered refs + a Fraunces sub for Sentient. Worth a design pass; consider a `design.md` to lock it and retire `Header.astro`/`DESIGN-minimax.md`.
 4. **Human-written provenance post:** Daniel plans first `writingProcess: human-written` post — remind him to set the field; draft manually, not via `daniel-writing-style`.
 5. **Post-deploy Lighthouse / P1 28–29 / P2 33–36:** Lighthouse re-run; OG images, authoring docs + content-lint CI; P2 stages one-line scope.
-6. **Fix `pnpm run test:e2e`:** Astro 7.2.10 dev server now daemonizes by default, breaking Playwright's `webServer` foreground assumption — needs either an Astro flag/downgrade or a Playwright config change (e.g. `reuseExistingServer` + manual pre-start).
 
 ## Conventions / gotchas
 
-- Dev server: `astro dev --background`. UI testing: Playwright specs in `tests/e2e/*.spec.ts` (`pnpm run test:e2e` is broken, see Next steps 5); until fixed, drive a standalone script against `dist/` (`astro preview` rejects other Host headers).
+- Dev server: `astro dev --background`. UI testing: Playwright specs in `tests/e2e/*.spec.ts` `pnpm run test:e2e` works again (2026-11-20: Playwright starts `astro dev --ignore-lock`, since Astro 7 daemonizes the dev server under an agent; needs `pnpm exec playwright install chromium` once; 32 specs pass). `astro preview` rejects other Host headers.
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md`.
 - Publishing (as of 2026-08-21) runs from the wiki project's own session, straight into `src/content/blog/` — mechanical schema conversion per [`dev-references/wiki-to-site-publishing.md`](dev-references/wiki-to-site-publishing.md). Picking up a new `@toonstrip/astro` release: [`dev-references/toonstrip-sync.md`](dev-references/toonstrip-sync.md).

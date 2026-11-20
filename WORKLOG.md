@@ -4,6 +4,12 @@
 > For the *current* state and what to do next, see [`HANDOFF.md`](HANDOFF.md) instead.
 > At the end of each session, add an entry here and refresh `HANDOFF.md`.
 
+## 2026-11-20 — e2e 복구, 저장소 정리 (사이트 출력 변경 없음)
+
+- `pnpm run test:e2e` 복구: Astro 7은 에이전트 환경(`AI_AGENT`)에서 dev 서버를 백그라운드로 띄워 Playwright가 "exited early"로 본다. `playwright.config.ts`가 `astro dev --ignore-lock`으로 포그라운드 실행. chromium은 `pnpm exec playwright install chromium` 한 번 필요.
+- 낡은 e2e 6건 수정(32건 통과): 글 수를 하드코딩하던 `blog-pagination`은 `src/content/blog/en` 파일 수로 계산, `related-posts`는 상위 3건에 어떤 글이 들어오는지가 새 글마다 바뀌므로 링크 형식만 확인, `portfolio-detail`은 사라진 `career` 항목 대신 `doverunner-lab` 사용. 참고: `category: career` 항목이 지금은 없어 `PortfolioItem.astro`의 timeline 링크 분기는 쓰이지 않음.
+- 루트의 7월 agent-readiness 잔여물(OSS brief, 구현 로그, isitagentready 스크린샷 2장)을 `dev-references/archive/`로 이동, 쓰이지 않는 `.code-workspace` 삭제, AGENTS.md의 `web-browser-test.md` 링크 오타 수정.
+
 ## 2026-11-12 — Code scanning 알림 수정 (보안, 사이트 출력 변경 없음)
 
 - 알림 11건(high 8, medium 3). `src/pages/blog/[slug].md.ts`, `src/pages/portfolio/[slug].md.ts`: frontmatter 값에서 따옴표를 이스케이프하기 전에 백슬래시를 먼저 이스케이프(`js/incomplete-sanitization`).

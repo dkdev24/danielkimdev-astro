@@ -26,7 +26,7 @@ export default defineConfig({
 		{ name: 'chromium', use: { ...devices['Desktop Chrome'] } },
 	],
 	webServer: {
-		command: 'pnpm run dev',
+		command: 'pnpm exec astro dev --ignore-lock',
 		url: 'http://localhost:4321',
 		reuseExistingServer: !process.env.CI,
 		timeout: 120_000,
